@@ -13,6 +13,9 @@ public class StartupWindow
     public static void BringUpStartUp()
     {
         Debug.Log("Testing");
+
+        TrickyProjectWindow.CreateInstance("TrickyProjectWindow");
+
     }
 
 
