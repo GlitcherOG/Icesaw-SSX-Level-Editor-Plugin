@@ -8,9 +8,14 @@ using UnityEngine;
 
 public class TrickyProjectWindow : EditorWindow
 {
+    public static TrickyProjectWindow Instance;
+
     GameObject WorldManager;
     GameObject SkyboxManager;
     GameObject PrefabManager;
+    public static string CurrentPath;
+
+    public static float Scale = 0.01f;
 
     [MenuItem("Ice Saw/Project")]
     static void Init()
@@ -23,18 +28,14 @@ public class TrickyProjectWindow : EditorWindow
     {
         int WindowHalfSize = (int)(position.width/2)-4;
 
-
-
-
-
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("New Project", GUILayout.Width(WindowHalfSize), GUILayout.Height(40)))
         {
-
+            GenerateEmptyProject();
         }
         if (GUILayout.Button("Load Project", GUILayout.Width(WindowHalfSize), GUILayout.Height(40)))
         {
-
+            LoadProject();
         }
         GUILayout.EndHorizontal();
 
@@ -54,26 +55,46 @@ public class TrickyProjectWindow : EditorWindow
 
     public void LoadProject()
     {
-        string Path = EditorUtility.OpenFilePanel("Open SSX Tricky Prject", "", "SSX");
+        string path = EditorUtility.OpenFilePanel("Open SSX Tricky Prject", "", "SSX");
 
-        if(Path.Length!=0)
+        if(path.Length!=0)
         {
-
+            CurrentPath = Path.GetDirectoryName(path);
+            LoadProjectData();
         }
     }
 
     public void ClearCurrentProject()
     {
+        if(WorldManager!=null)
+        {
+            DestroyImmediate(WorldManager);
+            DestroyImmediate(SkyboxManager);
+            DestroyImmediate(PrefabManager);
+        }
+    }
+    public void GenerateEmptyProject()
+    {
+        ClearCurrentProject();
+
+        //Generate World Manager
+        WorldManager = new GameObject("Tricky World Manager");
+        var TempWorld = WorldManager.AddComponent<WorldManager>();
+        TempWorld.runInEditMode = true;
+        TempWorld.SetStatic();
+        TempWorld.GenerateEmptyObjects();
+
+        //Generate Skybox Manager
+        SkyboxManager = new GameObject("Tricky Skybox Manager");
+
+        //Generate Prefab Manager
+        PrefabManager = new GameObject("Tricky Prefab Manager");
 
     }
 
-
-    public void GenerateEmptyProject()
+    public void LoadProjectData()
     {
-        //Generate World Manager
-
-        //Generate Skybox Manager
-
-        //Generate Prefab Manager
+        GenerateEmptyProject();
+        WorldManager.GetComponent<WorldManager>().LoadData();
     }
 }
