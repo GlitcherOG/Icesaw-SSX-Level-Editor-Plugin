@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,24 +27,27 @@ public class WorldManager : MonoBehaviour
 
     public void GenerateEmptyObjects()
     {
-        Selection.activeGameObject = this.gameObject;
-        ActiveEditorTracker.sharedTracker.isLocked = true;
-        ActiveEditorTracker.sharedTracker.ForceRebuild();
+        transform.hideFlags = HideFlags.HideInInspector;
 
         PatchesHolder = new GameObject("Patches");
         PatchesHolder.transform.parent = transform;
+        PatchesHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         InstancesHolder = new GameObject("Instances");
         InstancesHolder.transform.parent = transform;
+        InstancesHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         SplinesHolder = new GameObject("Splines");
         SplinesHolder.transform.parent = transform;
+        SplinesHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         ParticlesHolder = new GameObject("Particles");
         ParticlesHolder.transform.parent = transform;
+        ParticlesHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         LightingHolder = new GameObject("Lighting");
         LightingHolder.transform.parent = transform;
+        LightingHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
     }
