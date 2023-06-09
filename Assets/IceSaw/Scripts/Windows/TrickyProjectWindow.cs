@@ -51,8 +51,6 @@ public class TrickyProjectWindow : EditorWindow
         GUILayout.EndHorizontal();
     }
 
-
-
     public void LoadProject()
     {
         string path = EditorUtility.OpenFilePanel("Open SSX Tricky Prject", "", "SSX");
@@ -63,7 +61,6 @@ public class TrickyProjectWindow : EditorWindow
             LoadProjectData();
         }
     }
-
     public void ClearCurrentProject()
     {
         if(WorldManager!=null)
@@ -72,6 +69,21 @@ public class TrickyProjectWindow : EditorWindow
             DestroyImmediate(SkyboxManager);
             DestroyImmediate(PrefabManager);
         }
+        else
+        {
+            WorldManager = GameObject.Find("/Tricky World Manager");
+            SkyboxManager = GameObject.Find("/Tricky Skybox Manager");
+            PrefabManager = GameObject.Find("/Tricky Prefab Manager");
+
+            if(WorldManager != null)
+            {
+                DestroyImmediate(WorldManager);
+                DestroyImmediate(SkyboxManager);
+                DestroyImmediate(PrefabManager);
+            }
+        }
+
+
     }
     public void GenerateEmptyProject()
     {
@@ -91,7 +103,6 @@ public class TrickyProjectWindow : EditorWindow
         PrefabManager = new GameObject("Tricky Prefab Manager");
 
     }
-
     public void LoadProjectData()
     {
         GenerateEmptyProject();

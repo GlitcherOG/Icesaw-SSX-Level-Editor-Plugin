@@ -6,6 +6,8 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using Unity.VisualScripting;
 using UnityEditor;
+using System.Drawing;
+using UnityEngine.UIElements;
 
 [ExecuteInEditMode]
 public class PatchObject : MonoBehaviour
@@ -419,10 +421,7 @@ public class PatchObject : MonoBehaviour
     {
         if (transform.hasChanged)
         {
-            //Update Points
 
-
-            //Correct Roation to zero
         }
     }
 
