@@ -5,54 +5,106 @@ using System.IO;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using Unity.VisualScripting;
+using UnityEditor;
 
+[ExecuteInEditMode]
 public class PatchObject : MonoBehaviour
 {
     NURBS.Surface surface;
 
-    public Vector4 LightMapPoint; 
-    [Space(10)]
+    public Vector4 LightMapPoint;
+    //[Space(10)]
+    [SerializeField]
+    [OnChangedCall("LoadUVMap")]
     public Vector2 UVPoint1;
+    [SerializeField]
+    [OnChangedCall("LoadUVMap")]
     public Vector2 UVPoint2;
+    [SerializeField]
+    [OnChangedCall("LoadUVMap")]
     public Vector2 UVPoint3;
+    [SerializeField]
+    [OnChangedCall("LoadUVMap")]
     public Vector2 UVPoint4;
 
     [Space(10)]
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawControlPoint;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR1C2;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR1C3;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR1C4;
     [Space(5)]
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR2C1;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR2C2;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR2C3;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR2C4;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     [Space(5)]
     public Vector3 RawR3C1;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR3C2;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR3C3;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR3C4;
     [Space(5)]
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR4C1;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR4C2;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR4C3;
+    [SerializeField]
+    [OnChangedCall("LoadNURBSpatch")]
     public Vector3 RawR4C4;
 
     [Space(10)]
     public int PatchStyle;
     public bool TrickOnlyPatch;
+    [SerializeField]
+    [OnChangedCall("UpdateTexture")]
     public string TextureAssigment;
+    [SerializeField]
+    [OnChangedCall("UpdateTexture")]
     public int LightmapID;
+
+    MeshRenderer meshRenderer;
 
     public void AddMissingComponents()
     {
         this.AddComponent<MeshFilter>();
-        this.AddComponent<MeshRenderer>();
+        meshRenderer = this.AddComponent<MeshRenderer>();
         this.AddComponent<MeshCollider>();
+        //Set Material
+        var TempMaterial = (Material)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Material\\MainPatchMaterial.mat", typeof(Material));
+        Material mat = new Material(TempMaterial);
+        meshRenderer.material = mat;
     }
-
     public void LoadPatch(PatchesJsonHandler.PatchJson import)
     {
+        Undo.undoRedoPerformed += UndoAndRedoFix;
         transform.name = import.PatchName;
         LightMapPoint = JsonUtil.ArrayToVector4(import.LightMapPoint);
 
@@ -86,8 +138,9 @@ public class PatchObject : MonoBehaviour
 
 
         LoadNURBSpatch();
-        //GetComponent<Renderer>().material = MainMaterial;
-        //UpdateTexture(TextureAssigment);
+        LoadUVMap();
+        LoadLightmap();
+        UpdateTexture();
     }
 
     public PatchesJsonHandler.PatchJson GeneratePatch()
@@ -237,9 +290,21 @@ public class PatchObject : MonoBehaviour
         //Build mesh (reusing Mesh to save GC allocation)
         var mesh=surface.BuildMesh(resolutionU, resolutionV);
 
+        //Set material
+        GetComponent<MeshFilter>().mesh= mesh;
+        GetComponent<MeshCollider>().enabled = false;
+        GetComponent<MeshCollider>().sharedMesh = mesh;
+        GetComponent<MeshCollider>().enabled = true;
+
+        LoadUVMap();
+        LoadLightmap();
+    }
+
+    public void LoadUVMap()
+    {
         //Build UV Points
 
-        cps = new NURBS.ControlPoint[2, 2];
+        NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[2, 2];
 
         List<Vector2> vector2s = new List<Vector2>();
         vector2s.Add(UVPoint1);
@@ -256,6 +321,12 @@ public class PatchObject : MonoBehaviour
 
         surface = new NURBS.Surface(cps, 1, 1);
 
+        int degreeU = 3;
+        int degreeV = 3;
+
+        int resolutionU = 7; //7;
+        int resolutionV = 7; //7; ()
+
         Vector3[] UV = surface.ReturnVertices(resolutionU, resolutionV);
 
         Vector2[] UV2 = new Vector2[UV.Length];
@@ -264,11 +335,13 @@ public class PatchObject : MonoBehaviour
         {
             UV2[i] = new Vector2(UV[i].x, UV[i].y);
         }
-        mesh.uv = UV2;
+        GetComponent<MeshFilter>().sharedMesh.uv = UV2;
+    }
 
+    public void LoadLightmap()
+    {
         //Build Lightmap Points
-
-        cps = new NURBS.ControlPoint[2, 2];
+        NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[2, 2];
 
         cps[0, 0] = new NURBS.ControlPoint(0.1f, 0.1f, 0, 1);
         cps[0, 1] = new NURBS.ControlPoint(0.1f, 0.9f, 0, 1);
@@ -277,26 +350,23 @@ public class PatchObject : MonoBehaviour
 
         surface = new NURBS.Surface(cps, 1, 1);
 
-        UV = surface.ReturnVertices(resolutionU, resolutionV);
+        int degreeU = 3;
+        int degreeV = 3;
 
-        UV2 = new Vector2[UV.Length];
+        int resolutionU = 7; //7;
+        int resolutionV = 7; //7; ()
+
+        Vector3[] UV = surface.ReturnVertices(resolutionU, resolutionV);
+
+        Vector2[] UV2 = new Vector2[UV.Length];
 
         for (int i = 0; i < UV.Length; i++)
         {
             UV2[i] = new Vector2(UV[i].x, UV[i].y);
         }
 
-        mesh.uv2 = UV2;
-
-
-        //Set material
-        GetComponent<MeshFilter>().mesh= mesh;
-        GetComponent<MeshCollider>().enabled = false;
-        GetComponent<MeshCollider>().sharedMesh = mesh;
-        GetComponent<MeshCollider>().enabled = true;
+        GetComponent<MeshFilter>().sharedMesh.uv2 = UV2;
     }
-
-
     public List<Vector2> PointCorrection(List<Vector2> NewList)
     {
         for (int i = 0; i < NewList.Count; i++)
@@ -309,46 +379,58 @@ public class PatchObject : MonoBehaviour
         return NewList;
     }
 
-    public void UpdateUVPoints()
+    public void UpdateTexture()
+    {
+        try
+        {
+            bool Found = false;
+            for (int i = 0; i < WorldManager.Instance.texture2Ds.Count; i++)
+            {
+                if (WorldManager.Instance.texture2Ds[i].name.ToLower() == TextureAssigment.ToLower())
+                {
+                    Found = true;
+                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", WorldManager.Instance.texture2Ds[i]);
+                    //Renderer.material.SetTexture("_Lightmap", TrickyMapInterface.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
+                    return;
+                }
+            }
+
+            if (!Found)
+            {
+                meshRenderer.sharedMaterial.SetTexture("_MainTexture", WorldManager.Instance.Error);
+            }
+            else
+            {
+
+            }
+        }
+        catch
+        {
+            meshRenderer.sharedMaterial.SetTexture("_MainTexture", WorldManager.Instance.Error);
+        }
+    }
+
+    void UndoAndRedoFix()
     {
         LoadNURBSpatch();
     }
 
-    //public void UpdateTexture(string a)
-    //{
-    //    try
-    //    {
-    //        bool Found = false;
-    //        for (int i = 0; i < TrickyMapInterface.Instance.textures.Count; i++)
-    //        {
-    //            if (TrickyMapInterface.Instance.textures[i].name.ToLower()==a.ToLower())
-    //            {
-    //                Found = true;
-    //                Renderer.material.SetTexture("_MainTexture", TrickyMapInterface.Instance.textures[i]);
-    //                Renderer.material.SetTexture("_Lightmap", TrickyMapInterface.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
-    //                TextureAssigment = a;
-    //                return;
-    //            }
-    //        }
-
-    //        if (!Found)
-    //        {
-    //            Renderer.material.SetTexture("_MainTexture", TrickyMapInterface.Instance.ErrorTexture);
-    //        }
-    //        else
-    //        {
-
-    //        }
-    //    }
-    //    catch
-    //    {
-    //        Renderer.material.SetTexture("_MainTexture", TrickyMapInterface.Instance.ErrorTexture);;
-    //    }
-    //}
-
-    public Vector3 GetCentrePoint()
+    public void OnDrawGizmosSelected()
     {
-        Vector3 vector3 = (RawControlPoint + RawR1C2 + RawR1C3 + RawR1C4 + RawR2C1 + RawR2C2 + RawR2C3 + RawR2C4 + RawR3C1 + RawR3C2 + RawR3C3 + RawR3C4 + RawR4C1 + RawR4C2 +RawR4C3+RawR4C4)/16;
-        return vector3;
+        if (transform.hasChanged)
+        {
+            //Update Points
+
+
+            //Correct Roation to zero
+        }
     }
+
+    public void RecalculateNurbpoints()
+    {
+        //take current points 
+
+
+    }
+
 }

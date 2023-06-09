@@ -1,25 +1,35 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
     public static WorldManager Instance;
-    public string Test;
+
+    public string LoadPath;
     GameObject PatchesHolder;
     GameObject InstancesHolder;
     GameObject SplinesHolder;
     GameObject ParticlesHolder;
     GameObject LightingHolder;
 
+    public Texture2D Error;
+    public List<Texture2D> texture2Ds = new List<Texture2D>();
     public void SetStatic()
     {
+        if (Instance == null)
         Instance = this;
     }
 
     public void GenerateEmptyObjects()
     {
+        Selection.activeGameObject = this.gameObject;
+        ActiveEditorTracker.sharedTracker.isLocked = true;
+        ActiveEditorTracker.sharedTracker.ForceRebuild();
+
         PatchesHolder = new GameObject("Patches");
         PatchesHolder.transform.parent = transform;
 
@@ -34,12 +44,18 @@ public class WorldManager : MonoBehaviour
 
         LightingHolder = new GameObject("Lighting");
         LightingHolder.transform.parent = transform;
+
+        Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
     }
 
     public void LoadData()
     {
-        string LoadPath = TrickyProjectWindow.CurrentPath;
+        SetStatic();
+        LoadPath = TrickyProjectWindow.CurrentPath;
+        ReloadTextures();
         LoadPatches(LoadPath + "\\Patches.json");
+
+
     }
 
     public void LoadPatches(string JsonPath)
@@ -59,7 +75,30 @@ public class WorldManager : MonoBehaviour
 
         }
 
+    }
 
+    public void ReloadTextures()
+    {
+        string TextureLoadPath = LoadPath + "\\Textures";
+
+        string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
+        texture2Ds = new List<Texture2D>();
+        for (int i = 0; i < Files.Length; i++)
+        {
+            Texture2D NewImage = new Texture2D(1, 1);
+            if (Files[i].ToLower().Contains(".png"))
+            {
+                using (Stream stream = File.Open(Files[i], FileMode.Open))
+                {
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, (int)stream.Length);
+                    NewImage.LoadImage(bytes);
+                    NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+                    //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
+                }
+                texture2Ds.Add(NewImage);
+            }
+        }
     }
 
 }
