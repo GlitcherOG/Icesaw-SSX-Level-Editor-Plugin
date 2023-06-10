@@ -8,14 +8,14 @@ using UnityEngine.UIElements;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [System.Serializable]
-public class PrefabObject
+public class PrefabObject : MonoBehaviour
 {
     public string PrefabName;
     public int Unknown3;
     public float AnimTime;
     public List<ObjectHeader> PrefabObjects;
 
-    public GameObject GeneratePrefab(bool SkyboxLoad = false)
+    public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(PrefabName);
         for (int i = 0; i < PrefabObjects.Count; i++)
@@ -24,11 +24,6 @@ public class PrefabObject
             for (int a = 0; a < TempPrefab.MeshData.Count; a++)
             {
                 GameObject ChildMesh = new GameObject(i + ", " + a);
-
-                if(SkyboxLoad)
-                {
-                    ChildMesh.layer = 8;
-                }
 
                 ChildMesh.transform.parent = MainObject.transform;
                 ChildMesh.transform.localPosition = TempPrefab.Position;
@@ -46,7 +41,7 @@ public class PrefabObject
         return MainObject;
     }
 
-    public void LoadPrefab(PrefabJsonHandler.PrefabJson prefabJson, bool SkyboxLoad = false)
+    public void LoadPrefab(PrefabJsonHandler.PrefabJson prefabJson)
     {
         PrefabName = prefabJson.PrefabName;
         Unknown3 = prefabJson.Unknown3;
@@ -113,26 +108,21 @@ public class PrefabObject
                 var TempNewMeshData = new MeshHeader();
                 TempNewMeshData.MeshPath = TempMesh.MeshPath;
                 TempNewMeshData.MeshID = TempMesh.MeshID;
-                if(SkyboxLoad)
-                {
-                    //TempNewMeshData.mesh = ObjImporter.ObjLoad(TrickyMapInterface.Instance.LoadPath + "\\Skybox\\Models\\" + TempMesh.MeshPath);
-                }
-                else
-                {
-                    //TempNewMeshData.mesh = ObjImporter.ObjLoad(TrickyMapInterface.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
-                }
+                TempNewMeshData.mesh = ObjImporter.ObjLoad(WorldManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
                 TempNewMeshData.MaterialID = TempMesh.MaterialID;
 
-                TempNewMeshData.material = GenerateMaterial(TempMesh.MaterialID, SkyboxLoad);
+                TempNewMeshData.material = GenerateMaterial(TempMesh.MaterialID);
 
                 NewPrefabObject.MeshData.Add(TempNewMeshData);
             }
 
             PrefabObjects.Add(NewPrefabObject);
         }
+
+        GeneratePrefab().transform.parent = this.transform;
     }
 
-    public void LoadModelsAndMesh(bool SkyboxLoad = false)
+    public void LoadModelsAndMesh()
     {
         for (int i = 0; i < PrefabObjects.Count; i++)
         {
@@ -140,15 +130,8 @@ public class PrefabObject
             for (int a = 0; a < NewPrefabObject.MeshData.Count; a++)
             {
                 var TempMesh = NewPrefabObject.MeshData[a];
-                if (SkyboxLoad)
-                {
-                    //TempMesh.mesh = ObjImporter.ObjLoad(TrickyMapInterface.Instance.LoadPath + "\\Skybox\\Models\\" + TempMesh.MeshPath);
-                }
-                else
-                {
-                    //TempMesh.mesh = ObjImporter.ObjLoad(TrickyMapInterface.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
-                }
-                TempMesh.material = GenerateMaterial(TempMesh.MaterialID, SkyboxLoad);
+                TempMesh.mesh = ObjImporter.ObjLoad(WorldManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
+                TempMesh.material = GenerateMaterial(TempMesh.MaterialID);
                 NewPrefabObject.MeshData[a] = TempMesh;
             }
             PrefabObjects[i] = NewPrefabObject;
@@ -156,22 +139,15 @@ public class PrefabObject
     }
 
 
-    public static Material GenerateMaterial(int MaterialID, bool SkyboxLoad = false)
+    public static Material GenerateMaterial(int MaterialID)
     {
         Material material = new Material(Shader.Find("ModelShader"));
         string TextureID = "";
         if (MaterialID != -1)
         {
-            if (SkyboxLoad)
-            {
-                //TextureID = SkyboxManager.Instance.materialJson.Materials[MaterialID].TexturePath;
-            }
-            else
-            {
-                //TextureID = TrickyMapInterface.Instance.materialJson.Materials[MaterialID].TexturePath;
-            }
+            //TextureID = WorldManager.Instance.materialJson.Materials[MaterialID].TexturePath;
         }
-        material.SetTexture("_MainTexture", GetTexture(TextureID, SkyboxLoad));
+        material.SetTexture("_MainTexture", GetTexture(TextureID));
         material.SetFloat("_OutlineWidth", 0);
         material.SetFloat("_OpacityMaskOutline", 0f);
         material.SetColor("_OutlineColor", new Color32(255, 255, 255, 0));
@@ -179,36 +155,20 @@ public class PrefabObject
         return material;
     }
 
-    public static Texture2D GetTexture(string TextureID, bool SkyboxLoad)
+    public static Texture2D GetTexture(string TextureID)
     {
         Texture2D texture = null;
         try
         {
-            if (SkyboxLoad)
+            for (int i = 0; i < WorldManager.Instance.texture2Ds.Count; i++)
             {
-                //    for (int i = 0; i < SkyboxManager.Instance.textures.Count; i++)
-                //    {
-                //        if (SkyboxManager.Instance.textures[i].name.ToLower() == TextureID.ToLower())
-                //        {
-                //            texture = SkyboxManager.Instance.textures[i];
-                //            return texture;
-                //        }
-                //    }
-                //    texture = TrickyMapInterface.Instance.ErrorTexture;
-            }
-            else
-            {
-                for (int i = 0; i < WorldManager.Instance.texture2Ds.Count; i++)
+                if (WorldManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
                 {
-                    if (WorldManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
-                    {
-                        texture = WorldManager.Instance.texture2Ds[i];
-                        return texture;
-                    }
+                    texture = WorldManager.Instance.texture2Ds[i];
+                    return texture;
                 }
-                texture = WorldManager.Instance.Error;
             }
-
+            texture = WorldManager.Instance.Error;
         }
         catch
         {
