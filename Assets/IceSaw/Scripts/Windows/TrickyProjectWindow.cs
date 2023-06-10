@@ -101,11 +101,16 @@ public class TrickyProjectWindow : EditorWindow
 
         //Generate Prefab Manager
         PrefabManager = new GameObject("Tricky Prefab Manager");
+        var TempPrefab = PrefabManager.AddComponent<PrefabManager>();
+        TempPrefab.runInEditMode = true;
+        TempPrefab.SetStatic();
+        TempPrefab.GenerateEmptyObjects();
 
     }
     public void LoadProjectData()
     {
         GenerateEmptyProject();
         WorldManager.GetComponent<WorldManager>().LoadData();
+        PrefabManager.GetComponent<PrefabManager>().LoadData();
     }
 }

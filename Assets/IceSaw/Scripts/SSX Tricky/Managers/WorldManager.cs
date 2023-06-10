@@ -58,8 +58,6 @@ public class WorldManager : MonoBehaviour
         LoadPath = TrickyProjectWindow.CurrentPath;
         ReloadTextures();
         LoadPatches(LoadPath + "\\Patches.json");
-
-
     }
 
     public void LoadPatches(string JsonPath)
