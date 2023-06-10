@@ -10,14 +10,13 @@ using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 [System.Serializable]
 public class PrefabObject : MonoBehaviour
 {
-    public string PrefabName;
     public int Unknown3;
     public float AnimTime;
     public List<ObjectHeader> PrefabObjects;
 
     public GameObject GeneratePrefab()
     {
-        GameObject MainObject = new GameObject(PrefabName);
+        GameObject MainObject = new GameObject(transform.name);
         for (int i = 0; i < PrefabObjects.Count; i++)
         {
             var TempPrefab = PrefabObjects[i];
@@ -41,9 +40,32 @@ public class PrefabObject : MonoBehaviour
         return MainObject;
     }
 
+    public void GenerateSubModels()
+    {
+        for (int i = 0; i < PrefabObjects.Count; i++)
+        {
+            var TempPrefab = PrefabObjects[i];
+            for (int a = 0; a < TempPrefab.MeshData.Count; a++)
+            {
+                GameObject ChildMesh = new GameObject(i + ", " + a);
+
+                ChildMesh.transform.parent = this.transform;
+                ChildMesh.transform.localPosition = TempPrefab.Position;
+                ChildMesh.transform.localScale = TempPrefab.Scale;
+                ChildMesh.transform.localRotation = TempPrefab.Rotation;
+
+                var TempMeshFilter = ChildMesh.AddComponent<MeshFilter>();
+                var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
+
+                TempMeshFilter.mesh = TempPrefab.MeshData[a].mesh;
+                TempRenderer.material = TempPrefab.MeshData[a].material;
+            }
+        }
+    }
+
     public void LoadPrefab(PrefabJsonHandler.PrefabJson prefabJson)
     {
-        PrefabName = prefabJson.PrefabName;
+        transform.name = prefabJson.PrefabName;
         Unknown3 = prefabJson.Unknown3;
         AnimTime = prefabJson.AnimTime;
         PrefabObjects = new List<ObjectHeader>();
@@ -119,7 +141,7 @@ public class PrefabObject : MonoBehaviour
             PrefabObjects.Add(NewPrefabObject);
         }
 
-        GeneratePrefab().transform.parent = this.transform;
+        GenerateSubModels();
     }
 
     public void LoadModelsAndMesh()
