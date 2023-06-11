@@ -55,6 +55,14 @@ public class TrickyViewOptions
         }
 
         //Run Effect
+        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        for (int i = 0; i < FunctionList.Count; i++)
+        {
+            if (FunctionList[i].FunctionName == "RaceMode")
+            {
+                RunFunction(i, instanceObjects);
+            }
+        }
 
     }
 
@@ -83,5 +91,58 @@ public class TrickyViewOptions
         }
 
         //Run Effect
+
+        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        for (int i = 0; i < FunctionList.Count; i++)
+        {
+            if (FunctionList[i].FunctionName== "ShowoffMode")
+            {
+                RunFunction(i, instanceObjects);
+            }
+        }
+    }
+
+
+    public static void RunFunction(int Position, InstanceObject[] InstanceList)
+    {
+        var Function = LogicManager.Instance.ssfJsonHandler.Functions[Position];
+
+        for (int i = 0; i < Function.Effects.Count; i++)
+        {
+            if (Function.Effects[i].MainType==21)
+            {
+                RunFunction(Function.Effects[i].FunctionRunIndex.Value, InstanceList);
+            }
+            if(Function.Effects[i].MainType == 7)
+            {
+                RunEffectInstance(Function.Effects[i].Instance.Value.EffectIndex, Function.Effects[i].Instance.Value.InstanceIndex, InstanceList);
+            }
+            if (Function.Effects[i].MainType == 25)
+            {
+                RunEffectSpline(Function.Effects[i].Spline.Value.Effect, Function.Effects[i].Spline.Value.SplineIndex);
+            }
+        }
+    }
+
+    public static void RunEffectInstance(int Effect, int Instance, InstanceObject[] InstanceList)
+    {
+        var TempInstance = InstanceList[Instance];
+        var EffectHeader = LogicManager.Instance.ssfJsonHandler.EffectHeaders[Effect];
+        for (int i = 0; i < EffectHeader.Effects.Count; i++)
+        {
+            if (EffectHeader.Effects[i].MainType==0)
+            {
+                if(EffectHeader.Effects[i].type0.Value.SubType==5)
+                {
+                    TempInstance.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public static void RunEffectSpline(int Effect, int Spline)
+    {
+        //0 - off
+        //1 - on
     }
 }

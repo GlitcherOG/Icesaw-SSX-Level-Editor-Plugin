@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     GameObject WorldManager;
     GameObject SkyboxManager;
     GameObject PrefabManager;
+    GameObject LogicManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -56,6 +57,15 @@ public class LevelManager : MonoBehaviour
         //Generate Skybox Manager
         SkyboxManager = new GameObject("Tricky Skybox Manager");
         SkyboxManager.transform.parent = this.transform;
+
+        //Generate Logic Manager
+        LogicManager = new GameObject("Tricky Logic Manager");
+        LogicManager.transform.parent = this.transform;
+        LogicManager.transform.transform.localScale = new Vector3(1, 1, 1);
+        LogicManager.transform.localEulerAngles = new Vector3(0, 0, 0);
+        var TempLogic = LogicManager.AddComponent<LogicManager>();
+        TempLogic.runInEditMode = true;
+        TempLogic.GenerateEmptyObjects();
     }
 
     public void LoadData(string Path)
@@ -67,6 +77,7 @@ public class LevelManager : MonoBehaviour
 
         PrefabManager.GetComponent<PrefabManager>().LoadData(Path);
         WorldManager.GetComponent<WorldManager>().LoadData(Path);
+        LogicManager.GetComponent<LogicManager>().LoadData(Path);
     }
 
     public void ReloadTextures()
