@@ -412,6 +412,11 @@ public class PatchObject : MonoBehaviour
         }
     }
 
+    public void UpdateHighlight(UnityEngine.Color color)
+    {
+        meshRenderer.sharedMaterial.SetColor("_Highlight", color);
+    }
+
     void UndoAndRedoFix()
     {
         LoadNURBSpatch();
