@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TrickyViewOptions
 {
-    [MenuItem("Ice Saw View/Show All")]
+    [MenuItem("Ice Saw View/Show All",false,10)]
     public static void ShowAll()
     {
         //Grab Patches
@@ -21,9 +21,15 @@ public class TrickyViewOptions
         {
             instanceObjects[i].gameObject.SetActive(true);
         }
+
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
+        for (int i = 0; i < splineObjects.Length; i++)
+        {
+            splineObjects[i].gameObject.SetActive(true);
+        }
     }
 
-    [MenuItem("Ice Saw View/Race Only")]
+    [MenuItem("Ice Saw View/Race Only", false, 10)]
     public static void RaceOnly()
     {
         //Grab Patches
@@ -54,19 +60,25 @@ public class TrickyViewOptions
             }
         }
 
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
+        for (int i = 0; i < splineObjects.Length; i++)
+        {
+            splineObjects[i].gameObject.SetActive(true);
+        }
+
         //Run Effect
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "RaceMode")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
 
     }
 
-    [MenuItem("Ice Saw View/Showoff Only")]
+    [MenuItem("Ice Saw View/Showoff Only", false, 10)]
     public static void ShowOffOnly()
     {
         //Grab Patches
@@ -90,6 +102,12 @@ public class TrickyViewOptions
             }
         }
 
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
+        for (int i = 0; i < splineObjects.Length; i++)
+        {
+            splineObjects[i].gameObject.SetActive(true);
+        }
+
         //Run Effect
 
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
@@ -97,12 +115,12 @@ public class TrickyViewOptions
         {
             if (FunctionList[i].FunctionName == "ShowoffMode")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
 
-    [MenuItem("Ice Saw View/Freeride Only")]
+    [MenuItem("Ice Saw View/Freeride Only", false, 10)]
     public static void FreerideOnly()
     {
         //Grab Patches
@@ -133,6 +151,12 @@ public class TrickyViewOptions
             }
         }
 
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
+        for (int i = 0; i < splineObjects.Length; i++)
+        {
+            splineObjects[i].gameObject.SetActive(true);
+        }
+
         //Run Effect
 
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
@@ -140,7 +164,7 @@ public class TrickyViewOptions
         {
             if (FunctionList[i].FunctionName == "FreerideMode")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
@@ -149,12 +173,13 @@ public class TrickyViewOptions
     public static void FunctionRunRace()
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "RaceMode")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
@@ -162,12 +187,13 @@ public class TrickyViewOptions
     public static void FunctionRunShowOff()
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "ShowoffMode")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
@@ -175,12 +201,13 @@ public class TrickyViewOptions
     public static void FunctionRunFreeRide()
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "FreerideMode")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
@@ -189,12 +216,13 @@ public class TrickyViewOptions
     public static void FunctionRunCountDown()
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "StartCountDown")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
@@ -203,12 +231,13 @@ public class TrickyViewOptions
     public static void FunctionRunEndCountDown()
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "EndCountDown")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
@@ -217,18 +246,19 @@ public class TrickyViewOptions
     public static void FunctionRunNoCountDown()
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "NoCountDown")
             {
-                RunFunction(i, instanceObjects);
+                RunFunction(i, instanceObjects, splineObjects);
             }
         }
     }
 
 
-    public static void RunFunction(int Position, InstanceObject[] InstanceList)
+    public static void RunFunction(int Position, InstanceObject[] InstanceList, SplineObject[] splineObjects)
     {
         var Function = LogicManager.Instance.ssfJsonHandler.Functions[Position];
 
@@ -236,7 +266,7 @@ public class TrickyViewOptions
         {
             if (Function.Effects[i].MainType==21)
             {
-                RunFunction(Function.Effects[i].FunctionRunIndex.Value, InstanceList);
+                RunFunction(Function.Effects[i].FunctionRunIndex.Value, InstanceList, splineObjects);
             }
             if(Function.Effects[i].MainType == 7)
             {
@@ -244,7 +274,7 @@ public class TrickyViewOptions
             }
             if (Function.Effects[i].MainType == 25)
             {
-                RunEffectSpline(Function.Effects[i].Spline.Value.Effect, Function.Effects[i].Spline.Value.SplineIndex);
+                RunEffectSpline(Function.Effects[i].Spline.Value.Effect, Function.Effects[i].Spline.Value.SplineIndex, splineObjects);
             }
         }
     }
@@ -265,9 +295,15 @@ public class TrickyViewOptions
         }
     }
 
-    public static void RunEffectSpline(int Effect, int Spline)
+    public static void RunEffectSpline(int Effect, int Spline, SplineObject[] splineObjects)
     {
-        //0 - off
-        //1 - on
+        if(Effect==0)
+        {
+            splineObjects[Spline].gameObject.SetActive(false);
+        }
+        else if(Effect == 1)
+        {
+            splineObjects[Spline].gameObject.SetActive(true);
+        }
     }
 }

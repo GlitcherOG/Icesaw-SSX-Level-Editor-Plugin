@@ -5,7 +5,6 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using static SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler;
 
 [ExecuteInEditMode]
 public class WorldManager : MonoBehaviour
@@ -42,6 +41,8 @@ public class WorldManager : MonoBehaviour
 
         SplinesHolder = new GameObject("Splines");
         SplinesHolder.transform.parent = transform;
+        SplinesHolder.transform.localScale = Vector3.one;
+        SplinesHolder.transform.localEulerAngles = Vector3.zero;
         SplinesHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         ParticlesHolder = new GameObject("Particles");
@@ -59,6 +60,7 @@ public class WorldManager : MonoBehaviour
         //SetStatic();
         LoadPatches(Path + "\\Patches.json");
         LoadInstance(Path + "\\Instances.json");
+        LoadSplines(Path + "\\Splines.json");
     }
 
     public void LoadPatches(string JsonPath)
@@ -96,6 +98,22 @@ public class WorldManager : MonoBehaviour
         }
     }
 
+    void LoadSplines(string path)
+    {
+        SplineJsonHandler SplineJson = new SplineJsonHandler();
+        SplineJson = SplineJsonHandler.Load(path);
+        for (int i = 0; i < SplineJson.Splines.Count; i++)
+        {
+            var TempSplineData = SplineJson.Splines[i];
+            GameObject TempSpline = new GameObject("Spline " + i);
+            TempSpline.transform.parent = SplinesHolder.transform;
+            TempSpline.transform.localScale = Vector3.one;
+            TempSpline.transform.localEulerAngles = Vector3.zero;
+            var TempObj = TempSpline.AddComponent<SplineObject>();
+            TempObj.LoadSpline(TempSplineData);
+        }
+    }
+
     public PatchObject[] GetPatchList()
     {
         return PatchesHolder.GetComponentsInChildren<PatchObject>(true);
@@ -104,5 +122,10 @@ public class WorldManager : MonoBehaviour
     public InstanceObject[] GetInstanceList()
     {
         return InstancesHolder.GetComponentsInChildren<InstanceObject>(true);
+    }
+
+    public SplineObject[] GetSplineList()
+    {
+        return SplinesHolder.GetComponentsInChildren<SplineObject>(true);
     }
 }
