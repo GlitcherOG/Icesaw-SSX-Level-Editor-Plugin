@@ -257,6 +257,16 @@ public class TrickyViewOptions
         }
     }
 
+    [MenuItem("Ice Saw View/Hide Invisable Instances")]
+    public static void VisablityToggle()
+    {
+        InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        for (int i = 0; i < instanceObjects.Length; i++)
+        {
+            instanceObjects[i].gameObject.SetActive(instanceObjects[i].Visable);
+        }
+    }
+
 
     public static void RunFunction(int Position, InstanceObject[] InstanceList, SplineObject[] splineObjects)
     {

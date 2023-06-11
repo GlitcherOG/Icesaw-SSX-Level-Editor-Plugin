@@ -39,11 +39,14 @@ public class InstanceObject : MonoBehaviour
     //Object Properties
 
     public float U0;
-    public float PlayerBounce;
+    public float PlayerBounceAmmount;
     public int U2;
     public int U22;
-    public int U23;
-    public int U24;
+    public bool Visable;
+    public bool PlayerCollision;
+    public bool PlayerBounce;
+    public bool Unknown241;
+    public bool UVScroll;
 
     public int U4;
     public int CollsionMode;
@@ -86,6 +89,31 @@ public class InstanceObject : MonoBehaviour
         UnknownInt32 = instance.UnknownInt32;
 
         LTGState = instance.LTGState;
+
+        Hash = instance.Hash;
+        IncludeSound = instance.IncludeSound;
+
+        if(IncludeSound)
+        {
+
+        }
+
+        U0 = instance.U0;
+        PlayerBounceAmmount = instance.PlayerBounceAmmount;
+        U2 = instance.U2;
+        U22 = instance.U22;
+        Visable = instance.Visable;
+        PlayerCollision = instance.PlayerCollision;
+        PlayerBounce = instance.PlayerBounce;
+        Unknown241 = instance.Unknown241;
+        UVScroll = instance.UVScroll;
+
+        U4 = instance.U4;
+        CollsionMode = instance.CollsionMode;
+        CollsionModelPaths = instance.CollsionModelPaths;
+        EffectSlotIndex = instance.EffectSlotIndex;
+        PhysicsIndex = instance.PhysicsIndex;
+        U8 = instance.U8;
 
         LoadPrefabs();
     }
