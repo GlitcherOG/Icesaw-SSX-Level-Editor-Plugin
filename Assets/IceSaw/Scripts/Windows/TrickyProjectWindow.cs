@@ -10,9 +10,8 @@ public class TrickyProjectWindow : EditorWindow
 {
     public static TrickyProjectWindow Instance;
 
-    GameObject WorldManager;
-    GameObject SkyboxManager;
-    GameObject PrefabManager;
+    public GameObject LevelManagerObject;
+
     public static string CurrentPath;
 
     public static float Scale = 0.01f;
@@ -63,54 +62,26 @@ public class TrickyProjectWindow : EditorWindow
     }
     public void ClearCurrentProject()
     {
-        if(WorldManager!=null)
+        if(LevelManagerObject!=null)
         {
-            DestroyImmediate(WorldManager);
-            DestroyImmediate(SkyboxManager);
-            DestroyImmediate(PrefabManager);
+            DestroyImmediate(LevelManagerObject);
         }
-        else
+        else if(LevelManager.Instance!=null)
         {
-            WorldManager = GameObject.Find("/Tricky World Manager");
-            SkyboxManager = GameObject.Find("/Tricky Skybox Manager");
-            PrefabManager = GameObject.Find("/Tricky Prefab Manager");
-
-            if(WorldManager != null)
-            {
-                DestroyImmediate(WorldManager);
-                DestroyImmediate(SkyboxManager);
-                DestroyImmediate(PrefabManager);
-            }
+            DestroyImmediate(LevelManager.Instance.gameObject);
         }
-
-
     }
     public void GenerateEmptyProject()
     {
         ClearCurrentProject();
 
-        //Generate World Manager
-        WorldManager = new GameObject("Tricky World Manager");
-        var TempWorld = WorldManager.AddComponent<WorldManager>();
-        TempWorld.runInEditMode = true;
-        TempWorld.SetStatic();
-        TempWorld.GenerateEmptyObjects();
-
-        //Generate Skybox Manager
-        SkyboxManager = new GameObject("Tricky Skybox Manager");
-
-        //Generate Prefab Manager
-        PrefabManager = new GameObject("Tricky Prefab Manager");
-        var TempPrefab = PrefabManager.AddComponent<PrefabManager>();
-        TempPrefab.runInEditMode = true;
-        TempPrefab.SetStatic();
-        TempPrefab.GenerateEmptyObjects();
-
+        LevelManagerObject = new GameObject("Tricky Level Manager");
+        LevelManagerObject.AddComponent<LevelManager>();
     }
     public void LoadProjectData()
     {
         GenerateEmptyProject();
-        WorldManager.GetComponent<WorldManager>().LoadData();
-        PrefabManager.GetComponent<PrefabManager>().LoadData();
+
+        LevelManager.Instance.LoadData(CurrentPath);
     }
 }

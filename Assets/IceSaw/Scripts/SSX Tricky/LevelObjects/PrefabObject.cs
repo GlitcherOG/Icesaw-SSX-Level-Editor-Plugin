@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [System.Serializable]
+[SelectionBase]
 public class PrefabObject : MonoBehaviour
 {
     public int Unknown3;
@@ -130,7 +131,7 @@ public class PrefabObject : MonoBehaviour
                 var TempNewMeshData = new MeshHeader();
                 TempNewMeshData.MeshPath = TempMesh.MeshPath;
                 TempNewMeshData.MeshID = TempMesh.MeshID;
-                TempNewMeshData.mesh = ObjImporter.ObjLoad(WorldManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
+                TempNewMeshData.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
                 TempNewMeshData.MaterialID = TempMesh.MaterialID;
 
                 TempNewMeshData.material = GenerateMaterial(TempMesh.MaterialID);
@@ -152,7 +153,7 @@ public class PrefabObject : MonoBehaviour
             for (int a = 0; a < NewPrefabObject.MeshData.Count; a++)
             {
                 var TempMesh = NewPrefabObject.MeshData[a];
-                TempMesh.mesh = ObjImporter.ObjLoad(WorldManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
+                TempMesh.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
                 TempMesh.material = GenerateMaterial(TempMesh.MaterialID);
                 NewPrefabObject.MeshData[a] = TempMesh;
             }
@@ -182,19 +183,19 @@ public class PrefabObject : MonoBehaviour
         Texture2D texture = null;
         try
         {
-            for (int i = 0; i < WorldManager.Instance.texture2Ds.Count; i++)
+            for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
             {
-                if (WorldManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
+                if (LevelManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
                 {
-                    texture = WorldManager.Instance.texture2Ds[i];
+                    texture = LevelManager.Instance.texture2Ds[i];
                     return texture;
                 }
             }
-            texture = WorldManager.Instance.Error;
+            texture = LevelManager.Instance.Error;
         }
         catch
         {
-            texture = WorldManager.Instance.Error;
+            texture = LevelManager.Instance.Error;
         }
         return texture;
     }

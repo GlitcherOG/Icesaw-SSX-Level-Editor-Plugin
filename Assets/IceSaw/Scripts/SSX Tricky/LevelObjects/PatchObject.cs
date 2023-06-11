@@ -386,12 +386,12 @@ public class PatchObject : MonoBehaviour
         try
         {
             bool Found = false;
-            for (int i = 0; i < WorldManager.Instance.texture2Ds.Count; i++)
+            for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
             {
-                if (WorldManager.Instance.texture2Ds[i].name.ToLower() == TextureAssigment.ToLower())
+                if (LevelManager.Instance.texture2Ds[i].name.ToLower() == TextureAssigment.ToLower())
                 {
                     Found = true;
-                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", WorldManager.Instance.texture2Ds[i]);
+                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.texture2Ds[i]);
                     //Renderer.material.SetTexture("_Lightmap", TrickyMapInterface.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
                     return;
                 }
@@ -399,7 +399,7 @@ public class PatchObject : MonoBehaviour
 
             if (!Found)
             {
-                meshRenderer.sharedMaterial.SetTexture("_MainTexture", WorldManager.Instance.Error);
+                meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.Error);
             }
             else
             {
@@ -408,7 +408,7 @@ public class PatchObject : MonoBehaviour
         }
         catch
         {
-            meshRenderer.sharedMaterial.SetTexture("_MainTexture", WorldManager.Instance.Error);
+            meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.Error);
         }
     }
 
