@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [ExecuteInEditMode]
@@ -35,12 +36,27 @@ public class PrefabManager : MonoBehaviour
     public void LoadData(string Path)
     {
         SetStatic();
+        LoadMaterials(Path + "\\Materials.json");
         LoadPrefabs(Path + "\\Prefabs.json");
     }
 
     public void LoadMaterials(string Path)
     {
-        
+        MaterialJsonHandler materialJsonHandler = new MaterialJsonHandler();
+        materialJsonHandler = MaterialJsonHandler.Load(Path);
+
+        for (int i = 0; i < materialJsonHandler.Materials.Count; i++)
+        {
+            GameObject gameObject = new GameObject("Materials " + i);
+            gameObject.transform.hideFlags = HideFlags.HideInInspector;
+            gameObject.transform.parent = MaterialHolder.transform;
+            gameObject.transform.localPosition = new Vector3(0, 0, 0);
+            gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+            gameObject.transform.localScale = new Vector3(1, 1, 1);
+            MaterialObject materialObject = gameObject.AddComponent<MaterialObject>();
+            materialObject.LoadMaterial(materialJsonHandler.Materials[i]);
+
+        }
     }
 
     public void LoadPrefabs(string Path)
@@ -75,5 +91,12 @@ public class PrefabManager : MonoBehaviour
                 ZPosition += 10000;
             }
         }
+    }
+
+    public MaterialObject GetMaterialObject(int A)
+    {
+        MaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(); 
+
+        return TempObject[A];
     }
 }

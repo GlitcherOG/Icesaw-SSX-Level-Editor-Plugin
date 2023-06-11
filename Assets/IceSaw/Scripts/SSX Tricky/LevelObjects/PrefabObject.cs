@@ -168,7 +168,7 @@ public class PrefabObject : MonoBehaviour
         string TextureID = "";
         if (MaterialID != -1)
         {
-            //TextureID = WorldManager.Instance.materialJson.Materials[MaterialID].TexturePath;
+            TextureID = PrefabManager.Instance.GetMaterialObject(MaterialID).TexturePath;
         }
         material.SetTexture("_MainTexture", GetTexture(TextureID));
         material.SetFloat("_OutlineWidth", 0);
