@@ -93,14 +93,14 @@ public class PrefabManager : MonoBehaviour
 
     public MaterialObject GetMaterialObject(int A)
     {
-        MaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(); 
+        MaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true); 
 
         return TempObject[A];
     }
 
-    public GameObject GetPrefabGameObject(int A)
+    public PrefabObject GetPrefabObject(int A)
     {
-        PrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>();
-        return TempObject[A].gameObject;
+        PrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
+        return TempObject[A];
     }
 }

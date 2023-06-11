@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler;
 
+[ExecuteInEditMode]
 public class WorldManager : MonoBehaviour
 {
     public static WorldManager Instance;
@@ -16,7 +17,8 @@ public class WorldManager : MonoBehaviour
     GameObject SplinesHolder;
     GameObject ParticlesHolder;
     GameObject LightingHolder;
-    public void SetStatic()
+
+    public void Awake()
     {
         if (Instance == null)
         Instance = this;
@@ -54,7 +56,7 @@ public class WorldManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
-        SetStatic();
+        //SetStatic();
         LoadPatches(Path + "\\Patches.json");
         LoadInstance(Path + "\\Instances.json");
     }
@@ -94,4 +96,13 @@ public class WorldManager : MonoBehaviour
         }
     }
 
+    public PatchObject[] GetPatchList()
+    {
+        return PatchesHolder.GetComponentsInChildren<PatchObject>(true);
+    }
+
+    public InstanceObject[] GetInstanceList()
+    {
+        return InstancesHolder.GetComponentsInChildren<InstanceObject>(true);
+    }
 }

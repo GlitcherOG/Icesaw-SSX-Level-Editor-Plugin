@@ -4,18 +4,11 @@ using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using UnityEditor;
+using System;
 
+[SelectionBase]
 public class InstanceObject : MonoBehaviour
 {
-    public string InstanceName;
-
-    bool IsLoaded = false;
-    public bool UpdateXYZ = false;
-
-    public Vector3 rotation;
-    public Vector3 scale;
-    public Vector3 InstancePosition;
-
     public Vector4 Unknown5; //Something to do with lighting
     public Vector4 Unknown6; //Lighting Continued?
     public Vector4 Unknown7; 
@@ -38,22 +31,36 @@ public class InstanceObject : MonoBehaviour
     public int UnknownInt32;
 
     public int LTGState;
-    
+
+    public int Hash;
+    public bool IncludeSound;
+    public SoundData? Sounds;
+
+    //Object Properties
+
+    public float U0;
+    public float PlayerBounce;
+    public int U2;
+    public int U22;
+    public int U23;
+    public int U24;
+
+    public int U4;
+    public int CollsionMode;
+    public string[] CollsionModelPaths;
+    public int EffectSlotIndex;
+    public int PhysicsIndex;
+    public int U8;
 
     GameObject Prefab;
-    public List<MeshCollider> colliders;
-
-    public string Effects;
-
-    public MaterialJsonHandler.MaterialsJson Mat = new MaterialJsonHandler.MaterialsJson(); 
 
     public void LoadInstance(InstanceJsonHandler.InstanceJson instance)
     {
-        InstanceName = instance.InstanceName;
+        transform.name = instance.InstanceName;
 
-        rotation = JsonUtil.ArrayToQuaternion(instance.Rotation).eulerAngles;
-        scale = JsonUtil.ArrayToVector3(instance.Scale);
-        InstancePosition = JsonUtil.ArrayToVector3(instance.Location);
+        transform.localEulerAngles = JsonUtil.ArrayToQuaternion(instance.Rotation).eulerAngles;
+        transform.localScale = JsonUtil.ArrayToVector3(instance.Scale);
+        transform.localPosition = JsonUtil.ArrayToVector3(instance.Location);
 
         Unknown5 = JsonUtil.ArrayToVector4(instance.Unknown5);
         Unknown6 = JsonUtil.ArrayToVector4(instance.Unknown6);
@@ -70,14 +77,6 @@ public class InstanceObject : MonoBehaviour
         PrevInstance = instance.PrevInstance;
         NextInstance = instance.NextInstance;
 
-        var TempPos = InstancePosition;
-        var TempScale = scale;
-
-        transform.localPosition = InstancePosition;
-        transform.localEulerAngles = rotation;
-        transform.localScale = scale;
-
-
         UnknownInt26 = instance.UnknownInt26;
         UnknownInt27 = instance.UnknownInt27;
         UnknownInt28 = instance.UnknownInt28;
@@ -89,9 +88,6 @@ public class InstanceObject : MonoBehaviour
         LTGState = instance.LTGState;
 
         LoadPrefabs();
-
-        IsLoaded = true;
-
     }
 
     public void LoadPrefabs()
@@ -103,7 +99,7 @@ public class InstanceObject : MonoBehaviour
 
         if (ModelID != -1)
         {
-            Prefab = Instantiate(PrefabManager.Instance.GetPrefabGameObject(ModelID));
+            Prefab = PrefabManager.Instance.GetPrefabObject(ModelID).GeneratePrefab();
             Prefab.transform.parent = transform;
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
             Prefab.transform.localPosition = new Vector3(0, 0, 0);
@@ -116,11 +112,11 @@ public class InstanceObject : MonoBehaviour
     public InstanceJsonHandler.InstanceJson GenerateInstance()
     {
         InstanceJsonHandler.InstanceJson TempInstance = new InstanceJsonHandler.InstanceJson();
-        TempInstance.InstanceName = InstanceName;
+        TempInstance.InstanceName = transform.name;
 
-        TempInstance.Location = JsonUtil.Vector3ToArray(InstancePosition);
-        TempInstance.Scale = JsonUtil.Vector3ToArray(scale);
-        TempInstance.Rotation = JsonUtil.QuaternionToArray(Quaternion.Euler(rotation));
+        TempInstance.Location = JsonUtil.Vector3ToArray(transform.localPosition);
+        TempInstance.Scale = JsonUtil.Vector3ToArray(transform.localScale);
+        TempInstance.Rotation = JsonUtil.QuaternionToArray(Quaternion.Euler(transform.localEulerAngles));
 
         TempInstance.Unknown5 = JsonUtil.Vector4ToArray(Unknown5);
         TempInstance.Unknown6 = JsonUtil.Vector4ToArray(Unknown6);
@@ -134,15 +130,6 @@ public class InstanceObject : MonoBehaviour
         TempInstance.ModelID = ModelID;
         TempInstance.PrevInstance = PrevInstance;
         TempInstance.NextInstance = NextInstance;
-
-        IsLoaded = false;
-        transform.localScale = scale;
-        transform.localPosition = InstancePosition;
-
-        transform.localPosition = InstancePosition * TrickyProjectWindow.Scale;
-        transform.localScale = scale * TrickyProjectWindow.Scale;
-
-        IsLoaded = true;
 
         TempInstance.UnknownInt26 = UnknownInt26;
         TempInstance.UnknownInt27 = UnknownInt27;
@@ -164,11 +151,26 @@ public class InstanceObject : MonoBehaviour
         {
             ModelID = NewMeshID;
             LoadPrefabs();
-            UpdateXYZ = true;
         }
         catch
         {
             ModelID = Test;
         }
+    }
+
+    public struct SoundData
+    {
+        public int CollisonSound;
+        public List<ExternalSound> ExternalSounds;
+    }
+    public struct ExternalSound
+    {
+        public int U0;
+        public int SoundIndex;
+        public float U2;
+        public float U3;
+        public float U4;
+        public float U5; //Radius?
+        public float U6;
     }
 }

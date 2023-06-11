@@ -51,7 +51,6 @@ public class LevelManager : MonoBehaviour
         WorldManager.transform.localEulerAngles = new Vector3(0, 0, 0);
         var TempWorld = WorldManager.AddComponent<WorldManager>();
         TempWorld.runInEditMode = true;
-        TempWorld.SetStatic();
         TempWorld.GenerateEmptyObjects();
 
         //Generate Skybox Manager
