@@ -24,8 +24,6 @@ public class PrefabManager : MonoBehaviour
 
         PrefabsHolder = new GameObject("Prefabs");
         PrefabsHolder.transform.parent = transform;
-        PrefabsHolder.transform.localScale = new Vector3 (1, 1, 1) * TrickyProjectWindow.Scale;
-        PrefabsHolder.transform.eulerAngles = new Vector3(-90, 0, 0);
         PrefabsHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         MaterialHolder = new GameObject("Materials");
@@ -66,14 +64,14 @@ public class PrefabManager : MonoBehaviour
         int X = 0;
 
         PrefabJsonHandler PrefabJson = PrefabJsonHandler.Load(Path);
-        int WH = PrefabJson.Prefabs.Count / 20;
+        int WH = (int)Mathf.Sqrt(PrefabJson.Prefabs.Count);
         for (int i = 0; i < PrefabJson.Prefabs.Count; i++)
         {
             var TempModelJson = PrefabJson.Prefabs[i];
             GameObject gameObject = new GameObject("Prefab " + i);
             gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = PrefabsHolder.transform;
-            gameObject.transform.localPosition = new Vector3(XPosition, ZPosition, 0);
+            gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0,0, 0);
             gameObject.transform.localScale = new Vector3(1,1,1);
             PrefabObject mObject = gameObject.AddComponent<PrefabObject>();
@@ -98,5 +96,11 @@ public class PrefabManager : MonoBehaviour
         MaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(); 
 
         return TempObject[A];
+    }
+
+    public GameObject GetPrefabGameObject(int A)
+    {
+        PrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>();
+        return TempObject[A].gameObject;
     }
 }

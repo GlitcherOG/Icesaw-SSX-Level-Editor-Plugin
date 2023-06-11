@@ -74,8 +74,9 @@ public class TrickyProjectWindow : EditorWindow
     public void GenerateEmptyProject()
     {
         ClearCurrentProject();
-
         LevelManagerObject = new GameObject("Tricky Level Manager");
+        LevelManagerObject.transform.transform.localScale = new Vector3(1,-1,1) * TrickyProjectWindow.Scale;
+        LevelManagerObject.transform.eulerAngles = new Vector3(-90, 0, 0);
         LevelManagerObject.AddComponent<LevelManager>();
     }
     public void LoadProjectData()

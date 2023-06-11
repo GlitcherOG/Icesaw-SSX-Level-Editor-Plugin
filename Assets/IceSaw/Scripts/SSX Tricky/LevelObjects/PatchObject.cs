@@ -115,28 +115,28 @@ public class PatchObject : MonoBehaviour
         UVPoint3 = new Vector2(import.UVPoints[2, 0], import.UVPoints[2, 1]);
         UVPoint4 = new Vector2(import.UVPoints[3, 0], import.UVPoints[3, 1]);
 
-        RawR4C4 = MathTools.FixYandZ(new Vector3(import.Points[15,0], import.Points[15, 1], import.Points[15, 2]));
-        RawR4C3 = MathTools.FixYandZ(new Vector3(import.Points[14, 0], import.Points[14, 1], import.Points[14, 2]));
-        RawR4C2 = MathTools.FixYandZ(new Vector3(import.Points[13, 0], import.Points[13, 1], import.Points[13, 2]));
-        RawR4C1 = MathTools.FixYandZ(new Vector3(import.Points[12, 0], import.Points[12, 1], import.Points[12, 2]));
-        RawR3C4 = MathTools.FixYandZ(new Vector3(import.Points[11, 0], import.Points[11, 1], import.Points[11, 2]));
-        RawR3C3 = MathTools.FixYandZ(new Vector3(import.Points[10, 0], import.Points[10, 1], import.Points[10, 2]));
-        RawR3C2 = MathTools.FixYandZ(new Vector3(import.Points[9, 0], import.Points[9, 1], import.Points[9, 2]));
-        RawR3C1 = MathTools.FixYandZ(new Vector3(import.Points[8, 0], import.Points[8, 1], import.Points[8, 2]));
-        RawR2C4 = MathTools.FixYandZ(new Vector3(import.Points[7, 0], import.Points[7, 1], import.Points[7, 2]));
-        RawR2C3 = MathTools.FixYandZ(new Vector3(import.Points[6, 0], import.Points[6, 1], import.Points[6, 2]));
-        RawR2C2 = MathTools.FixYandZ(new Vector3(import.Points[5, 0], import.Points[5, 1], import.Points[5, 2]));
-        RawR2C1 = MathTools.FixYandZ(new Vector3(import.Points[4, 0], import.Points[4, 1], import.Points[4, 2]));
-        RawR1C4 = MathTools.FixYandZ(new Vector3(import.Points[3, 0], import.Points[3, 1], import.Points[3, 2]));
-        RawR1C3 = MathTools.FixYandZ(new Vector3(import.Points[2, 0], import.Points[2, 1], import.Points[2, 2]));
-        RawR1C2 = MathTools.FixYandZ(new Vector3(import.Points[1, 0], import.Points[1, 1], import.Points[1, 2]));
-        RawControlPoint = MathTools.FixYandZ(new Vector3(import.Points[0, 0], import.Points[0, 1], import.Points[0, 2]));
+        RawR4C4 = new Vector3(import.Points[15,0], import.Points[15, 1], import.Points[15, 2]);
+        RawR4C3 = new Vector3(import.Points[14, 0], import.Points[14, 1], import.Points[14, 2]);
+        RawR4C2 = new Vector3(import.Points[13, 0], import.Points[13, 1], import.Points[13, 2]);
+        RawR4C1 = new Vector3(import.Points[12, 0], import.Points[12, 1], import.Points[12, 2]);
+        RawR3C4 = new Vector3(import.Points[11, 0], import.Points[11, 1], import.Points[11, 2]);
+        RawR3C3 = new Vector3(import.Points[10, 0], import.Points[10, 1], import.Points[10, 2]);
+        RawR3C2 = new Vector3(import.Points[9, 0], import.Points[9, 1], import.Points[9, 2]);
+        RawR3C1 = new Vector3(import.Points[8, 0], import.Points[8, 1], import.Points[8, 2]);
+        RawR2C4 = new Vector3(import.Points[7, 0], import.Points[7, 1], import.Points[7, 2]);
+        RawR2C3 = new Vector3(import.Points[6, 0], import.Points[6, 1], import.Points[6, 2]);
+        RawR2C2 = new Vector3(import.Points[5, 0], import.Points[5, 1], import.Points[5, 2]);
+        RawR2C1 = new Vector3(import.Points[4, 0], import.Points[4, 1], import.Points[4, 2]);
+        RawR1C4 = new Vector3(import.Points[3, 0], import.Points[3, 1], import.Points[3, 2]);
+        RawR1C3 = new Vector3(import.Points[2, 0], import.Points[2, 1], import.Points[2, 2]);
+        RawR1C2 = new Vector3(import.Points[1, 0], import.Points[1, 1], import.Points[1, 2]);
+        RawControlPoint = new Vector3(import.Points[0, 0], import.Points[0, 1], import.Points[0, 2]);
 
         PatchStyle = import.PatchStyle;
         TrickOnlyPatch = import.TrickOnlyPatch;
         TextureAssigment = import.TexturePath;
         LightmapID = import.LightmapID;
-        transform.localPosition = RawControlPoint * TrickyProjectWindow.Scale;
+        //transform.localPosition = RawControlPoint;
 
 
         LoadNURBSpatch();
@@ -165,68 +165,68 @@ public class PatchObject : MonoBehaviour
         patch.Points = new float[16, 3];
 
         patch.Points[0, 0] = RawControlPoint.x;
-        patch.Points[0, 1] = RawControlPoint.z;
-        patch.Points[0, 2] = RawControlPoint.y;
+        patch.Points[0, 1] = RawControlPoint.y;
+        patch.Points[0, 2] = RawControlPoint.z;
 
         patch.Points[1, 0] = RawR1C2.x;
-        patch.Points[1, 1] = RawR1C2.z;
-        patch.Points[1, 2] = RawR1C2.y;
+        patch.Points[1, 1] = RawR1C2.y;
+        patch.Points[1, 2] = RawR1C2.z;
 
         patch.Points[2, 0] = RawR1C3.x;
-        patch.Points[2, 1] = RawR1C3.z;
-        patch.Points[2, 2] = RawR1C3.y;
+        patch.Points[2, 1] = RawR1C3.y;
+        patch.Points[2, 2] = RawR1C3.z;
 
         patch.Points[3, 0] = RawR1C4.x;
-        patch.Points[3, 1] = RawR1C4.z;
-        patch.Points[3, 2] = RawR1C4.y;
+        patch.Points[3, 1] = RawR1C4.y;
+        patch.Points[3, 2] = RawR1C4.z;
 
         patch.Points[4, 0] = RawR2C1.x;
-        patch.Points[4, 1] = RawR2C1.z;
-        patch.Points[4, 2] = RawR2C1.y;
+        patch.Points[4, 1] = RawR2C1.y;
+        patch.Points[4, 2] = RawR2C1.z;
 
         patch.Points[5, 0] = RawR2C2.x;
-        patch.Points[5, 1] = RawR2C2.z;
-        patch.Points[5, 2] = RawR2C2.y;
+        patch.Points[5, 1] = RawR2C2.y;
+        patch.Points[5, 2] = RawR2C2.z;
 
         patch.Points[6, 0] = RawR2C3.x;
-        patch.Points[6, 1] = RawR2C3.z;
-        patch.Points[6, 2] = RawR2C3.y;
+        patch.Points[6, 1] = RawR2C3.y;
+        patch.Points[6, 2] = RawR2C3.z;
 
         patch.Points[7, 0] = RawR2C4.x;
-        patch.Points[7, 1] = RawR2C4.z;
-        patch.Points[7, 2] = RawR2C4.y;
+        patch.Points[7, 1] = RawR2C4.y;
+        patch.Points[7, 2] = RawR2C4.z;
 
         patch.Points[8, 0] = RawR3C1.x;
-        patch.Points[8, 1] = RawR3C1.z;
-        patch.Points[8, 2] = RawR3C1.y;
+        patch.Points[8, 1] = RawR3C1.y;
+        patch.Points[8, 2] = RawR3C1.z;
 
         patch.Points[9, 0] = RawR3C2.x;
-        patch.Points[9, 1] = RawR3C2.z;
-        patch.Points[9, 2] = RawR3C2.y;
+        patch.Points[9, 1] = RawR3C2.y;
+        patch.Points[9, 2] = RawR3C2.z;
 
         patch.Points[10, 0] = RawR3C3.x;
-        patch.Points[10, 1] = RawR3C3.z;
-        patch.Points[10, 2] = RawR3C3.y;
+        patch.Points[10, 1] = RawR3C3.y;
+        patch.Points[10, 2] = RawR3C3.z;
 
         patch.Points[11, 0] = RawR3C4.x;
-        patch.Points[11, 1] = RawR3C4.z;
-        patch.Points[11, 2] = RawR3C4.y;
+        patch.Points[11, 1] = RawR3C4.y;
+        patch.Points[11, 2] = RawR3C4.z;
 
         patch.Points[12, 0] = RawR4C1.x;
-        patch.Points[12, 1] = RawR4C1.z;
-        patch.Points[12, 2] = RawR4C1.y;
+        patch.Points[12, 1] = RawR4C1.y;
+        patch.Points[12, 2] = RawR4C1.z;
 
         patch.Points[13, 0] = RawR4C2.x;
-        patch.Points[13, 1] = RawR4C2.z;
-        patch.Points[13, 2] = RawR4C2.y;
+        patch.Points[13, 1] = RawR4C2.y;
+        patch.Points[13, 2] = RawR4C2.z;
 
         patch.Points[14, 0] = RawR4C3.x;
-        patch.Points[14, 1] = RawR4C3.z;
-        patch.Points[15, 2] = RawR4C3.y;
+        patch.Points[14, 1] = RawR4C3.y;
+        patch.Points[15, 2] = RawR4C3.z;
 
         patch.Points[15, 0] = RawR4C4.x;
-        patch.Points[15, 1] = RawR4C4.z;
-        patch.Points[15, 2] = RawR4C4.y;
+        patch.Points[15, 1] = RawR4C4.y;
+        patch.Points[15, 2] = RawR4C4.z;
 
         patch.PatchStyle = PatchStyle;
         patch.TrickOnlyPatch = TrickOnlyPatch;
@@ -241,25 +241,25 @@ public class PatchObject : MonoBehaviour
         Vector3[,] vertices = new Vector3[4, 4];
 
         //Vertices
-        vertices[0, 0] = transform.InverseTransformPoint(RawControlPoint * TrickyProjectWindow.Scale);
-        vertices[1, 0] = transform.InverseTransformPoint(RawR1C2 * TrickyProjectWindow.Scale);
-        vertices[2, 0] = transform.InverseTransformPoint(RawR1C3 * TrickyProjectWindow.Scale);
-        vertices[3, 0] = transform.InverseTransformPoint(RawR1C4 * TrickyProjectWindow.Scale);
+        vertices[0, 0] = RawControlPoint;
+        vertices[0, 1] = RawR1C2;
+        vertices[0, 2] = RawR1C3;
+        vertices[0, 3] = RawR1C4;
 
-        vertices[0, 1] = transform.InverseTransformPoint(RawR2C1 * TrickyProjectWindow.Scale);
-        vertices[1, 1] = transform.InverseTransformPoint(RawR2C2 * TrickyProjectWindow.Scale);
-        vertices[2, 1] = transform.InverseTransformPoint(RawR2C3 * TrickyProjectWindow.Scale);
-        vertices[3, 1] = transform.InverseTransformPoint(RawR2C4 * TrickyProjectWindow.Scale);
+        vertices[1, 0] = RawR2C1;
+        vertices[1, 1] = RawR2C2;
+        vertices[1, 2] = RawR2C3;
+        vertices[1, 3] = RawR2C4;
 
-        vertices[0, 2] = transform.InverseTransformPoint(RawR3C1 * TrickyProjectWindow.Scale);
-        vertices[1, 2] = transform.InverseTransformPoint(RawR3C2 * TrickyProjectWindow.Scale);
-        vertices[2, 2] = transform.InverseTransformPoint(RawR3C3 * TrickyProjectWindow.Scale);
-        vertices[3, 2] = transform.InverseTransformPoint(RawR3C4 * TrickyProjectWindow.Scale);
+        vertices[2, 0] = RawR3C1;
+        vertices[2, 1] = RawR3C2;
+        vertices[2, 2] = RawR3C3;
+        vertices[2, 3] = RawR3C4;
 
-        vertices[0, 3] = transform.InverseTransformPoint(RawR4C1 * TrickyProjectWindow.Scale);
-        vertices[1, 3] = transform.InverseTransformPoint(RawR4C2 * TrickyProjectWindow.Scale);
-        vertices[2, 3] = transform.InverseTransformPoint(RawR4C3 * TrickyProjectWindow.Scale);
-        vertices[3, 3] = transform.InverseTransformPoint(RawR4C4 * TrickyProjectWindow.Scale);
+        vertices[3, 0] = RawR4C1;
+        vertices[3, 1] = RawR4C2;
+        vertices[3, 2] = RawR4C3;
+        vertices[3, 3] = RawR4C4;
 
         //Control points
         NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[4, 4];
@@ -317,8 +317,8 @@ public class PatchObject : MonoBehaviour
         vector2s = PointCorrection(vector2s);
 
         cps[0, 0] = new NURBS.ControlPoint(vector2s[0].x, vector2s[0].y, 0, 1);
-        cps[0, 1] = new NURBS.ControlPoint(vector2s[1].x, vector2s[1].y, 0, 1);
-        cps[1, 0] = new NURBS.ControlPoint(vector2s[2].x, vector2s[2].y, 0, 1);
+        cps[1, 0] = new NURBS.ControlPoint(vector2s[1].x, vector2s[1].y, 0, 1);
+        cps[0, 1] = new NURBS.ControlPoint(vector2s[2].x, vector2s[2].y, 0, 1);
         cps[1, 1] = new NURBS.ControlPoint(vector2s[3].x, vector2s[3].y, 0, 1);
 
         surface = new NURBS.Surface(cps, 1, 1);

@@ -32,17 +32,6 @@ public class LevelManager : MonoBehaviour
     public void CreateEmptyObjects()
     {
         transform.hideFlags = HideFlags.HideInInspector;
-        //Generate World Manager
-        WorldManager = new GameObject("Tricky World Manager");
-        var TempWorld = WorldManager.AddComponent<WorldManager>();
-        TempWorld.runInEditMode = true;
-        TempWorld.SetStatic();
-        TempWorld.GenerateEmptyObjects();
-        TempWorld.transform.parent = this.transform;
-
-        //Generate Skybox Manager
-        SkyboxManager = new GameObject("Tricky Skybox Manager");
-        SkyboxManager.transform.parent = this.transform;
 
         //Generate Prefab Manager
         PrefabManager = new GameObject("Tricky Prefab Manager");
@@ -51,7 +40,23 @@ public class LevelManager : MonoBehaviour
         TempPrefab.SetStatic();
         TempPrefab.GenerateEmptyObjects();
         TempPrefab.transform.parent = this.transform;
-        TempPrefab.transform.position = new Vector3(0, 500, 0);
+        TempPrefab.transform.transform.localScale = new Vector3(1, 1, 1);
+        TempPrefab.transform.localEulerAngles = new Vector3(0, 0, 0);
+        TempPrefab.transform.localPosition = new Vector3(0, 0, 50000);
+
+        //Generate World Manager
+        WorldManager = new GameObject("Tricky World Manager");
+        WorldManager.transform.parent = this.transform;
+        WorldManager.transform.transform.localScale = new Vector3(1, 1, 1);
+        WorldManager.transform.localEulerAngles = new Vector3(0, 0, 0);
+        var TempWorld = WorldManager.AddComponent<WorldManager>();
+        TempWorld.runInEditMode = true;
+        TempWorld.SetStatic();
+        TempWorld.GenerateEmptyObjects();
+
+        //Generate Skybox Manager
+        SkyboxManager = new GameObject("Tricky Skybox Manager");
+        SkyboxManager.transform.parent = this.transform;
     }
 
     public void LoadData(string Path)
@@ -61,9 +66,8 @@ public class LevelManager : MonoBehaviour
         Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
         ReloadTextures();
 
-
-        WorldManager.GetComponent<WorldManager>().LoadData(Path);
         PrefabManager.GetComponent<PrefabManager>().LoadData(Path);
+        WorldManager.GetComponent<WorldManager>().LoadData(Path);
     }
 
     public void ReloadTextures()
