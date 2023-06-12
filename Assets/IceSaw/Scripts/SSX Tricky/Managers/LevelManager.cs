@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -49,6 +50,7 @@ public class LevelManager : MonoBehaviour
         WorldManager.transform.parent = this.transform;
         WorldManager.transform.transform.localScale = new Vector3(1, 1, 1);
         WorldManager.transform.localEulerAngles = new Vector3(0, 0, 0);
+        WorldManager.transform.localPosition = new Vector3(0, 0, 0);
         var TempWorld = WorldManager.AddComponent<WorldManager>();
         TempWorld.runInEditMode = true;
         TempWorld.GenerateEmptyObjects();
@@ -56,6 +58,12 @@ public class LevelManager : MonoBehaviour
         //Generate Skybox Manager
         SkyboxManager = new GameObject("Tricky Skybox Manager");
         SkyboxManager.transform.parent = this.transform;
+        SkyboxManager.transform.transform.localScale = new Vector3(1, 1, 1);
+        SkyboxManager.transform.localEulerAngles = new Vector3(0, 0, 0);
+        SkyboxManager.transform.localPosition = new Vector3(0, 0, 50000*2);
+        var TempSkybox = SkyboxManager.AddComponent<SkyboxManager>();
+        TempSkybox.runInEditMode = true;
+        TempSkybox.GenerateEmptyObjects();
 
         //Generate Logic Manager
         LogicManager = new GameObject("Tricky Logic Manager");
@@ -77,6 +85,7 @@ public class LevelManager : MonoBehaviour
         PrefabManager.GetComponent<PrefabManager>().LoadData(Path);
         WorldManager.GetComponent<WorldManager>().LoadData(Path);
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
+        SkyboxManager.GetComponent<SkyboxManager>().LoadData(Path);
     }
 
     public void ReloadTextures()

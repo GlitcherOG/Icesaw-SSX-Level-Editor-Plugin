@@ -34,7 +34,10 @@ public class MaterialObject : MonoBehaviour
 
     public void LoadMaterial(MaterialJsonHandler.MaterialsJson json)
     {
-        gameObject.name = json.MaterialName;
+        if (json.MaterialName != "" && json.MaterialName != null)
+        {
+            gameObject.name = json.MaterialName;
+        }
 
         TexturePath = json.TexturePath;
         UnknownInt2 = json.UnknownInt2;

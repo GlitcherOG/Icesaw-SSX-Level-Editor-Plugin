@@ -64,9 +64,12 @@ public class PrefabObject : MonoBehaviour
         }
     }
 
-    public void LoadPrefab(PrefabJsonHandler.PrefabJson prefabJson)
+    public void LoadPrefab(PrefabJsonHandler.PrefabJson prefabJson, bool Skybox = false)
     {
-        transform.name = prefabJson.PrefabName;
+        if (!Skybox)
+        {
+            transform.name = prefabJson.PrefabName;
+        }
         Unknown3 = prefabJson.Unknown3;
         AnimTime = prefabJson.AnimTime;
         PrefabObjects = new List<ObjectHeader>();
@@ -131,10 +134,17 @@ public class PrefabObject : MonoBehaviour
                 var TempNewMeshData = new MeshHeader();
                 TempNewMeshData.MeshPath = TempMesh.MeshPath;
                 TempNewMeshData.MeshID = TempMesh.MeshID;
-                TempNewMeshData.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
+                if(!Skybox)
+                {
+                    TempNewMeshData.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
+                }
+                else
+                {
+                    TempNewMeshData.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Skybox\\Models\\" + TempMesh.MeshPath);
+                }
                 TempNewMeshData.MaterialID = TempMesh.MaterialID;
 
-                TempNewMeshData.material = GenerateMaterial(TempMesh.MaterialID);
+                TempNewMeshData.material = GenerateMaterial(TempMesh.MaterialID, Skybox);
 
                 NewPrefabObject.MeshData.Add(TempNewMeshData);
             }
@@ -154,7 +164,7 @@ public class PrefabObject : MonoBehaviour
             {
                 var TempMesh = NewPrefabObject.MeshData[a];
                 TempMesh.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
-                TempMesh.material = GenerateMaterial(TempMesh.MaterialID);
+                TempMesh.material = GenerateMaterial(TempMesh.MaterialID, false);
                 NewPrefabObject.MeshData[a] = TempMesh;
             }
             PrefabObjects[i] = NewPrefabObject;
@@ -162,15 +172,22 @@ public class PrefabObject : MonoBehaviour
     }
 
 
-    public static Material GenerateMaterial(int MaterialID)
+    public static Material GenerateMaterial(int MaterialID, bool Skybox)
     {
         Material material = new Material(Shader.Find("ModelShader"));
         string TextureID = "";
         if (MaterialID != -1)
         {
-            TextureID = PrefabManager.Instance.GetMaterialObject(MaterialID).TexturePath;
+            if (!Skybox)
+            {
+                TextureID = PrefabManager.Instance.GetMaterialObject(MaterialID).TexturePath;
+            }
+            else
+            {
+                TextureID = SkyboxManager.Instance.GetMaterialObject(MaterialID).TexturePath;
+            }
         }
-        material.SetTexture("_MainTexture", GetTexture(TextureID));
+        material.SetTexture("_MainTexture", GetTexture(TextureID, Skybox));
         material.SetFloat("_OutlineWidth", 0);
         material.SetFloat("_OpacityMaskOutline", 0f);
         material.SetColor("_OutlineColor", new Color32(255, 255, 255, 0));
@@ -178,17 +195,31 @@ public class PrefabObject : MonoBehaviour
         return material;
     }
 
-    public static Texture2D GetTexture(string TextureID)
+    public static Texture2D GetTexture(string TextureID, bool Skybox)
     {
         Texture2D texture = null;
         try
         {
-            for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
+            if (!Skybox)
             {
-                if (LevelManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
+                for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
                 {
-                    texture = LevelManager.Instance.texture2Ds[i];
-                    return texture;
+                    if (LevelManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
+                    {
+                        texture = LevelManager.Instance.texture2Ds[i];
+                        return texture;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < SkyboxManager.Instance.SkyboxTextures2d.Count; i++)
+                {
+                    if (SkyboxManager.Instance.SkyboxTextures2d[i].name.ToLower() == TextureID.ToLower())
+                    {
+                        texture = SkyboxManager.Instance.SkyboxTextures2d[i];
+                        return texture;
+                    }
                 }
             }
             texture = LevelManager.Instance.Error;
