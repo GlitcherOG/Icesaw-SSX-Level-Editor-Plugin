@@ -6,8 +6,6 @@
  - Particle Instances
  - Camera
  - Collision
- - SOP
- - AIP
  - Logic (Need to move to proper Structure)
 ### General Saving
  - Patches

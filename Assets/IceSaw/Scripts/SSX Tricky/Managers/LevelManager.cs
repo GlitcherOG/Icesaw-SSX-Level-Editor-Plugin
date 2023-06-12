@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
     GameObject SkyboxManager;
     GameObject PrefabManager;
     GameObject LogicManager;
+    GameObject PathFileManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -73,6 +74,15 @@ public class LevelManager : MonoBehaviour
         var TempLogic = LogicManager.AddComponent<LogicManager>();
         TempLogic.runInEditMode = true;
         TempLogic.GenerateEmptyObjects();
+
+        //Generate Path File Manager
+        PathFileManager = new GameObject("Tricky Path Manager");
+        PathFileManager.transform.parent = this.transform;
+        PathFileManager.transform.transform.localScale = new Vector3(1, 1, 1);
+        PathFileManager.transform.localEulerAngles = new Vector3(0, 0, 0);
+        var TempPathFile = PathFileManager.AddComponent<PathFileManager>();
+        TempPathFile.runInEditMode = true;
+        TempPathFile.GenerateEmptyObjects();
     }
 
     public void LoadData(string Path)
@@ -86,6 +96,7 @@ public class LevelManager : MonoBehaviour
         WorldManager.GetComponent<WorldManager>().LoadData(Path);
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
         SkyboxManager.GetComponent<SkyboxManager>().LoadData(Path);
+        PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
     }
 
     public void ReloadTextures()
