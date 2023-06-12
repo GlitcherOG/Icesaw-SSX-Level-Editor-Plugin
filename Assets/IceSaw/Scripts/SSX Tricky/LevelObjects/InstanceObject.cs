@@ -147,6 +147,7 @@ public class InstanceObject : MonoBehaviour
         if (ModelID != -1)
         {
             Prefab = PrefabManager.Instance.GetPrefabObject(ModelID).GeneratePrefab();
+            Prefab.gameObject.name = "Prefab";
             Prefab.transform.parent = transform;
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
             Prefab.transform.localPosition = new Vector3(0, 0, 0);
