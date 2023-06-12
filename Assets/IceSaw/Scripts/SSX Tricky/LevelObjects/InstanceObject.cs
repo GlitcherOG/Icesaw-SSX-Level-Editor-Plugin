@@ -34,7 +34,8 @@ public class InstanceObject : MonoBehaviour
 
     public int Hash;
     public bool IncludeSound;
-    public SoundData? Sounds;
+    [SerializeField]
+    public SoundData Sounds;
 
     //Object Properties
 
@@ -95,7 +96,25 @@ public class InstanceObject : MonoBehaviour
 
         if(IncludeSound)
         {
+            SoundData soundData = new SoundData();
+            var TempSound = instance.Sounds.Value;
+            soundData.CollisonSound = TempSound.CollisonSound;
 
+            soundData.ExternalSounds = new List<ExternalSound>();
+            for (int i = 0; i < TempSound.ExternalSounds.Count; i++)
+            {
+                var NewTempSound = new ExternalSound();
+                NewTempSound.U0 = TempSound.ExternalSounds[i].U0;
+                NewTempSound.SoundIndex = TempSound.ExternalSounds[i].SoundIndex;
+                NewTempSound.U2 = TempSound.ExternalSounds[i].U2;
+                NewTempSound.U3 = TempSound.ExternalSounds[i].U3;
+                NewTempSound.U4 = TempSound.ExternalSounds[i].U4;
+                NewTempSound.U5 = TempSound.ExternalSounds[i].U5;
+                NewTempSound.U6 = TempSound.ExternalSounds[i].U6;
+                soundData.ExternalSounds.Add(NewTempSound);
+            }
+
+            Sounds = soundData;
         }
 
         U0 = instance.U0;
@@ -185,12 +204,13 @@ public class InstanceObject : MonoBehaviour
             ModelID = Test;
         }
     }
-
+    [System.Serializable]
     public struct SoundData
     {
         public int CollisonSound;
         public List<ExternalSound> ExternalSounds;
     }
+    [System.Serializable]
     public struct ExternalSound
     {
         public int U0;
