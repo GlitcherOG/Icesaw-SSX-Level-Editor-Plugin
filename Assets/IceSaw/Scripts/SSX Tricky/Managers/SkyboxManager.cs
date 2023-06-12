@@ -10,6 +10,7 @@ public class SkyboxManager : MonoBehaviour
 
     GameObject MaterialHolder;
     GameObject PrefabsHolder;
+    GameObject SkyboxCamera;
 
     public List<Texture2D> SkyboxTextures2d = new List<Texture2D>();
 
@@ -36,6 +37,21 @@ public class SkyboxManager : MonoBehaviour
         PrefabsHolder.transform.localEulerAngles = Vector3.zero;
         PrefabsHolder.transform.localPosition = Vector3.zero;
         PrefabsHolder.transform.hideFlags = HideFlags.HideInInspector;
+
+
+        SkyboxCamera = new GameObject("Skybox Camera");
+        SkyboxCamera.transform.parent = transform;
+        SkyboxCamera.transform.localScale = Vector3.one;
+        SkyboxCamera.transform.eulerAngles = Vector3.zero;
+        SkyboxCamera.transform.localPosition = Vector3.zero;
+        SkyboxCamera.transform.hideFlags = HideFlags.HideInInspector;
+
+        var TempCamera = SkyboxCamera.AddComponent<Camera>();
+        TempCamera.depth = -1000;
+        TempCamera.clearFlags = CameraClearFlags.SolidColor;
+
+        SkyboxCamera.AddComponent<FollowMainCamera>();
+
     }
 
     public void LoadData(string Path)
