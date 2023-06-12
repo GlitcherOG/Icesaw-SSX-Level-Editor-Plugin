@@ -51,6 +51,8 @@ public class WorldManager : MonoBehaviour
 
         LightingHolder = new GameObject("Lighting");
         LightingHolder.transform.parent = transform;
+        LightingHolder.transform.localScale = Vector3.one;
+        LightingHolder.transform.localEulerAngles = Vector3.zero;
         LightingHolder.transform.hideFlags = HideFlags.HideInInspector;
 
     }
@@ -61,6 +63,7 @@ public class WorldManager : MonoBehaviour
         LoadPatches(Path + "\\Patches.json");
         LoadInstance(Path + "\\Instances.json");
         LoadSplines(Path + "\\Splines.json");
+        LoadLighting(Path + "\\Lights.json");
     }
 
     public void LoadPatches(string JsonPath)
@@ -112,6 +115,22 @@ public class WorldManager : MonoBehaviour
             var TempObj = TempSpline.AddComponent<SplineObject>();
             TempObj.LoadSpline(TempSplineData);
         }
+    }
+
+    void LoadLighting(string path)
+    {
+        LightJsonHandler lightJson = new LightJsonHandler();
+        lightJson = LightJsonHandler.Load(path);
+        for (int i = 0; i < lightJson.Lights.Count; i++)
+        {
+            var TempGameObject = new GameObject("Light " + i);
+            TempGameObject.transform.parent = LightingHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+            var TempInstance = TempGameObject.AddComponent<LightObject>();
+            TempInstance.LoadLight(lightJson.Lights[i]);
+        }
+
     }
 
     public PatchObject[] GetPatchList()

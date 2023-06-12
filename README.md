@@ -2,7 +2,6 @@
  
 ## Current Todo
 ### General Loading
- - Lighting
  - Particles Prefabs
  - Particle Instances
  - Camera
