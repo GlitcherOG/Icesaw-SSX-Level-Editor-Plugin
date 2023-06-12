@@ -16,7 +16,7 @@ public class TrickyProjectWindow : EditorWindow
 
     public static float Scale = 0.01f;
 
-    [MenuItem("Ice Saw/Project")]
+    [MenuItem("Ice Saw/Project",false,-1000)]
     static void Init()
     {
         // Get existing open window or if none, make a new one:

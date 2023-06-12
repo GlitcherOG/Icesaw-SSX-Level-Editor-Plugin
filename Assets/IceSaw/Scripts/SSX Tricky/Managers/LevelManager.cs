@@ -38,7 +38,6 @@ public class LevelManager : MonoBehaviour
         PrefabManager = new GameObject("Tricky Prefab Manager");
         var TempPrefab = PrefabManager.AddComponent<PrefabManager>();
         TempPrefab.runInEditMode = true;
-        TempPrefab.SetStatic();
         TempPrefab.GenerateEmptyObjects();
         TempPrefab.transform.parent = this.transform;
         TempPrefab.transform.transform.localScale = new Vector3(1, 1, 1);
@@ -102,5 +101,20 @@ public class LevelManager : MonoBehaviour
                 texture2Ds.Add(NewImage);
             }
         }
+    }
+
+    [ContextMenu("Fix Script Links")]
+    void FixScriptLinks()
+    {
+        Awake();
+
+        LogicManager = gameObject.GetComponentInChildren<LogicManager>().gameObject;
+        LogicManager.GetComponent<LogicManager>().Awake();
+
+        PrefabManager = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
+        PrefabManager.GetComponent<PrefabManager>().Awake();
+
+        WorldManager = gameObject.GetComponentInChildren<WorldManager>().gameObject;
+        WorldManager.GetComponent<WorldManager>().Awake();
     }
 }

@@ -12,7 +12,7 @@ public class PrefabManager : MonoBehaviour
     GameObject PrefabsHolder;
     GameObject MaterialHolder;
 
-    public void SetStatic()
+    public void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -33,7 +33,6 @@ public class PrefabManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
-        SetStatic();
         LoadMaterials(Path + "\\Materials.json");
         LoadPrefabs(Path + "\\Prefabs.json");
     }

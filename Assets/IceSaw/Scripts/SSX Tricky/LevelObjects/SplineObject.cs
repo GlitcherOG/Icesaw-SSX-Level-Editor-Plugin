@@ -6,10 +6,16 @@ using SSXMultiTool.Utilities;
 
 public class SplineObject : MonoBehaviour
 {
+    public int U0;
+    public int U1;
+    public int SplineStyle;
 
     public void LoadSpline(SplineJsonHandler.SplineJson spline)
     {
         transform.name= spline.SplineName;
+        U0 = spline.U0;
+        U1 = spline.U1;
+        SplineStyle = spline.SplineStyle;
 
         for (int i = 0; i < spline.Segments.Count; i++)
         {

@@ -20,7 +20,7 @@ public class WorldManager : MonoBehaviour
     public void Awake()
     {
         if (Instance == null)
-        Instance = this;
+            Instance = this;
     }
 
     public void GenerateEmptyObjects()

@@ -3,17 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class LogicManager : MonoBehaviour
 {
     public static LogicManager Instance;
-    [SerializeField]
     public SSFJsonHandler ssfJsonHandler;
 
-    GameObject Effects;
+    //GameObject Effects;
 
     public void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
     }
 
     public void GenerateEmptyObjects()

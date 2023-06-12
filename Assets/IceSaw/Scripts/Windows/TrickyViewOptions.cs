@@ -67,6 +67,11 @@ public class TrickyViewOptions
         }
 
         //Run Effect
+        if(LogicManager.Instance==null)
+        {
+            Debug.Log("NotNull");
+        }
+
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -109,7 +114,6 @@ public class TrickyViewOptions
         }
 
         //Run Effect
-
         var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -263,7 +267,10 @@ public class TrickyViewOptions
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
         for (int i = 0; i < instanceObjects.Length; i++)
         {
-            instanceObjects[i].gameObject.SetActive(instanceObjects[i].Visable);
+            if (!instanceObjects[i].Visable)
+            {
+                instanceObjects[i].gameObject.SetActive(instanceObjects[i].Visable);
+            }
         }
     }
 
