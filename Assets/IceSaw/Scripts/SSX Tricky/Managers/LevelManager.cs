@@ -113,7 +113,7 @@ public class LevelManager : MonoBehaviour
     }
 
     [ContextMenu("Fix Script Links")]
-    void FixScriptLinks()
+    public void FixScriptLinks()
     {
         Awake();
 
