@@ -136,11 +136,11 @@ public class PrefabObject : MonoBehaviour
                 TempNewMeshData.MeshID = TempMesh.MeshID;
                 if(!Skybox)
                 {
-                    TempNewMeshData.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
+                    TempNewMeshData.mesh = PrefabManager.Instance.GetMesh(TempMesh.MeshPath);
                 }
                 else
                 {
-                    TempNewMeshData.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Skybox\\Models\\" + TempMesh.MeshPath);
+                    TempNewMeshData.mesh = SkyboxManager.Instance.GetMesh(TempMesh.MeshPath);
                 }
                 TempNewMeshData.MaterialID = TempMesh.MaterialID;
 
@@ -155,7 +155,7 @@ public class PrefabObject : MonoBehaviour
         GenerateSubModels();
     }
 
-    public void LoadModelsAndMesh()
+    public void LoadModelsAndMesh(bool Skybox)
     {
         for (int i = 0; i < PrefabObjects.Count; i++)
         {
@@ -163,7 +163,14 @@ public class PrefabObject : MonoBehaviour
             for (int a = 0; a < NewPrefabObject.MeshData.Count; a++)
             {
                 var TempMesh = NewPrefabObject.MeshData[a];
-                TempMesh.mesh = ObjImporter.ObjLoad(LevelManager.Instance.LoadPath + "\\Models\\" + TempMesh.MeshPath);
+                if (!Skybox)
+                {
+                    TempMesh.mesh = PrefabManager.Instance.GetMesh(TempMesh.MeshPath);
+                }
+                else
+                {
+                    TempMesh.mesh = SkyboxManager.Instance.GetMesh(TempMesh.MeshPath);
+                }
                 TempMesh.material = GenerateMaterial(TempMesh.MaterialID, false);
                 NewPrefabObject.MeshData[a] = TempMesh;
             }

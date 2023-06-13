@@ -13,6 +13,7 @@ public class SkyboxManager : MonoBehaviour
     GameObject SkyboxCamera;
 
     public List<Texture2D> SkyboxTextures2d = new List<Texture2D>();
+    public List<Mesh> SkyboxMeshCache = new List<Mesh>();
 
     public void Awake()
     {
@@ -57,10 +58,24 @@ public class SkyboxManager : MonoBehaviour
     public void LoadData(string Path)
     {
         ReloadTextures(Path + "\\Skybox");
-        if(File.Exists(Path + "\\Skybox\\Materials.json"))
+        LoadSkyMeshCache(Path + "\\Skybox\\Models");
+        if (File.Exists(Path + "\\Skybox\\Materials.json"))
         {
             LoadMaterials(Path + "\\Skybox\\Materials.json");
             LoadPrefabs(Path + "\\Skybox\\Prefabs.json");
+        }
+    }
+
+    public void LoadSkyMeshCache(string path)
+    {
+        SkyboxMeshCache = new List<Mesh>();
+
+        string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            Mesh TempMesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.name = Files[i].TrimStart(path.ToCharArray());
+            SkyboxMeshCache.Add(TempMesh);
         }
     }
 
@@ -146,5 +161,26 @@ public class SkyboxManager : MonoBehaviour
         MaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true);
 
         return TempObject[A];
+    }
+
+    public Mesh GetMesh(string MeshPath)
+    {
+        Mesh mesh = null;
+
+        for (int i = 0; i < SkyboxMeshCache.Count; i++)
+        {
+            if (SkyboxMeshCache[i].name == MeshPath)
+            {
+                mesh = SkyboxMeshCache[i];
+            }
+        }
+
+        if (mesh == null)
+        {
+            //Set Error Mesh
+        }
+
+        return mesh;
+
     }
 }

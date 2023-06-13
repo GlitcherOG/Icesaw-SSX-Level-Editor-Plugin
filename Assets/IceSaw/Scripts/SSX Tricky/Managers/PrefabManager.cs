@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
@@ -11,6 +12,8 @@ public class PrefabManager : MonoBehaviour
     public static PrefabManager Instance;
     GameObject PrefabsHolder;
     GameObject MaterialHolder;
+
+    public List<Mesh> MeshCache = new List<Mesh>();
 
     public void Awake()
     {
@@ -33,8 +36,22 @@ public class PrefabManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
+        LoadMeshCache(Path + "\\Models");
         LoadMaterials(Path + "\\Materials.json");
         LoadPrefabs(Path + "\\Prefabs.json");
+    }
+
+    public void LoadMeshCache(string path)
+    {
+        MeshCache = new List<Mesh>();
+
+        string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            Mesh TempMesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.name = Files[i].TrimStart(path.ToCharArray());
+            MeshCache.Add(TempMesh);
+        }
     }
 
     public void LoadMaterials(string Path)
@@ -101,5 +118,26 @@ public class PrefabManager : MonoBehaviour
     {
         PrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
         return TempObject[A];
+    }
+
+    public Mesh GetMesh(string MeshPath)
+    {
+        Mesh mesh = null;
+
+        for (int i = 0; i < MeshCache.Count; i++)
+        {
+            if(MeshCache[i].name==MeshPath)
+            {
+                mesh = MeshCache[i];
+            }
+        }
+
+        if(mesh==null)
+        {
+            //Set Error Mesh
+        }
+
+        return mesh;
+
     }
 }
