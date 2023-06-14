@@ -47,6 +47,8 @@ public class WorldManager : MonoBehaviour
 
         ParticlesHolder = new GameObject("Particles");
         ParticlesHolder.transform.parent = transform;
+        ParticlesHolder.transform.localScale = Vector3.one;
+        ParticlesHolder.transform.localEulerAngles = Vector3.zero;
         ParticlesHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         LightingHolder = new GameObject("Lighting");
@@ -64,6 +66,7 @@ public class WorldManager : MonoBehaviour
         LoadInstance(Path + "\\Instances.json");
         LoadSplines(Path + "\\Splines.json");
         LoadLighting(Path + "\\Lights.json");
+        LoadParticleInstances(Path + "\\ParticleInstances.json");
     }
 
     public void LoadPatches(string JsonPath)
@@ -101,7 +104,7 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    void LoadSplines(string path)
+    public void LoadSplines(string path)
     {
         SplineJsonHandler SplineJson = new SplineJsonHandler();
         SplineJson = SplineJsonHandler.Load(path);
@@ -117,7 +120,7 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    void LoadLighting(string path)
+    public void LoadLighting(string path)
     {
         LightJsonHandler lightJson = new LightJsonHandler();
         lightJson = LightJsonHandler.Load(path);
@@ -131,6 +134,22 @@ public class WorldManager : MonoBehaviour
             TempInstance.LoadLight(lightJson.Lights[i]);
         }
 
+    }
+
+    public void LoadParticleInstances(string path)
+    {
+        ParticleInstanceJsonHandler instanceJsonHandler = new ParticleInstanceJsonHandler();
+        instanceJsonHandler = ParticleInstanceJsonHandler.Load(path);
+
+        for (int i = 0; i < instanceJsonHandler.Particles.Count; i++)
+        {
+            var TempGameObject = new GameObject("Particle Instance " + i);
+            TempGameObject.transform.parent = ParticlesHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+            var TempInstance = TempGameObject.AddComponent<PaticleInstanceObject>();
+            TempInstance.LoadPaticleInstance(instanceJsonHandler.Particles[i]);
+        }
     }
 
     public PatchObject[] GetPatchList()
