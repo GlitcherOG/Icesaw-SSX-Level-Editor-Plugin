@@ -15,6 +15,7 @@ public class PrefabManager : MonoBehaviour
     GameObject ParticlePrefabHolder;
 
     public List<Mesh> MeshCache = new List<Mesh>();
+    public List<Mesh> CollisionMeshCahce = new List<Mesh>();
 
     public void Awake()
     {
@@ -51,6 +52,7 @@ public class PrefabManager : MonoBehaviour
     public void LoadData(string Path)
     {
         LoadMeshCache(Path + "\\Models");
+        LoadCollisionMeshCache(Path + "\\Collision");
         LoadMaterials(Path + "\\Materials.json");
         LoadPrefabs(Path + "\\Prefabs.json");
         LoadParticlePrefabs(Path + "\\ParticlePrefabs.json");
@@ -66,6 +68,19 @@ public class PrefabManager : MonoBehaviour
             Mesh TempMesh = ObjImporter.ObjLoad(Files[i]);
             TempMesh.name = Files[i].TrimStart(path.ToCharArray());
             MeshCache.Add(TempMesh);
+        }
+    }
+
+    public void LoadCollisionMeshCache(string path)
+    {
+        CollisionMeshCahce = new List<Mesh>();
+
+        string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            Mesh TempMesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.name = Files[i].TrimStart(path.ToCharArray());
+            CollisionMeshCahce.Add(TempMesh);
         }
     }
 

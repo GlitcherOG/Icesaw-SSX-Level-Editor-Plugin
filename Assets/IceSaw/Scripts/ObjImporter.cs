@@ -52,18 +52,28 @@ public class ObjImporter : MonoBehaviour
                 Faces faces = new Faces();
 
                 string[] SplitPoint = splitLine[1].Split('/');
+
                 faces.V1Pos = int.Parse(SplitPoint[0]) - 1;
-                faces.UV1Pos = int.Parse(SplitPoint[1]) - 1;
+                if (SplitPoint[1] != "")
+                {
+                    faces.UV1Pos = int.Parse(SplitPoint[1]) - 1;
+                }
                 faces.Normal1Pos = int.Parse(SplitPoint[2]) - 1;
 
                 SplitPoint = splitLine[2].Split('/');
                 faces.V2Pos = int.Parse(SplitPoint[0]) - 1;
-                faces.UV2Pos = int.Parse(SplitPoint[1]) - 1;
+                if (SplitPoint[1] != "")
+                {
+                    faces.UV2Pos = int.Parse(SplitPoint[1]) - 1;
+                }
                 faces.Normal2Pos = int.Parse(SplitPoint[2]) - 1;
 
                 SplitPoint = splitLine[3].Split('/');
                 faces.V3Pos = int.Parse(SplitPoint[0]) - 1;
-                faces.UV3Pos = int.Parse(SplitPoint[1]) - 1;
+                if (SplitPoint[1] != "")
+                {
+                    faces.UV3Pos = int.Parse(SplitPoint[1]) - 1;
+                }
                 faces.Normal3Pos = int.Parse(SplitPoint[2]) - 1;
 
                 MeshFaces.Add(faces);
@@ -83,9 +93,12 @@ public class ObjImporter : MonoBehaviour
             NewVertices.Add(vertices[MeshFaces[i].V2Pos]);
             NewVertices.Add(vertices[MeshFaces[i].V3Pos]);
 
-            NewTextureCords.Add(TextureCords[MeshFaces[i].UV1Pos]);
-            NewTextureCords.Add(TextureCords[MeshFaces[i].UV2Pos]);
-            NewTextureCords.Add(TextureCords[MeshFaces[i].UV3Pos]);
+            if (TextureCords.Count != 0)
+            {
+                NewTextureCords.Add(TextureCords[MeshFaces[i].UV1Pos]);
+                NewTextureCords.Add(TextureCords[MeshFaces[i].UV2Pos]);
+                NewTextureCords.Add(TextureCords[MeshFaces[i].UV3Pos]);
+            }
 
             NewNormals.Add(normals[MeshFaces[i].Normal1Pos]);
             NewNormals.Add(normals[MeshFaces[i].Normal2Pos]);
