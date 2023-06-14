@@ -3,7 +3,6 @@
 ## Current Todo
 ### General Loading
  - Particles Prefabs
- - Particle Instances
  - Camera
  - Collision
  - Logic (Need to move to proper Structure)
@@ -32,3 +31,4 @@
  - Fix Instances so the prefabs dont contain prefab object and arent selectable
  - Material Spheres
  - Reload Mesh/Collision/Textures
+ - Clean up Particle Prefabs To much unneeded data
