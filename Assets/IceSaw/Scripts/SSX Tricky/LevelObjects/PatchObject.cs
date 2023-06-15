@@ -94,6 +94,7 @@ public class PatchObject : MonoBehaviour
 
     MeshRenderer meshRenderer;
 
+    [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
     {
         this.AddComponent<MeshFilter>();
@@ -222,7 +223,7 @@ public class PatchObject : MonoBehaviour
 
         patch.Points[14, 0] = RawR4C3.x;
         patch.Points[14, 1] = RawR4C3.y;
-        patch.Points[15, 2] = RawR4C3.z;
+        patch.Points[14, 2] = RawR4C3.z;
 
         patch.Points[15, 0] = RawR4C4.x;
         patch.Points[15, 1] = RawR4C4.y;

@@ -5,7 +5,6 @@
  - Logic (Need to move to proper Structure)
  
 ### General Saving
- - Patches
  - Instances
  - Materials
  - Lighting
@@ -30,6 +29,8 @@
  - Material Spheres
  - Reload Mesh/Collision/Textures
  - Clean up Particle Prefabs To much unneeded data
- - Load Collision onto mesh
+ - Load Collision onto instance
  - Instance Collision Display
  - Fix Camera Rotations
+ - Proper Skybox Detection
+ - Missing Mesh Prefab Fix

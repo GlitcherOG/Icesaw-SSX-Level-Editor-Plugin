@@ -41,7 +41,7 @@ public class TrickyProjectWindow : EditorWindow
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Save Project", GUILayout.Width(WindowHalfSize), GUILayout.Height(40)))
         {
-
+            SaveProject();
         }
         if (GUILayout.Button("Reload Project", GUILayout.Width(WindowHalfSize), GUILayout.Height(40)))
         {
@@ -58,6 +58,17 @@ public class TrickyProjectWindow : EditorWindow
         {
             CurrentPath = Path.GetDirectoryName(path);
             LoadProjectData();
+        }
+    }
+
+    public void SaveProject()
+    {
+        string path = EditorUtility.SaveFilePanel("Open SSX Tricky Prject", "", "Config" , "SSX");
+
+        if (path.Length != 0)
+        {
+            CurrentPath = Path.GetDirectoryName(path);
+            SaveProjectData();
         }
     }
     public void ClearCurrentProject()
@@ -84,5 +95,10 @@ public class TrickyProjectWindow : EditorWindow
         GenerateEmptyProject();
 
         LevelManager.Instance.LoadData(CurrentPath);
+    }
+
+    public void SaveProjectData()
+    {
+        LevelManager.Instance.SaveData(CurrentPath);
     }
 }

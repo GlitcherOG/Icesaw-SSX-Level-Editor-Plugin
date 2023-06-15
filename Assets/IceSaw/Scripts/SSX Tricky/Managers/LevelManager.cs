@@ -99,6 +99,14 @@ public class LevelManager : MonoBehaviour
         PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
     }
 
+    public void SaveData(string Path)
+    {
+        WorldManager.GetComponent<WorldManager>().SaveData(Path);
+
+
+
+    }
+
     public void ReloadTextures()
     {
         string TextureLoadPath = LoadPath + "\\Textures";

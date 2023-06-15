@@ -13,7 +13,6 @@ public class PrefabManager : MonoBehaviour
     GameObject PrefabsHolder;
     GameObject MaterialHolder;
     GameObject ParticlePrefabHolder;
-    GameObject CollsionHolder;
 
     public List<Mesh> MeshCache = new List<Mesh>();
     public List<Mesh> CollisionMeshCahce = new List<Mesh>();
@@ -48,13 +47,6 @@ public class PrefabManager : MonoBehaviour
         ParticlePrefabHolder.transform.localEulerAngles = Vector3.zero;
         ParticlePrefabHolder.transform.localScale = Vector3.one;
         ParticlePrefabHolder.transform.hideFlags = HideFlags.HideInInspector;
-
-        CollsionHolder = new GameObject("Collision Prefabs");
-        CollsionHolder.transform.parent = transform;
-        CollsionHolder.transform.localPosition = new Vector3(0, 0, 30000);
-        CollsionHolder.transform.localEulerAngles = Vector3.zero;
-        CollsionHolder.transform.localScale = Vector3.one;
-        CollsionHolder.transform.hideFlags = HideFlags.HideInInspector;
     }
 
     public void LoadData(string Path)

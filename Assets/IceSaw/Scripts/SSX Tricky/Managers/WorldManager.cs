@@ -66,6 +66,8 @@ public class WorldManager : MonoBehaviour
         CameraHolder.transform.hideFlags = HideFlags.HideInInspector;
     }
 
+    #region Load Data
+
     public void LoadData(string Path)
     {
         //SetStatic();
@@ -175,7 +177,32 @@ public class WorldManager : MonoBehaviour
             TempInstance.LoadCamera(instanceJsonHandler.Cameras[i]);
         }
     }
+    #endregion
 
+    #region Save Data
+
+    public void SaveData(string path)
+    {
+        SavePatches(path + "\\Patches.json");
+    }
+
+    public void SavePatches(string path)
+    {
+        PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
+        patchesJsonHandler.Patches = new List<PatchesJsonHandler.PatchJson>();
+
+        var PatchList = GetPatchList();
+
+        for (int i = 0; i < PatchList.Length; i++)
+        {
+            patchesJsonHandler.Patches.Add(PatchList[i].GeneratePatch());
+        }
+
+        patchesJsonHandler.CreateJson(path);
+    }
+
+
+    #endregion
     public PatchObject[] GetPatchList()
     {
         return PatchesHolder.GetComponentsInChildren<PatchObject>(true);
