@@ -2,9 +2,8 @@
  
 ## Current Todo
 ### General Loading
- - Camera
- - Collision
  - Logic (Need to move to proper Structure)
+ 
 ### General Saving
  - Patches
  - Instances
@@ -31,3 +30,6 @@
  - Material Spheres
  - Reload Mesh/Collision/Textures
  - Clean up Particle Prefabs To much unneeded data
+ - Load Collision onto mesh
+ - Instance Collision Display
+ - Fix Camera Rotations

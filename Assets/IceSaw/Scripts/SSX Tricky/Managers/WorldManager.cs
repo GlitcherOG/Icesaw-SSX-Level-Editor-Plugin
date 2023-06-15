@@ -16,6 +16,7 @@ public class WorldManager : MonoBehaviour
     GameObject SplinesHolder;
     GameObject ParticlesHolder;
     GameObject LightingHolder;
+    GameObject CameraHolder;
 
     public void Awake()
     {
@@ -57,6 +58,12 @@ public class WorldManager : MonoBehaviour
         LightingHolder.transform.localEulerAngles = Vector3.zero;
         LightingHolder.transform.hideFlags = HideFlags.HideInInspector;
 
+        CameraHolder = new GameObject("Cameras");
+        CameraHolder.transform.parent = transform;
+        CameraHolder.transform.localPosition = Vector3.zero;
+        CameraHolder.transform.localScale = Vector3.one;
+        CameraHolder.transform.localEulerAngles = Vector3.zero;
+        CameraHolder.transform.hideFlags = HideFlags.HideInInspector;
     }
 
     public void LoadData(string Path)
@@ -67,6 +74,7 @@ public class WorldManager : MonoBehaviour
         LoadSplines(Path + "\\Splines.json");
         LoadLighting(Path + "\\Lights.json");
         LoadParticleInstances(Path + "\\ParticleInstances.json");
+        LoadCameraInstances(Path + "\\Cameras.json");
     }
 
     public void LoadPatches(string JsonPath)
@@ -149,6 +157,22 @@ public class WorldManager : MonoBehaviour
             TempGameObject.transform.localEulerAngles = Vector3.zero;
             var TempInstance = TempGameObject.AddComponent<PaticleInstanceObject>();
             TempInstance.LoadPaticleInstance(instanceJsonHandler.Particles[i]);
+        }
+    }
+
+    public void LoadCameraInstances(string path)
+    {
+        CameraJSONHandler instanceJsonHandler = new CameraJSONHandler();
+        instanceJsonHandler = CameraJSONHandler.Load(path);
+
+        for (int i = 0; i < instanceJsonHandler.Cameras.Count; i++)
+        {
+            var TempGameObject = new GameObject("Camera " + i);
+            TempGameObject.transform.parent = CameraHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+            var TempInstance = TempGameObject.AddComponent<CameraObject>();
+            TempInstance.LoadCamera(instanceJsonHandler.Cameras[i]);
         }
     }
 
