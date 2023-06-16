@@ -438,4 +438,34 @@ public class PatchObject : MonoBehaviour
 
     }
 
+    [ContextMenu("RotateUV Left")]
+    public void RotateUVLeft()
+    {
+        Vector2 Temp1 = UVPoint1;
+        Vector2 Temp2 = UVPoint2;
+        Vector2 Temp3 = UVPoint3;
+        Vector2 Temp4 = UVPoint4;
+
+        UVPoint1 = Temp4;
+        UVPoint2 = Temp1;
+        UVPoint3 = Temp2;
+        UVPoint4 = Temp3;
+        LoadUVMap();
+    }
+
+    [ContextMenu("RotateUV Right")]
+    public void RotateUVRight()
+    {
+        Vector2 Temp1 = UVPoint1;
+        Vector2 Temp2 = UVPoint2;
+        Vector2 Temp3 = UVPoint3;
+        Vector2 Temp4 = UVPoint4;
+
+        UVPoint1 = Temp2;
+        UVPoint2 = Temp3;
+        UVPoint3 = Temp4;
+        UVPoint4 = Temp1;
+        LoadUVMap();
+    }
+
 }

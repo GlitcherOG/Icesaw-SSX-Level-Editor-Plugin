@@ -11,6 +11,7 @@ public class LogicManager : MonoBehaviour
     public SSFJsonHandler ssfJsonHandler;
 
     GameObject EffectSlotHolder;
+    GameObject PhysicsHolder;
 
     //GameObject Effects;
 
@@ -26,6 +27,11 @@ public class LogicManager : MonoBehaviour
         EffectSlotHolder.transform.parent = this.transform;
         EffectSlotHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         EffectSlotHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+        PhysicsHolder = new GameObject("Physics");
+        PhysicsHolder.transform.parent = this.transform;
+        PhysicsHolder.transform.transform.localScale = new Vector3(1, 1, 1);
+        PhysicsHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     public void LoadData(string path)
@@ -48,10 +54,24 @@ public class LogicManager : MonoBehaviour
         }
     }
 
+    public void LoadPhysics(List<SSFJsonHandler.PhysicsHeader> physicsHeaders)
+    {
+        for (int i = 0; i < physicsHeaders.Count; i++)
+        {
+            var TempGameObject = new GameObject("Physics " + i);
+            TempGameObject.transform.parent = EffectSlotHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+            var TempInstance = TempGameObject.AddComponent<PhysicsObject>();
+            TempInstance.LoadPhysics(physicsHeaders[i]);
+        }
+    }
+
     public void SaveData(string path)
     {
         ssfJsonHandler = new SSFJsonHandler();
         ssfJsonHandler.EffectSlots = SaveEffectSlots();
+
     }
 
     public List<SSFJsonHandler.EffectSlotJson> SaveEffectSlots()

@@ -213,6 +213,8 @@ public class InstanceObject : MonoBehaviour
                 TempSound.ExternalSounds.Add(TempCollisionSound);
             }
 
+
+            TempInstance.Sounds = TempSound;
         }
 
         TempInstance.U0 = U0;
