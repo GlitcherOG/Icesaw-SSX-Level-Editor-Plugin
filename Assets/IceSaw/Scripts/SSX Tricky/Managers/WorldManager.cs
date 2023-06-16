@@ -69,15 +69,15 @@ public class WorldManager : MonoBehaviour
 
     #region Load Data
 
-    public void LoadData(string Path)
+    public void LoadData(string path)
     {
         //SetStatic();
-        LoadPatches(Path + "\\Patches.json");
-        LoadInstance(Path + "\\Instances.json");
-        LoadSplines(Path + "\\Splines.json");
-        LoadLighting(Path + "\\Lights.json");
-        LoadParticleInstances(Path + "\\ParticleInstances.json");
-        LoadCameraInstances(Path + "\\Cameras.json");
+        LoadPatches(path + "\\Patches.json");
+        LoadInstance(path + "\\Instances.json");
+        LoadSplines(path + "\\Splines.json");
+        LoadLighting(path + "\\Lights.json");
+        LoadParticleInstances(path + "\\ParticleInstances.json");
+        LoadCameraInstances(path + "\\Cameras.json");
     }
 
     public void LoadPatches(string JsonPath)
@@ -186,6 +186,7 @@ public class WorldManager : MonoBehaviour
     {
         SavePatches(path + "\\Patches.json");
         SaveInstances(path + "\\Instances.json");
+        SaveSplines(path + "\\Splines.json");
     }
 
     public void SavePatches(string path)
@@ -217,6 +218,19 @@ public class WorldManager : MonoBehaviour
         instanceJsonHandler.CreateJson(path);
     }
 
+    public void SaveSplines(string path)
+    {
+        SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
+        splineJsonHandler.Splines = new List<SplineJsonHandler.SplineJson>();
+
+        var SplineList = GetSplineList();
+
+        for (int i = 0; i < SplineList.Length; i++)
+        {
+            splineJsonHandler.Splines.Add(SplineList[i].GenerateSpline());
+        }
+        splineJsonHandler.CreateJson(path);
+    }
 
     #endregion
     public PatchObject[] GetPatchList()

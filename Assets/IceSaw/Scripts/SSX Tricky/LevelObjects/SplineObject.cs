@@ -29,19 +29,25 @@ public class SplineObject : MonoBehaviour
         }
     }
 
-    //public SplineJsonHandler.SplineJson GenerateSpline()
-    //{
-    //    SplineJsonHandler.SplineJson spline = new SplineJsonHandler.SplineJson();
+    public SplineJsonHandler.SplineJson GenerateSpline()
+    {
+        SplineJsonHandler.SplineJson spline = new SplineJsonHandler.SplineJson();
 
-    //    spline.SplineName = SplineName;
-    //    spline.Segments = new List<SplineJsonHandler.SegmentJson>();
+        spline.SplineName = transform.name;
 
-    //    for (int i = 0; i < splineSegmentObjects.Count; i++)
-    //    {
-    //        spline.Segments.Add(splineSegmentObjects[i].GenerateSplineSegment());
-    //    }
+        spline.U0 = U0;
+        spline.U1 = U1;
+        spline.SplineStyle = SplineStyle;
+        spline.Segments = new List<SplineJsonHandler.SegmentJson>();
 
-    //    return spline;
-    //}
+        var Segments = transform.GetComponentsInChildren<SplineSegmentObject>();
+
+        for (int i = 0; i < Segments.Length; i++)
+        {
+            spline.Segments.Add(Segments[i].GenerateSplineSegment());
+        }
+
+        return spline;
+    }
 
 }
