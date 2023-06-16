@@ -187,6 +187,7 @@ public class WorldManager : MonoBehaviour
         SavePatches(path + "\\Patches.json");
         SaveInstances(path + "\\Instances.json");
         SaveSplines(path + "\\Splines.json");
+        SaveLighting(path + "\\Lights.json");
     }
 
     public void SavePatches(string path)
@@ -232,6 +233,21 @@ public class WorldManager : MonoBehaviour
         splineJsonHandler.CreateJson(path);
     }
 
+    public void SaveLighting(string path)
+    {
+        LightJsonHandler lightJsonHandler = new LightJsonHandler();
+        lightJsonHandler.Lights = new List<LightJsonHandler.LightJson>();
+
+        var LightList = GetLightList();
+
+        for (int i = 0; i < LightList.Length; i++)
+        {
+            lightJsonHandler.Lights.Add(LightList[i].GenerateLight());
+        }
+
+        lightJsonHandler.CreateJson(path);
+    }
+
     #endregion
     public PatchObject[] GetPatchList()
     {
@@ -246,5 +262,10 @@ public class WorldManager : MonoBehaviour
     public SplineObject[] GetSplineList()
     {
         return SplinesHolder.GetComponentsInChildren<SplineObject>(true);
+    }
+
+    public LightObject[] GetLightList()
+    {
+        return LightingHolder.GetComponentsInChildren<LightObject>(true);
     }
 }

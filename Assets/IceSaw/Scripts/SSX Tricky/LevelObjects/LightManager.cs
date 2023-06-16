@@ -14,7 +14,6 @@ public class LightObject : MonoBehaviour
     public int UnknownInt1;
     public float[] Colour;
     public float[] Direction;
-    public float[] Postion;
     public float[] LowestXYZ;
     public float[] HighestXYZ;
     public float UnknownFloat2;
@@ -34,7 +33,6 @@ public class LightObject : MonoBehaviour
         UnknownInt1 = lightJson.UnknownInt1;
         Colour = lightJson.Colour;
         Direction = lightJson.Direction;
-        Postion = lightJson.Postion;
         LowestXYZ = lightJson.LowestXYZ;
         HighestXYZ = lightJson.HighestXYZ;
         UnknownFloat2 = lightJson.UnknownFloat2;
@@ -44,5 +42,28 @@ public class LightObject : MonoBehaviour
         Hash = lightJson.Hash;
 
         transform.localPosition = JsonUtil.ArrayToVector3(lightJson.Postion);
+    }
+
+    public LightJsonHandler.LightJson GenerateLight()
+    {
+        var NewLight = new LightJsonHandler.LightJson();
+
+        NewLight.LightName = transform.name;
+        NewLight.Postion = JsonUtil.Vector3ToArray(transform.localPosition);
+        NewLight.Type = Type;
+        NewLight.SpriteRes = SpriteRes;
+        NewLight.UnknownFloat1 = UnknownFloat1;
+        NewLight.UnknownInt1 = UnknownInt1;
+        NewLight.Colour = Colour;
+        NewLight.Direction = Direction;
+        NewLight.LowestXYZ = LowestXYZ;
+        NewLight.HighestXYZ = HighestXYZ;
+        NewLight.UnknownFloat2 = UnknownFloat2;
+        NewLight.UnknownInt2 = UnknownInt2;
+        NewLight.UnknownFloat3 = UnknownFloat3;
+        NewLight.UnknownInt3 = UnknownInt3;
+        NewLight.Hash = Hash;
+
+        return NewLight;
     }
 }

@@ -21,14 +21,14 @@ public class PathFileManager : MonoBehaviour
     {
         transform.hideFlags = HideFlags.HideInInspector;
 
-        AIPHolder = new GameObject("AIP");
+        AIPHolder = new GameObject("General");
         AIPHolder.transform.parent = transform;
         AIPHolder.transform.localScale = Vector3.one;
         AIPHolder.transform.localEulerAngles = Vector3.zero;
         AIPHolder.transform.hideFlags = HideFlags.HideInInspector;
         AIPHolder.AddComponent<PathManager>().GenerateEmptyObjects();
 
-        SOPHolder = new GameObject("SOP");
+        SOPHolder = new GameObject("Showoff");
         SOPHolder.transform.parent = transform;
         SOPHolder.transform.localScale = Vector3.one;
         SOPHolder.transform.localEulerAngles = Vector3.zero;

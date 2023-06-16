@@ -7,18 +7,16 @@
  - Physics
  
 ### General Saving
- - Lighting
  - Particle Prefabs
  - Particle Instances
  - Camera
  - Effects
- - Collision
+ - Effect Slot
+ - Physics
  - Skybox
  - SOP
  - AIP
  - Materials
- - Splines
- - Logic
  - Prefabs
  
  ### Data Editing
