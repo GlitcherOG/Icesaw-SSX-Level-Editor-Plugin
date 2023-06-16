@@ -3,7 +3,6 @@
 ## Current Todo
 ### General Loading
  - Effects
- - Effect Slot
  - Physics
  
 ### General Saving
@@ -11,7 +10,6 @@
  - Particle Instances
  - Camera
  - Effects
- - Effect Slot
  - Physics
  - Skybox
  - SOP
