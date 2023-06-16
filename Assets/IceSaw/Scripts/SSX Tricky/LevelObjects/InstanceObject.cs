@@ -195,20 +195,20 @@ public class InstanceObject : MonoBehaviour
         if(IncludeSound)
         {
             InstanceJsonHandler.SoundData TempSound = new InstanceJsonHandler.SoundData();
-            TempSound.CollisonSound = TempInstance.Sounds.Value.CollisonSound;
+            TempSound.CollisonSound = Sounds.CollisonSound;
 
             TempSound.ExternalSounds = new List<InstanceJsonHandler.ExternalSound>();
 
-            for (int i = 0; i < TempInstance.Sounds.Value.ExternalSounds.Count; i++)
+            for (int i = 0; i < Sounds.ExternalSounds.Count; i++)
             {
                 var TempCollisionSound = new InstanceJsonHandler.ExternalSound();
-                TempCollisionSound.U0 = TempInstance.Sounds.Value.ExternalSounds[i].U0;
-                TempCollisionSound.SoundIndex = TempInstance.Sounds.Value.ExternalSounds[i].SoundIndex;
-                TempCollisionSound.U2 = TempInstance.Sounds.Value.ExternalSounds[i].U3; 
-                TempCollisionSound.U3 = TempInstance.Sounds.Value.ExternalSounds[i].U3;
-                TempCollisionSound.U4 = TempInstance.Sounds.Value.ExternalSounds[i].U4;
-                TempCollisionSound.U5 = TempInstance.Sounds.Value.ExternalSounds[i].U5;
-                TempCollisionSound.U6 = TempInstance.Sounds.Value.ExternalSounds[i].U6;
+                TempCollisionSound.U0 = Sounds.ExternalSounds[i].U0;
+                TempCollisionSound.SoundIndex = Sounds.ExternalSounds[i].SoundIndex;
+                TempCollisionSound.U2 = Sounds.ExternalSounds[i].U3; 
+                TempCollisionSound.U3 = Sounds.ExternalSounds[i].U3;
+                TempCollisionSound.U4 = Sounds.ExternalSounds[i].U4;
+                TempCollisionSound.U5 = Sounds.ExternalSounds[i].U5;
+                TempCollisionSound.U6 = Sounds.ExternalSounds[i].U6;
 
                 TempSound.ExternalSounds.Add(TempCollisionSound);
             }
