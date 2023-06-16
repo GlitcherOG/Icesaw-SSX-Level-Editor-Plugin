@@ -102,7 +102,7 @@ public class LevelManager : MonoBehaviour
     public void SaveData(string Path)
     {
         WorldManager.GetComponent<WorldManager>().SaveData(Path);
-
+        PrefabManager.GetComponent<PrefabManager>().SaveData(Path);
 
 
     }

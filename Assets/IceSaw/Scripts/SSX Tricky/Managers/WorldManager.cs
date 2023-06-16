@@ -185,7 +185,7 @@ public class WorldManager : MonoBehaviour
     public void SaveData(string path)
     {
         SavePatches(path + "\\Patches.json");
-        SaveInstances(path + "\\Instances.json")
+        SaveInstances(path + "\\Instances.json");
     }
 
     public void SavePatches(string path)

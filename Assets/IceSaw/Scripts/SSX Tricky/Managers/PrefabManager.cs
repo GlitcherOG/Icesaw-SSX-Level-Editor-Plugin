@@ -48,7 +48,7 @@ public class PrefabManager : MonoBehaviour
         ParticlePrefabHolder.transform.localScale = Vector3.one;
         ParticlePrefabHolder.transform.hideFlags = HideFlags.HideInInspector;
     }
-
+    #region Load Data
     public void LoadData(string Path)
     {
         LoadMeshCache(Path + "\\Models");
@@ -170,7 +170,36 @@ public class PrefabManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Save Data
+    public void SaveData(string Path)
+    {
+        SaveMaterials(Path + "\\Materials.json");
+    }
+
+    public void SaveMaterials(string path)
+    {
+        MaterialJsonHandler materialJsonHandler = new MaterialJsonHandler();
+        materialJsonHandler.Materials = new List<MaterialJsonHandler.MaterialsJson>();
+
+        var TempMaterial = GetMaterialList();
+
+        for (int i = 0; i < TempMaterial.Length; i++)
+        {
+            materialJsonHandler.Materials.Add(TempMaterial[i].GenerateMaterial());
+        }
+        materialJsonHandler.CreateJson(path);
+    }
+
+
+
+    #endregion
+
+    public MaterialObject[] GetMaterialList()
+    {
+        return MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true);
+    }
 
     public MaterialObject GetMaterialObject(int A)
     {

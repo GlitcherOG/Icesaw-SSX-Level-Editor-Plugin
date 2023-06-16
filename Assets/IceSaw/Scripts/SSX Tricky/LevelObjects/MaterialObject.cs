@@ -72,4 +72,39 @@ public class MaterialObject : MonoBehaviour
     {
         
     }
+
+    public MaterialJsonHandler.MaterialsJson GenerateMaterial()
+    {
+        var NewJson = new MaterialJsonHandler.MaterialsJson();
+
+        NewJson.MaterialName = transform.name;
+
+        NewJson.TexturePath = TexturePath;
+        NewJson.UnknownInt2 = UnknownInt2;
+        NewJson.UnknownInt3 = UnknownInt3;
+
+        NewJson.UnknownFloat1 = UnknownFloat1;
+        NewJson.UnknownFloat2 = UnknownFloat2;
+        NewJson.UnknownFloat3 = UnknownFloat3;
+        NewJson.UnknownFloat4 = UnknownFloat4;
+
+        NewJson.UnknownInt8 = UnknownInt8;
+
+        NewJson.UnknownFloat5 = UnknownFloat5;
+        NewJson.UnknownFloat6 = UnknownFloat6;
+        NewJson.UnknownFloat7 = UnknownFloat7;
+        NewJson.UnknownFloat8 = UnknownFloat8;
+
+        NewJson.UnknownInt13 = UnknownInt13;
+        NewJson.UnknownInt14 = UnknownInt14;
+        NewJson.UnknownInt15 = UnknownInt15;
+        NewJson.UnknownInt16 = UnknownInt16;
+        NewJson.UnknownInt17 = UnknownInt17;
+        NewJson.UnknownInt18 = UnknownInt18;
+
+        NewJson.TextureFlipbook = TextureFlipbook;
+        NewJson.UnknownInt20 = UnknownInt20;
+
+        return NewJson;
+    }
 }
