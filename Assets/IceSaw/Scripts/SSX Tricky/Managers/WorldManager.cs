@@ -5,6 +5,7 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
 [ExecuteInEditMode]
 public class WorldManager : MonoBehaviour
@@ -184,6 +185,7 @@ public class WorldManager : MonoBehaviour
     public void SaveData(string path)
     {
         SavePatches(path + "\\Patches.json");
+        SaveInstances(path + "\\Instances.json")
     }
 
     public void SavePatches(string path)
@@ -199,6 +201,20 @@ public class WorldManager : MonoBehaviour
         }
 
         patchesJsonHandler.CreateJson(path);
+    }
+
+    public void SaveInstances(string path)
+    {
+        InstanceJsonHandler instanceJsonHandler = new InstanceJsonHandler();
+        instanceJsonHandler.Instances = new List<InstanceJsonHandler.InstanceJson>();
+
+        var InstanceList = GetInstanceList();
+
+        for (int i = 0; i < InstanceList.Length; i++)
+        {
+            instanceJsonHandler.Instances.Add(InstanceList[i].GenerateInstance());
+        }
+        instanceJsonHandler.CreateJson(path);
     }
 
 

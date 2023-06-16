@@ -189,6 +189,50 @@ public class InstanceObject : MonoBehaviour
 
         TempInstance.LTGState = LTGState;
 
+        TempInstance.Hash = Hash;
+        TempInstance.IncludeSound = IncludeSound;
+
+        if(IncludeSound)
+        {
+            InstanceJsonHandler.SoundData TempSound = new InstanceJsonHandler.SoundData();
+            TempSound.CollisonSound = TempInstance.Sounds.Value.CollisonSound;
+
+            TempSound.ExternalSounds = new List<InstanceJsonHandler.ExternalSound>();
+
+            for (int i = 0; i < TempInstance.Sounds.Value.ExternalSounds.Count; i++)
+            {
+                var TempCollisionSound = new InstanceJsonHandler.ExternalSound();
+                TempCollisionSound.U0 = TempInstance.Sounds.Value.ExternalSounds[i].U0;
+                TempCollisionSound.SoundIndex = TempInstance.Sounds.Value.ExternalSounds[i].SoundIndex;
+                TempCollisionSound.U2 = TempInstance.Sounds.Value.ExternalSounds[i].U3; 
+                TempCollisionSound.U3 = TempInstance.Sounds.Value.ExternalSounds[i].U3;
+                TempCollisionSound.U4 = TempInstance.Sounds.Value.ExternalSounds[i].U4;
+                TempCollisionSound.U5 = TempInstance.Sounds.Value.ExternalSounds[i].U5;
+                TempCollisionSound.U6 = TempInstance.Sounds.Value.ExternalSounds[i].U6;
+
+                TempSound.ExternalSounds.Add(TempCollisionSound);
+            }
+
+        }
+
+        TempInstance.U0 = U0;
+        TempInstance.PlayerBounceAmmount = PlayerBounceAmmount;
+        TempInstance.U2 = U2;
+        TempInstance.U22 = U22;
+        TempInstance.Visable = Visable;
+        TempInstance.PlayerCollision = PlayerCollision;
+        TempInstance.PlayerBounce = PlayerBounce;
+        TempInstance.Unknown241 = Unknown241;
+        TempInstance.UVScroll = UVScroll;
+
+        TempInstance.U4 = U4;
+        TempInstance.CollsionMode = CollsionMode;
+        TempInstance.CollsionModelPaths = CollsionModelPaths;
+        TempInstance.EffectSlotIndex = EffectSlotIndex;
+        TempInstance.PhysicsIndex = PhysicsIndex;
+        TempInstance.U8 = U8;
+
+
         return TempInstance;
     }
 

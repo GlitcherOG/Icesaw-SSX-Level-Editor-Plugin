@@ -18,16 +18,16 @@ public class PatchObject : MonoBehaviour
     //[Space(10)]
     [SerializeField]
     [OnChangedCall("LoadUVMap")]
-    public Vector2 UVPoint1;
+    public Vector2 UVPoint1 = new Vector2(1,0);
     [SerializeField]
     [OnChangedCall("LoadUVMap")]
-    public Vector2 UVPoint2;
+    public Vector2 UVPoint2 = new Vector2(1,-1);
     [SerializeField]
     [OnChangedCall("LoadUVMap")]
-    public Vector2 UVPoint3;
+    public Vector2 UVPoint3 = new Vector2(0, 0);
     [SerializeField]
     [OnChangedCall("LoadUVMap")]
-    public Vector2 UVPoint4;
+    public Vector2 UVPoint4 = new Vector2(0, -1);
 
     [Space(10)]
     [SerializeField]

@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {
+    [System.Serializable]
     public class SSFJsonHandler
     {
         public List<EffectSlotJson> EffectSlots = new List<EffectSlotJson>();
@@ -929,7 +930,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
         //    return NewEffect;
         //}
-
+        [System.Serializable]
         public struct EffectSlotJson
         {
             public string EffectSlotName;
@@ -942,13 +943,13 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int Slot6;
             public int Slot7;
         }
-
+        [System.Serializable]
         public struct PhysicsHeader
         {
             public string PhysicsName;
             public List<PhysicsData> PhysicsDatas;
         }
-
+        [System.Serializable]
         public struct PhysicsData
         {
             public int U2;
@@ -982,20 +983,20 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
             public byte[] UByteData;
         }
-
+        [System.Serializable]
         public struct UPhysicsStruct
         {
             public float U0;
             public float U1;
             public int U2;
         }
-
+        [System.Serializable]
         public struct EffectHeaderStruct
         {
             public string EffectName;
             public List<Effect> Effects;
         }
-
+        [System.Serializable]
         public struct Function
         {
             public string FunctionName;
@@ -1003,6 +1004,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
         }
 
         #region Effects
+        [System.Serializable]
         public struct Effect
         {
             public int MainType;

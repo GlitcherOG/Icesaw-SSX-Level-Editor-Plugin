@@ -7,6 +7,7 @@ using UnityEngine;
 public class LogicManager : MonoBehaviour
 {
     public static LogicManager Instance;
+    [SerializeField]
     public SSFJsonHandler ssfJsonHandler; 
 
     //GameObject Effects;

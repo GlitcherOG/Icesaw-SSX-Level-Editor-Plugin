@@ -2,10 +2,11 @@
  
 ## Current Todo
 ### General Loading
- - Logic (Need to move to proper Structure)
+ - Effects
+ - Effect Slot
+ - Physics
  
 ### General Saving
- - Instances
  - Materials
  - Lighting
  - Particle Prefabs
@@ -34,3 +35,6 @@
  - Fix Camera Rotations
  - Proper Skybox Detection
  - Missing Mesh Prefab Fix
+ - Patch Rotate UV
+ - Patch Flip
+ - Patch Force Regen UV/Model
