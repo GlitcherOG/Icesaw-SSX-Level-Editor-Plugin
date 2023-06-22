@@ -71,6 +71,56 @@ public class CameraObject : MonoBehaviour
 
     }
 
+    public CameraJSONHandler.CameraInstance GenerateCamera()
+    {
+        CameraJSONHandler.CameraInstance cameraInstance = new CameraJSONHandler.CameraInstance();
+
+        cameraInstance.CameraName = transform.name;
+        cameraInstance.Translation = JsonUtil.Vector3ToArray(transform.localPosition);
+        cameraInstance.Rotation = JsonUtil.Vector3ToArray(transform.localEulerAngles);
+
+        cameraInstance.Type = Type;
+        cameraInstance.FocalLength = FocalLength;
+        cameraInstance.AspectRatio = AspectRatio;
+        cameraInstance.Aperture = Aperture;
+        cameraInstance.ClipPlane = ClipPlane;
+        cameraInstance.IntrestPoint = IntrestPoint;
+        cameraInstance.UpVector = UpVector;
+        cameraInstance.AnimTime = AnimTime;
+
+        cameraInstance.InitialPosition = InitialPosition;
+        cameraInstance.InitalRotation = InitalRotation;
+        cameraInstance.U0= U0;
+
+        cameraInstance.AnimationHeaders = new List<CameraJSONHandler.CameraAnimationHeader>();
+
+        for (int i = 0; i < AnimationHeaders.Count; i++)
+        {
+            var TempHeader = new CameraJSONHandler.CameraAnimationHeader();
+
+            TempHeader.Action = AnimationHeaders[i].Action;
+            TempHeader.AnimationDatas = new List<CameraJSONHandler.CameraAnimationData>();
+
+            for (int a = 0; a < AnimationHeaders[i].AnimationDatas.Count; a++)
+            {
+                var TempAnimData = new CameraJSONHandler.CameraAnimationData();
+
+                TempAnimData.Translation = AnimationHeaders[i].AnimationDatas[a].Translation;
+                TempAnimData.Rotation = AnimationHeaders[i].AnimationDatas[a].Rotation;
+
+                TempHeader.AnimationDatas.Add(TempAnimData);
+
+            }
+
+            cameraInstance.AnimationHeaders.Add(TempHeader);
+        }
+
+        cameraInstance.Hash = Hash;
+
+        return cameraInstance;
+
+    }
+
 
 
 

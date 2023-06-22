@@ -188,6 +188,7 @@ public class WorldManager : MonoBehaviour
         SaveInstances(path + "\\Instances.json");
         SaveSplines(path + "\\Splines.json");
         SaveLighting(path + "\\Lights.json");
+        SaveCameras(path + "\\Cameras.json");
     }
 
     public void SavePatches(string path)
@@ -248,6 +249,21 @@ public class WorldManager : MonoBehaviour
         lightJsonHandler.CreateJson(path);
     }
 
+    public void SaveCameras(string path)
+    {
+        CameraJSONHandler cameraJSONHandler = new CameraJSONHandler();
+        cameraJSONHandler.Cameras = new List<CameraJSONHandler.CameraInstance>();
+
+        var CameraList = GetCameraList();
+
+        for (int i = 0; i < CameraList.Length; i++)
+        {
+            cameraJSONHandler.Cameras.Add(CameraList[i].GenerateCamera());
+        }
+
+        cameraJSONHandler.CreateJson(path);
+    }
+
     #endregion
     public PatchObject[] GetPatchList()
     {
@@ -267,5 +283,10 @@ public class WorldManager : MonoBehaviour
     public LightObject[] GetLightList()
     {
         return LightingHolder.GetComponentsInChildren<LightObject>(true);
+    }
+
+    public CameraObject[] GetCameraList()
+    {
+        return CameraHolder.GetComponentsInChildren<CameraObject>(true);
     }
 }

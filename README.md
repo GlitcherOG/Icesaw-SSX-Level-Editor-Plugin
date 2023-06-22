@@ -8,7 +8,6 @@
 ### General Saving
  - Particle Prefabs
  - Particle Instances
- - Camera
  - Effects
  - Physics
  - Skybox
@@ -30,6 +29,5 @@
  - Fix Camera Rotations
  - Proper Skybox Detection
  - Missing Mesh Prefab Fix
- - Patch Rotate UV
  - Patch Flip
  - Patch Force Regen UV/Model
