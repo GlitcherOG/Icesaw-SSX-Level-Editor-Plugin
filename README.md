@@ -3,7 +3,6 @@
 ## Current Todo
 ### General Loading
  - Effects
- - Physics
  
 ### General Saving
  - Particle Prefabs
@@ -13,7 +12,6 @@
  - Skybox
  - SOP
  - AIP
- - Materials
  - Prefabs
  
  ### Data Editing
