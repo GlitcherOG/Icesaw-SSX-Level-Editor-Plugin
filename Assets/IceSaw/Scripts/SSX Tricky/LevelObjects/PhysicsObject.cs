@@ -59,6 +59,64 @@ public class PhysicsObject : MonoBehaviour
             PhysicsDatas.Add(NewPhysicsData);
         }
     }
+
+    public SSFJsonHandler.PhysicsHeader GeneratePhysics()
+    {
+        SSFJsonHandler.PhysicsHeader physicsHeader = new SSFJsonHandler.PhysicsHeader();
+
+        physicsHeader.PhysicsName = transform.name;
+        physicsHeader.PhysicsDatas = new List<SSFJsonHandler.PhysicsData>();
+
+        for (int i = 0; i < PhysicsDatas.Count; i++)
+        {
+            var NewPhysicsData = new SSFJsonHandler.PhysicsData();
+
+            NewPhysicsData.U2 = PhysicsDatas[i].U2;
+
+            NewPhysicsData.UFloat0 = PhysicsDatas[i].UFloat0;
+            NewPhysicsData.UFloat1 = PhysicsDatas[i].UFloat1;
+            NewPhysicsData.UFloat2 = PhysicsDatas[i].UFloat2;
+            NewPhysicsData.UFloat3 = PhysicsDatas[i].UFloat3;
+            NewPhysicsData.UFloat4 = PhysicsDatas[i].UFloat4;
+            NewPhysicsData.UFloat5 = PhysicsDatas[i].UFloat5;
+            NewPhysicsData.UFloat6 = PhysicsDatas[i].UFloat6;
+            NewPhysicsData.UFloat7 = PhysicsDatas[i].UFloat7;
+            NewPhysicsData.UFloat8 = PhysicsDatas[i].UFloat8;
+            NewPhysicsData.UFloat9 = PhysicsDatas[i].UFloat9;
+            NewPhysicsData.UFloat10 = PhysicsDatas[i].UFloat10;
+            NewPhysicsData.UFloat11 = PhysicsDatas[i].UFloat11;
+            NewPhysicsData.UFloat12 = PhysicsDatas[i].UFloat12;
+            NewPhysicsData.UFloat13 = PhysicsDatas[i].UFloat13;
+            NewPhysicsData.UFloat14 = PhysicsDatas[i].UFloat14;
+            NewPhysicsData.UFloat15 = PhysicsDatas[i].UFloat15;
+            NewPhysicsData.UFloat16 = PhysicsDatas[i].UFloat16;
+            NewPhysicsData.UFloat17 = PhysicsDatas[i].UFloat17;
+            NewPhysicsData.UFloat18 = PhysicsDatas[i].UFloat18;
+            NewPhysicsData.UFloat19 = PhysicsDatas[i].UFloat19;
+            NewPhysicsData.UFloat20 = PhysicsDatas[i].UFloat20;
+            NewPhysicsData.UFloat21 = PhysicsDatas[i].UFloat21;
+            NewPhysicsData.UFloat22 = PhysicsDatas[i].UFloat22;
+            NewPhysicsData.UFloat23 = PhysicsDatas[i].UFloat23;
+
+            NewPhysicsData.uPhysicsStruct0 = new List<SSFJsonHandler.UPhysicsStruct>();
+            for (int a = 0; a < PhysicsDatas[i].uPhysicsStruct0.Count; a++)
+            {
+                var NewUstruct = new SSFJsonHandler.UPhysicsStruct();
+
+                NewUstruct.U0 = PhysicsDatas[i].uPhysicsStruct0[a].U0;
+                NewUstruct.U1 = PhysicsDatas[i].uPhysicsStruct0[a].U1;
+                NewUstruct.U2 = PhysicsDatas[i].uPhysicsStruct0[a].U2;
+
+                NewPhysicsData.uPhysicsStruct0.Add(NewUstruct);
+            }
+
+            NewPhysicsData.UByteData = PhysicsDatas[i].UByteData;
+
+            physicsHeader.PhysicsDatas.Add(NewPhysicsData);
+        }
+
+        return physicsHeader;
+    }
     [System.Serializable]
     public struct PhysicsData
     {

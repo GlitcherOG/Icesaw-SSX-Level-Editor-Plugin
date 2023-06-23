@@ -39,6 +39,7 @@ public class LogicManager : MonoBehaviour
         ssfJsonHandler = new SSFJsonHandler();
         ssfJsonHandler = SSFJsonHandler.Load(path + "\\SSFLogic.json");
         LoadEffectSlots(ssfJsonHandler.EffectSlots);
+        LoadPhysics(ssfJsonHandler.PhysicsHeaders);
     }
 
     public void LoadEffectSlots(List<SSFJsonHandler.EffectSlotJson> effectSlotJson)
@@ -71,7 +72,9 @@ public class LogicManager : MonoBehaviour
     {
         ssfJsonHandler = new SSFJsonHandler();
         ssfJsonHandler.EffectSlots = SaveEffectSlots();
+        ssfJsonHandler.PhysicsHeaders = SavePhysicsHeader();
 
+        ssfJsonHandler.CreateJson(path + "\\SSFLogic.json");
     }
 
     public List<SSFJsonHandler.EffectSlotJson> SaveEffectSlots()
@@ -86,10 +89,26 @@ public class LogicManager : MonoBehaviour
         return NewEffectSlotList;
     }
 
+    public List<SSFJsonHandler.PhysicsHeader> SavePhysicsHeader()
+    {
+        var TempList = GetPhysicsObjects();
+        var NewPhysicsHeaders = new List<SSFJsonHandler.PhysicsHeader>();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            NewPhysicsHeaders.Add(TempList[i].GeneratePhysics());
+        }
+
+        return NewPhysicsHeaders;
+    }
+
     public EffectSlotObject[] GetEffectSlotsList()
     {
         return EffectSlotHolder.GetComponentsInChildren<EffectSlotObject>();
     }
 
-
+    public PhysicsObject[] GetPhysicsObjects()
+    {
+        return PhysicsHolder.GetComponentsInChildren<PhysicsObject>();
+    }
 }

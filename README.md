@@ -8,7 +8,6 @@
  - Particle Prefabs
  - Particle Instances
  - Effects
- - Physics
  - Skybox
  - SOP
  - AIP
