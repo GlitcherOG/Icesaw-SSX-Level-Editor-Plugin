@@ -7,12 +7,9 @@
  - Type 2
  - Type 3
  - Type 5
- - Instance Effects
  - Type 9
  - Type 13
  - Type 17
- - Type 18
- - Spline Effect
  
  
 ### General Saving

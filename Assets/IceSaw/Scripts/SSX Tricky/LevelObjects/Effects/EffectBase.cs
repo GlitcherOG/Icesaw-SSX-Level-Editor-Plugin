@@ -10,6 +10,10 @@ public class EffectBase : MonoBehaviour
     {
         get { return -1; }
     }
+    public virtual int SubEffectType
+    {
+        get { return -1; }
+    }
 
     public virtual void LoadEffect(SSFJsonHandler.Effect effect)
     {
