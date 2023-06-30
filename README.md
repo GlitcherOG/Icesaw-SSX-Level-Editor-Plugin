@@ -8,12 +8,10 @@
  - Type 3
  - Type 5
  - Instance Effects
- - SoundPlay
  - Type 9
  - Type 13
  - Type 17
  - Type 18
- - Teleport Instance Index
  - Spline Effect
  
  
