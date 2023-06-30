@@ -5,12 +5,6 @@
  - Effects
  - Type 0
  - Type 2
- - Type 3
- - Type 5
- - Type 9
- - Type 13
- - Type 17
- 
  
 ### General Saving
  - Particle Prefabs
