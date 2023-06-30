@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : EffectBase
+public class MultiplierEffect : EffectBase
 {
     public override int EffectType
     {
