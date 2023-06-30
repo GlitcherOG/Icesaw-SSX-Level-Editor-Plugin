@@ -3,7 +3,6 @@
 ## Current Todo
 ### General Loading
  - Effects
- - Type 0,0
  - Type 0,6
  - Type 0,7
  - Type 0,10
