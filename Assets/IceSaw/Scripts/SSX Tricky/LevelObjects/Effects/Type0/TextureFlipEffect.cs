@@ -26,7 +26,7 @@ public class TextureFlipEffect : EffectBase
     {
         Unknown1 = effect.type0.Value.TextureFlip.Value.U0;
         Direction = effect.type0.Value.TextureFlip.Value.Direction;
-        Speed = effect.type0.Value.TextureFlip.Value.Direction;
+        Speed = effect.type0.Value.TextureFlip.Value.Speed;
         Length = effect.type0.Value.TextureFlip.Value.Length;
         Unknown2 = effect.type0.Value.TextureFlip.Value.U4;
     }

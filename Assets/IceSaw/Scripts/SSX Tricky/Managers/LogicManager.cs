@@ -157,19 +157,19 @@ public class LogicManager : MonoBehaviour
             }
             else if (effect.type0.Value.SubType == 24)
             {
-
+                Parent.AddComponent<Type0Sub24Effect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 256)
             {
-
+                Parent.AddComponent<Type0Sub256Effect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 257)
             {
-
+                Parent.AddComponent<Type0Sub257Effect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 258)
             {
-
+                Parent.AddComponent<Type0Sub258Effect>().LoadEffect(effect);
             }
             else
             {
