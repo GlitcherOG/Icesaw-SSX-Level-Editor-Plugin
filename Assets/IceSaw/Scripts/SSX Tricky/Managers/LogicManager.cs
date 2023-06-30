@@ -66,7 +66,7 @@ public class LogicManager : MonoBehaviour
         for (int i = 0; i < physicsHeaders.Count; i++)
         {
             var TempGameObject = new GameObject("Physics " + i);
-            TempGameObject.transform.parent = EffectSlotHolder.transform;
+            TempGameObject.transform.parent = PhysicsHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
             var TempInstance = TempGameObject.AddComponent<PhysicsObject>();
@@ -92,70 +92,66 @@ public class LogicManager : MonoBehaviour
 
     public void GenerateEffectData(SSFJsonHandler.Effect effect, GameObject Parent, string name)
     {
-        var TempGameObject = new GameObject(name);
-        TempGameObject.transform.parent = Parent.transform;
-        TempGameObject.transform.localScale = Vector3.one;
-        TempGameObject.transform.localEulerAngles = Vector3.zero;
 
         if (effect.MainType == 0)
         {
-            
+            Parent.AddComponent<EffectBase>().LoadEffect(effect);
         }
         else if (effect.MainType == 2)
         {
-
+            Parent.AddComponent<EffectBase>().LoadEffect(effect);
         }
         else if (effect.MainType == 3)
         {
-            TempGameObject.AddComponent<Type3Effect>().LoadEffect(effect);
+            Parent.AddComponent<Type3Effect>().LoadEffect(effect);
         }
         else if (effect.MainType == 4)
         {
-            TempGameObject.AddComponent<WaitEffect>().LoadEffect(effect);
+            Parent.AddComponent<WaitEffect>().LoadEffect(effect);
         }
         else if (effect.MainType == 5)
         {
-            TempGameObject.AddComponent<Type5Effect>().LoadEffect(effect);
+            Parent.AddComponent<Type5Effect>().LoadEffect(effect);
         }
         else if (effect.MainType == 7)
         {
-            TempGameObject.AddComponent<InstanceRunEffect>().LoadEffect(effect);
+            Parent.AddComponent<InstanceRunEffect>().LoadEffect(effect);
         }
         else if (effect.MainType == 8)
         {
-            TempGameObject.AddComponent<SoundEffect>().LoadEffect(effect);
+            Parent.AddComponent<SoundEffect>().LoadEffect(effect);
         }
         else if (effect.MainType == 9)
         {
-            TempGameObject.AddComponent<Type9Effect>().LoadEffect(effect);
+            Parent.AddComponent<Type9Effect>().LoadEffect(effect);
         }
         else if (effect.MainType == 13)
         {
-            TempGameObject.AddComponent<Type13Effect>().LoadEffect(effect);
+            Parent.AddComponent<Type13Effect>().LoadEffect(effect);
         }
         else if (effect.MainType == 14)
         {
-            TempGameObject.AddComponent<MultiplierEffect>().LoadEffect(effect);
+            Parent.AddComponent<MultiplierEffect>().LoadEffect(effect);
         }
         else if (effect.MainType == 17)
         {
-            TempGameObject.AddComponent<Type17Effect>().LoadEffect(effect);
+            Parent.AddComponent<Type17Effect>().LoadEffect(effect);
         }
         else if (effect.MainType == 18)
         {
-            TempGameObject.AddComponent<Type18Effect>().LoadEffect(effect);
+            Parent.AddComponent<Type18Effect>().LoadEffect(effect);
         }
         else if (effect.MainType == 21)
         {
-            TempGameObject.AddComponent<FunctionRunEffect>().LoadEffect(effect);
+            Parent.AddComponent<FunctionRunEffect>().LoadEffect(effect);
         }
         else if (effect.MainType == 24)
         {
-            TempGameObject.AddComponent<TeleportEffect>().LoadEffect(effect);
+            Parent.AddComponent<TeleportEffect>().LoadEffect(effect);
         }
         else if (effect.MainType == 25)
         {
-            TempGameObject.AddComponent<SplineRunEffect>().LoadEffect(effect);
+            Parent.AddComponent<SplineRunEffect>().LoadEffect(effect);
         }
     }
 
