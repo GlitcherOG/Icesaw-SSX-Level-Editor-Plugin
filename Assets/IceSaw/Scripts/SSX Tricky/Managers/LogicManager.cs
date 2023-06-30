@@ -133,23 +133,23 @@ public class LogicManager : MonoBehaviour
             }
             else if (effect.type0.Value.SubType == 14)
             {
-
+                Parent.AddComponent<Type0Sub14Effect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 15)
             {
-
+                Parent.AddComponent<Type0Sub15Effect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 17)
             {
-
+                Parent.AddComponent<CrowdBoxEffect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 18)
             {
-
+                Parent.AddComponent<Type0Sub18Effect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 20)
             {
-
+                Parent.AddComponent<Type0Sub20Effect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 23)
             {

@@ -3,14 +3,6 @@
 ## Current Todo
 ### General Loading
  - Effects
- - Type 0,10
- - Type 0,11
- - Type 0,12
- - Type 0,13
- - Type 0,14
- - Type 0,15
- - Type 0,17
- - Type 0,18
  - Type 0,20
  - Type 0,24
  - Type 0,256

@@ -1145,6 +1145,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
         public struct Type0Sub20
         {
+
             public int U0;
             public float U1;
             public float U2;
