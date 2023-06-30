@@ -95,7 +95,86 @@ public class LogicManager : MonoBehaviour
 
         if (effect.MainType == 0)
         {
-            Parent.AddComponent<EffectBase>().LoadEffect(effect);
+            if (effect.type0.Value.SubType == 0)
+            {
+                Parent.AddComponent<Type0Sub0Effect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 2)
+            {
+                Parent.AddComponent<Type0Sub2Effect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 5)
+            {
+                Parent.AddComponent<DeadNodeEffect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 6)
+            {
+                Parent.AddComponent<CounterEffect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 7)
+            {
+                Parent.AddComponent<BoostEffect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 10)
+            {
+                Parent.AddComponent<UVScrollingEffect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 11)
+            {
+                Parent.AddComponent<TextureFlipEffect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 12)
+            {
+                Parent.AddComponent<FenceFlexEffect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 13)
+            {
+                Parent.AddComponent<Type0Sub13Effect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 14)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 15)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 17)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 18)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 20)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 23)
+            {
+                Parent.AddComponent<MovieScreenEffect>().LoadEffect(effect);
+            }
+            else if (effect.type0.Value.SubType == 24)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 256)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 257)
+            {
+
+            }
+            else if (effect.type0.Value.SubType == 258)
+            {
+
+            }
+            else
+            {
+                Parent.AddComponent<EffectBase>().LoadEffect(effect);
+            }
         }
         else if (effect.MainType == 2)
         {
@@ -152,6 +231,10 @@ public class LogicManager : MonoBehaviour
         else if (effect.MainType == 25)
         {
             Parent.AddComponent<SplineRunEffect>().LoadEffect(effect);
+        }
+        else
+        {
+            Parent.AddComponent<EffectBase>().LoadEffect(effect);
         }
     }
 

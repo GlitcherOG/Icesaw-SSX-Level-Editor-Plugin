@@ -3,8 +3,6 @@
 ## Current Todo
 ### General Loading
  - Effects
- - Type 0,6
- - Type 0,7
  - Type 0,10
  - Type 0,11
  - Type 0,12
@@ -21,6 +19,7 @@
  - Type 2,0
  - Type 2,1
  - Type 2,2
+ - Functions
  
 ### General Saving
  - Particle Prefabs
