@@ -10,6 +10,7 @@ public class EffectBase : MonoBehaviour
     {
         get { return -1; }
     }
+    [HideInInspector]
     public virtual int SubEffectType
     {
         get { return -1; }
