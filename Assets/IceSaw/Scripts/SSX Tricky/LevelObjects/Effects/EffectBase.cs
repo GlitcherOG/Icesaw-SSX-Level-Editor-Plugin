@@ -6,7 +6,10 @@ using UnityEngine;
 public class EffectBase : MonoBehaviour
 {
     [HideInInspector]
-    public int EffectType;
+    public virtual int EffectType
+    {
+        get { return -1; }
+    }
 
     public virtual void LoadEffect(SSFJsonHandler.Effect effect)
     {

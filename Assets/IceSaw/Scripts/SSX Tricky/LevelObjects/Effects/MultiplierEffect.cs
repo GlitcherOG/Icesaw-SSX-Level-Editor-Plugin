@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
-public class WaitEffect : EffectBase
+public class NewBehaviourScript : EffectBase
 {
     public override int EffectType
     {
-        get { return 4; }
+        get { return 14; }
     }
 
-    public float WaitTime;
+    public float MultiplierScore;
+
     public override void LoadEffect(SSFJsonHandler.Effect effect)
     {
-        WaitTime = effect.WaitTime.Value;
+        MultiplierScore = effect.MultiplierScore.Value;
     }
 
     public override SSFJsonHandler.Effect SaveEffect()
@@ -22,9 +22,8 @@ public class WaitEffect : EffectBase
         var NewEffect = new SSFJsonHandler.Effect();
 
         NewEffect.MainType = EffectType;
-        NewEffect.WaitTime = WaitTime;
+        NewEffect.MultiplierScore = MultiplierScore;
 
         return NewEffect;
     }
-
 }

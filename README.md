@@ -4,17 +4,15 @@
 ### General Loading
  - Effects
  - Type 0
- - Type 1
+ - Type 2
  - Type 3
  - Type 5
  - Instance Effects
  - SoundPlay
  - Type 9
  - Type 13
- - Multipler Score
  - Type 17
  - Type 18
- - Function Run Index
  - Teleport Instance Index
  - Spline Effect
  
