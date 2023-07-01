@@ -29,3 +29,7 @@
  - Patch Force Regen UV/Model
  - Effects/Functions Hide Transform
  - Fix Logic and Function Runs 
+ - Instance Effect Goto Both Indexs
+ - Spline Effect Goto Spline
+ - Function Run goto Function
+ - Instance Object goto Effect
