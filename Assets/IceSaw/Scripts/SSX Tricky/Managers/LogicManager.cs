@@ -37,6 +37,11 @@ public class LogicManager : MonoBehaviour
         EffectHolder.transform.parent = this.transform;
         EffectHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         EffectHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+        FunctionHolder = new GameObject("Functions");
+        FunctionHolder.transform.parent = this.transform;
+        FunctionHolder.transform.transform.localScale = new Vector3(1, 1, 1);
+        FunctionHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     public void LoadData(string path)
@@ -46,6 +51,7 @@ public class LogicManager : MonoBehaviour
         LoadEffectSlots(ssfJsonHandler.EffectSlots);
         LoadPhysics(ssfJsonHandler.PhysicsHeaders);
         LoadEffects(ssfJsonHandler.EffectHeaders);
+        LoadFunctions(ssfJsonHandler.Functions);
     }
 
     public void LoadEffectSlots(List<SSFJsonHandler.EffectSlotJson> effectSlotJson)
@@ -80,6 +86,22 @@ public class LogicManager : MonoBehaviour
         {
             var TempGameObject = new GameObject(effects[i].EffectName);
             TempGameObject.transform.parent = EffectHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+
+            for (int a = 0; a < effects[i].Effects.Count; a++)
+            {
+                GenerateEffectData(effects[i].Effects[a], TempGameObject, "Effect " + a);
+            }
+        }
+    }
+
+    public void LoadFunctions(List<SSFJsonHandler.Function> effects)
+    {
+        for (int i = 0; i < effects.Count; i++)
+        {
+            var TempGameObject = new GameObject(effects[i].FunctionName);
+            TempGameObject.transform.parent = FunctionHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
 
@@ -178,7 +200,22 @@ public class LogicManager : MonoBehaviour
         }
         else if (effect.MainType == 2)
         {
-            Parent.AddComponent<EffectBase>().LoadEffect(effect);
+            if (effect.type2.Value.SubType == 0)
+            {
+                Parent.AddComponent<Type2Sub0Effect>().LoadEffect(effect);
+            }
+            else if (effect.type2.Value.SubType == 1)
+            {
+                Parent.AddComponent<Type2Sub1Effect>().LoadEffect(effect);
+            }
+            else if (effect.type2.Value.SubType == 2)
+            {
+                Parent.AddComponent<Type2Sub2Effect>().LoadEffect(effect);
+            }
+            else
+            {
+                Parent.AddComponent<EffectBase>().LoadEffect(effect);
+            }
         }
         else if (effect.MainType == 3)
         {

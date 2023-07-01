@@ -1,17 +1,12 @@
 # IceSaw SSX Level Editor Plugin
  
 ## Current Todo
-### General Loading
- - Effects
- - Type 2,0
- - Type 2,1
- - Type 2,2
- - Functions
  
 ### General Saving
  - Particle Prefabs
  - Particle Instances
  - Effects
+ - Functions
  - Skybox
  - SOP
  - AIP
@@ -32,3 +27,5 @@
  - Missing Mesh Prefab Fix
  - Patch Flip
  - Patch Force Regen UV/Model
+ - Effects/Functions Hide Transform
+ - Fix Logic and Function Runs 
