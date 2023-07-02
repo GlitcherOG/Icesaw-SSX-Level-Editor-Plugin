@@ -5,8 +5,6 @@
 ### General Saving
  - Particle Prefabs
  - Particle Instances
- - Effects
- - Functions
  - Skybox
  - SOP
  - AIP
@@ -28,7 +26,6 @@
  - Patch Flip
  - Patch Force Regen UV/Model
  - Effects/Functions Hide Transform
- - Fix Logic and Function Runs 
  - Instance Effect Goto Both Indexs
  - Spline Effect Goto Spline
  - Function Run goto Function

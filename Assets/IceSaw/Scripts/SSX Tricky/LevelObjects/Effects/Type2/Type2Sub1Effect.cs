@@ -40,7 +40,7 @@ public class Type2Sub1Effect : EffectBase
         Unknown9 = effect.type2.Value.type2Sub1.Value.U8;
         Unknown10 = effect.type2.Value.type2Sub1.Value.U9;
         Unknown11 = effect.type2.Value.type2Sub1.Value.U10;
-       
+
     }
 
     public override SSFJsonHandler.Effect SaveEffect()

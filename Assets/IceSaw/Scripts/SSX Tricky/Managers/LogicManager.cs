@@ -1,14 +1,13 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class LogicManager : MonoBehaviour
 {
     public static LogicManager Instance;
-    [SerializeField]
-    public SSFJsonHandler ssfJsonHandler;
 
     GameObject EffectSlotHolder;
     GameObject PhysicsHolder;
@@ -46,7 +45,7 @@ public class LogicManager : MonoBehaviour
 
     public void LoadData(string path)
     {
-        ssfJsonHandler = new SSFJsonHandler();
+        SSFJsonHandler ssfJsonHandler = new SSFJsonHandler();
         ssfJsonHandler = SSFJsonHandler.Load(path + "\\SSFLogic.json");
         LoadEffectSlots(ssfJsonHandler.EffectSlots);
         LoadPhysics(ssfJsonHandler.PhysicsHeaders);
@@ -277,10 +276,11 @@ public class LogicManager : MonoBehaviour
 
     public void SaveData(string path)
     {
-        ssfJsonHandler = new SSFJsonHandler();
+        SSFJsonHandler ssfJsonHandler = new SSFJsonHandler();
         ssfJsonHandler.EffectSlots = SaveEffectSlots();
         ssfJsonHandler.PhysicsHeaders = SavePhysicsHeader();
-
+        ssfJsonHandler.EffectHeaders = GetEffectHeadersList();
+        ssfJsonHandler.Functions = GetFunctionList();
         ssfJsonHandler.CreateJson(path + "\\SSFLogic.json");
     }
 
@@ -311,11 +311,63 @@ public class LogicManager : MonoBehaviour
 
     public EffectSlotObject[] GetEffectSlotsList()
     {
-        return EffectSlotHolder.GetComponentsInChildren<EffectSlotObject>();
+        return EffectSlotHolder.GetComponentsInChildren<EffectSlotObject>(true);
     }
 
     public PhysicsObject[] GetPhysicsObjects()
     {
-        return PhysicsHolder.GetComponentsInChildren<PhysicsObject>();
+        return PhysicsHolder.GetComponentsInChildren<PhysicsObject>(true);
+    }
+
+    public List<SSFJsonHandler.EffectHeaderStruct> GetEffectHeadersList()
+    {
+        int ChildList = EffectHolder.transform.childCount;
+
+        List<SSFJsonHandler.EffectHeaderStruct> HeaderList = new List<SSFJsonHandler.EffectHeaderStruct>();
+
+        for (int i = 0; i < ChildList; i++)
+        {
+            var TempObject = EffectHolder.transform.GetChild(i);
+            var NewHeader = new SSFJsonHandler.EffectHeaderStruct();
+
+            NewHeader.EffectName = TempObject.name;
+            NewHeader.Effects = new List<SSFJsonHandler.Effect>();
+
+            var TempEffects = TempObject.GetComponentsInChildren<EffectBase>(true);
+
+            for (int a = 0; a < TempEffects.Length; a++)
+            {
+                NewHeader.Effects.Add(TempEffects[a].SaveEffect());
+            }
+            HeaderList.Add(NewHeader);
+        }
+
+        return HeaderList;
+    }
+
+    public List<SSFJsonHandler.Function> GetFunctionList()
+    {
+        int ChildList = FunctionHolder.transform.childCount;
+
+        List<SSFJsonHandler.Function> HeaderList = new List<SSFJsonHandler.Function>();
+
+        for (int i = 0; i < ChildList; i++)
+        {
+            var TempObject = FunctionHolder.transform.GetChild(i);
+            var NewHeader = new SSFJsonHandler.Function();
+
+            NewHeader.FunctionName = TempObject.name;
+            NewHeader.Effects = new List<SSFJsonHandler.Effect>();
+
+            var TempEffects = TempObject.GetComponentsInChildren<EffectBase>(true);
+
+            for (int a = 0; a < TempEffects.Length; a++)
+            {
+                NewHeader.Effects.Add(TempEffects[a].SaveEffect());
+            }
+            HeaderList.Add(NewHeader);
+        }
+
+        return HeaderList;
     }
 }

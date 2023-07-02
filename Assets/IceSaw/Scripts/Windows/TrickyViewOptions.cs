@@ -72,7 +72,7 @@ public class TrickyViewOptions
             Debug.Log("NotNull");
         }
 
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "RaceMode")
@@ -114,7 +114,7 @@ public class TrickyViewOptions
         }
 
         //Run Effect
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "ShowoffMode")
@@ -163,7 +163,7 @@ public class TrickyViewOptions
 
         //Run Effect
 
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "FreerideMode")
@@ -178,7 +178,7 @@ public class TrickyViewOptions
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "RaceMode")
@@ -192,7 +192,7 @@ public class TrickyViewOptions
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "ShowoffMode")
@@ -206,7 +206,7 @@ public class TrickyViewOptions
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "FreerideMode")
@@ -221,7 +221,7 @@ public class TrickyViewOptions
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "StartCountDown")
@@ -236,7 +236,7 @@ public class TrickyViewOptions
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "EndCountDown")
@@ -251,7 +251,7 @@ public class TrickyViewOptions
     {
         InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = WorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.ssfJsonHandler.Functions;
+        var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "NoCountDown")
@@ -277,7 +277,7 @@ public class TrickyViewOptions
 
     public static void RunFunction(int Position, InstanceObject[] InstanceList, SplineObject[] splineObjects)
     {
-        var Function = LogicManager.Instance.ssfJsonHandler.Functions[Position];
+        var Function = LogicManager.Instance.GetFunctionList()[Position];
 
         for (int i = 0; i < Function.Effects.Count; i++)
         {
@@ -299,7 +299,7 @@ public class TrickyViewOptions
     public static void RunEffectInstance(int Effect, int Instance, InstanceObject[] InstanceList)
     {
         var TempInstance = InstanceList[Instance];
-        var EffectHeader = LogicManager.Instance.ssfJsonHandler.EffectHeaders[Effect];
+        var EffectHeader = LogicManager.Instance.GetEffectHeadersList()[Effect];
         for (int i = 0; i < EffectHeader.Effects.Count; i++)
         {
             if (EffectHeader.Effects[i].MainType==0)
