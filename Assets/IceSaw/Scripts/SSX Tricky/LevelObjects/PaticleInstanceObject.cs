@@ -32,4 +32,25 @@ public class PaticleInstanceObject : MonoBehaviour
         UnknownInt11 = instanceJsonHandler.UnknownInt11;
         UnknownInt12 = instanceJsonHandler.UnknownInt12;
     }
+
+    public ParticleInstanceJsonHandler.ParticleJson GenerateParticleInstance()
+    {
+        ParticleInstanceJsonHandler.ParticleJson particleJson = new ParticleInstanceJsonHandler.ParticleJson();
+
+        particleJson.ParticleName = transform.name;
+        particleJson.Location = JsonUtil.Vector3ToArray(transform.localPosition);
+        particleJson.Rotation = JsonUtil.QuaternionToArray(transform.localRotation);
+        particleJson.Scale = JsonUtil.Vector3ToArray(transform.localScale);
+
+        particleJson.UnknownInt1 = UnknownInt1;
+        particleJson.LowestXYZ = LowestXYZ;
+        particleJson.HighestXYZ = HighestXYZ;
+        particleJson.UnknownInt8 = UnknownInt8;
+        particleJson.UnknownInt9 = UnknownInt9;
+        particleJson.UnknownInt10 = UnknownInt10;
+        particleJson.UnknownInt11 = UnknownInt11;
+        particleJson.UnknownInt12 = UnknownInt12;
+
+        return particleJson;
+    }
 }
