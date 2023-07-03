@@ -40,6 +40,42 @@ public class ParticlePrefabObject : MonoBehaviour
     
     }
 
+    public ParticleModelJsonHandler.ParticleModelJson GenerateParticle()
+    {
+        ParticleModelJsonHandler.ParticleModelJson jsonHandler = new ParticleModelJsonHandler.ParticleModelJson();
+
+        jsonHandler.ParticleModelName = transform.name;
+
+        jsonHandler.ParticleObjectHeaders = new List<ParticleModelJsonHandler.ParticleObjectHeader>();
+
+        for (int i = 0; i < ParticleObjects.Count; i++)
+        {
+            var TempParticle = new ParticleModelJsonHandler.ParticleObjectHeader();
+
+            TempParticle.ParticleObject = new ParticleModelJsonHandler.ParticleObject();
+
+            TempParticle.ParticleObject.LowestXYZ = JsonUtil.Vector3ToArray(ParticleObjects[i].LowestXYZ);
+            TempParticle.ParticleObject.HighestXYZ = JsonUtil.Vector3ToArray(ParticleObjects[i].HighestXYZ);
+            TempParticle.ParticleObject.U1 = ParticleObjects[i].U1;
+
+            TempParticle.ParticleObject.AnimationFrames = new List<ParticleModelJsonHandler.AnimationFrames>();
+
+            for (int a = 0; a < ParticleObjects[i].AnimationFrames.Count; a++)
+            {
+                var NewAnimationFrame = new ParticleModelJsonHandler.AnimationFrames();
+
+                NewAnimationFrame.Rotation = JsonUtil.Vector3ToArray(ParticleObjects[i].AnimationFrames[a].Rotation);
+                NewAnimationFrame.Position = JsonUtil.Vector3ToArray(ParticleObjects[i].AnimationFrames[a].Position);
+                NewAnimationFrame.Unknown = ParticleObjects[i].AnimationFrames[a].Unknown;
+
+                TempParticle.ParticleObject.AnimationFrames.Add(NewAnimationFrame);
+            }
+            jsonHandler.ParticleObjectHeaders.Add(TempParticle);
+        }
+
+        return jsonHandler;
+    }
+
     [System.Serializable]
     public struct ParticleObject
     {

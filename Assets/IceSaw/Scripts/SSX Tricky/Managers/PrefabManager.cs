@@ -176,6 +176,7 @@ public class PrefabManager : MonoBehaviour
     public void SaveData(string Path)
     {
         SaveMaterials(Path + "\\Materials.json");
+        SaveParticlePrefabs(Path + "\\ParticlePrefabs.json");
     }
 
     public void SaveMaterials(string path)
@@ -192,13 +193,30 @@ public class PrefabManager : MonoBehaviour
         materialJsonHandler.CreateJson(path);
     }
 
+    public void SaveParticlePrefabs(string path)
+    {
+        ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
+        particleModelJsonHandler.ParticlePrefabs = new List<ParticleModelJsonHandler.ParticleModelJson>();
 
+        var TempList = GetParticlePrefabsList();
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            particleModelJsonHandler.ParticlePrefabs.Add(TempList[i].GenerateParticle());
+        }
+
+        particleModelJsonHandler.CreateJson(path);
+    }
 
     #endregion
 
     public MaterialObject[] GetMaterialList()
     {
         return MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true);
+    }
+
+    public ParticlePrefabObject[] GetParticlePrefabsList()
+    {
+        return MaterialHolder.transform.GetComponentsInChildren<ParticlePrefabObject>(true);
     }
 
     public MaterialObject GetMaterialObject(int A)
