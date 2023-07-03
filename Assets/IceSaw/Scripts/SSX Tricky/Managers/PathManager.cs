@@ -59,5 +59,30 @@ public class PathManager : MonoBehaviour
         }
     }
 
+    public void SaveJson(string Path)
+    {
+        AIPSOPJsonHandler aipsopJsonHandler = new AIPSOPJsonHandler();
+
+        aipsopJsonHandler.StartPosList = StartPos;
+        aipsopJsonHandler.RaceLines = new List<AIPSOPJsonHandler.PathB>();
+        aipsopJsonHandler.AIPaths = new List<AIPSOPJsonHandler.PathA>();
+
+        var TempPathAList = PathAHolder.transform.GetComponentsInChildren<PathAObject>();
+
+        for (int i = 0; i < TempPathAList.Length; i++)
+        {
+            aipsopJsonHandler.AIPaths.Add(TempPathAList[i].GeneratePathA());
+        }
+
+        var TempPathBList = PathAHolder.transform.GetComponentsInChildren<PathBObject>();
+
+        for (int i = 0; i < TempPathBList.Length; i++)
+        {
+            aipsopJsonHandler.RaceLines.Add(TempPathBList[i].GeneratePathB());
+        }
+
+        aipsopJsonHandler.CreateJson(Path);
+    }
+
 
 }

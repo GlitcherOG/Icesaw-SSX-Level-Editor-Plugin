@@ -55,4 +55,21 @@ public class PathFileManager : MonoBehaviour
         sopJson = AIPSOPJsonHandler.Load(Path);
         SOPHolder.GetComponent<PathManager>().LoadJson(sopJson);
     }
+
+    public void SaveData(string Path)
+    {
+        SaveAIP(Path + "\\AIP.json");
+        SaveSOP(Path + "\\SOP.json");
+    }
+
+    public void SaveAIP(string Path)
+    {
+        AIPHolder.GetComponent<PathManager>().SaveJson(Path);
+    }
+
+    public void SaveSOP(string Path)
+    {
+        SOPHolder.GetComponent<PathManager>().SaveJson(Path);
+    }
 }
+

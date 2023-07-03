@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
+using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 
 public class PathAObject : MonoBehaviour
 {
@@ -44,6 +45,38 @@ public class PathAObject : MonoBehaviour
 
             UnknownStructs.Add(NewStruct);
         }
+    }
+
+    public AIPSOPJsonHandler.PathA GeneratePathA()
+    {
+        AIPSOPJsonHandler.PathA NewPathA = new AIPSOPJsonHandler.PathA();
+
+        NewPathA.Type = Type;
+        NewPathA.U1 = U1;
+        NewPathA.U2 = U2;
+        NewPathA.U3 = U3;
+        NewPathA.U4 = U4;
+        NewPathA.U5 = U5;
+        NewPathA.U6 = U6;
+
+        NewPathA.PathPos = PathPos;
+        NewPathA.PathPoints = PathPoints;
+
+        NewPathA.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
+
+        for (int i = 0; i < UnknownStructs.Count; i++)
+        {
+            var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+
+            NewStruct.U0 = UnknownStructs[i].U0;
+            NewStruct.U1 = UnknownStructs[i].U1;
+            NewStruct.U2 = UnknownStructs[i].U2;
+            NewStruct.U3 = UnknownStructs[i].U3;
+
+            NewPathA.UnknownStructs.Add(NewStruct);
+        }
+
+        return NewPathA;
     }
     [System.Serializable]
     public struct UnknownStruct

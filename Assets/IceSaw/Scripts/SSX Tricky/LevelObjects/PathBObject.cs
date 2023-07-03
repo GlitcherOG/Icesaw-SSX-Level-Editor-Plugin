@@ -40,6 +40,34 @@ public class PathBObject : MonoBehaviour
         }
     }
 
+    public AIPSOPJsonHandler.PathB GeneratePathB()
+    {
+        AIPSOPJsonHandler.PathB pathB = new AIPSOPJsonHandler.PathB();
+
+        pathB.Type = Type;
+        pathB.U1 = U1;
+        pathB.U2 = U2;
+
+        pathB.PathPos = PathPos;
+        pathB.PathPoints = PathPoints;
+
+        pathB.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
+        for (int i = 0; i < UnknownStructs.Count; i++)
+        {
+            var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+
+            NewStruct.U0 = UnknownStructs[i].U0;
+            NewStruct.U1 = UnknownStructs[i].U1;
+            NewStruct.U2 = UnknownStructs[i].U2;
+            NewStruct.U3 = UnknownStructs[i].U3;
+
+            pathB.UnknownStructs.Add(NewStruct);
+        }
+
+
+        return pathB;
+    }
+
     [System.Serializable]
     public struct UnknownStruct
     {

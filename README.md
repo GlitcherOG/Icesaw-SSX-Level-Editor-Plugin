@@ -3,10 +3,7 @@
 ## Current Todo
  
 ### General Saving
- - Particle Prefabs
  - Skybox
- - SOP
- - AIP
  - Prefabs
  
  ### Data Editing

@@ -101,10 +101,11 @@ public class LevelManager : MonoBehaviour
 
     public void SaveData(string Path)
     {
-        WorldManager.GetComponent<WorldManager>().SaveData(Path);
         PrefabManager.GetComponent<PrefabManager>().SaveData(Path);
-
-
+        WorldManager.GetComponent<WorldManager>().SaveData(Path);
+        LogicManager.GetComponent<LogicManager>().SaveData(Path);
+        //SkyboxManager.GetComponent<SkyboxManager>().SaveData(Path);
+        PathFileManager.GetComponent<PathFileManager>().SaveData(Path);
     }
 
     public void ReloadTextures()
