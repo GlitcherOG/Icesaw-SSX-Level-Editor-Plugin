@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
@@ -153,6 +154,94 @@ public class PrefabObject : MonoBehaviour
         }
 
         GenerateSubModels();
+    }
+
+    public PrefabJsonHandler.PrefabJson GeneratePrefabs(bool Skybox = false)
+    {
+        PrefabJsonHandler.PrefabJson prefabJson = new PrefabJson();
+
+        if(!Skybox)
+        {
+            prefabJson.PrefabName = transform.name;
+        }
+
+        prefabJson.Unknown3 = Unknown3;
+        prefabJson.AnimTime = AnimTime;
+        prefabJson.PrefabObjects = new List<PrefabJsonHandler.ObjectHeader>();
+
+        for (int i = 0; i < PrefabObjects.Count; i++)
+        {
+            var NewObjectHeader = new PrefabJsonHandler.ObjectHeader();
+
+            NewObjectHeader.ParentID = PrefabObjects[i].ParentID;
+            NewObjectHeader.Flags = PrefabObjects[i].Flags;
+            NewObjectHeader.IncludeMatrix = PrefabObjects[i].IncludeMatrix;
+            if(NewObjectHeader.IncludeMatrix)
+            {
+                NewObjectHeader.Position = JsonUtil.Vector3ToArray(PrefabObjects[i].Position);
+                NewObjectHeader.Rotation = JsonUtil.QuaternionToArray(PrefabObjects[i].Rotation);
+                NewObjectHeader.Scale = JsonUtil.Vector3ToArray(PrefabObjects[i].Scale);
+            }
+
+            NewObjectHeader.IncludeAnimation = PrefabObjects[i].IncludeAnimation;
+           
+            if(NewObjectHeader.IncludeAnimation)
+            {
+                var NewAnimation = new PrefabJsonHandler.ObjectAnimation();
+
+                NewAnimation.U1 = PrefabObjects[i].Animation.U1;
+                NewAnimation.U2 = PrefabObjects[i].Animation.U2;
+                NewAnimation.U3 = PrefabObjects[i].Animation.U3;
+                NewAnimation.U4 = PrefabObjects[i].Animation.U4;
+                NewAnimation.U5 = PrefabObjects[i].Animation.U5;
+                NewAnimation.U6 = PrefabObjects[i].Animation.U6;
+                NewAnimation.AnimationAction = PrefabObjects[i].Animation.AnimationAction;
+
+                NewAnimation.AnimationEntries = new List<PrefabJsonHandler.AnimationEntry>();
+
+                for (int a = 0; a < PrefabObjects[i].Animation.AnimationEntries.Count; a++)
+                {
+                    var NewAnimEntry = new PrefabJsonHandler.AnimationEntry();
+                    NewAnimEntry.AnimationMaths = new List<PrefabJsonHandler.AnimationMath>();
+
+                    for (int b = 0; b < PrefabObjects[i].Animation.AnimationEntries[a].AnimationMaths.Count; b++)
+                    {
+                        var TempMaths = new PrefabJsonHandler.AnimationMath();
+
+                        TempMaths.Value1 = PrefabObjects[i].Animation.AnimationEntries[a].AnimationMaths[b].Value1;
+                        TempMaths.Value2 = PrefabObjects[i].Animation.AnimationEntries[a].AnimationMaths[b].Value2;
+                        TempMaths.Value3 = PrefabObjects[i].Animation.AnimationEntries[a].AnimationMaths[b].Value3;
+                        TempMaths.Value4 = PrefabObjects[i].Animation.AnimationEntries[a].AnimationMaths[b].Value4;
+                        TempMaths.Value5 = PrefabObjects[i].Animation.AnimationEntries[a].AnimationMaths[b].Value5;
+                        TempMaths.Value6 = PrefabObjects[i].Animation.AnimationEntries[a].AnimationMaths[b].Value6;
+
+                        NewAnimEntry.AnimationMaths.Add(TempMaths);
+                    }
+
+                    NewAnimation.AnimationEntries.Add(NewAnimEntry);
+                }
+
+                NewObjectHeader.Animation = NewAnimation;
+            }
+
+            for (int a = 0; a < PrefabObjects[i].MeshData.Count; a++)
+            {
+                var TempNewMeshData = new PrefabJsonHandler.MeshHeader();
+
+                TempNewMeshData.MeshPath = PrefabObjects[i].MeshData[a].MeshPath;
+                TempNewMeshData.MeshID = PrefabObjects[i].MeshData[a].MeshID;
+                TempNewMeshData.MaterialID = PrefabObjects[i].MeshData[a].MaterialID;
+
+                NewObjectHeader.MeshData.Add(TempNewMeshData);
+            }
+
+
+
+            prefabJson.PrefabObjects.Add(NewObjectHeader);
+        }
+
+
+        return prefabJson;
     }
 
     public void LoadModelsAndMesh(bool Skybox)

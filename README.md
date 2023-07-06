@@ -1,7 +1,6 @@
 # IceSaw SSX Level Editor Plugin
  
 ## Current Todo
- 
 ### General Saving
  - Skybox
  - Prefabs

@@ -2,7 +2,9 @@ using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
+using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 public class SkyboxManager : MonoBehaviour
 {
@@ -154,6 +156,51 @@ public class SkyboxManager : MonoBehaviour
                 ZPosition += 10000;
             }
         }
+    }
+
+    public void SaveData(string path)
+    {
+        SaveSkyboxMaterials(path + "\\Skybox\\Materials.json");
+        SavePrefabs(path + "\\Skybox\\Prefabs.json");
+    }
+
+    public void SaveSkyboxMaterials(string path)
+    {
+        MaterialJsonHandler materialJsonHandler = new MaterialJsonHandler();
+        materialJsonHandler.Materials = new List<MaterialJsonHandler.MaterialsJson>();
+
+        var TempMaterial = GetMaterialList();
+
+        for (int i = 0; i < TempMaterial.Length; i++)
+        {
+            materialJsonHandler.Materials.Add(TempMaterial[i].GenerateMaterial());
+        }
+        materialJsonHandler.CreateJson(path);
+    }
+
+    public void SavePrefabs(string path)
+    {
+        PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
+        prefabJsonHandler.Prefabs = new List<PrefabJson>();
+
+        var TempList = GetPrefabsList();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            prefabJsonHandler.Prefabs.Add(TempList[i].GeneratePrefabs(true));
+        }
+
+        prefabJsonHandler.CreateJson(path);
+    }
+
+    public PrefabObject[] GetPrefabsList()
+    {
+        return PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
+    }
+
+    public MaterialObject[] GetMaterialList()
+    {
+        return MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true);
     }
 
     public MaterialObject GetMaterialObject(int A)

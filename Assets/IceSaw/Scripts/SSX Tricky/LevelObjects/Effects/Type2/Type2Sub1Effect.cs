@@ -34,7 +34,7 @@ public class Type2Sub1Effect : EffectBase
         Unknown3 = effect.type2.Value.type2Sub1.Value.U2;
         Unknown4 = effect.type2.Value.type2Sub1.Value.U3;
         Unknown5 = effect.type2.Value.type2Sub1.Value.U4;
-        Unknown6 = effect.type2.Value.type2Sub0.Value.U5;
+        Unknown6 = effect.type2.Value.type2Sub1.Value.U5;
         Unknown7 = effect.type2.Value.type2Sub1.Value.U6;
         Unknown8 = effect.type2.Value.type2Sub1.Value.U7;
         Unknown9 = effect.type2.Value.type2Sub1.Value.U8;
