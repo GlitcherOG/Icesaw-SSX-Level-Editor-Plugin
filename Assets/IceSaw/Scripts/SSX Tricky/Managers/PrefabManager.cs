@@ -232,7 +232,7 @@ public class PrefabManager : MonoBehaviour
 
     public ParticlePrefabObject[] GetParticlePrefabsList()
     {
-        return MaterialHolder.transform.GetComponentsInChildren<ParticlePrefabObject>(true);
+        return ParticlePrefabHolder.transform.GetComponentsInChildren<ParticlePrefabObject>(true);
     }
 
     public PrefabObject[] GetPrefabList()
