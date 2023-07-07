@@ -12,7 +12,6 @@
  - Load Collision onto instance
  - Instance Collision Display
  - Fix Camera Rotations
- - Proper Skybox Detection
  - Missing Mesh Prefab Fix
  - Patch Flip
  - Patch Force Regen UV/Model

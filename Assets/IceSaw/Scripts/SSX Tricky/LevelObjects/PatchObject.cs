@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -18,10 +18,10 @@ public class PatchObject : MonoBehaviour
     //[Space(10)]
     [SerializeField]
     [OnChangedCall("LoadUVMap")]
-    public Vector2 UVPoint1 = new Vector2(1,0);
+    public Vector2 UVPoint1 = new Vector2(1, 0);
     [SerializeField]
     [OnChangedCall("LoadUVMap")]
-    public Vector2 UVPoint2 = new Vector2(1,-1);
+    public Vector2 UVPoint2 = new Vector2(1, -1);
     [SerializeField]
     [OnChangedCall("LoadUVMap")]
     public Vector2 UVPoint3 = new Vector2(0, 0);
@@ -93,13 +93,19 @@ public class PatchObject : MonoBehaviour
     public int LightmapID;
 
     MeshRenderer meshRenderer;
+    MeshFilter meshFilter;
+    //MeshCollider meshCollider;
 
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
     {
-        this.AddComponent<MeshFilter>();
+        meshFilter = this.AddComponent<MeshFilter>();
         meshRenderer = this.AddComponent<MeshRenderer>();
-        this.AddComponent<MeshCollider>();
+
+        meshFilter.hideFlags = HideFlags.HideInInspector;
+        meshRenderer.hideFlags = HideFlags.HideInInspector;
+
+        //meshCollider = this.AddComponent<MeshCollider>();
         //Set Material
         var TempMaterial = (Material)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Material\\MainPatchMaterial.mat", typeof(Material));
         Material mat = new Material(TempMaterial);
@@ -116,7 +122,7 @@ public class PatchObject : MonoBehaviour
         UVPoint3 = new Vector2(import.UVPoints[2, 0], import.UVPoints[2, 1]);
         UVPoint4 = new Vector2(import.UVPoints[3, 0], import.UVPoints[3, 1]);
 
-        RawR4C4 = new Vector3(import.Points[15,0], import.Points[15, 1], import.Points[15, 2]);
+        RawR4C4 = new Vector3(import.Points[15, 0], import.Points[15, 1], import.Points[15, 2]);
         RawR4C3 = new Vector3(import.Points[14, 0], import.Points[14, 1], import.Points[14, 2]);
         RawR4C2 = new Vector3(import.Points[13, 0], import.Points[13, 1], import.Points[13, 2]);
         RawR4C1 = new Vector3(import.Points[12, 0], import.Points[12, 1], import.Points[12, 2]);
@@ -152,7 +158,7 @@ public class PatchObject : MonoBehaviour
         patch.PatchName = transform.name;
         patch.LightMapPoint = JsonUtil.Vector4ToArray(LightMapPoint);
 
-        patch.UVPoints = new float[4,2];
+        patch.UVPoints = new float[4, 2];
 
         patch.UVPoints[0, 0] = UVPoint1.x;
         patch.UVPoints[0, 1] = UVPoint1.y;
@@ -291,13 +297,13 @@ public class PatchObject : MonoBehaviour
         surface.controlPoints = cps;
 
         //Build mesh (reusing Mesh to save GC allocation)
-        var mesh=surface.BuildMesh(resolutionU, resolutionV);
+        var mesh = surface.BuildMesh(resolutionU, resolutionV);
 
         //Set material
-        GetComponent<MeshFilter>().mesh= mesh;
-        GetComponent<MeshCollider>().enabled = false;
-        GetComponent<MeshCollider>().sharedMesh = mesh;
-        GetComponent<MeshCollider>().enabled = true;
+        meshFilter.mesh = mesh;
+        //GetComponent<MeshCollider>().enabled = false;
+        //GetComponent<MeshCollider>().sharedMesh = mesh;
+        //GetComponent<MeshCollider>().enabled = true;
 
         LoadUVMap();
         LoadLightmap();
@@ -338,7 +344,7 @@ public class PatchObject : MonoBehaviour
         {
             UV2[i] = new Vector2(UV[i].x, UV[i].y);
         }
-        GetComponent<MeshFilter>().sharedMesh.uv = UV2;
+        meshFilter.sharedMesh.uv = UV2;
     }
 
     public void LoadLightmap()
@@ -368,7 +374,7 @@ public class PatchObject : MonoBehaviour
             UV2[i] = new Vector2(UV[i].x, UV[i].y);
         }
 
-        GetComponent<MeshFilter>().sharedMesh.uv2 = UV2;
+        meshFilter.sharedMesh.uv2 = UV2;
     }
     public List<Vector2> PointCorrection(List<Vector2> NewList)
     {
@@ -468,4 +474,10 @@ public class PatchObject : MonoBehaviour
         LoadUVMap();
     }
 
+    [MenuItem("GameObject/Ice Saw/Patch", false, 12)]
+    public static void CreatePatch(MenuCommand menuCommand)
+    {
+
+
+    }
 }
