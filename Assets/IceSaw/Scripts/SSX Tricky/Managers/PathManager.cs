@@ -74,7 +74,7 @@ public class PathManager : MonoBehaviour
             aipsopJsonHandler.AIPaths.Add(TempPathAList[i].GeneratePathA());
         }
 
-        var TempPathBList = PathAHolder.transform.GetComponentsInChildren<PathBObject>();
+        var TempPathBList = PathBHolder.transform.GetComponentsInChildren<PathBObject>();
 
         for (int i = 0; i < TempPathBList.Length; i++)
         {
