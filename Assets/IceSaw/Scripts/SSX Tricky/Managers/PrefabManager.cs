@@ -177,6 +177,7 @@ public class PrefabManager : MonoBehaviour
     {
         SaveMaterials(Path + "\\Materials.json");
         SaveParticlePrefabs(Path + "\\ParticlePrefabs.json");
+        SavePrefabs(Path + "\\Prefabs.json");
     }
 
     public void SaveMaterials(string path)

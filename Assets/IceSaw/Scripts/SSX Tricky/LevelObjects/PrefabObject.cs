@@ -225,6 +225,7 @@ public class PrefabObject : MonoBehaviour
                 NewObjectHeader.Animation = NewAnimation;
             }
 
+            NewObjectHeader.MeshData = new List<PrefabJsonHandler.MeshHeader>();
             for (int a = 0; a < PrefabObjects[i].MeshData.Count; a++)
             {
                 var TempNewMeshData = new PrefabJsonHandler.MeshHeader();
@@ -235,8 +236,6 @@ public class PrefabObject : MonoBehaviour
 
                 NewObjectHeader.MeshData.Add(TempNewMeshData);
             }
-
-
 
             prefabJson.PrefabObjects.Add(NewObjectHeader);
         }
