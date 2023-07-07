@@ -26,21 +26,25 @@ public class LogicManager : MonoBehaviour
         EffectSlotHolder.transform.parent = this.transform;
         EffectSlotHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         EffectSlotHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+        EffectSlotHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         PhysicsHolder = new GameObject("Physics");
         PhysicsHolder.transform.parent = this.transform;
         PhysicsHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         PhysicsHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+        PhysicsHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         EffectHolder = new GameObject("Effects");
         EffectHolder.transform.parent = this.transform;
         EffectHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         EffectHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+        EffectHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         FunctionHolder = new GameObject("Functions");
         FunctionHolder.transform.parent = this.transform;
         FunctionHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         FunctionHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+        FunctionHolder.transform.hideFlags = HideFlags.HideInInspector;
     }
 
     public void LoadData(string path)
@@ -61,6 +65,8 @@ public class LogicManager : MonoBehaviour
             TempGameObject.transform.parent = EffectSlotHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
+
             var TempInstance = TempGameObject.AddComponent<EffectSlotObject>();
             TempInstance.LoadEffectSlot(effectSlotJson[i]);
         }
@@ -74,6 +80,8 @@ public class LogicManager : MonoBehaviour
             TempGameObject.transform.parent = PhysicsHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
+
             var TempInstance = TempGameObject.AddComponent<PhysicsObject>();
             TempInstance.LoadPhysics(physicsHeaders[i]);
         }
@@ -87,6 +95,7 @@ public class LogicManager : MonoBehaviour
             TempGameObject.transform.parent = EffectHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
 
             for (int a = 0; a < effects[i].Effects.Count; a++)
             {
@@ -103,6 +112,7 @@ public class LogicManager : MonoBehaviour
             TempGameObject.transform.parent = FunctionHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
 
             for (int a = 0; a < effects[i].Effects.Count; a++)
             {

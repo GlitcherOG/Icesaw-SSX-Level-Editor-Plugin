@@ -19,6 +19,7 @@ public class PrefabObject : MonoBehaviour
     public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(transform.name);
+        MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
         for (int i = 0; i < PrefabObjects.Count; i++)
         {
             var TempPrefab = PrefabObjects[i];
