@@ -1,7 +1,9 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using static SSXMultiTool.JsonFiles.Tricky.SSFJsonHandler;
 
 public class InstanceRunEffect : EffectBase
 {
@@ -33,5 +35,27 @@ public class InstanceRunEffect : EffectBase
         NewEffect.Instance = NewInstanceEffect;
 
         return NewEffect;
+    }
+
+    [ContextMenu("Goto Instance")]
+    public void GotoInstance()
+    {
+        var TempList = WorldManager.Instance.GetInstanceList();
+
+        if (TempList.Length - 1 >= InstanceIndex)
+        {
+            Selection.activeObject = TempList[InstanceIndex].gameObject;
+        }
+    }
+
+    [ContextMenu("Goto Effect")]
+    public void GotoEffect()
+    {
+        var TempList = LogicManager.Instance.GetEffectObjects();
+
+        if (TempList.Length - 1 >= EffectIndex)
+        {
+            Selection.activeObject = TempList[EffectIndex];
+        }
     }
 }

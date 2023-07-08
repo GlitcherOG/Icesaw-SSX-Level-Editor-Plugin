@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SplineRunEffect : EffectBase
@@ -33,5 +34,16 @@ public class SplineRunEffect : EffectBase
         NewEffect.Spline = NewInstanceEffect;
 
         return NewEffect;
+    }
+
+    [ContextMenu("Goto Spline")]
+    public void GotoSpline()
+    {
+        var TempList = WorldManager.Instance.GetSplineList();
+
+        if (TempList.Length - 1 >= SplineIndex)
+        {
+            Selection.activeObject = TempList[SplineIndex].gameObject;
+        }
     }
 }

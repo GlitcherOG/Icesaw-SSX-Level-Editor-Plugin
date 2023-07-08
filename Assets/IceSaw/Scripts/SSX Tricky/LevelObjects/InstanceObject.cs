@@ -251,6 +251,29 @@ public class InstanceObject : MonoBehaviour
             ModelID = Test;
         }
     }
+
+    [ContextMenu("Goto Effect Slot")]
+    public void GotoEffectSlot()
+    {
+        var TempList = LogicManager.Instance.GetEffectSlotsList();
+
+        if (TempList.Length - 1 >= EffectSlotIndex)
+        {
+            Selection.activeObject = TempList[EffectSlotIndex];
+        }
+    }
+
+    [ContextMenu("Goto Physics")]
+    public void GotoPhysicsEffect()
+    {
+        var TempList = LogicManager.Instance.GetPhysicsObjects();
+
+        if (TempList.Length - 1 >= PhysicsIndex)
+        {
+            Selection.activeObject = TempList[PhysicsIndex];
+        }
+    }
+
     [System.Serializable]
     public struct SoundData
     {

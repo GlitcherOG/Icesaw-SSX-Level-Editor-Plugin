@@ -380,4 +380,28 @@ public class LogicManager : MonoBehaviour
 
         return HeaderList;
     }
+
+    public GameObject[] GetFunctionObjects()
+    {
+        int ChildList = FunctionHolder.transform.childCount;
+        List<GameObject> FunctionList = new List<GameObject>();
+        for (int i = 0; i < ChildList; i++)
+        {
+            FunctionList.Add(FunctionHolder.transform.GetChild(i).gameObject);
+        }
+
+        return FunctionList.ToArray();
+    }
+
+    public GameObject[] GetEffectObjects()
+    {
+        int ChildList = EffectHolder.transform.childCount;
+        List<GameObject> FunctionList = new List<GameObject>();
+        for (int i = 0; i < ChildList; i++)
+        {
+            FunctionList.Add(EffectHolder.transform.GetChild(i).gameObject);
+        }
+
+        return FunctionList.ToArray();
+    }
 }

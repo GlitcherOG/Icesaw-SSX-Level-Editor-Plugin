@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class TeleportEffect : EffectBase
@@ -25,5 +26,16 @@ public class TeleportEffect : EffectBase
         NewEffect.TeleportInstanceIndex = TeleportInstanceIndex;
 
         return NewEffect;
+    }
+
+    [ContextMenu("Goto Instance")]
+    public void GotoInstance()
+    {
+        var TempList = WorldManager.Instance.GetInstanceList();
+
+        if (TempList.Length - 1 >= TeleportInstanceIndex)
+        {
+            Selection.activeObject = TempList[TeleportInstanceIndex].gameObject;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class FunctionRunEffect : EffectBase
@@ -25,5 +26,16 @@ public class FunctionRunEffect : EffectBase
         NewEffect.FunctionRunIndex = FunctionID;
 
         return NewEffect;
+    }
+
+    [ContextMenu("Goto Function")]
+    public void GotoFunction()
+    {
+        var TempList = LogicManager.Instance.GetFunctionObjects();
+
+        if(TempList.Length-1>=FunctionID)
+        {
+            Selection.activeObject = TempList[FunctionID];
+        }
     }
 }
