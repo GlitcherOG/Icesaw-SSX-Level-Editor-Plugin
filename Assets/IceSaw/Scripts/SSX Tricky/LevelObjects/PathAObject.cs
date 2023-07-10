@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
+using SSXMultiTool.Utilities;
 
 public class PathAObject : MonoBehaviour
 {
@@ -14,13 +15,18 @@ public class PathAObject : MonoBehaviour
     public int U5;
     public int U6;
 
-    public float[] PathPos;
-
-    public float[,] PathPoints;
+    [OnChangedCall("DrawLines")]
+    public List<Vector3> PathPoints;
     public List<UnknownStruct> UnknownStructs;
+
+    LineRenderer lineRenderer;
 
     public void LoadPathA(AIPSOPJsonHandler.PathA pathA)
     {
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.hideFlags = HideFlags.HideInInspector;
+
         Type = pathA.Type;
         U1 = pathA.U1;
         U2 = pathA.U2;
@@ -29,9 +35,14 @@ public class PathAObject : MonoBehaviour
         U5 = pathA.U5;
         U6 = pathA.U6;
 
-        PathPos = pathA.PathPos;
+        transform.localPosition = JsonUtil.ArrayToVector3(pathA.PathPos);
 
-        PathPoints = pathA.PathPoints;
+        PathPoints = new List<Vector3>();
+
+        for (int i = 0; i < pathA.PathPoints.GetLength(0); i++)
+        {
+            PathPoints.Add(new Vector3(pathA.PathPoints[i,0], pathA.PathPoints[i, 1], pathA.PathPoints[i, 2]));
+        }
 
         UnknownStructs = new List<UnknownStruct>();
         for (int i = 0; i < pathA.UnknownStructs.Count; i++)
@@ -45,6 +56,7 @@ public class PathAObject : MonoBehaviour
 
             UnknownStructs.Add(NewStruct);
         }
+        DrawLines();
     }
 
     public AIPSOPJsonHandler.PathA GeneratePathA()
@@ -59,8 +71,16 @@ public class PathAObject : MonoBehaviour
         NewPathA.U5 = U5;
         NewPathA.U6 = U6;
 
-        NewPathA.PathPos = PathPos;
-        NewPathA.PathPoints = PathPoints;
+        NewPathA.PathPos = JsonUtil.Vector3ToArray(transform.localPosition);
+
+        NewPathA.PathPoints = new float[PathPoints.Count, 3];
+
+        for (int i = 0; i < PathPoints.Count; i++)
+        {
+            NewPathA.PathPoints[i, 0] = PathPoints[i].x;
+            NewPathA.PathPoints[i, 1] = PathPoints[i].y;
+            NewPathA.PathPoints[i, 2] = PathPoints[i].z;
+        }
 
         NewPathA.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
 
@@ -78,6 +98,16 @@ public class PathAObject : MonoBehaviour
 
         return NewPathA;
     }
+
+    public void DrawLines()
+    {
+        lineRenderer.positionCount = PathPoints.Count;
+        for (int i = 0; i < PathPoints.Count; i++)
+        {
+            lineRenderer.SetPosition(i, PathPoints[i]);
+        }
+    }
+
     [System.Serializable]
     public struct UnknownStruct
     {

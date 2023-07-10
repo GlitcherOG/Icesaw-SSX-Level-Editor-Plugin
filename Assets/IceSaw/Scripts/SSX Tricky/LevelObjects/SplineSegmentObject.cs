@@ -23,7 +23,7 @@ public class SplineSegmentObject : MonoBehaviour
     public float U2;
     public float U3;
     
-    public LineRenderer lineRenderer;
+    LineRenderer lineRenderer;
 
     //private int curveCount = 0;
     private int SEGMENT_COUNT = 10;
