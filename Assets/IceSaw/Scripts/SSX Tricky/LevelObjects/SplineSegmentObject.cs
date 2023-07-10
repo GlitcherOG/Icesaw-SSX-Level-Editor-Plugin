@@ -9,9 +9,13 @@ using Unity.VisualScripting;
 public class SplineSegmentObject : MonoBehaviour
 {
     [Space(10)]
+    [OnChangedCall("DrawCurve")]
     public Vector3 Point1;
+    [OnChangedCall("DrawCurve")]
     public Vector3 Point2;
+    [OnChangedCall("DrawCurve")]
     public Vector3 Point3;
+    [OnChangedCall("DrawCurve")]
     public Vector3 Point4;
     [Space(10)]
     public float U0;
@@ -22,12 +26,13 @@ public class SplineSegmentObject : MonoBehaviour
     public LineRenderer lineRenderer;
 
     //private int curveCount = 0;
-    private int SEGMENT_COUNT = 50;
+    private int SEGMENT_COUNT = 10;
 
     public void LoadSplineSegment(SplineJsonHandler.SegmentJson segments)
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
+        lineRenderer.hideFlags = HideFlags.HideInInspector;
 
         Point1 = JsonUtil.ArrayToVector3(segments.Point1);
         Point2 = JsonUtil.ArrayToVector3(segments.Point2);
@@ -40,7 +45,8 @@ public class SplineSegmentObject : MonoBehaviour
         U3 = segments.U3;
 
 
-        SetDataLineRender();
+        //SetDataLineRender();
+        DrawCurve();
     }
 
 
@@ -72,15 +78,22 @@ public class SplineSegmentObject : MonoBehaviour
     }
 
 
-    void DrawCurve()
+    public void DrawCurve()
     {
+        lineRenderer.positionCount = SEGMENT_COUNT+2;
+        lineRenderer.SetPosition(0, Point1);
         for (int i = 1; i <= SEGMENT_COUNT; i++)
         {
             float t = i / (float)SEGMENT_COUNT;
-            Vector3 pixel = CalculateCubicBezierPoint(t, (Point1 - Point1), (Point2 - Point1), (Point3 - Point1), (Point4 - Point1));
-            lineRenderer.positionCount = (i);
-            lineRenderer.SetPosition((i - 1), pixel);
+            Vector3 pixel = CalculateCubicBezierPoint(t, (Point1), (Point2), (Point3), (Point4));
+            lineRenderer.SetPosition(i, pixel);
         }
+        lineRenderer.SetPosition(SEGMENT_COUNT+1, Point4);
+    }
+
+    void UndoAndRedoFix()
+    {
+        DrawCurve();
     }
 
     Vector3 CalculateCubicBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
