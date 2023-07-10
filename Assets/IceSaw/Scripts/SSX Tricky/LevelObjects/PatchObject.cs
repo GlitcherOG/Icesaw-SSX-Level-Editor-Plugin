@@ -474,6 +474,54 @@ public class PatchObject : MonoBehaviour
         LoadUVMap();
     }
 
+    [ContextMenu("Flip Patch")]
+    public void FlipPatch()
+    {
+        var Temp1 = RawControlPoint;
+        var Temp2 = RawR1C2;
+        var Temp3 = RawR1C3;
+        var Temp4 = RawR1C4;
+        var Temp5 = RawR2C1;
+        var Temp6 = RawR2C2;
+        var Temp7 = RawR2C3;
+        var Temp8 = RawR2C4;
+        var Temp9 = RawR3C1;
+        var Temp10 = RawR3C2;
+        var Temp11 = RawR3C3;
+        var Temp12 = RawR3C4;
+        var Temp13 = RawR4C1;
+        var Temp14 = RawR4C2;
+        var Temp15 = RawR4C3;
+        var Temp16 = RawR4C4;
+
+        RawControlPoint = Temp16;
+        RawR1C2 = Temp15;
+        RawR1C3 = Temp14;
+        RawR1C4 = Temp13;
+        RawR2C1 = Temp12;
+        RawR2C2 = Temp11;
+        RawR2C3 = Temp10;
+        RawR2C4 = Temp9;
+        RawR3C1 = Temp8;
+        RawR3C2 = Temp7;
+        RawR3C3 = Temp6;
+        RawR3C4 = Temp5;
+        RawR4C1 = Temp4;
+        RawR4C2 = Temp3;
+        RawR4C3 = Temp2;
+        RawR4C4 = Temp1;
+
+
+
+        LoadNURBSpatch();
+    }
+
+    [ContextMenu("Force Regen")]
+    public void ForceRegeneration()
+    {
+        LoadNURBSpatch();
+    }
+
     [MenuItem("GameObject/Ice Saw/Patch", false, 12)]
     public static void CreatePatch(MenuCommand menuCommand)
     {

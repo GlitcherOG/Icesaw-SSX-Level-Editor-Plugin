@@ -13,8 +13,6 @@
  - Instance Collision Display
  - Fix Camera Rotations
  - Missing Mesh Prefab Fix
- - Patch Flip
- - Patch Force Regen UV/Model
-
+ - Fix Spline Points
  
  - Create New Objects
