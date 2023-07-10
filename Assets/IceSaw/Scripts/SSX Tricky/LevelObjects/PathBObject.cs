@@ -23,6 +23,8 @@ public class PathBObject : MonoBehaviour
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.hideFlags = HideFlags.HideInInspector;
+        lineRenderer.material = LevelManager.Instance.RaceLine;
+        lineRenderer.textureMode = LineTextureMode.Tile;
 
         Type = pathB.Type;
         U1 = pathB.U1;

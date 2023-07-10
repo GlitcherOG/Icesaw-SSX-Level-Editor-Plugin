@@ -11,6 +11,9 @@
  - Instance Collision Display
  - Fix Camera Rotations
  - Missing Mesh Prefab Fix
+ - Fix Spline Component Adding
+ - Fix Patch Component Adding
+ - Fix AI Component Adding
  
  - Patch Transform (with reset transform and rotation to zero)
  - Spline Transform (With Reset Transformat and rotation to zero)

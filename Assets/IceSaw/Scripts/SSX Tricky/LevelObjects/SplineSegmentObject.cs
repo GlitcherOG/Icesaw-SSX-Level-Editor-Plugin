@@ -28,11 +28,18 @@ public class SplineSegmentObject : MonoBehaviour
     //private int curveCount = 0;
     private int SEGMENT_COUNT = 10;
 
-    public void LoadSplineSegment(SplineJsonHandler.SegmentJson segments)
+    public void AddMissingComponents()
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.hideFlags = HideFlags.HideInInspector;
+        lineRenderer.material = LevelManager.Instance.Spline;
+        lineRenderer.textureMode = LineTextureMode.Tile;
+    }
+
+    public void LoadSplineSegment(SplineJsonHandler.SegmentJson segments)
+    {
+        AddMissingComponents();
 
         Point1 = JsonUtil.ArrayToVector3(segments.Point1);
         Point2 = JsonUtil.ArrayToVector3(segments.Point2);

@@ -26,6 +26,8 @@ public class PathAObject : MonoBehaviour
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.hideFlags = HideFlags.HideInInspector;
+        lineRenderer.material = LevelManager.Instance.AIPath;
+        lineRenderer.textureMode = LineTextureMode.Tile;
 
         Type = pathA.Type;
         U1 = pathA.U1;

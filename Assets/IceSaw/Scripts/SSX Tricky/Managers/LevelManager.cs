@@ -10,8 +10,17 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     public string LoadPath;
-    public Texture2D Error;
     public List<Texture2D> texture2Ds = new List<Texture2D>();
+
+    [HideInInspector]
+    public Texture2D Error;
+    [HideInInspector]
+    public Material Spline;
+    [HideInInspector]
+    public Material AIPath;
+    [HideInInspector]
+    public Material RaceLine;
+
 
     GameObject WorldManager;
     GameObject SkyboxManager;
@@ -83,13 +92,18 @@ public class LevelManager : MonoBehaviour
         var TempPathFile = PathFileManager.AddComponent<PathFileManager>();
         TempPathFile.runInEditMode = true;
         TempPathFile.GenerateEmptyObjects();
+
+        Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
+        Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
+        AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
+        RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
     }
 
     public void LoadData(string Path)
     {
         CreateEmptyObjects();
         LoadPath = TrickyProjectWindow.CurrentPath;
-        Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
+
         ReloadTextures();
 
         PrefabManager.GetComponent<PrefabManager>().LoadData(Path);
@@ -145,5 +159,14 @@ public class LevelManager : MonoBehaviour
 
         WorldManager = gameObject.GetComponentInChildren<WorldManager>().gameObject;
         WorldManager.GetComponent<WorldManager>().Awake();
+    }
+
+    public Material CreateLineMaterial(string Path)
+    {
+        Material material = new Material(Shader.Find("Unlit/Texture"));
+
+        material.mainTexture = (Texture2D)AssetDatabase.LoadAssetAtPath(Path, typeof(Texture2D));
+
+        return material;
     }
 }
