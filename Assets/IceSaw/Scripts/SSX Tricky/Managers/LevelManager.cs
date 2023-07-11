@@ -4,6 +4,7 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.WSA;
 
 [ExecuteInEditMode]
 public class LevelManager : MonoBehaviour
@@ -11,6 +12,9 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     public string LoadPath;
     public List<Texture2D> texture2Ds = new List<Texture2D>();
+    public List<Texture2D> lightmaps = new List<Texture2D>();
+
+    public bool LightmapMode;
 
     [HideInInspector]
     public Texture2D Error;
@@ -22,7 +26,7 @@ public class LevelManager : MonoBehaviour
     public Material RaceLine;
 
 
-    GameObject WorldManager;
+    GameObject WorldManagerHolder;
     GameObject SkyboxManager;
     GameObject PrefabManager;
     GameObject LogicManager;
@@ -56,12 +60,12 @@ public class LevelManager : MonoBehaviour
         TempPrefab.transform.localPosition = new Vector3(0, 0, 50000);
 
         //Generate World Manager
-        WorldManager = new GameObject("Tricky World Manager");
-        WorldManager.transform.parent = this.transform;
-        WorldManager.transform.transform.localScale = new Vector3(1, 1, 1);
-        WorldManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        WorldManager.transform.localPosition = new Vector3(0, 0, 0);
-        var TempWorld = WorldManager.AddComponent<WorldManager>();
+        WorldManagerHolder = new GameObject("Tricky World Manager");
+        WorldManagerHolder.transform.parent = this.transform;
+        WorldManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
+        WorldManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+        WorldManagerHolder.transform.localPosition = new Vector3(0, 0, 0);
+        var TempWorld = WorldManagerHolder.AddComponent<WorldManager>();
         TempWorld.runInEditMode = true;
         TempWorld.GenerateEmptyObjects();
 
@@ -105,9 +109,10 @@ public class LevelManager : MonoBehaviour
         LoadPath = TrickyProjectWindow.CurrentPath;
 
         ReloadTextures();
+        ReloadLightmaps();
 
         PrefabManager.GetComponent<PrefabManager>().LoadData(Path);
-        WorldManager.GetComponent<WorldManager>().LoadData(Path);
+        WorldManagerHolder.GetComponent<WorldManager>().LoadData(Path);
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
         SkyboxManager.GetComponent<SkyboxManager>().LoadData(Path);
         PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
@@ -116,7 +121,7 @@ public class LevelManager : MonoBehaviour
     public void SaveData(string Path)
     {
         PrefabManager.GetComponent<PrefabManager>().SaveData(Path);
-        WorldManager.GetComponent<WorldManager>().SaveData(Path);
+        WorldManagerHolder.GetComponent<WorldManager>().SaveData(Path);
         LogicManager.GetComponent<LogicManager>().SaveData(Path);
         SkyboxManager.GetComponent<SkyboxManager>().SaveData(Path);
         PathFileManager.GetComponent<PathFileManager>().SaveData(Path);
@@ -146,6 +151,100 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void ReloadLightmaps()
+    {
+        string[] Files = Directory.GetFiles(LoadPath + "\\Lightmaps");
+        lightmaps = new List<Texture2D>();
+        for (int i = 0; i < Files.Length; i++)
+        {
+            Texture2D NewImage = new Texture2D(1, 1);
+            if (Files[i].ToLower().Contains(".png"))
+            {
+                using (Stream stream = File.Open(Files[i], FileMode.Open))
+                {
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, (int)stream.Length);
+                    NewImage.LoadImage(bytes);
+                    NewImage.filterMode = FilterMode.Point;
+                }
+                Texture2D correctedTexture = new Texture2D(NewImage.width, NewImage.height);
+                for (int x = 0; x < NewImage.width; x++)
+                {
+                    for (int y = 0; y < NewImage.height; y++)
+                    {
+                        correctedTexture.SetPixel(x, y, NewImage.GetPixel(x, NewImage.height - 1 - y));
+                    }
+                }
+                correctedTexture.Apply();
+                lightmaps.Add(correctedTexture);
+            }
+        }
+    }
+
+    public Texture2D GrabLightmapTexture(Vector4 lightmapPoint, int ID)
+    {
+        int XCord = (int)(lightmapPoint.x * lightmaps[ID].width);
+        int YCord = (int)(lightmapPoint.y * lightmaps[ID].height);
+        int Width = (int)(lightmapPoint.z * lightmaps[ID].width);
+        int Height = (int)(lightmapPoint.w * lightmaps[ID].height);
+        Texture2D LightmapGrab = new Texture2D(Width, Height);
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                var Colour = lightmaps[ID].GetPixel(XCord + x, YCord + y);
+                LightmapGrab.SetPixel(x, y, Colour);
+            }
+        }
+        LightmapGrab.Apply();
+
+        Texture2D TenByTen = new Texture2D(Width + 2, Height + 2);
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                var Colour = LightmapGrab.GetPixel(x, y);
+                TenByTen.SetPixel(x + 1, y + 1, Colour);
+            }
+        }
+
+        for (int i = 0; i < Width; i++)
+        {
+            var Colour = LightmapGrab.GetPixel(0, i);
+            TenByTen.SetPixel(0, i + 1, Colour);
+
+            Colour = LightmapGrab.GetPixel(i, Height - 1);
+            TenByTen.SetPixel(i + 1, Height + 1, Colour);
+        }
+
+        for (int i = 0; i < Height; i++)
+        {
+            var Colour = LightmapGrab.GetPixel(i, 0);
+            TenByTen.SetPixel(i + 1, 0, Colour);
+
+            Colour = LightmapGrab.GetPixel(Width - 1, i);
+            TenByTen.SetPixel(Width + 1, i + 1, Colour);
+        }
+
+        //Probably better to replace with averages of what the corners should look like
+        var Colour1 = LightmapGrab.GetPixel(0, 0);
+        TenByTen.SetPixel(0, 0, Colour1);
+
+        Colour1 = LightmapGrab.GetPixel(Width - 1, 0);
+        TenByTen.SetPixel(Width + 1, 0, Colour1);
+
+        Colour1 = LightmapGrab.GetPixel(0, Height - 1);
+        TenByTen.SetPixel(0, Height + 1, Colour1);
+
+        Colour1 = LightmapGrab.GetPixel(Width - 1, Height - 1);
+        TenByTen.SetPixel(Width + 1, Height + 1, Colour1);
+
+        TenByTen.Apply();
+        //TenByTen.filterMode = FilterMode.Bilinear;
+        return TenByTen;
+    }
+
     [ContextMenu("Fix Script Links")]
     public void FixScriptLinks()
     {
@@ -157,8 +256,21 @@ public class LevelManager : MonoBehaviour
         PrefabManager = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
         PrefabManager.GetComponent<PrefabManager>().Awake();
 
-        WorldManager = gameObject.GetComponentInChildren<WorldManager>().gameObject;
-        WorldManager.GetComponent<WorldManager>().Awake();
+        WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
+        WorldManagerHolder.GetComponent<WorldManager>().Awake();
+    }
+
+    [MenuItem("Ice Saw View/Toggle Lightmap", false, 200)]
+    public static void LightmapToggle()
+    {
+        LevelManager.Instance.LightmapMode = !LevelManager.Instance.LightmapMode;
+
+        var TempPatchList = WorldManager.Instance.GetPatchList();
+
+        for (int i = 0; i < TempPatchList.Length; i++)
+        {
+            TempPatchList[i].ToggleLightingMode(LevelManager.Instance.LightmapMode);
+        }
     }
 
     public Material CreateLineMaterial(string Path)

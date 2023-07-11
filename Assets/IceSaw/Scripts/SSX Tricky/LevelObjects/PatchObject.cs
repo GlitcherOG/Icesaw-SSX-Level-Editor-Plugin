@@ -353,8 +353,8 @@ public class PatchObject : MonoBehaviour
         NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[2, 2];
 
         cps[0, 0] = new NURBS.ControlPoint(0.1f, 0.1f, 0, 1);
-        cps[0, 1] = new NURBS.ControlPoint(0.1f, 0.9f, 0, 1);
-        cps[1, 0] = new NURBS.ControlPoint(0.9f, 0.1f, 0, 1);
+        cps[1, 0] = new NURBS.ControlPoint(0.1f, 0.9f, 0, 1);
+        cps[0, 1] = new NURBS.ControlPoint(0.9f, 0.1f, 0, 1);
         cps[1, 1] = new NURBS.ControlPoint(0.9f, 0.9f, 0, 1);
 
         surface = new NURBS.Surface(cps, 1, 1);
@@ -399,7 +399,11 @@ public class PatchObject : MonoBehaviour
                 {
                     Found = true;
                     meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.texture2Ds[i]);
-                    //Renderer.material.SetTexture("_Lightmap", TrickyMapInterface.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
+
+                    if (LevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
+                    {
+                        meshRenderer.sharedMaterial.SetTexture("_Lightmap", LevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
+                    }
                     return;
                 }
             }
@@ -511,9 +515,19 @@ public class PatchObject : MonoBehaviour
         RawR4C3 = Temp2;
         RawR4C4 = Temp1;
 
-
-
         LoadNURBSpatch();
+    }
+
+    public void ToggleLightingMode(bool Lightmap)
+    {
+        if (Lightmap)
+        {
+            meshRenderer.sharedMaterial.SetFloat("_LightMapStrength", 1);
+        }
+        else
+        {
+            meshRenderer.sharedMaterial.SetFloat("_LightMapStrength", 0);
+        }
     }
 
     [ContextMenu("Force Regen")]

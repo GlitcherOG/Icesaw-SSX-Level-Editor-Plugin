@@ -19,3 +19,10 @@
  - Spline Transform (With Reset Transformat and rotation to zero)
  
  - Create New Objects
+ 
+## Future Todo
+ - Proper Spline Editing
+ - Proper Patch Editing
+ - Custom Inspectors for Buttons
+ - Proper Get Pos System
+ - Live Character/Bone Reading
