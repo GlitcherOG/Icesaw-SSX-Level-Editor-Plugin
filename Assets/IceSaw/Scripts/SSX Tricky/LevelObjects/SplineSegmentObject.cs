@@ -27,9 +27,14 @@ public class SplineSegmentObject : MonoBehaviour
 
     //private int curveCount = 0;
     private int SEGMENT_COUNT = 10;
-
+    [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
     {
+        if(lineRenderer!=null)
+        {
+            Destroy(lineRenderer);
+        }
+
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.hideFlags = HideFlags.HideInInspector;

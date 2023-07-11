@@ -94,18 +94,21 @@ public class PatchObject : MonoBehaviour
 
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
-    //MeshCollider meshCollider;
 
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
     {
+        if(meshFilter!=null)
+        {
+            Destroy(meshFilter);
+            Destroy(meshRenderer);
+        }
+
         meshFilter = this.AddComponent<MeshFilter>();
         meshRenderer = this.AddComponent<MeshRenderer>();
 
         meshFilter.hideFlags = HideFlags.HideInInspector;
         meshRenderer.hideFlags = HideFlags.HideInInspector;
-
-        //meshCollider = this.AddComponent<MeshCollider>();
         //Set Material
         var TempMaterial = (Material)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Material\\MainPatchMaterial.mat", typeof(Material));
         Material mat = new Material(TempMaterial);

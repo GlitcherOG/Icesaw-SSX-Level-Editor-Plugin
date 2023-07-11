@@ -21,13 +21,24 @@ public class PathAObject : MonoBehaviour
 
     LineRenderer lineRenderer;
 
-    public void LoadPathA(AIPSOPJsonHandler.PathA pathA)
+    [ContextMenu("Add Missing Components")]
+    public void AddMissingComponents()
     {
+        if (lineRenderer != null)
+        {
+            Destroy(lineRenderer);
+        }
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.hideFlags = HideFlags.HideInInspector;
         lineRenderer.material = LevelManager.Instance.AIPath;
         lineRenderer.textureMode = LineTextureMode.Tile;
+    }
+
+
+    public void LoadPathA(AIPSOPJsonHandler.PathA pathA)
+    {
+        AddMissingComponents();
 
         Type = pathA.Type;
         U1 = pathA.U1;
