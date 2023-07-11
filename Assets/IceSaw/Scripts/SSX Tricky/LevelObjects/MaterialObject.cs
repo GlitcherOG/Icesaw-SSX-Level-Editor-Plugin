@@ -53,8 +53,8 @@ public class MaterialObject : MonoBehaviour
 
         meshFilter.sharedMesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\Sphere.obj", typeof(Mesh));
 
-       //meshFilter.hideFlags = HideFlags.HideInInspector;
-        //meshRenderer.hideFlags = HideFlags.HideInInspector;
+        meshFilter.hideFlags = HideFlags.HideInInspector;
+        meshRenderer.hideFlags = HideFlags.HideInInspector;
         //Set Material
         var TempMaterial = new Material(Shader.Find("ModelShader"));
         Material mat = new Material(TempMaterial);

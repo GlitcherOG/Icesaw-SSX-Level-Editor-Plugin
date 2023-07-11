@@ -31,14 +31,14 @@ public class SkyboxManager : MonoBehaviour
         MaterialHolder.transform.parent = transform;
         MaterialHolder.transform.localScale = Vector3.one;
         MaterialHolder.transform.localEulerAngles = Vector3.zero;
-        MaterialHolder.transform.localPosition = new Vector3(0, 0, 10000);
+        MaterialHolder.transform.localPosition = Vector3.zero;
         MaterialHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         PrefabsHolder = new GameObject("Prefabs");
         PrefabsHolder.transform.parent = transform;
         PrefabsHolder.transform.localScale = Vector3.one;
         PrefabsHolder.transform.localEulerAngles = Vector3.zero;
-        PrefabsHolder.transform.localPosition = Vector3.zero;
+        PrefabsHolder.transform.localPosition = new Vector3(0, 0, 10000);
         PrefabsHolder.transform.hideFlags = HideFlags.HideInInspector;
 
 
@@ -122,7 +122,7 @@ public class SkyboxManager : MonoBehaviour
             gameObject.transform.parent = MaterialHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-            gameObject.transform.localScale = new Vector3(1, 1, 1);
+            gameObject.transform.localScale = new Vector3(10, 10, 10);
             MaterialObject materialObject = gameObject.AddComponent<MaterialObject>();
             materialObject.LoadMaterial(materialJsonHandler.Materials[i], true);
 

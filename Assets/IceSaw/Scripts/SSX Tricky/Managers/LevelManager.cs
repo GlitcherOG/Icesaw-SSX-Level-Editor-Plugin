@@ -57,7 +57,7 @@ public class LevelManager : MonoBehaviour
         TempPrefab.transform.parent = this.transform;
         TempPrefab.transform.transform.localScale = new Vector3(1, 1, 1);
         TempPrefab.transform.localEulerAngles = new Vector3(0, 0, 0);
-        TempPrefab.transform.localPosition = new Vector3(0, 0, 50000);
+        TempPrefab.transform.localPosition = new Vector3(0, 0, 100000);
 
         //Generate World Manager
         WorldManagerHolder = new GameObject("Tricky World Manager");
@@ -74,7 +74,7 @@ public class LevelManager : MonoBehaviour
         SkyboxManager.transform.parent = this.transform;
         SkyboxManager.transform.transform.localScale = new Vector3(1, 1, 1);
         SkyboxManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        SkyboxManager.transform.localPosition = new Vector3(0, 0, 50000*2);
+        SkyboxManager.transform.localPosition = new Vector3(0, 0, 100000*2);
         var TempSkybox = SkyboxManager.AddComponent<SkyboxManager>();
         TempSkybox.runInEditMode = true;
         TempSkybox.GenerateEmptyObjects();

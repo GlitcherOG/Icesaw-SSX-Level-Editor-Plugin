@@ -29,7 +29,7 @@ public class PrefabManager : MonoBehaviour
 
         PrefabsHolder = new GameObject("Prefabs");
         PrefabsHolder.transform.parent = transform;
-        PrefabsHolder.transform.localPosition = new Vector3(0, 0, 10000);
+        PrefabsHolder.transform.localPosition = new Vector3(0, 0, 20000);
         PrefabsHolder.transform.localEulerAngles = Vector3.zero;
         PrefabsHolder.transform.localScale = Vector3.one;
         PrefabsHolder.transform.hideFlags = HideFlags.HideInInspector;
@@ -43,7 +43,7 @@ public class PrefabManager : MonoBehaviour
 
         ParticlePrefabHolder = new GameObject("Particle Prefabs");
         ParticlePrefabHolder.transform.parent = transform;
-        ParticlePrefabHolder.transform.localPosition = new Vector3(0,0,20000);
+        ParticlePrefabHolder.transform.localPosition = new Vector3(0,0,30000);
         ParticlePrefabHolder.transform.localEulerAngles = Vector3.zero;
         ParticlePrefabHolder.transform.localScale = Vector3.one;
         ParticlePrefabHolder.transform.hideFlags = HideFlags.HideInInspector;
@@ -102,7 +102,7 @@ public class PrefabManager : MonoBehaviour
             gameObject.transform.parent = MaterialHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-            gameObject.transform.localScale = new Vector3(1, 1, 1);
+            gameObject.transform.localScale = new Vector3(10, 10, 10);
             MaterialObject materialObject = gameObject.AddComponent<MaterialObject>();
             materialObject.LoadMaterial(materialJsonHandler.Materials[i]);
 
