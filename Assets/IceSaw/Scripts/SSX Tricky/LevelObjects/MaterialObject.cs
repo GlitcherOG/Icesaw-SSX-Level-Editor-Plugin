@@ -1,10 +1,15 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class MaterialObject : MonoBehaviour
 {
+    public bool SkyboxMaterial;
+
+    [OnChangedCall("GenerateMaterialSphere")]
     public string TexturePath;
     public int UnknownInt2;
     public int UnknownInt3;
@@ -31,9 +36,35 @@ public class MaterialObject : MonoBehaviour
     public List<string> TextureFlipbook;
     public int UnknownInt20;
 
+    MeshRenderer meshRenderer;
+    MeshFilter meshFilter;
 
-    public void LoadMaterial(MaterialJsonHandler.MaterialsJson json)
+    [ContextMenu("Add Missing Components")]
+    public void AddMissingComponents()
     {
+        if (meshFilter != null)
+        {
+            Destroy(meshFilter);
+            Destroy(meshRenderer);
+        }
+
+        meshFilter = this.AddComponent<MeshFilter>();
+        meshRenderer = this.AddComponent<MeshRenderer>();
+
+        meshFilter.sharedMesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\Sphere.obj", typeof(Mesh));
+
+       //meshFilter.hideFlags = HideFlags.HideInInspector;
+        //meshRenderer.hideFlags = HideFlags.HideInInspector;
+        //Set Material
+        var TempMaterial = new Material(Shader.Find("ModelShader"));
+        Material mat = new Material(TempMaterial);
+        meshRenderer.material = mat;
+    }
+
+    public void LoadMaterial(MaterialJsonHandler.MaterialsJson json, bool skybox = false)
+    {
+        AddMissingComponents();
+
         if (json.MaterialName != "" && json.MaterialName != null)
         {
             gameObject.name = json.MaterialName;
@@ -65,12 +96,54 @@ public class MaterialObject : MonoBehaviour
         TextureFlipbook = json.TextureFlipbook;
         UnknownInt20 = json.UnknownInt20;
 
+        SkyboxMaterial = skybox;
+
         GenerateMaterialSphere();
     }
 
     private void GenerateMaterialSphere()
     {
-        
+        meshRenderer.sharedMaterial.SetTexture("_MainTexture", GetTexture(TexturePath, SkyboxMaterial));
+        meshRenderer.sharedMaterial.SetFloat("_OutlineWidth", 0);
+        meshRenderer.sharedMaterial.SetFloat("_OpacityMaskOutline", 0f);
+        meshRenderer.sharedMaterial.SetColor("_OutlineColor", new Color32(255, 255, 255, 0));
+        meshRenderer.sharedMaterial.SetFloat("_NoLightMode", 1);
+    }
+
+    public static Texture2D GetTexture(string TextureID, bool Skybox)
+    {
+        Texture2D texture = null;
+        try
+        {
+            if (!Skybox)
+            {
+                for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
+                {
+                    if (LevelManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
+                    {
+                        texture = LevelManager.Instance.texture2Ds[i];
+                        return texture;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < SkyboxManager.Instance.SkyboxTextures2d.Count; i++)
+                {
+                    if (SkyboxManager.Instance.SkyboxTextures2d[i].name.ToLower() == TextureID.ToLower())
+                    {
+                        texture = SkyboxManager.Instance.SkyboxTextures2d[i];
+                        return texture;
+                    }
+                }
+            }
+            texture = LevelManager.Instance.Error;
+        }
+        catch
+        {
+            texture = LevelManager.Instance.Error;
+        }
+        return texture;
     }
 
     public MaterialJsonHandler.MaterialsJson GenerateMaterial()

@@ -31,7 +31,7 @@ public class SkyboxManager : MonoBehaviour
         MaterialHolder.transform.parent = transform;
         MaterialHolder.transform.localScale = Vector3.one;
         MaterialHolder.transform.localEulerAngles = Vector3.zero;
-        MaterialHolder.transform.localPosition = Vector3.zero;
+        MaterialHolder.transform.localPosition = new Vector3(0, 0, 10000);
         MaterialHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         PrefabsHolder = new GameObject("Prefabs");
@@ -107,20 +107,37 @@ public class SkyboxManager : MonoBehaviour
 
     public void LoadMaterials(string Path)
     {
+        float XPosition = 0;
+        float ZPosition = 0;
+        int X = 0;
         MaterialJsonHandler materialJsonHandler = new MaterialJsonHandler();
         materialJsonHandler = MaterialJsonHandler.Load(Path);
+
+        int WH = (int)Mathf.Sqrt(materialJsonHandler.Materials.Count);
 
         for (int i = 0; i < materialJsonHandler.Materials.Count; i++)
         {
             GameObject gameObject = new GameObject("Materials " + i);
             gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = MaterialHolder.transform;
-            gameObject.transform.localPosition = new Vector3(0, 0, 0);
+            gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(1, 1, 1);
             MaterialObject materialObject = gameObject.AddComponent<MaterialObject>();
-            materialObject.LoadMaterial(materialJsonHandler.Materials[i]);
+            materialObject.LoadMaterial(materialJsonHandler.Materials[i], true);
 
+
+            if (X != WH)
+            {
+                XPosition += 10000;
+                X++;
+            }
+            else
+            {
+                XPosition = 0;
+                X = 0;
+                ZPosition += 10000;
+            }
         }
     }
 
