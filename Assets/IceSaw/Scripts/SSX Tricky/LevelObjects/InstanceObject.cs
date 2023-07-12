@@ -196,6 +196,8 @@ public class InstanceObject : MonoBehaviour
                     TempMaterial.color = Color.red;
 
                     TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
+                    TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
                 }
                 Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
             }

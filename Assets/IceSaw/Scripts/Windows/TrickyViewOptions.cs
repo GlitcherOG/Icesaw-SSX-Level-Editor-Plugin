@@ -27,6 +27,9 @@ public class TrickyViewOptions
         {
             splineObjects[i].gameObject.SetActive(true);
         }
+
+        PathFileManager.Instance.AIPHolder.SetActive(true);
+        PathFileManager.Instance.SOPHolder.SetActive(true);
     }
 
     [MenuItem("Ice Saw View/Race Only", false, 10)]
@@ -81,6 +84,8 @@ public class TrickyViewOptions
             }
         }
 
+        PathFileManager.Instance.SOPHolder.SetActive(false);
+        PathFileManager.Instance.AIPHolder.SetActive(true);
     }
 
     [MenuItem("Ice Saw View/Showoff Only", false, 10)]
@@ -122,6 +127,9 @@ public class TrickyViewOptions
                 RunFunction(i, instanceObjects, splineObjects);
             }
         }
+
+        PathFileManager.Instance.SOPHolder.SetActive(true);
+        PathFileManager.Instance.AIPHolder.SetActive(false);
     }
 
     [MenuItem("Ice Saw View/Freeride Only", false, 10)]
@@ -171,6 +179,9 @@ public class TrickyViewOptions
                 RunFunction(i, instanceObjects, splineObjects);
             }
         }
+
+        PathFileManager.Instance.AIPHolder.SetActive(true);
+        PathFileManager.Instance.SOPHolder.SetActive(false);
     }
 
     [MenuItem("Ice Saw View/Functions/RaceMode")]
