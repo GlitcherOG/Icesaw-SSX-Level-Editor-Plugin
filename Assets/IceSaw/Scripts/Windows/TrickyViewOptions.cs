@@ -323,4 +323,43 @@ public class TrickyViewOptions
             splineObjects[Spline].gameObject.SetActive(true);
         }
     }
+
+    [MenuItem("Ice Saw View/Toggle Lightmap", false, 200)]
+    public static void LightmapToggle()
+    {
+        LevelManager.Instance.LightmapMode = !LevelManager.Instance.LightmapMode;
+
+        var TempPatchList = WorldManager.Instance.GetPatchList();
+
+        for (int i = 0; i < TempPatchList.Length; i++)
+        {
+            TempPatchList[i].ToggleLightingMode(LevelManager.Instance.LightmapMode);
+        }
+    }
+
+    [MenuItem("Ice Saw View/Toggle Instance Models", false, 200)]
+    public static void TogglePrefabModels()
+    {
+        WorldManager.Instance.ShowInstanceModels = !WorldManager.Instance.ShowInstanceModels;
+
+        var TempList = WorldManager.Instance.GetInstanceList();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            TempList[i].RefreshHiddenModels();
+        }
+    }
+
+    [MenuItem("Ice Saw View/Toggle Collision Models", false, 200)]
+    public static void ToggleCollisionModels()
+    {
+        WorldManager.Instance.ShowCollisionModels = !WorldManager.Instance.ShowCollisionModels;
+
+        var TempList = WorldManager.Instance.GetInstanceList();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            TempList[i].RefreshHiddenModels();
+        }
+    }
 }

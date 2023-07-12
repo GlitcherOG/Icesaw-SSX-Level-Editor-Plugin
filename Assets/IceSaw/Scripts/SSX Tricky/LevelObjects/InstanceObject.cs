@@ -18,6 +18,7 @@ public class InstanceObject : MonoBehaviour
     public Vector4 Unknown11;
     public Vector4 RGBA;
 
+    [OnChangedCall("LoadPrefabs")]
     public int ModelID;
     public int PrevInstance; //Next Connected Model 
     public int NextInstance; //Prev Connected Model
@@ -51,12 +52,14 @@ public class InstanceObject : MonoBehaviour
 
     public int U4;
     public int CollsionMode;
+    [OnChangedCall("LoadCollisionModels")]
     public string[] CollsionModelPaths;
     public int EffectSlotIndex;
     public int PhysicsIndex;
     public int U8;
 
     GameObject Prefab;
+    GameObject Collision;
 
     public void LoadInstance(InstanceJsonHandler.InstanceJson instance)
     {
@@ -135,13 +138,14 @@ public class InstanceObject : MonoBehaviour
         U8 = instance.U8;
 
         LoadPrefabs();
+        LoadCollisionModels();
     }
 
     public void LoadPrefabs()
     {
         if(Prefab!=null)
         {
-            Destroy(Prefab);
+            DestroyImmediate(Prefab);
         }
 
         if (ModelID != -1)
@@ -153,8 +157,58 @@ public class InstanceObject : MonoBehaviour
             Prefab.transform.localPosition = new Vector3(0, 0, 0);
             Prefab.transform.localScale = new Vector3(1, 1, 1);
         }
+        Prefab.SetActive(WorldManager.Instance.ShowInstanceModels);
+    }
+
+    public void LoadCollisionModels()
+    {
         //Generate Collisions
 
+        if (Collision != null)
+        {
+            DestroyImmediate(Collision);
+        }
+
+        if (CollsionModelPaths.Length != 0)
+        {
+            Collision = new GameObject("CollisionModel");
+            Collision.transform.parent = transform;
+            Collision.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            Collision.transform.localPosition = new Vector3(0, 0, 0);
+            Collision.transform.localScale = new Vector3(1, 1, 1);
+
+            Collision.transform.hideFlags = HideFlags.HideInHierarchy;
+
+            //AddSubObjects
+            for (int i = 0; i < CollsionModelPaths.Length; i++)
+            {
+                var TempObject = new GameObject(i.ToString());
+                TempObject.transform.parent = Collision.transform;
+                TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                TempObject.transform.localPosition = new Vector3(0, 0, 0);
+                TempObject.transform.localScale = new Vector3(1, 1, 1);
+
+                TempObject.AddComponent<MeshFilter>().sharedMesh = PrefabManager.Instance.GetColMesh(CollsionModelPaths[i]);
+
+                var TempMaterial = new Material(Shader.Find("Standard"));
+                TempMaterial.color = Color.red;
+
+                TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
+            }
+            Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
+        }
+    }
+
+    public void RefreshHiddenModels()
+    {
+        if (Prefab != null)
+        {
+            Prefab.SetActive(WorldManager.Instance.ShowInstanceModels);
+        }
+        if (Collision != null)
+        {
+            Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
+        }
     }
 
     public InstanceJsonHandler.InstanceJson GenerateInstance()

@@ -46,7 +46,7 @@ public class SkyboxManager : MonoBehaviour
         SkyboxCamera.transform.parent = transform;
         SkyboxCamera.transform.localScale = Vector3.one;
         SkyboxCamera.transform.eulerAngles = Vector3.zero;
-        SkyboxCamera.transform.localPosition = Vector3.zero;
+        SkyboxCamera.transform.localPosition = new Vector3(0, 0, 10000);
         SkyboxCamera.transform.hideFlags = HideFlags.HideInInspector;
 
         var TempCamera = SkyboxCamera.AddComponent<Camera>();

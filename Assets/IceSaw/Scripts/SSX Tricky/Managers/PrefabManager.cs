@@ -290,4 +290,25 @@ public class PrefabManager : MonoBehaviour
         return mesh;
 
     }
+
+    public Mesh GetColMesh(string MeshPath)
+    {
+        Mesh mesh = null;
+
+        for (int i = 0; i < CollisionMeshCahce.Count; i++)
+        {
+            if (CollisionMeshCahce[i].name == MeshPath)
+            {
+                mesh = CollisionMeshCahce[i];
+            }
+        }
+
+        if (mesh == null)
+        {
+            //Set Error Mesh
+        }
+
+        return mesh;
+
+    }
 }

@@ -260,19 +260,6 @@ public class LevelManager : MonoBehaviour
         WorldManagerHolder.GetComponent<WorldManager>().Awake();
     }
 
-    [MenuItem("Ice Saw View/Toggle Lightmap", false, 200)]
-    public static void LightmapToggle()
-    {
-        LevelManager.Instance.LightmapMode = !LevelManager.Instance.LightmapMode;
-
-        var TempPatchList = WorldManager.Instance.GetPatchList();
-
-        for (int i = 0; i < TempPatchList.Length; i++)
-        {
-            TempPatchList[i].ToggleLightingMode(LevelManager.Instance.LightmapMode);
-        }
-    }
-
     public Material CreateLineMaterial(string Path)
     {
         Material material = new Material(Shader.Find("Unlit/Texture"));

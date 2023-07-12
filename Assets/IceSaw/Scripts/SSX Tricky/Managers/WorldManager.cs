@@ -19,6 +19,11 @@ public class WorldManager : MonoBehaviour
     GameObject LightingHolder;
     GameObject CameraHolder;
 
+    [HideInInspector]
+    public bool ShowInstanceModels = true;
+    [HideInInspector]
+    public bool ShowCollisionModels = true;
+
     public void Awake()
     {
         if (Instance == null)
@@ -281,6 +286,8 @@ public class WorldManager : MonoBehaviour
     }
 
     #endregion
+
+
     public PatchObject[] GetPatchList()
     {
         return PatchesHolder.GetComponentsInChildren<PatchObject>(true);
