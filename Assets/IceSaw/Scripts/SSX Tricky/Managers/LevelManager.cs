@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -25,10 +26,9 @@ public class LevelManager : MonoBehaviour
     [HideInInspector]
     public Material RaceLine;
 
-
     GameObject WorldManagerHolder;
-    GameObject SkyboxManager;
-    GameObject PrefabManager;
+    GameObject SkyboxManagerHolder;
+    GameObject PrefabManagerHolder;
     GameObject LogicManager;
     GameObject PathFileManager;
 
@@ -50,8 +50,8 @@ public class LevelManager : MonoBehaviour
         transform.hideFlags = HideFlags.HideInInspector;
 
         //Generate Prefab Manager
-        PrefabManager = new GameObject("Tricky Prefab Manager");
-        var TempPrefab = PrefabManager.AddComponent<PrefabManager>();
+        PrefabManagerHolder = new GameObject("Tricky Prefab Manager");
+        var TempPrefab = PrefabManagerHolder.AddComponent<PrefabManager>();
         TempPrefab.runInEditMode = true;
         TempPrefab.GenerateEmptyObjects();
         TempPrefab.transform.parent = this.transform;
@@ -70,12 +70,12 @@ public class LevelManager : MonoBehaviour
         TempWorld.GenerateEmptyObjects();
 
         //Generate Skybox Manager
-        SkyboxManager = new GameObject("Tricky Skybox Manager");
-        SkyboxManager.transform.parent = this.transform;
-        SkyboxManager.transform.transform.localScale = new Vector3(1, 1, 1);
-        SkyboxManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        SkyboxManager.transform.localPosition = new Vector3(0, 0, 100000*2);
-        var TempSkybox = SkyboxManager.AddComponent<SkyboxManager>();
+        SkyboxManagerHolder = new GameObject("Tricky Skybox Manager");
+        SkyboxManagerHolder.transform.parent = this.transform;
+        SkyboxManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
+        SkyboxManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
+        SkyboxManagerHolder.transform.localPosition = new Vector3(0, 0, 100000*2);
+        var TempSkybox = SkyboxManagerHolder.AddComponent<SkyboxManager>();
         TempSkybox.runInEditMode = true;
         TempSkybox.GenerateEmptyObjects();
 
@@ -111,19 +111,19 @@ public class LevelManager : MonoBehaviour
         ReloadTextures();
         ReloadLightmaps();
 
-        PrefabManager.GetComponent<PrefabManager>().LoadData(Path);
+        PrefabManagerHolder.GetComponent<PrefabManager>().LoadData(Path);
         WorldManagerHolder.GetComponent<WorldManager>().LoadData(Path);
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
-        SkyboxManager.GetComponent<SkyboxManager>().LoadData(Path);
+        SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
         PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
     }
 
     public void SaveData(string Path)
     {
-        PrefabManager.GetComponent<PrefabManager>().SaveData(Path);
+        PrefabManagerHolder.GetComponent<PrefabManager>().SaveData(Path);
         WorldManagerHolder.GetComponent<WorldManager>().SaveData(Path);
         LogicManager.GetComponent<LogicManager>().SaveData(Path);
-        SkyboxManager.GetComponent<SkyboxManager>().SaveData(Path);
+        SkyboxManagerHolder.GetComponent<SkyboxManager>().SaveData(Path);
         PathFileManager.GetComponent<PathFileManager>().SaveData(Path);
     }
 
@@ -245,6 +245,45 @@ public class LevelManager : MonoBehaviour
         return TenByTen;
     }
 
+    [ContextMenu("Reload Textures")]
+    public void RefreshTextures()
+    {
+        ReloadTextures();
+
+        //Reload Patches
+        var TempPatches = WorldManager.Instance.GetPatchList();
+
+        for (int i = 0; i < TempPatches.Length; i++)
+        {
+            TempPatches[i].UpdateTexture();
+        }
+
+        //Reload Materials
+        var TempMaterials = PrefabManager.Instance.GetMaterialList();
+
+        for (int i = 0; i < TempMaterials.Length; i++)
+        {
+            TempMaterials[i].GenerateMaterialSphere();
+        }
+
+        //Reload Prefabs
+        //Reload Instances
+
+    }
+
+    [ContextMenu("Reload Lightmap")]
+    public void RefreshLightmap()
+    {
+        ReloadLightmaps();
+
+        var TempList = WorldManager.Instance.GetPatchList();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            TempList[i].UpdateTexture();
+        }
+    }
+
     [ContextMenu("Fix Script Links")]
     public void FixScriptLinks()
     {
@@ -253,8 +292,8 @@ public class LevelManager : MonoBehaviour
         LogicManager = gameObject.GetComponentInChildren<LogicManager>().gameObject;
         LogicManager.GetComponent<LogicManager>().Awake();
 
-        PrefabManager = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
-        PrefabManager.GetComponent<PrefabManager>().Awake();
+        PrefabManagerHolder = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
+        PrefabManagerHolder.GetComponent<PrefabManager>().Awake();
 
         WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
         WorldManagerHolder.GetComponent<WorldManager>().Awake();

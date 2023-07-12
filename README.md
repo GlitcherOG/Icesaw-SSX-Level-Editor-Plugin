@@ -3,14 +3,13 @@
 ## Current Todo
  
  ### Data Editing
- - Fix Prefabs so the objects are generated correctly
  - Missing Mesh Prefab Fix
  
  - Clean up Particle Prefabs To much unneeded data
  
- - Reload Mesh/Collision/Textures
- - Preview BBox Collison Models
- - Make Collison Model Shader
+ - Reload Mesh/Collision/Skybox Textures
+ - Preview BBox Collison Models 
+ - Make Collison Model Shader (Unlit and DoubleSided)
  
  - Fix Camera Rotations
  

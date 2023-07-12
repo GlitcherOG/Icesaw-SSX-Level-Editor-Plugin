@@ -96,12 +96,13 @@ public class MaterialObject : MonoBehaviour
         TextureFlipbook = json.TextureFlipbook;
         UnknownInt20 = json.UnknownInt20;
 
+
         SkyboxMaterial = skybox;
 
         GenerateMaterialSphere();
     }
 
-    private void GenerateMaterialSphere()
+    public void GenerateMaterialSphere()
     {
         meshRenderer.sharedMaterial.SetTexture("_MainTexture", GetTexture(TexturePath, SkyboxMaterial));
         meshRenderer.sharedMaterial.SetFloat("_OutlineWidth", 0);
