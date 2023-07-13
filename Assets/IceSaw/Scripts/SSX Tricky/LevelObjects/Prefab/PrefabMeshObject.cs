@@ -57,7 +57,7 @@ public class PrefabMeshObject : MonoBehaviour
 
         return meshHeader;
     }
-
+    [ContextMenu("Refresh Models")]
     public void GenerateModel()
     {
         if (!transform.parent.parent.GetComponent<PrefabObject>().SkyboxModel)

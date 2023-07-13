@@ -140,7 +140,7 @@ public class InstanceObject : MonoBehaviour
         LoadPrefabs();
         LoadCollisionModels();
     }
-
+    [ContextMenu("Refresh Models")]
     public void LoadPrefabs()
     {
         if(Prefab!=null)
@@ -159,7 +159,7 @@ public class InstanceObject : MonoBehaviour
         }
         Prefab.SetActive(WorldManager.Instance.ShowInstanceModels);
     }
-
+    [ContextMenu("Refresh Collision Model")]
     public void LoadCollisionModels()
     {
         //Generate Collisions

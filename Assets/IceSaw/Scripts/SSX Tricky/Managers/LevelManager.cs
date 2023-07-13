@@ -267,8 +267,20 @@ public class LevelManager : MonoBehaviour
         }
 
         //Reload Prefabs
-        //Reload Instances
+        var TempPrefabs = PrefabManager.Instance.GetPrefabList();
 
+        for (int i = 0; i < TempPrefabs.Length; i++)
+        {
+            TempPrefabs[i].ForceReloadMeshMat();
+        }
+
+        //Reload Instances
+        var TempInstanceList = WorldManager.Instance.GetInstanceList();
+
+        for (int i = 0; i < TempInstanceList.Length; i++)
+        {
+            TempInstanceList[i].LoadPrefabs();
+        }
     }
 
     [ContextMenu("Reload Lightmap")]

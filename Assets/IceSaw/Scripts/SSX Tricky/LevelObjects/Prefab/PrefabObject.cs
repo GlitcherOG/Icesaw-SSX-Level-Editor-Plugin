@@ -82,4 +82,14 @@ public class PrefabObject : MonoBehaviour
 
         return prefabJson;
     }
+
+    public void ForceReloadMeshMat()
+    {
+        var TempHeader = GetComponentsInChildren<PrefabSubObject>();
+
+        for (int i = 0; i < TempHeader.Length; i++)
+        {
+            TempHeader[i].ForceRegenMeshMat();
+        }
+    }
 }

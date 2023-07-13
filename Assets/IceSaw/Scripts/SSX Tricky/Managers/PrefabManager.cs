@@ -306,10 +306,45 @@ public class PrefabManager : MonoBehaviour
 
         if (mesh == null)
         {
-            //Set Error Mesh
+            mesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\tinker.obj", typeof(Mesh));
         }
 
         return mesh;
 
+    }
+    [ContextMenu("Reload Collision")]
+    public void ReloadCollision()
+    {
+        LoadCollisionMeshCache(LevelManager.Instance.LoadPath + "\\Collision");
+
+        //Reload Instances
+        var TempInstanceList = WorldManager.Instance.GetInstanceList();
+
+        for (int i = 0; i < TempInstanceList.Length; i++)
+        {
+            TempInstanceList[i].LoadCollisionModels();
+        }
+    }
+
+    [ContextMenu("Reload Models")]
+    public void ReloadModels()
+    {
+        LoadMeshCache(LevelManager.Instance.LoadPath + "\\Models");
+
+        //Reload Prefabs
+        var TempPrefabs = PrefabManager.Instance.GetPrefabList();
+
+        for (int i = 0; i < TempPrefabs.Length; i++)
+        {
+            TempPrefabs[i].ForceReloadMeshMat();
+        }
+
+        //Reload Instances
+        var TempInstanceList = WorldManager.Instance.GetInstanceList();
+
+        for (int i = 0; i < TempInstanceList.Length; i++)
+        {
+            TempInstanceList[i].LoadPrefabs();
+        }
     }
 }

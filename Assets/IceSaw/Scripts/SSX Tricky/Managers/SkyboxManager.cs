@@ -247,4 +247,42 @@ public class SkyboxManager : MonoBehaviour
         return mesh;
 
     }
+
+    [ContextMenu("Reload Textures")]
+    public void RefreshTextures()
+    {
+        ReloadTextures(LevelManager.Instance.LoadPath+ "\\Skybox\\Textures");
+
+        //Reload Materials
+        var TempMaterials = SkyboxManager.Instance.GetMaterialList();
+
+        for (int i = 0; i < TempMaterials.Length; i++)
+        {
+            TempMaterials[i].GenerateMaterialSphere();
+        }
+
+        //Reload Prefabs
+        var TempPrefabs = SkyboxManager.Instance.GetPrefabsList();
+
+        for (int i = 0; i < TempPrefabs.Length; i++)
+        {
+            TempPrefabs[i].ForceReloadMeshMat();
+        }
+
+    }
+
+    [ContextMenu("Reload Models")]
+    public void RefreshModels()
+    {
+        LoadSkyMeshCache(LevelManager.Instance.LoadPath + "\\Skybox\\Models");
+
+        //Reload Prefabs
+        var TempPrefabs = SkyboxManager.Instance.GetPrefabsList();
+
+        for (int i = 0; i < TempPrefabs.Length; i++)
+        {
+            TempPrefabs[i].ForceReloadMeshMat();
+        }
+
+    }
 }

@@ -158,6 +158,16 @@ public class PrefabSubObject : MonoBehaviour
         return MainObject;
     }
 
+    public void ForceRegenMeshMat()
+    {
+        var TempMeshList = GetComponentsInChildren<PrefabMeshObject>();
+
+        for (int i = 0; i < TempMeshList.Length; i++)
+        {
+            TempMeshList[i].GenerateModel();
+        }
+    }
+
     [Serializable]
     public struct ObjectAnimation
     {
