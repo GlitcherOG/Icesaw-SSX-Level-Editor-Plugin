@@ -3,14 +3,11 @@
 ## Current Todo
  
  ### Data Editing
- - Missing Mesh Prefab Fix
- 
  - Clean up Particle Prefabs To much unneeded data
+ - Fix Camera Rotations
  
  - Reload Mesh/Collision/Skybox Textures
  - Preview BBox Collison Models 
- 
- - Fix Camera Rotations
  
  - Patch Transform (with reset transform and rotation to zero)
  - Spline Transform (With Reset Transformat and rotation to zero)

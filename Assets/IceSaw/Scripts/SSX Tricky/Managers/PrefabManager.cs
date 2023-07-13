@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
@@ -284,7 +285,7 @@ public class PrefabManager : MonoBehaviour
 
         if(mesh==null)
         {
-            //Set Error Mesh
+            mesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\tinker.obj", typeof(Mesh));
         }
 
         return mesh;
