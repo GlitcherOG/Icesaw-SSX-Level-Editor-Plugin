@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
+using System.Collections.Generic;
 using UnityEditor;
-using System;
+using UnityEngine;
 
 [SelectionBase]
 public class InstanceObject : MonoBehaviour
@@ -51,6 +49,7 @@ public class InstanceObject : MonoBehaviour
     public bool UVScroll;
 
     public int U4;
+    [OnChangedCall("LoadCollisionModels")]
     public int CollsionMode;
     [OnChangedCall("LoadCollisionModels")]
     public string[] CollsionModelPaths;
@@ -169,39 +168,89 @@ public class InstanceObject : MonoBehaviour
             DestroyImmediate(Collision);
         }
 
-        if (CollsionModelPaths != null)
+        Collision = new GameObject("CollisionModel");
+        Collision.transform.parent = transform;
+        Collision.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        Collision.transform.localPosition = new Vector3(0, 0, 0);
+        Collision.transform.localScale = new Vector3(1, 1, 1);
+
+        Collision.transform.hideFlags = HideFlags.HideInHierarchy;
+
+        if (CollsionMode == 1)
         {
-            if (CollsionModelPaths.Length != 0)
+            if (CollsionModelPaths != null)
             {
-                Collision = new GameObject("CollisionModel");
-                Collision.transform.parent = transform;
-                Collision.transform.localRotation = new Quaternion(0, 0, 0, 0);
-                Collision.transform.localPosition = new Vector3(0, 0, 0);
-                Collision.transform.localScale = new Vector3(1, 1, 1);
-
-                Collision.transform.hideFlags = HideFlags.HideInHierarchy;
-
-                //AddSubObjects
-                for (int i = 0; i < CollsionModelPaths.Length; i++)
+                if (CollsionModelPaths.Length != 0)
                 {
-                    var TempObject = new GameObject(i.ToString());
-                    TempObject.transform.parent = Collision.transform;
-                    TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
-                    TempObject.transform.localPosition = new Vector3(0, 0, 0);
-                    TempObject.transform.localScale = new Vector3(1, 1, 1);
+                    //AddSubObjects
+                    for (int i = 0; i < CollsionModelPaths.Length; i++)
+                    {
+                        var TempObject = new GameObject(i.ToString());
+                        TempObject.transform.parent = Collision.transform;
+                        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                        TempObject.transform.localPosition = new Vector3(0, 0, 0);
+                        TempObject.transform.localScale = new Vector3(1, 1, 1);
 
-                    TempObject.AddComponent<MeshFilter>().sharedMesh = PrefabManager.Instance.GetColMesh(CollsionModelPaths[i]);
+                        TempObject.AddComponent<MeshFilter>().sharedMesh = PrefabManager.Instance.GetColMesh(CollsionModelPaths[i]);
 
-                    var TempMaterial = new Material(Shader.Find("Standard"));
-                    TempMaterial.color = Color.red;
+                        var TempMaterial = new Material(Shader.Find("Standard"));
+                        TempMaterial.color = Color.red;
 
-                    TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
-                    TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                    TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
+                        TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
+                        TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                        TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
+                    }
                 }
-                Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
             }
         }
+        else if (CollsionMode==2)
+        {
+            //Calculate BBox
+            Vector3 HighestBBox = new Vector3();
+            Vector3 LowestBBox = new Vector3();
+            bool Hotfix = false;
+
+            var TempMeshList = Prefab.GetComponentsInChildren<MeshFilter>();
+
+            for (int i = 0; i < TempMeshList.Length; i++)
+            {
+                var VertexList = TempMeshList[i].sharedMesh.vertices;
+
+                for (int a = 0; a < VertexList.Length; a++)
+                {
+                    var TempVector = TempMeshList[i].transform.TransformPoint(VertexList[a]);
+                    TempVector = transform.InverseTransformPoint(TempVector);
+
+                    if(!Hotfix)
+                    {
+                        HighestBBox = TempVector;
+                        LowestBBox = TempVector;
+                        Hotfix = true;
+                    }
+
+                    HighestBBox = JsonUtil.Highest(HighestBBox, TempVector);
+                    LowestBBox = JsonUtil.Lowest(LowestBBox, TempVector);
+                }
+            }
+
+            //GenerateMesh
+            var TempObject = new GameObject("0");
+            TempObject.transform.parent = Collision.transform;
+            TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            TempObject.transform.localPosition = new Vector3(0, 0, 0);
+            TempObject.transform.localScale = new Vector3(1, 1, 1);
+
+            TempObject.AddComponent<MeshFilter>().sharedMesh = GenerateBBoxMesh(HighestBBox, LowestBBox);
+
+            var TempMaterial = new Material(Shader.Find("Standard"));
+            TempMaterial.color = Color.red;
+
+            TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
+            TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
+        }
+
+        Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
     }
 
     public void RefreshHiddenModels()
@@ -297,20 +346,6 @@ public class InstanceObject : MonoBehaviour
         return TempInstance;
     }
 
-    public void SetUpdateMeshes(int NewMeshID)
-    {
-        int Test = ModelID;
-        try 
-        {
-            ModelID = NewMeshID;
-            LoadPrefabs();
-        }
-        catch
-        {
-            ModelID = Test;
-        }
-    }
-
     [ContextMenu("Goto Effect Slot")]
     public void GotoEffectSlot()
     {
@@ -331,6 +366,92 @@ public class InstanceObject : MonoBehaviour
         {
             Selection.activeObject = TempList[PhysicsIndex];
         }
+    }
+
+    [ContextMenu("Goto Model")]
+    public void GotoModel()
+    {
+        var TempList = PrefabManager.Instance.GetPrefabList();
+
+        if (TempList.Length - 1 >= ModelID)
+        {
+            Selection.activeObject = TempList[ModelID];
+        }
+    }
+
+    Mesh GenerateBBoxMesh(Vector3 HighestBBox, Vector3 LowestBBox)
+    {
+        List<Vector3> vector3s = new List<Vector3>();
+        List<int> ints = new List<int>();
+
+        vector3s.Add(new Vector3(HighestBBox.x, HighestBBox.y, HighestBBox.z));
+        vector3s.Add(new Vector3(LowestBBox.x, HighestBBox.y, HighestBBox.z));
+        vector3s.Add(new Vector3(HighestBBox.x, HighestBBox.y, LowestBBox.z));
+        vector3s.Add(new Vector3(LowestBBox.x, HighestBBox.y, LowestBBox.z));
+        vector3s.Add(new Vector3(HighestBBox.x, LowestBBox.y, HighestBBox.z));
+        vector3s.Add(new Vector3(LowestBBox.x, LowestBBox.y, HighestBBox.z));
+        vector3s.Add(new Vector3(HighestBBox.x, LowestBBox.y, LowestBBox.z));
+        vector3s.Add(new Vector3(LowestBBox.x, LowestBBox.y, LowestBBox.z));
+
+        //+Y
+        ints.Add(2);
+        ints.Add(1);
+        ints.Add(0);
+
+        ints.Add(1);
+        ints.Add(2);
+        ints.Add(3);
+
+        //-Y
+        ints.Add(4);
+        ints.Add(5);
+        ints.Add(6);
+
+        ints.Add(7);
+        ints.Add(6);
+        ints.Add(5);
+
+        //+Z
+        ints.Add(5);
+        ints.Add(4);
+        ints.Add(1);
+
+        ints.Add(0);
+        ints.Add(1);
+        ints.Add(4);
+
+        //-Z
+        ints.Add(3);
+        ints.Add(2);
+        ints.Add(6);
+
+        ints.Add(7);
+        ints.Add(3);
+        ints.Add(6);
+
+        //+X
+        ints.Add(2);
+        ints.Add(0);
+        ints.Add(6);
+
+        ints.Add(4);
+        ints.Add(6);
+        ints.Add(0);
+
+        //-X
+        ints.Add(1);
+        ints.Add(3);
+        ints.Add(5);
+
+        ints.Add(7);
+        ints.Add(5);
+        ints.Add(3);
+
+        var mesh = new Mesh();
+        mesh.vertices = vector3s.ToArray();
+        mesh.triangles = ints.ToArray();
+        mesh.RecalculateNormals();
+        return mesh;
     }
 
     [System.Serializable]

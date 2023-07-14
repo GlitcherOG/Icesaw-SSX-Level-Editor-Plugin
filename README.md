@@ -3,8 +3,6 @@
 ## Current Todo
  
  ### Data Editing
- - Preview BBox Collison Models 
- 
  - Patch Transform (with reset transform and rotation to zero)
  - Spline Transform (With Reset Transformat and rotation to zero)
  
