@@ -146,7 +146,7 @@ public class PatchObject : MonoBehaviour
         TrickOnlyPatch = import.TrickOnlyPatch;
         TextureAssigment = import.TexturePath;
         LightmapID = import.LightmapID;
-        //transform.localPosition = RawControlPoint;
+        transform.localPosition = RawControlPoint;
 
 
         LoadNURBSpatch();
@@ -249,6 +249,8 @@ public class PatchObject : MonoBehaviour
     public void LoadNURBSpatch()
     {
         Vector3[,] vertices = new Vector3[4, 4];
+
+        //Convert to local points from tricky points
 
         //Vertices
         vertices[0, 0] = RawControlPoint;
@@ -440,7 +442,11 @@ public class PatchObject : MonoBehaviour
     {
         if (transform.hasChanged)
         {
+            //Take Points and Convert to local Point
 
+            //Convert local points to world
+
+            //Convert Back to tricky points
         }
     }
 
