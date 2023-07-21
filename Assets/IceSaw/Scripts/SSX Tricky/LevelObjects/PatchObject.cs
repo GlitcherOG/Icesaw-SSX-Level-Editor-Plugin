@@ -246,32 +246,35 @@ public class PatchObject : MonoBehaviour
         return patch;
     }
 
+    Vector3 ConvertLocalPoint(Vector3 point)
+    {
+        return transform.InverseTransformPoint(LevelManager.Instance.transform.TransformPoint(point));
+    }
+
     public void LoadNURBSpatch()
     {
         Vector3[,] vertices = new Vector3[4, 4];
-
-        //Convert to local points from tricky points
-
+        
         //Vertices
-        vertices[0, 0] = RawControlPoint;
-        vertices[0, 1] = RawR1C2;
-        vertices[0, 2] = RawR1C3;
-        vertices[0, 3] = RawR1C4;
+        vertices[0, 0] = ConvertLocalPoint(RawControlPoint);
+        vertices[0, 1] = ConvertLocalPoint(RawR1C2);
+        vertices[0, 2] = ConvertLocalPoint(RawR1C3);
+        vertices[0, 3] = ConvertLocalPoint(RawR1C4);
 
-        vertices[1, 0] = RawR2C1;
-        vertices[1, 1] = RawR2C2;
-        vertices[1, 2] = RawR2C3;
-        vertices[1, 3] = RawR2C4;
+        vertices[1, 0] = ConvertLocalPoint(RawR2C1);
+        vertices[1, 1] = ConvertLocalPoint(RawR2C2);
+        vertices[1, 2] = ConvertLocalPoint(RawR2C3);
+        vertices[1, 3] = ConvertLocalPoint(RawR2C4);
 
-        vertices[2, 0] = RawR3C1;
-        vertices[2, 1] = RawR3C2;
-        vertices[2, 2] = RawR3C3;
-        vertices[2, 3] = RawR3C4;
+        vertices[2, 0] = ConvertLocalPoint(RawR3C1);
+        vertices[2, 1] = ConvertLocalPoint(RawR3C2);
+        vertices[2, 2] = ConvertLocalPoint(RawR3C3);
+        vertices[2, 3] = ConvertLocalPoint(RawR3C4);
 
-        vertices[3, 0] = RawR4C1;
-        vertices[3, 1] = RawR4C2;
-        vertices[3, 2] = RawR4C3;
-        vertices[3, 3] = RawR4C4;
+        vertices[3, 0] = ConvertLocalPoint(RawR4C1);
+        vertices[3, 1] = ConvertLocalPoint(RawR4C2);
+        vertices[3, 2] = ConvertLocalPoint(RawR4C3);
+        vertices[3, 3] = ConvertLocalPoint(RawR4C4);
 
         //Control points
         NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[4, 4];
@@ -306,9 +309,6 @@ public class PatchObject : MonoBehaviour
 
         //Set material
         meshFilter.mesh = mesh;
-        //GetComponent<MeshCollider>().enabled = false;
-        //GetComponent<MeshCollider>().sharedMesh = mesh;
-        //GetComponent<MeshCollider>().enabled = true;
 
         LoadUVMap();
         LoadLightmap();
