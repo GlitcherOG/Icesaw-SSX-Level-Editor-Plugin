@@ -7,7 +7,7 @@ using UnityEngine;
 [SelectionBase]
 public class InstanceObject : MonoBehaviour
 {
-    public Vector4 Unknown5; //Something to do with lighting
+    public Vector4 Unknown5; //Something to do with lightin
     public Vector4 Unknown6; //Lighting Continued?
     public Vector4 Unknown7; 
     public Vector4 Unknown8;
@@ -203,52 +203,52 @@ public class InstanceObject : MonoBehaviour
                 }
             }
         }
-        else if (CollsionMode==2)
-        {
-            //Calculate BBox
-            Vector3 HighestBBox = new Vector3();
-            Vector3 LowestBBox = new Vector3();
-            bool Hotfix = false;
+        //else if (CollsionMode==2)
+        //{
+        //    //Calculate BBox
+        //    Vector3 HighestBBox = new Vector3();
+        //    Vector3 LowestBBox = new Vector3();
+        //    bool Hotfix = false;
 
-            var TempMeshList = Prefab.GetComponentsInChildren<MeshFilter>();
+        //    var TempMeshList = Prefab.GetComponentsInChildren<MeshFilter>();
 
-            for (int i = 0; i < TempMeshList.Length; i++)
-            {
-                var VertexList = TempMeshList[i].sharedMesh.vertices;
+        //    for (int i = 0; i < TempMeshList.Length; i++)
+        //    {
+        //        var VertexList = TempMeshList[i].sharedMesh.vertices;
 
-                for (int a = 0; a < VertexList.Length; a++)
-                {
-                    var TempVector = TempMeshList[i].transform.TransformPoint(VertexList[a]);
-                    TempVector = transform.InverseTransformPoint(TempVector);
+        //        for (int a = 0; a < VertexList.Length; a++)
+        //        {
+        //            var TempVector = TempMeshList[i].transform.TransformPoint(VertexList[a]);
+        //            TempVector = transform.InverseTransformPoint(TempVector);
 
-                    if(!Hotfix)
-                    {
-                        HighestBBox = TempVector;
-                        LowestBBox = TempVector;
-                        Hotfix = true;
-                    }
+        //            if(!Hotfix)
+        //            {
+        //                HighestBBox = TempVector;
+        //                LowestBBox = TempVector;
+        //                Hotfix = true;
+        //            }
 
-                    HighestBBox = JsonUtil.Highest(HighestBBox, TempVector);
-                    LowestBBox = JsonUtil.Lowest(LowestBBox, TempVector);
-                }
-            }
+        //            HighestBBox = JsonUtil.Highest(HighestBBox, TempVector);
+        //            LowestBBox = JsonUtil.Lowest(LowestBBox, TempVector);
+        //        }
+        //    }
 
-            //GenerateMesh
-            var TempObject = new GameObject("0");
-            TempObject.transform.parent = Collision.transform;
-            TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
-            TempObject.transform.localPosition = new Vector3(0, 0, 0);
-            TempObject.transform.localScale = new Vector3(1, 1, 1);
+        //    //GenerateMesh
+        //    var TempObject = new GameObject("0");
+        //    TempObject.transform.parent = Collision.transform;
+        //    TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        //    TempObject.transform.localPosition = new Vector3(0, 0, 0);
+        //    TempObject.transform.localScale = new Vector3(1, 1, 1);
 
-            TempObject.AddComponent<MeshFilter>().sharedMesh = GenerateBBoxMesh(HighestBBox, LowestBBox);
+        //    TempObject.AddComponent<MeshFilter>().sharedMesh = GenerateBBoxMesh(HighestBBox, LowestBBox);
 
-            var TempMaterial = new Material(Shader.Find("Standard"));
-            TempMaterial.color = Color.red;
+        //    var TempMaterial = new Material(Shader.Find("Standard"));
+        //    TempMaterial.color = Color.red;
 
-            TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
-            TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
-        }
+        //    TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
+        //    TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        //    TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
+        //}
 
         Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
     }

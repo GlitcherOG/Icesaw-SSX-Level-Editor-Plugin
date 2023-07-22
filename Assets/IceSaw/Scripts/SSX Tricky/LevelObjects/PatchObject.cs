@@ -1,13 +1,10 @@
- using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using Unity.VisualScripting;
 using UnityEditor;
-using System.Drawing;
-using UnityEngine.UIElements;
+using Newtonsoft.Json.Bson;
 
 [ExecuteInEditMode]
 public class PatchObject : MonoBehaviour
@@ -94,6 +91,23 @@ public class PatchObject : MonoBehaviour
 
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
+    [SerializeField]
+    public Vector3 LocalR1C2;
+    public Vector3 LocalR1C3;
+    public Vector3 LocalR1C4;
+    public Vector3 LocalR2C1;
+    public Vector3 LocalR2C2;
+    public Vector3 LocalR2C3;
+    public Vector3 LocalR2C4;
+    public Vector3 LocalR3C1;
+    public Vector3 LocalR3C2;
+    public Vector3 LocalR3C3;
+    public Vector3 LocalR3C4;
+    public Vector3 LocalR4C1;
+    public Vector3 LocalR4C2;
+    public Vector3 LocalR4C3;
+    public Vector3 LocalR4C4;
+
 
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
@@ -147,7 +161,6 @@ public class PatchObject : MonoBehaviour
         TextureAssigment = import.TexturePath;
         LightmapID = import.LightmapID;
         transform.localPosition = RawControlPoint;
-
 
         LoadNURBSpatch();
         LoadUVMap();
@@ -251,10 +264,34 @@ public class PatchObject : MonoBehaviour
         return transform.InverseTransformPoint(LevelManager.Instance.transform.TransformPoint(point));
     }
 
+    Vector3 ConvertWorldPoint(Vector3 point)
+    {
+        return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+    }
+
     public void LoadNURBSpatch()
     {
         Vector3[,] vertices = new Vector3[4, 4];
-        
+
+        LocalR1C2 = ConvertLocalPoint(RawR1C2);
+        LocalR1C3 = ConvertLocalPoint(RawR1C3);
+        LocalR1C4 = ConvertLocalPoint(RawR1C4);
+
+        LocalR2C1 = ConvertLocalPoint(RawR2C1);
+        LocalR2C2 = ConvertLocalPoint(RawR2C2);
+        LocalR2C3 = ConvertLocalPoint(RawR2C3);
+        LocalR2C4 = ConvertLocalPoint(RawR2C4);
+
+        LocalR3C1 = ConvertLocalPoint(RawR3C1);
+        LocalR3C2 = ConvertLocalPoint(RawR3C2);
+        LocalR3C3 = ConvertLocalPoint(RawR3C3);
+        LocalR3C4 = ConvertLocalPoint(RawR3C4);
+
+        LocalR4C1 = ConvertLocalPoint(RawR4C1);
+        LocalR4C2 = ConvertLocalPoint(RawR4C2);
+        LocalR4C3 = ConvertLocalPoint(RawR4C3);
+        LocalR4C4 = ConvertLocalPoint(RawR4C4);
+
         //Vertices
         vertices[0, 0] = ConvertLocalPoint(RawControlPoint);
         vertices[0, 1] = ConvertLocalPoint(RawR1C2);
@@ -435,26 +472,46 @@ public class PatchObject : MonoBehaviour
 
     void UndoAndRedoFix()
     {
+        FixNURBPoints();
         LoadNURBSpatch();
     }
 
-    public void OnDrawGizmosSelected()
+    public void Start()
     {
-        if (transform.hasChanged)
+        
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (transform.hasChanged && !Hold)
         {
-            //Take Points and Convert to local Point
-
-            //Convert local points to world
-
-            //Convert Back to tricky points
+            FixNURBPoints();
+            LoadNURBSpatch();
+            transform.hasChanged = false;
         }
     }
 
-    public void RecalculateNurbpoints()
+    public void FixNURBPoints()
     {
-        //take current points 
+        RawControlPoint = ConvertWorldPoint(new Vector3(0,0,0));
+        RawR1C2 = ConvertWorldPoint(LocalR1C2);
+        RawR1C3 = ConvertWorldPoint(LocalR1C3);
+        RawR1C4 = ConvertWorldPoint(LocalR1C4);
 
+        RawR2C1 = ConvertWorldPoint(LocalR2C1);
+        RawR2C2 = ConvertWorldPoint(LocalR2C2);
+        RawR2C3 = ConvertWorldPoint(LocalR2C3);
+        RawR2C4 = ConvertWorldPoint(LocalR2C4);
 
+        RawR3C1 = ConvertWorldPoint(LocalR3C1);
+        RawR3C2 = ConvertWorldPoint(LocalR3C2);
+        RawR3C3 = ConvertWorldPoint(LocalR3C3);
+        RawR3C4 = ConvertWorldPoint(LocalR3C4);
+
+        RawR4C1 = ConvertWorldPoint(LocalR4C1);
+        RawR4C2 = ConvertWorldPoint(LocalR4C2);
+        RawR4C3 = ConvertWorldPoint(LocalR4C3);
+        RawR4C4 = ConvertWorldPoint(LocalR4C4);
     }
 
     [ContextMenu("RotateUV Left")]
@@ -525,6 +582,18 @@ public class PatchObject : MonoBehaviour
         RawR4C4 = Temp1;
 
         LoadNURBSpatch();
+    }
+
+    bool Hold = false;
+    [ContextMenu("Reset Transform")]
+    public void TransformReset()
+    {
+        Hold = true;
+        transform.localRotation = new Quaternion(0,0,0,0);
+        transform.localScale = new Vector3(1,1,1);
+        LoadNURBSpatch();
+        transform.hasChanged = false;
+        Hold = false;
     }
 
     public void ToggleLightingMode(bool Lightmap)

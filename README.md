@@ -3,7 +3,6 @@
 ## Current Todo
  
  ### Data Editing
- - Patch Transform (with reset transform and rotation to zero)
  - Spline Transform (With Reset Transformat and rotation to zero)
  
  - Create New Objects for all scripts
@@ -18,3 +17,4 @@
  - Auto Update Mat/Prefabs/Instances
  - Clean up Particle Prefabs To much unneeded data
  - Fix Camera Rotations
+ - Fix Patch Transform Undo
