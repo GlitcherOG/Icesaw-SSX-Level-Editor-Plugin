@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour
     GameObject PathFileManager;
 
     // Start is called before the first frame update
-    void Awake()
+    public void Awake()
     {
         if (Instance == null)
         {
@@ -309,6 +309,12 @@ public class LevelManager : MonoBehaviour
 
         WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
         WorldManagerHolder.GetComponent<WorldManager>().Awake();
+
+        SkyboxManagerHolder = gameObject.GetComponentInChildren<SkyboxManager>().gameObject;
+        SkyboxManagerHolder.GetComponent<SkyboxManager>().Awake();
+
+        PathFileManager = gameObject.GetComponentInChildren<PathFileManager>().gameObject;
+        PathFileManager.GetComponent<PathFileManager>().Awake();
     }
 
     public Material CreateLineMaterial(string Path)

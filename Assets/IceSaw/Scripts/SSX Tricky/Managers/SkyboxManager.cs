@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
+[ExecuteInEditMode]
 public class SkyboxManager : MonoBehaviour
 {
     public static SkyboxManager Instance;
@@ -22,6 +23,10 @@ public class SkyboxManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+        }
+        else if (Instance != this)
+        {
+            DestroyImmediate(this.gameObject);
         }
     }
 

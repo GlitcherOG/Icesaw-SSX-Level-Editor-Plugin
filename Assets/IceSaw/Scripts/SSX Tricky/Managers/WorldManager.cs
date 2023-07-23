@@ -27,7 +27,13 @@ public class WorldManager : MonoBehaviour
     public void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+        }
+        else if (Instance != this)
+        {
+            DestroyImmediate(this.gameObject);
+        }
     }
 
     public void GenerateEmptyObjects()

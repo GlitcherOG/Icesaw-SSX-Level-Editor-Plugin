@@ -14,9 +14,16 @@ public class PathFileManager : MonoBehaviour
     [HideInInspector]
     public GameObject SOPHolder;
 
-    private void Awake()
+    public void Awake()
     {
-        Instance = this;
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            DestroyImmediate(this.gameObject);
+        }
     }
 
     public void GenerateEmptyObjects()
