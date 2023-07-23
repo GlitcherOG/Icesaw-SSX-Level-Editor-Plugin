@@ -127,10 +127,10 @@ public class PatchObject : MonoBehaviour
         var TempMaterial = (Material)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Material\\MainPatchMaterial.mat", typeof(Material));
         Material mat = new Material(TempMaterial);
         meshRenderer.material = mat;
+        Undo.undoRedoPerformed += UndoAndRedoFix;
     }
     public void LoadPatch(PatchesJsonHandler.PatchJson import)
     {
-        Undo.undoRedoPerformed += UndoAndRedoFix;
         transform.name = import.PatchName;
         LightMapPoint = JsonUtil.ArrayToVector4(import.LightMapPoint);
 
@@ -481,7 +481,7 @@ public class PatchObject : MonoBehaviour
         
     }
 
-    public void OnDrawGizmos()
+    public void Update()
     {
         if (transform.hasChanged && !Hold)
         {

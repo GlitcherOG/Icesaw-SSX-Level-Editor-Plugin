@@ -5,7 +5,9 @@ using System.Linq;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using Unity.VisualScripting;
+using UnityEditor;
 
+[ExecuteInEditMode]
 public class SplineSegmentObject : MonoBehaviour
 {
     [Space(10)]
@@ -27,6 +29,12 @@ public class SplineSegmentObject : MonoBehaviour
 
     //private int curveCount = 0;
     private int SEGMENT_COUNT = 10;
+
+    Vector3 LocalPoint1;
+    Vector3 LocalPoint2;
+    Vector3 LocalPoint3;
+    Vector3 LocalPoint4;
+
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
     {
@@ -40,6 +48,7 @@ public class SplineSegmentObject : MonoBehaviour
         lineRenderer.hideFlags = HideFlags.HideInInspector;
         lineRenderer.material = LevelManager.Instance.Spline;
         lineRenderer.textureMode = LineTextureMode.Tile;
+        Undo.undoRedoPerformed += UndoAndRedoFix;
     }
 
     public void LoadSplineSegment(SplineJsonHandler.SegmentJson segments)
@@ -56,11 +65,19 @@ public class SplineSegmentObject : MonoBehaviour
         U2 = segments.U2;
         U3 = segments.U3;
 
-
         //SetDataLineRender();
         DrawCurve();
     }
 
+    Vector3 ConvertLocalPoint(Vector3 point)
+    {
+        return transform.InverseTransformPoint(LevelManager.Instance.transform.TransformPoint(point));
+    }
+
+    Vector3 ConvertWorldPoint(Vector3 point)
+    {
+        return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+    }
 
     public SplineJsonHandler.SegmentJson GenerateSplineSegment()
     {
@@ -83,28 +100,37 @@ public class SplineSegmentObject : MonoBehaviour
     {
         transform.localPosition = Point1;
         lineRenderer.positionCount = 4;
-        lineRenderer.SetPosition(0, (Point1 - Point1));
-        lineRenderer.SetPosition(1, (Point2 - Point1));
-        lineRenderer.SetPosition(2, (Point3 - Point1));
-        lineRenderer.SetPosition(3, (Point4 - Point1));
+        lineRenderer.SetPosition(0, LocalPoint1);
+        lineRenderer.SetPosition(1, LocalPoint2);
+        lineRenderer.SetPosition(2, LocalPoint3);
+        lineRenderer.SetPosition(3, LocalPoint4);
     }
 
 
     public void DrawCurve()
     {
+        LocalPoint1 = ConvertLocalPoint(Point1);
+        LocalPoint2 = ConvertLocalPoint(Point2);
+        LocalPoint3 = ConvertLocalPoint(Point3);
+        LocalPoint4 = ConvertLocalPoint(Point4);
+
         lineRenderer.positionCount = SEGMENT_COUNT+2;
-        lineRenderer.SetPosition(0, Point1);
+        lineRenderer.SetPosition(0, LocalPoint1);
         for (int i = 1; i <= SEGMENT_COUNT; i++)
         {
             float t = i / (float)SEGMENT_COUNT;
-            Vector3 pixel = CalculateCubicBezierPoint(t, (Point1), (Point2), (Point3), (Point4));
+            Vector3 pixel = CalculateCubicBezierPoint(t, (LocalPoint1), (LocalPoint2), (LocalPoint3), (LocalPoint4));
             lineRenderer.SetPosition(i, pixel);
         }
-        lineRenderer.SetPosition(SEGMENT_COUNT+1, Point4);
+        lineRenderer.SetPosition(SEGMENT_COUNT+1, LocalPoint4);
     }
 
     void UndoAndRedoFix()
     {
+        LocalPoint1 = ConvertLocalPoint(Point1);
+        LocalPoint2 = ConvertLocalPoint(Point2);
+        LocalPoint3 = ConvertLocalPoint(Point3);
+        LocalPoint4 = ConvertLocalPoint(Point4);
         DrawCurve();
     }
 
@@ -122,5 +148,33 @@ public class SplineSegmentObject : MonoBehaviour
         p += ttt * p3;
 
         return p;
+    }
+
+    private void Update()
+    {
+        if (transform.hasChanged && !Hold)
+        {
+            Point1 = ConvertWorldPoint(LocalPoint1);
+            Point2 = ConvertWorldPoint(LocalPoint2);
+            Point3 = ConvertWorldPoint(LocalPoint3);
+            Point4 = ConvertWorldPoint(LocalPoint4);
+
+            DrawCurve();
+
+            transform.hasChanged = false;
+        }
+    }
+
+    bool Hold = false;
+    [ContextMenu("Reset Transform")]
+    public void TransformReset()
+    {
+        Hold = true;
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = new Quaternion(0, 0, 0, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+        DrawCurve();
+        transform.hasChanged = false;
+        Hold = false;
     }
 }

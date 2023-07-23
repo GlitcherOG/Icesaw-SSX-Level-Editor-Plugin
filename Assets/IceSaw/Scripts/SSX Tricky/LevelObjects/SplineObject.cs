@@ -17,10 +17,13 @@ public class SplineObject : MonoBehaviour
         U1 = spline.U1;
         SplineStyle = spline.SplineStyle;
 
+        transform.localPosition = JsonUtil.ArrayToVector3(spline.Segments[0].Point1);
+
         for (int i = 0; i < spline.Segments.Count; i++)
         {
             var TempGameobject = new GameObject("Segment " + i);
             TempGameobject.transform.parent = transform;
+            TempGameobject.transform.localPosition = Vector3.zero;
             TempGameobject.transform.localScale = Vector3.one;
             TempGameobject.transform.localEulerAngles = Vector3.zero;
             var TempObj = TempGameobject.AddComponent<SplineSegmentObject>();

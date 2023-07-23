@@ -3,8 +3,6 @@
 ## Current Todo
  
  ### Data Editing
- - Spline Transform (With Reset Transformat and rotation to zero)
- 
  - Create New Objects for all scripts
  - Fix Script Links
  
