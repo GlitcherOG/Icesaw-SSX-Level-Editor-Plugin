@@ -3,6 +3,7 @@ using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
@@ -91,5 +92,19 @@ public class PrefabObject : MonoBehaviour
         {
             TempHeader[i].ForceRegenMeshMat();
         }
+    }
+
+    [MenuItem("GameObject/Ice Saw/Prefab Object", false, 12)]
+    public static void CreatePatch(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("PrefabObject");
+        TempObject.AddComponent<PrefabObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 }

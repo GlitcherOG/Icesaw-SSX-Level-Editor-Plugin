@@ -119,4 +119,18 @@ public class EffectSlotObject : MonoBehaviour
             Selection.activeObject = TempList[Slot7];
         }
     }
+
+    [MenuItem("GameObject/Ice Saw/Effect Slot", false, 12)]
+    public static void CreateEffectSlot(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Effect Slot");
+        TempObject.AddComponent<EffectSlotObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
+    }
 }

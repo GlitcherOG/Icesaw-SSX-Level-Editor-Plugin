@@ -454,6 +454,20 @@ public class InstanceObject : MonoBehaviour
         return mesh;
     }
 
+    [MenuItem("GameObject/Ice Saw/Instance", false, 12)]
+    public static void CreateInstance(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Instance");
+        TempObject.AddComponent<InstanceObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
+    }
+
     [System.Serializable]
     public struct SoundData
     {

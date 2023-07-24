@@ -3,8 +3,7 @@
 ## Current Todo
  
  ### Data Editing
- - Create New Objects for all scripts
- - Fix Script Links
+ - Fix Create Object Order
  
 ## Future Todo
  - Proper Spline Editing
@@ -16,3 +15,4 @@
  - Clean up Particle Prefabs To much unneeded data
  - Fix Camera Rotations
  - Fix Patch Transform Undo
+ - Sitch Spline Buttons

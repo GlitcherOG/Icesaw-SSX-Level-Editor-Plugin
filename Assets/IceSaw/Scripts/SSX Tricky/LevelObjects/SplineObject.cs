@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
+using UnityEditor;
 
 public class SplineObject : MonoBehaviour
 {
@@ -51,6 +52,20 @@ public class SplineObject : MonoBehaviour
         }
 
         return spline;
+    }
+
+    [MenuItem("GameObject/Ice Saw/Spline", false, 13)]
+    public static void CreateSpline(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Spline");
+        TempObject.AddComponent<SplineObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 
 }

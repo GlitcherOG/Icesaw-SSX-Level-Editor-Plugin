@@ -9,7 +9,14 @@ public class ContextMenuItems
     [MenuItem("GameObject/Ice Saw/Get Index ID", false, 100)]
     static void GetChildID(MenuCommand menuCommand)
     {
-        var Selected = menuCommand.context.GetComponent<Transform>();
-        Debug.Log(Selected.GetSiblingIndex() + " " + Selected.name);
+        if (menuCommand.context != null)
+        {
+            var Selected = menuCommand.context.GetComponent<Transform>();
+            Debug.Log("(" +Selected.GetSiblingIndex() + ")" + Selected.name);
+        }
+        else
+        {
+            Debug.Log("No Object Selected");
+        }
     }
 }

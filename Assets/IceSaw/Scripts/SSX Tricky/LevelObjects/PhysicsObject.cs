@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PhysicsObject : MonoBehaviour
@@ -117,6 +118,21 @@ public class PhysicsObject : MonoBehaviour
 
         return physicsHeader;
     }
+
+    [MenuItem("GameObject/Ice Saw/Physics", false, 12)]
+    public static void CreatePhysics(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Physics");
+        TempObject.AddComponent<PhysicsObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
+    }
+
     [System.Serializable]
     public struct PhysicsData
     {

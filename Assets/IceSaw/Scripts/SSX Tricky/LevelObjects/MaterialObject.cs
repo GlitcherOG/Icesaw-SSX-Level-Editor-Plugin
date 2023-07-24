@@ -181,4 +181,18 @@ public class MaterialObject : MonoBehaviour
 
         return NewJson;
     }
+
+    [MenuItem("GameObject/Ice Saw/Material", false, 12)]
+    public static void CreateMaterialObject(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Material");
+        TempObject.AddComponent<MaterialObject>().AddMissingComponents();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
+    }
 }

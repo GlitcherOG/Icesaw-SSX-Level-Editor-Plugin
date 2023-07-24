@@ -29,55 +29,55 @@ public class PatchObject : MonoBehaviour
     [Space(10)]
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawControlPoint;
+    public Vector3 RawControlPoint = new Vector3(0,0,0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR1C2;
+    public Vector3 RawR1C2 = new Vector3(250,0,0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR1C3;
+    public Vector3 RawR1C3 = new Vector3(500,0,0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR1C4;
+    public Vector3 RawR1C4 = new Vector3(750,0,0);
     [Space(5)]
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR2C1;
+    public Vector3 RawR2C1 = new Vector3(0,250,0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR2C2;
+    public Vector3 RawR2C2 = new Vector3(250, 250, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR2C3;
+    public Vector3 RawR2C3 = new Vector3(500, 250, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR2C4;
+    public Vector3 RawR2C4 = new Vector3(750, 250, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
     [Space(5)]
-    public Vector3 RawR3C1;
+    public Vector3 RawR3C1 = new Vector3(0, 500, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR3C2;
+    public Vector3 RawR3C2 = new Vector3(250, 500, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR3C3;
+    public Vector3 RawR3C3 = new Vector3(500, 500, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR3C4;
+    public Vector3 RawR3C4 = new Vector3(750, 500, 0);
     [Space(5)]
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR4C1;
+    public Vector3 RawR4C1 = new Vector3(0, 750, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR4C2;
+    public Vector3 RawR4C2 = new Vector3(250, 750, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR4C3;
+    public Vector3 RawR4C3 = new Vector3(500, 750, 0);
     [SerializeField]
     [OnChangedCall("LoadNURBSpatch")]
-    public Vector3 RawR4C4;
+    public Vector3 RawR4C4 = new Vector3(750, 750, 0);
 
     [Space(10)]
     public int PatchStyle;
@@ -92,21 +92,21 @@ public class PatchObject : MonoBehaviour
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
     [SerializeField]
-    public Vector3 LocalR1C2;
-    public Vector3 LocalR1C3;
-    public Vector3 LocalR1C4;
-    public Vector3 LocalR2C1;
-    public Vector3 LocalR2C2;
-    public Vector3 LocalR2C3;
-    public Vector3 LocalR2C4;
-    public Vector3 LocalR3C1;
-    public Vector3 LocalR3C2;
-    public Vector3 LocalR3C3;
-    public Vector3 LocalR3C4;
-    public Vector3 LocalR4C1;
-    public Vector3 LocalR4C2;
-    public Vector3 LocalR4C3;
-    public Vector3 LocalR4C4;
+    [HideInInspector] public Vector3 LocalR1C2;
+    [HideInInspector] public Vector3 LocalR1C3;
+    [HideInInspector] public Vector3 LocalR1C4;
+    [HideInInspector] public Vector3 LocalR2C1;
+    [HideInInspector] public Vector3 LocalR2C2;
+    [HideInInspector] public Vector3 LocalR2C3;
+    [HideInInspector] public Vector3 LocalR2C4;
+    [HideInInspector] public Vector3 LocalR3C1;
+    [HideInInspector] public Vector3 LocalR3C2;
+    [HideInInspector] public Vector3 LocalR3C3;
+    [HideInInspector] public Vector3 LocalR3C4;
+    [HideInInspector] public Vector3 LocalR4C1;
+    [HideInInspector] public Vector3 LocalR4C2;
+    [HideInInspector] public Vector3 LocalR4C3;
+    [HideInInspector] public Vector3 LocalR4C4;
 
 
     [ContextMenu("Add Missing Components")]
@@ -261,12 +261,22 @@ public class PatchObject : MonoBehaviour
 
     Vector3 ConvertLocalPoint(Vector3 point)
     {
-        return transform.InverseTransformPoint(LevelManager.Instance.transform.TransformPoint(point));
+        if (LevelManager.Instance != null)
+        {
+            return transform.InverseTransformPoint(LevelManager.Instance.transform.TransformPoint(point));
+        }
+
+        return transform.InverseTransformPoint(point);
     }
 
     Vector3 ConvertWorldPoint(Vector3 point)
     {
-        return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+        if(LevelManager.Instance!=null)
+        {
+            return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+        }
+
+        return transform.TransformPoint(point);
     }
 
     public void LoadNURBSpatch()
@@ -617,7 +627,14 @@ public class PatchObject : MonoBehaviour
     [MenuItem("GameObject/Ice Saw/Patch", false, 12)]
     public static void CreatePatch(MenuCommand menuCommand)
     {
+        GameObject TempObject = new GameObject("Patch");
+        TempObject.AddComponent<PatchObject>().AddMissingComponents();
+        if (menuCommand.context!=null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
 
+            TempObject.transform.parent = AddToObject.transform;
+        }
 
     }
 }

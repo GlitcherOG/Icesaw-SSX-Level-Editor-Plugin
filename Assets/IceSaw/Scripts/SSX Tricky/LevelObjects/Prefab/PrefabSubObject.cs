@@ -3,6 +3,7 @@ using SSXMultiTool.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
@@ -166,6 +167,20 @@ public class PrefabSubObject : MonoBehaviour
         {
             TempMeshList[i].GenerateModel();
         }
+    }
+
+    [MenuItem("GameObject/Ice Saw/Prefab Sub Object", false, 12)]
+    public static void CreatePrefabSubObject(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Prefab Sub Object");
+        TempObject.AddComponent<PrefabSubObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 
     [Serializable]

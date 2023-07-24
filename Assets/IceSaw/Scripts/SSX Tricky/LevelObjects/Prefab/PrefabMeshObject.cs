@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class PrefabMeshObject : MonoBehaviour
@@ -133,5 +134,19 @@ public class PrefabMeshObject : MonoBehaviour
             texture = LevelManager.Instance.Error;
         }
         return texture;
+    }
+
+    [MenuItem("GameObject/Ice Saw/Prefab Mesh Object", false, 12)]
+    public static void CreatePrefabMeshObject(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Prefab Mesh Object");
+        TempObject.AddComponent<PrefabMeshObject>().AddMissingComponents();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 }

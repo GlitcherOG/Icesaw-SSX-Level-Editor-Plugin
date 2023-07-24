@@ -177,4 +177,17 @@ public class SplineSegmentObject : MonoBehaviour
         transform.hasChanged = false;
         Hold = false;
     }
+
+    [MenuItem("GameObject/Ice Saw/Spline Segment", false, 12)]
+    public static void CreateSplineSegment(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Spline Segment");
+        TempObject.AddComponent<SplineSegmentObject>().AddMissingComponents();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
+    }
 }

@@ -3,6 +3,7 @@ using SSXMultiTool.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class PaticleInstanceObject : MonoBehaviour
@@ -52,5 +53,19 @@ public class PaticleInstanceObject : MonoBehaviour
         particleJson.UnknownInt12 = UnknownInt12;
 
         return particleJson;
+    }
+
+    [MenuItem("GameObject/Ice Saw/Particle Instance", false, 12)]
+    public static void CreateParticleInstance(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Particle Instance");
+        TempObject.AddComponent<PaticleInstanceObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 }

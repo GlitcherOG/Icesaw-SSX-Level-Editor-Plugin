@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.CameraJSONHandler;
 
@@ -124,7 +125,19 @@ public class CameraObject : MonoBehaviour
 
 
 
+    [MenuItem("GameObject/Ice Saw/Camera", false, 12)]
+    public static void CreateCameraObject(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Camera");
+        TempObject.AddComponent<CameraObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
 
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
+    }
 
 
 

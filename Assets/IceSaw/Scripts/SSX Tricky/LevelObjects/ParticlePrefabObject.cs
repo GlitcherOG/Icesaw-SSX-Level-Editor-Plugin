@@ -3,6 +3,7 @@ using SSXMultiTool.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -74,6 +75,20 @@ public class ParticlePrefabObject : MonoBehaviour
         }
 
         return jsonHandler;
+    }
+
+    [MenuItem("GameObject/Ice Saw/Particle Prefab", false, 12)]
+    public static void CreateParticleInstance(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Particle Prefab");
+        TempObject.AddComponent<ParticlePrefabObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 
     [System.Serializable]

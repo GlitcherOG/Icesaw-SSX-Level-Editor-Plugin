@@ -4,6 +4,7 @@ using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 using SSXMultiTool.Utilities;
+using UnityEditor;
 
 public class PathAObject : MonoBehaviour
 {
@@ -110,6 +111,20 @@ public class PathAObject : MonoBehaviour
         }
 
         return NewPathA;
+    }
+
+    [MenuItem("GameObject/Ice Saw/Path A", false, 12)]
+    public static void CreatePathA(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Path A");
+        TempObject.AddComponent<PathAObject>().AddMissingComponents();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 
     public void DrawLines()

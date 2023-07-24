@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 
@@ -109,6 +110,20 @@ public class PathBObject : MonoBehaviour
         {
             lineRenderer.SetPosition(i, PathPoints[i]);
         }
+    }
+
+    [MenuItem("GameObject/Ice Saw/Path B", false, 12)]
+    public static void CreatePathB(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Path B");
+        TempObject.AddComponent<PathBObject>().AddMissingComponents();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
     }
 
     [System.Serializable]

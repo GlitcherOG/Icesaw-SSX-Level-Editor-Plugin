@@ -66,4 +66,18 @@ public class LightObject : MonoBehaviour
 
         return NewLight;
     }
+
+    [MenuItem("GameObject/Ice Saw/Light", false, 12)]
+    public static void CreateLight(MenuCommand menuCommand)
+    {
+        GameObject TempObject = new GameObject("Light");
+        TempObject.AddComponent<LightObject>();
+        if (menuCommand.context != null)
+        {
+            var AddToObject = (GameObject)menuCommand.context;
+
+            TempObject.transform.parent = AddToObject.transform;
+        }
+
+    }
 }
