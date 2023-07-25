@@ -125,7 +125,7 @@ public class CameraObject : MonoBehaviour
 
 
 
-    [MenuItem("GameObject/Ice Saw/Camera", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Camera", false, 16)]
     public static void CreateCameraObject(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Camera");

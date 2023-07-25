@@ -55,17 +55,18 @@ public class PaticleInstanceObject : MonoBehaviour
         return particleJson;
     }
 
-    [MenuItem("GameObject/Ice Saw/Particle Instance", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Particle Instance", false, 14)]
     public static void CreateParticleInstance(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Particle Instance");
-        TempObject.AddComponent<PaticleInstanceObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
-
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<PaticleInstanceObject>();
     }
 }

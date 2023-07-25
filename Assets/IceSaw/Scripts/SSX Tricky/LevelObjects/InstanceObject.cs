@@ -454,7 +454,7 @@ public class InstanceObject : MonoBehaviour
         return mesh;
     }
 
-    [MenuItem("GameObject/Ice Saw/Instance", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Instance", false, 13)]
     public static void CreateInstance(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Instance");

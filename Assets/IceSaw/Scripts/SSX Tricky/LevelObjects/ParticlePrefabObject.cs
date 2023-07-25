@@ -77,18 +77,19 @@ public class ParticlePrefabObject : MonoBehaviour
         return jsonHandler;
     }
 
-    [MenuItem("GameObject/Ice Saw/Particle Prefab", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Particle Prefab", false, 105)]
     public static void CreateParticleInstance(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Particle Prefab");
-        TempObject.AddComponent<ParticlePrefabObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
-
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<ParticlePrefabObject>();
     }
 
     [System.Serializable]

@@ -94,17 +94,19 @@ public class PrefabObject : MonoBehaviour
         }
     }
 
-    [MenuItem("GameObject/Ice Saw/Prefab Object", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Prefab Object", false, 101)]
     public static void CreatePatch(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("PrefabObject");
-        TempObject.AddComponent<PrefabObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<PrefabObject>();
 
     }
 }

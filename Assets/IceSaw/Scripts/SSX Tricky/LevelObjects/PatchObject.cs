@@ -92,21 +92,21 @@ public class PatchObject : MonoBehaviour
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
     [SerializeField]
-    [HideInInspector] public Vector3 LocalR1C2;
-    [HideInInspector] public Vector3 LocalR1C3;
-    [HideInInspector] public Vector3 LocalR1C4;
-    [HideInInspector] public Vector3 LocalR2C1;
-    [HideInInspector] public Vector3 LocalR2C2;
-    [HideInInspector] public Vector3 LocalR2C3;
-    [HideInInspector] public Vector3 LocalR2C4;
-    [HideInInspector] public Vector3 LocalR3C1;
-    [HideInInspector] public Vector3 LocalR3C2;
-    [HideInInspector] public Vector3 LocalR3C3;
-    [HideInInspector] public Vector3 LocalR3C4;
-    [HideInInspector] public Vector3 LocalR4C1;
-    [HideInInspector] public Vector3 LocalR4C2;
-    [HideInInspector] public Vector3 LocalR4C3;
-    [HideInInspector] public Vector3 LocalR4C4;
+    [HideInInspector] public Vector3 LocalR1C2 = new Vector3(250, 0, 0);
+    [HideInInspector] public Vector3 LocalR1C3 = new Vector3(500, 0, 0);
+    [HideInInspector] public Vector3 LocalR1C4 = new Vector3(750, 0, 0);
+    [HideInInspector] public Vector3 LocalR2C1 = new Vector3(0, -250, 0);
+    [HideInInspector] public Vector3 LocalR2C2 = new Vector3(250, -250, 0);
+    [HideInInspector] public Vector3 LocalR2C3 = new Vector3(500, -250, 0);
+    [HideInInspector] public Vector3 LocalR2C4 = new Vector3(750, -250, 0);
+    [HideInInspector] public Vector3 LocalR3C1 = new Vector3(0, -500, 0);
+    [HideInInspector] public Vector3 LocalR3C2 = new Vector3(250, -500, 0);
+    [HideInInspector] public Vector3 LocalR3C3 = new Vector3(500, -500, 0);
+    [HideInInspector] public Vector3 LocalR3C4 = new Vector3(750, -500, 0);
+    [HideInInspector] public Vector3 LocalR4C1 = new Vector3(0, -750, 0);
+    [HideInInspector] public Vector3 LocalR4C2 = new Vector3(250, -750, 0);
+    [HideInInspector] public Vector3 LocalR4C3 = new Vector3(500, -750, 0);
+    [HideInInspector] public Vector3 LocalR4C4  = new Vector3(750, -750, 0);
 
 
     [ContextMenu("Add Missing Components")]
@@ -128,6 +128,7 @@ public class PatchObject : MonoBehaviour
         Material mat = new Material(TempMaterial);
         meshRenderer.material = mat;
         Undo.undoRedoPerformed += UndoAndRedoFix;
+        UpdateTexture();
     }
     public void LoadPatch(PatchesJsonHandler.PatchJson import)
     {
@@ -624,17 +625,19 @@ public class PatchObject : MonoBehaviour
         LoadNURBSpatch();
     }
 
-    [MenuItem("GameObject/Ice Saw/Patch", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Patch", false, 10)]
     public static void CreatePatch(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Patch");
-        TempObject.AddComponent<PatchObject>().AddMissingComponents();
-        if (menuCommand.context!=null)
+        if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1,1,1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<PatchObject>().AddMissingComponents();
 
     }
 }

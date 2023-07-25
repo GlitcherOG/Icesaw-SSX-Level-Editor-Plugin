@@ -120,17 +120,18 @@ public class EffectSlotObject : MonoBehaviour
         }
     }
 
-    [MenuItem("GameObject/Ice Saw/Effect Slot", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Effect Slot", false, 303)]
     public static void CreateEffectSlot(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Effect Slot");
-        TempObject.AddComponent<EffectSlotObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
-
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<EffectSlotObject>();
     }
 }

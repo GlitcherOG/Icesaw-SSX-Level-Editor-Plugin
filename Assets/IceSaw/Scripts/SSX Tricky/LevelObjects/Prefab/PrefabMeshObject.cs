@@ -136,17 +136,19 @@ public class PrefabMeshObject : MonoBehaviour
         return texture;
     }
 
-    [MenuItem("GameObject/Ice Saw/Prefab Mesh Object", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Prefab Mesh Object", false, 103)]
     public static void CreatePrefabMeshObject(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Prefab Mesh Object");
-        TempObject.AddComponent<PrefabMeshObject>().AddMissingComponents();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<PrefabMeshObject>().AddMissingComponents();
 
     }
 }

@@ -54,17 +54,19 @@ public class SplineObject : MonoBehaviour
         return spline;
     }
 
-    [MenuItem("GameObject/Ice Saw/Spline", false, 13)]
+    [MenuItem("GameObject/Ice Saw/Spline", false, 11)]
     public static void CreateSpline(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Spline");
-        TempObject.AddComponent<SplineObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<SplineObject>();
 
     }
 

@@ -169,17 +169,19 @@ public class PrefabSubObject : MonoBehaviour
         }
     }
 
-    [MenuItem("GameObject/Ice Saw/Prefab Sub Object", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Prefab Sub Object", false, 102)]
     public static void CreatePrefabSubObject(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Prefab Sub Object");
-        TempObject.AddComponent<PrefabSubObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<PrefabSubObject>();
 
     }
 

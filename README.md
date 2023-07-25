@@ -3,7 +3,7 @@
 ## Current Todo
  
  ### Data Editing
- - Fix Create Object Order
+ - Hash Generation When Saving
  
 ## Future Todo
  - Proper Spline Editing
@@ -15,4 +15,5 @@
  - Clean up Particle Prefabs To much unneeded data
  - Fix Camera Rotations
  - Fix Patch Transform Undo
+ - Fix Patch Flip/UV Buttons
  - Sitch Spline Buttons

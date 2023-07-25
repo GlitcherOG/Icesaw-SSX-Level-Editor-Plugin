@@ -112,18 +112,19 @@ public class PathBObject : MonoBehaviour
         }
     }
 
-    [MenuItem("GameObject/Ice Saw/Path B", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Path B", false, 202)]
     public static void CreatePathB(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Path B");
-        TempObject.AddComponent<PathBObject>().AddMissingComponents();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
-
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<PathBObject>().AddMissingComponents();
     }
 
     [System.Serializable]

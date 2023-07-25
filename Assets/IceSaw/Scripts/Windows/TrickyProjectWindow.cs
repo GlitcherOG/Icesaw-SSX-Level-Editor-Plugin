@@ -10,13 +10,11 @@ public class TrickyProjectWindow : EditorWindow
 {
     public static TrickyProjectWindow Instance;
 
-    public GameObject LevelManagerObject;
-
     public static string CurrentPath;
 
     public static float Scale = 0.01f;
 
-    [MenuItem("Ice Saw/Project",false,-1000)]
+    //[MenuItem("Ice Saw/Project",false,-1000)]
     static void Init()
     {
         // Get existing open window or if none, make a new one:
@@ -49,8 +47,8 @@ public class TrickyProjectWindow : EditorWindow
         }
         GUILayout.EndHorizontal();
     }
-
-    public void LoadProject()
+    [MenuItem("Ice Saw/Load Project", false, -1000)]
+    public static void LoadProject()
     {
         string path = EditorUtility.OpenFilePanel("Open SSX Tricky Prject", "", "SSX");
 
@@ -60,8 +58,8 @@ public class TrickyProjectWindow : EditorWindow
             LoadProjectData();
         }
     }
-
-    public void SaveProject()
+    [MenuItem("Ice Saw/Save Project", false, -1000)]
+    public static void SaveProject()
     {
         string path = EditorUtility.SaveFilePanel("Open SSX Tricky Prject", "", "Config" , "SSX");
 
@@ -71,33 +69,29 @@ public class TrickyProjectWindow : EditorWindow
             SaveProjectData();
         }
     }
-    public void ClearCurrentProject()
+    public static void ClearCurrentProject()
     {
-        if(LevelManagerObject!=null)
-        {
-            DestroyImmediate(LevelManagerObject);
-        }
-        else if(LevelManager.Instance!=null)
+        if(LevelManager.Instance!=null)
         {
             DestroyImmediate(LevelManager.Instance.gameObject);
         }
     }
-    public void GenerateEmptyProject()
+    public static void GenerateEmptyProject()
     {
         ClearCurrentProject();
-        LevelManagerObject = new GameObject("Tricky Level Manager");
+        var LevelManagerObject = new GameObject("Tricky Level Manager");
         LevelManagerObject.transform.transform.localScale = new Vector3(1,-1,1) * TrickyProjectWindow.Scale;
         LevelManagerObject.transform.eulerAngles = new Vector3(-90, 0, 0);
         LevelManagerObject.AddComponent<LevelManager>();
     }
-    public void LoadProjectData()
+    public static void LoadProjectData()
     {
         GenerateEmptyProject();
 
         LevelManager.Instance.LoadData(CurrentPath);
     }
 
-    public void SaveProjectData()
+    public static void SaveProjectData()
     {
         LevelManager.Instance.SaveData(CurrentPath);
     }

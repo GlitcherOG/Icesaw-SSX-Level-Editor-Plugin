@@ -182,17 +182,18 @@ public class MaterialObject : MonoBehaviour
         return NewJson;
     }
 
-    [MenuItem("GameObject/Ice Saw/Material", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Material", false, 104)]
     public static void CreateMaterialObject(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Material");
-        TempObject.AddComponent<MaterialObject>().AddMissingComponents();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
-
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<MaterialObject>().AddMissingComponents();
     }
 }

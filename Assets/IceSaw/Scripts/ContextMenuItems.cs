@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ContextMenuItems
 {
-    [MenuItem("GameObject/Ice Saw/Get Index ID", false, 100)]
+    [MenuItem("GameObject/Ice Saw/Get Index ID", false, 1000)]
     static void GetChildID(MenuCommand menuCommand)
     {
         if (menuCommand.context != null)

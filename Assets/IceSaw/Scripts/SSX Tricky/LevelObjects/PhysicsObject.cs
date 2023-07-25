@@ -119,18 +119,19 @@ public class PhysicsObject : MonoBehaviour
         return physicsHeader;
     }
 
-    [MenuItem("GameObject/Ice Saw/Physics", false, 12)]
+    [MenuItem("GameObject/Ice Saw/Physics", false, 302)]
     public static void CreatePhysics(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Physics");
-        TempObject.AddComponent<PhysicsObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
-
             TempObject.transform.parent = AddToObject.transform;
         }
-
+        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        TempObject.transform.localScale = new Vector3(1, 1, 1);
+        Selection.activeGameObject = TempObject;
+        TempObject.AddComponent<PhysicsObject>();
     }
 
     [System.Serializable]
