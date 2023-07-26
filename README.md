@@ -2,9 +2,6 @@
  
 ## Current Todo
  
- ### Data Editing
- - Hash Generation When Saving
- 
 ## Future Todo
  - Proper Spline Editing
  - Proper Patch Editing
@@ -17,3 +14,4 @@
  - Fix Patch Transform Undo
  - Fix Patch Flip/UV Buttons
  - Sitch Spline Buttons
+ - Hash Generation When Saving
