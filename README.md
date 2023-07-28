@@ -1,6 +1,7 @@
 # IceSaw SSX Level Editor Plugin
  
 ## Current Todo
+ - Fix Script Leaks and Holders Vanishing
  
 ## Future Todo
  - Proper Spline Editing

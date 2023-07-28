@@ -114,7 +114,11 @@ public class SplineSegmentObject : MonoBehaviour
         LocalPoint3 = ConvertLocalPoint(Point3);
         LocalPoint4 = ConvertLocalPoint(Point4);
 
-        lineRenderer.positionCount = SEGMENT_COUNT+2;
+        if (lineRenderer == null)
+        {
+            lineRenderer = GetComponent<LineRenderer>();
+        }
+        lineRenderer.positionCount = SEGMENT_COUNT + 2;
         lineRenderer.SetPosition(0, LocalPoint1);
         for (int i = 1; i <= SEGMENT_COUNT; i++)
         {
@@ -122,7 +126,7 @@ public class SplineSegmentObject : MonoBehaviour
             Vector3 pixel = CalculateCubicBezierPoint(t, (LocalPoint1), (LocalPoint2), (LocalPoint3), (LocalPoint4));
             lineRenderer.SetPosition(i, pixel);
         }
-        lineRenderer.SetPosition(SEGMENT_COUNT+1, LocalPoint4);
+        lineRenderer.SetPosition(SEGMENT_COUNT + 1, LocalPoint4);
     }
 
     void UndoAndRedoFix()

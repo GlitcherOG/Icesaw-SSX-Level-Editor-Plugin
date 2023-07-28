@@ -356,7 +356,14 @@ public class PatchObject : MonoBehaviour
         var mesh = surface.BuildMesh(resolutionU, resolutionV);
 
         //Set material
-        meshFilter.mesh = mesh;
+        if (meshFilter != null)
+        {
+            meshFilter.mesh = mesh;
+        }
+        else
+        {
+            meshFilter = GetComponent<MeshFilter>();
+        }
 
         LoadUVMap();
         LoadLightmap();
