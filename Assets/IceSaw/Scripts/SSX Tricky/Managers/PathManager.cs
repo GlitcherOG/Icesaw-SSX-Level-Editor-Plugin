@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PathManager : MonoBehaviour
 {
-    GameObject PathAHolder;
-    GameObject PathBHolder;
+    public GameObject PathAHolder;
+    public GameObject PathBHolder;
 
     public List<int> StartPos = new List<int>();
 

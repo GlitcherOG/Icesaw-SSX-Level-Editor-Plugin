@@ -9,9 +9,9 @@ public class PathFileManager : MonoBehaviour
 {
     public static PathFileManager Instance;
 
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject AIPHolder;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject SOPHolder;
 
     public void Awake()

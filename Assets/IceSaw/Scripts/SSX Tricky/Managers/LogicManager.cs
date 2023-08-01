@@ -9,10 +9,10 @@ public class LogicManager : MonoBehaviour
 {
     public static LogicManager Instance;
 
-    GameObject EffectSlotHolder;
-    GameObject PhysicsHolder;
-    GameObject EffectHolder;
-    GameObject FunctionHolder;
+    public GameObject EffectSlotHolder;
+    public GameObject PhysicsHolder;
+    public GameObject EffectHolder;
+    public GameObject FunctionHolder;
 
     public void Awake()
     {

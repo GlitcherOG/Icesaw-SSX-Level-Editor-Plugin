@@ -11,9 +11,9 @@ public class SkyboxManager : MonoBehaviour
 {
     public static SkyboxManager Instance;
 
-    GameObject MaterialHolder;
-    GameObject PrefabsHolder;
-    GameObject SkyboxCamera;
+    public GameObject MaterialHolder;
+    public GameObject PrefabsHolder;
+    public GameObject SkyboxCamera;
 
     public List<Texture2D> SkyboxTextures2d = new List<Texture2D>();
     public List<Mesh> SkyboxMeshCache = new List<Mesh>();

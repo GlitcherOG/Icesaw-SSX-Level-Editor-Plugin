@@ -12,12 +12,12 @@ public class WorldManager : MonoBehaviour
 {
     public static WorldManager Instance;
 
-    GameObject PatchesHolder;
-    GameObject InstancesHolder;
-    GameObject SplinesHolder;
-    GameObject ParticlesHolder;
-    GameObject LightingHolder;
-    GameObject CameraHolder;
+    public GameObject PatchesHolder;
+    public GameObject InstancesHolder;
+    public GameObject SplinesHolder;
+    public GameObject ParticlesHolder;
+    public GameObject LightingHolder;
+    public GameObject CameraHolder;
 
     [HideInInspector]
     public bool ShowInstanceModels = true;

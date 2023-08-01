@@ -11,9 +11,9 @@ using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 public class PrefabManager : MonoBehaviour
 {
     public static PrefabManager Instance;
-    GameObject PrefabsHolder;
-    GameObject MaterialHolder;
-    GameObject ParticlePrefabHolder;
+    public GameObject PrefabsHolder;
+    public GameObject MaterialHolder;
+    public GameObject ParticlePrefabHolder;
 
     public List<Mesh> MeshCache = new List<Mesh>();
     public List<Mesh> CollisionMeshCahce = new List<Mesh>();
