@@ -105,7 +105,7 @@ public class PrefabManager : MonoBehaviour
         for (int i = 0; i < materialJsonHandler.Materials.Count; i++)
         {
             GameObject gameObject = new GameObject("Materials " + i);
-            gameObject.transform.hideFlags = HideFlags.HideInInspector;
+            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = MaterialHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -139,7 +139,7 @@ public class PrefabManager : MonoBehaviour
         {
             var TempModelJson = PrefabJson.Prefabs[i];
             GameObject gameObject = new GameObject("Prefab " + i);
-            gameObject.transform.hideFlags = HideFlags.HideInInspector;
+            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = PrefabsHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0,0, 0);
@@ -173,7 +173,7 @@ public class PrefabManager : MonoBehaviour
         {
             var TempModelJson = PrefabJson.ParticlePrefabs[i];
             GameObject gameObject = new GameObject("Particle Prefab " + i);
-            gameObject.transform.hideFlags = HideFlags.HideInInspector;
+            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = ParticlePrefabHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -351,6 +351,66 @@ public class PrefabManager : MonoBehaviour
         for (int i = 0; i < TempInstanceList.Length; i++)
         {
             TempInstanceList[i].LoadPrefabs();
+        }
+    }
+
+    [ContextMenu("Regen Prefab Square")]
+    public void PrefabSquare()
+    {
+        float XPosition = 0;
+        float ZPosition = 0;
+        int X = 0;
+
+        var PrefabJson = PrefabManager.Instance.GetPrefabList();
+        int WH = (int)Mathf.Sqrt(PrefabJson.Length);
+        for (int i = 0; i < PrefabJson.Length; i++)
+        {
+            var TempModelJson = PrefabJson[i].gameObject;
+            TempModelJson.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
+            TempModelJson.transform.localEulerAngles = new Vector3(0, 0, 0);
+            TempModelJson.transform.localScale = new Vector3(1, 1, 1);
+
+            if (X != WH)
+            {
+                XPosition += 10000;
+                X++;
+            }
+            else
+            {
+                XPosition = 0;
+                X = 0;
+                ZPosition += 10000;
+            }
+        }
+    }
+
+    [ContextMenu("Regen Material Square")]
+    public void MatSquare()
+    {
+        float XPosition = 0;
+        float ZPosition = 0;
+        int X = 0;
+
+        var PrefabJson = PrefabManager.Instance.GetMaterialList();
+        int WH = (int)Mathf.Sqrt(PrefabJson.Length);
+        for (int i = 0; i < PrefabJson.Length; i++)
+        {
+            var TempModelJson = PrefabJson[i].gameObject;
+            TempModelJson.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
+            TempModelJson.transform.localEulerAngles = new Vector3(0, 0, 0);
+            TempModelJson.transform.localScale = new Vector3(1, 1, 1);
+
+            if (X != WH)
+            {
+                XPosition += 10000;
+                X++;
+            }
+            else
+            {
+                XPosition = 0;
+                X = 0;
+                ZPosition += 10000;
+            }
         }
     }
 }

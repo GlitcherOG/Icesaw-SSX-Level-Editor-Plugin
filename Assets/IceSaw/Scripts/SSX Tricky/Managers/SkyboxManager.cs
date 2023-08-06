@@ -123,7 +123,7 @@ public class SkyboxManager : MonoBehaviour
         for (int i = 0; i < materialJsonHandler.Materials.Count; i++)
         {
             GameObject gameObject = new GameObject("Materials " + i);
-            gameObject.transform.hideFlags = HideFlags.HideInInspector;
+            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = MaterialHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -158,7 +158,7 @@ public class SkyboxManager : MonoBehaviour
         {
             var TempModelJson = PrefabJson.Prefabs[i];
             GameObject gameObject = new GameObject("Skybox Prefab " + i);
-            gameObject.transform.hideFlags = HideFlags.HideInInspector;
+            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = PrefabsHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
