@@ -10,7 +10,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class SSXTrickyConfig
     {
-        public int Version = 1;
+        public int Version = 2;
         public string LevelName = "";
         public string Author = "";
         public string LevelVersion = "";
@@ -20,6 +20,9 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public string Length = "";
         public string Description = "";
         public string BuildPath = "";
+
+        //If BBox Is all Zeros it will generate a new one
+        public float[,] BBox = new float[2, 3];
 
         public void CreateJson(string path, bool Inline = false)
         {

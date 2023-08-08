@@ -1,3 +1,4 @@
+using SSXMultiTool.JsonFiles.Tricky;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,6 +52,14 @@ public class TrickyProjectWindow : EditorWindow
     public static void LoadProject()
     {
         string path = EditorUtility.OpenFilePanel("Open SSX Tricky Project", "", "SSX");
+
+        SSXTrickyConfig trickyConfig = SSXTrickyConfig.Load(path);
+
+        if(trickyConfig.Version != 2)
+        {
+            Debug.LogError("SSX Tricky Project Using Incorrect Version, Please Rebuild and Reextract with latest SSX Multitool");
+            return;
+        }
 
         if(path.Length!=0)
         {
