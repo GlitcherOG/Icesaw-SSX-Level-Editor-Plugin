@@ -108,6 +108,10 @@ public class PatchObject : MonoBehaviour
     [HideInInspector] public Vector3 LocalR4C3 = new Vector3(500, -750, 0);
     [HideInInspector] public Vector3 LocalR4C4  = new Vector3(750, -750, 0);
 
+    public void Awake()
+    {
+        Undo.undoRedoPerformed += UndoAndRedoFix;
+    }
 
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
@@ -127,7 +131,7 @@ public class PatchObject : MonoBehaviour
         var TempMaterial = (Material)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Material\\MainPatchMaterial.mat", typeof(Material));
         Material mat = new Material(TempMaterial);
         meshRenderer.material = mat;
-        Undo.undoRedoPerformed += UndoAndRedoFix;
+        //Undo.undoRedoPerformed += UndoAndRedoFix;
         UpdateTexture();
     }
     public void LoadPatch(PatchesJsonHandler.PatchJson import)
@@ -390,9 +394,6 @@ public class PatchObject : MonoBehaviour
 
         surface = new NURBS.Surface(cps, 1, 1);
 
-        int degreeU = 3;
-        int degreeV = 3;
-
         int resolutionU = 7; //7;
         int resolutionV = 7; //7; ()
 
@@ -418,9 +419,6 @@ public class PatchObject : MonoBehaviour
         cps[1, 1] = new NURBS.ControlPoint(0.9f, 0.9f, 0, 1);
 
         surface = new NURBS.Surface(cps, 1, 1);
-
-        int degreeU = 3;
-        int degreeV = 3;
 
         int resolutionU = 7; //7;
         int resolutionV = 7; //7; ()

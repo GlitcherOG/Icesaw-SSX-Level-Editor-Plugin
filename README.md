@@ -27,6 +27,4 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - fix spline rotation and scaling
  - Spline warning for if its going over many ltg groups
  - display camera tricky cords
- - hide invisable instances toggle
  - fix map extract so you can do it by default
- - fix script links from saving scene

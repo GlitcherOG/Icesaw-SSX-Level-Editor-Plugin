@@ -272,19 +272,6 @@ public class TrickyViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Hide Invisable Instances")]
-    public static void VisablityToggle()
-    {
-        InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
-        for (int i = 0; i < instanceObjects.Length; i++)
-        {
-            if (!instanceObjects[i].Visable)
-            {
-                instanceObjects[i].gameObject.SetActive(instanceObjects[i].Visable);
-            }
-        }
-    }
-
 
     public static void RunFunction(int Position, InstanceObject[] InstanceList, SplineObject[] splineObjects)
     {
@@ -371,6 +358,28 @@ public class TrickyViewOptions
         for (int i = 0; i < TempList.Length; i++)
         {
             TempList[i].RefreshHiddenModels();
+        }
+    }
+
+    [MenuItem("Ice Saw View/Toggle Invisable Instances", false, 200)]
+    public static void VisablityToggle()
+    {
+        InstanceObject[] instanceObjects = WorldManager.Instance.GetInstanceList();
+        bool Active = false;
+        bool Test = false;
+
+        for (int i = 0; i < instanceObjects.Length; i++)
+        {
+            if (!instanceObjects[i].Visable)
+            {
+                if(Test==false)
+                {
+                    Test = true;
+                    Active = !instanceObjects[i].gameObject.activeInHierarchy;
+                }
+
+                instanceObjects[i].gameObject.SetActive(Active);
+            }
         }
     }
 }
