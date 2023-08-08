@@ -302,33 +302,33 @@ public class LevelManager : MonoBehaviour
     {
         Awake();
 
-        LogicManager = gameObject.GetComponentInChildren<LogicManager>().gameObject;
-        if (LogicManager != null)
+        if (gameObject.GetComponentInChildren<LogicManager>() != null)
         {
+            LogicManager = gameObject.GetComponentInChildren<LogicManager>().gameObject;
             LogicManager.GetComponent<LogicManager>().Awake();
         }
 
-        PrefabManagerHolder = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
-        if (PrefabManagerHolder != null)
+        if (gameObject.GetComponentInChildren<PrefabManager>() != null)
         {
+            PrefabManagerHolder = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
             PrefabManagerHolder.GetComponent<PrefabManager>().Awake();
         }
 
-        WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
-        if (WorldManagerHolder)
+        if (gameObject.GetComponentInChildren<WorldManager>())
         {
+            WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
             WorldManagerHolder.GetComponent<WorldManager>().Awake();
         }
 
-        SkyboxManagerHolder = gameObject.GetComponentInChildren<SkyboxManager>().gameObject;
-        if (SkyboxManagerHolder != null)
+        if (gameObject.GetComponentInChildren<SkyboxManager>() != null)
         {
+            SkyboxManagerHolder = gameObject.GetComponentInChildren<SkyboxManager>().gameObject;
             SkyboxManagerHolder.GetComponent<SkyboxManager>().Awake();
         }
 
-        PathFileManager = gameObject.GetComponentInChildren<PathFileManager>().gameObject;
-        if (PathFileManager != null)
+        if (gameObject.GetComponentInChildren<PathFileManager>() != null)
         {
+            PathFileManager = gameObject.GetComponentInChildren<PathFileManager>().gameObject;
             PathFileManager.GetComponent<PathFileManager>().Awake();
         }
     }
