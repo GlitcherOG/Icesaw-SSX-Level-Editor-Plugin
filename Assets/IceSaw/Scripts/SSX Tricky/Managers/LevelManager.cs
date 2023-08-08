@@ -38,6 +38,7 @@ public class LevelManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            FixScriptLinks();
         }
         else if(Instance != this)
         {
@@ -302,19 +303,34 @@ public class LevelManager : MonoBehaviour
         Awake();
 
         LogicManager = gameObject.GetComponentInChildren<LogicManager>().gameObject;
-        LogicManager.GetComponent<LogicManager>().Awake();
+        if (LogicManager != null)
+        {
+            LogicManager.GetComponent<LogicManager>().Awake();
+        }
 
         PrefabManagerHolder = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
-        PrefabManagerHolder.GetComponent<PrefabManager>().Awake();
+        if (PrefabManagerHolder != null)
+        {
+            PrefabManagerHolder.GetComponent<PrefabManager>().Awake();
+        }
 
         WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
-        WorldManagerHolder.GetComponent<WorldManager>().Awake();
+        if (WorldManagerHolder)
+        {
+            WorldManagerHolder.GetComponent<WorldManager>().Awake();
+        }
 
         SkyboxManagerHolder = gameObject.GetComponentInChildren<SkyboxManager>().gameObject;
-        SkyboxManagerHolder.GetComponent<SkyboxManager>().Awake();
+        if (SkyboxManagerHolder != null)
+        {
+            SkyboxManagerHolder.GetComponent<SkyboxManager>().Awake();
+        }
 
         PathFileManager = gameObject.GetComponentInChildren<PathFileManager>().gameObject;
-        PathFileManager.GetComponent<PathFileManager>().Awake();
+        if (PathFileManager != null)
+        {
+            PathFileManager.GetComponent<PathFileManager>().Awake();
+        }
     }
 
     public Material CreateLineMaterial(string Path)

@@ -19,7 +19,7 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - Fix Patch Transform Undo
  - Fix Patch Flip/UV Buttons
  - Sitch Spline Buttons
- - Hash Generation When Saving
+ - Hash Generation When Saving if none present
  - Easy way to add models
  - unity model exporting to project
  - ltg generate mode for origin point rather than center
