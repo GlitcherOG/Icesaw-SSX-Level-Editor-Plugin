@@ -72,7 +72,7 @@ public class TrickyViewOptions
         //Run Effect
         if(LogicManager.Instance==null)
         {
-            Debug.Log("NotNull");
+            Debug.Log("IceSaw - NotNull");
         }
 
         var FunctionList = LogicManager.Instance.GetFunctionList();
@@ -379,6 +379,19 @@ public class TrickyViewOptions
                 }
 
                 instanceObjects[i].gameObject.SetActive(Active);
+            }
+        }
+    }
+
+    [MenuItem("Ice Saw View/Get Scene Camera Cords")]
+    public static void GetSceneCameraCords()
+    {
+        if(LevelManager.Instance!=null)
+        {
+            var List = SceneView.GetAllSceneCameras();
+            for (int i = 0; i < List.Length; i++)
+            {
+                Debug.Log("Icesaw - Scene Camera " + List[i].name + " " + List[i].transform.position);
             }
         }
     }

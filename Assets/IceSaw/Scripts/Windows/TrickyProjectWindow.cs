@@ -57,7 +57,7 @@ public class TrickyProjectWindow : EditorWindow
 
         if(trickyConfig.Version != 2)
         {
-            Debug.LogError("SSX Tricky Project Using Incorrect Version, Please Rebuild and Reextract with latest SSX Multitool");
+            Debug.LogError("IceSaw - SSX Tricky Project Using Incorrect Version, Please Rebuild and Reextract with latest SSX Multitool");
             return;
         }
 

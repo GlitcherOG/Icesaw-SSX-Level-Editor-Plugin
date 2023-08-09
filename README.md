@@ -10,7 +10,7 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
 ## Future Todo
  - Proper Spline Editing
  - Proper Patch Editing
- - Custom Inspectors for Buttons
+ - Custom Inspectors for Buttons (Figured Out Now Add To All)
  - Proper Get Pos System
  - Live Character/Bone Reading
  - Auto Update Mat/Prefabs/Instances
@@ -25,6 +25,7 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - ltg generate mode for origin point rather than center
  - add newtonsoft json auto get
  - fix spline rotation and scaling
- - Spline warning for if its going over many ltg groups
+ - Object warning for if its going over many ltg groups
  - display camera tricky cords
- - fix map extract so you can do it by default
+ - bbox override in editor
+ - if object is to big for grids in ltg make it so it will use origin point

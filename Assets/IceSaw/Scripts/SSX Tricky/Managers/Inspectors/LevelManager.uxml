@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:GroupBox name="Default_Inspector" style="position: relative; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-top: 0; padding-bottom: 0;" />
+    <ui:Button text="Reload Textures" display-tooltip-when-elided="true" name="_ReloadTextures" />
+</ui:UXML>

@@ -12,11 +12,11 @@ public class ContextMenuItems
         if (menuCommand.context != null)
         {
             var Selected = menuCommand.context.GetComponent<Transform>();
-            Debug.Log("(" +Selected.GetSiblingIndex() + ")" + Selected.name);
+            Debug.Log("IceSaw - (" +Selected.GetSiblingIndex() + ") " + Selected.name);
         }
         else
         {
-            Debug.Log("No Object Selected");
+            Debug.Log("IceSaw - No Object Selected");
         }
     }
 }
