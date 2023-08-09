@@ -37,13 +37,21 @@ public class LevelManagerInspector : Editor
         var TempTextureButton = ReloadTextureButton.Query<Button>();
         TempTextureButton.First().RegisterCallback<ClickEvent>(ReloadTextures);
 
+        VisualElement ReloadLightButton = myInspector.Q("_RefreshLightmap");
+        var TempLightButton = ReloadLightButton.Query<Button>();
+        TempLightButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
+
         // Return the finished inspector UI
         return myInspector;
     }
 
     private void ReloadTextures(ClickEvent evt)
     {
-        Debug.Log("Testing");
         serializedObject.targetObject.GetComponent<LevelManager>().RefreshTextures();
+    }
+
+    private void ReloadLightmaps(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<LevelManager>().RefreshLightmap();
     }
 }

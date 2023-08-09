@@ -29,3 +29,5 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - display camera tricky cords
  - bbox override in editor
  - if object is to big for grids in ltg make it so it will use origin point
+ - Fix it so when updating the textures it updates Objects
+ - Make clicking lightmap update lightmap mode
