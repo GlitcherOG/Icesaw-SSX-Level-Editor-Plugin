@@ -1,5 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:GroupBox name="Default_Inspector" style="position: relative; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-top: 0; padding-bottom: 0;" />
-    <ui:Button text="Reload Textures" display-tooltip-when-elided="true" name="_ReloadTextures" />
-    <ui:Button text="Reload Lightmaps" display-tooltip-when-elided="true" name="_RefreshLightmap" />
+    <ui:GroupBox name="ButtonGroup1" style="flex-direction: row; min-width: auto; min-height: auto; flex-wrap: nowrap; align-items: stretch; justify-content: flex-start; flex-basis: auto; flex-grow: 0; max-height: none; max-width: none; visibility: visible; width: auto;">
+        <ui:Button text="Reload Lightmaps" display-tooltip-when-elided="true" name="_RefreshLightmap" style="justify-content: flex-start; width: 48%; align-items: auto; flex-direction: column; height: 30px;" />
+        <ui:Button text="Reload Textures" display-tooltip-when-elided="true" name="_ReloadTextures" style="align-items: auto; width: 48%; flex-wrap: nowrap; flex-direction: row;" />
+    </ui:GroupBox>
 </ui:UXML>

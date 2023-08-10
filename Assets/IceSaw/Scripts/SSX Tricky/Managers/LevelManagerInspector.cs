@@ -33,11 +33,13 @@ public class LevelManagerInspector : Editor
         VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
         InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
-        VisualElement ReloadTextureButton = myInspector.Q("_ReloadTextures");
+        VisualElement ButtonGroup = myInspector.Q("ButtonGroup1");
+
+        VisualElement ReloadTextureButton = ButtonGroup.Q("_ReloadTextures");
         var TempTextureButton = ReloadTextureButton.Query<Button>();
         TempTextureButton.First().RegisterCallback<ClickEvent>(ReloadTextures);
 
-        VisualElement ReloadLightButton = myInspector.Q("_RefreshLightmap");
+        VisualElement ReloadLightButton = ButtonGroup.Q("_RefreshLightmap");
         var TempLightButton = ReloadLightButton.Query<Button>();
         TempLightButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
 
