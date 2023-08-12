@@ -30,50 +30,66 @@ public class PatchObjectInspector : Editor
         VisualElement myInspector = new VisualElement();
         m_InspectorXML.CloneTree(myInspector);
 
-        //VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
-        //InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
+        VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
+        InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
-        //Make Main Points in fold out
-        //Make UV Points FoldOut
-        //Add Rest as Normal
+        VisualElement ButtonGroup = myInspector.Q("UVGroup");
 
-        VisualElement ButtonGroup = myInspector.Q("ButtonGroup1");
-
-        VisualElement UVLeftButton = ButtonGroup.Q("Rotate UV Left");
+        VisualElement UVLeftButton = ButtonGroup.Q("UVRotateLeft");
         var TempButton = UVLeftButton.Query<Button>();
-        TempTextureButton.First().RegisterCallback<ClickEvent>(ReloadTextures);
+        TempButton.First().RegisterCallback<ClickEvent>(UVRotateLeft);
 
-        VisualElement UVRightButton = ButtonGroup.Q("Rotate UV Right");
+        VisualElement UVRightButton = ButtonGroup.Q("UVRotateRight");
         TempButton = UVRightButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
+        TempButton.First().RegisterCallback<ClickEvent>(UVRotateRight);
 
-        VisualElement FlipPatchButton = ButtonGroup.Q("Flip Patch");
+        VisualElement FlipPatchButton = myInspector.Q("FlipPatch");
         TempButton = FlipPatchButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
+        TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
 
-        //VisualElement StitchPatchButton = ButtonGroup.Q("Stich Patch Edges");
-        //TempButton = StitchPatchButton.Query<Button>();
-        //TempButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
+        VisualElement ResetTransformButton = myInspector.Q("ResetTransform");
+        TempButton = ResetTransformButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(ResetTransform);
 
-        VisualElement RegenPatchButton = ButtonGroup.Q("Regenerate Patch");
-        TempButton = RegenPatchButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
+        VisualElement ForceRegenerateButton = myInspector.Q("ForceRegenerate");
+        TempButton = ForceRegenerateButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(ForceRegenerate);
 
-        VisualElement AddMissingButton = ButtonGroup.Q("Add Missing Components");
+        VisualElement AddMissingButton = myInspector.Q("AddMissing");
         TempButton = AddMissingButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
+        TempButton.First().RegisterCallback<ClickEvent>(AddMissing);
 
         // Return the finished inspector UI
         return myInspector;
     }
 
-    private void ReloadTextures(ClickEvent evt)
+    private void UVRotateLeft(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<LevelManager>().RefreshTextures();
+        serializedObject.targetObject.GetComponent<PatchObject>().RotateUVLeft();
     }
 
-    private void ReloadLightmaps(ClickEvent evt)
+    private void UVRotateRight(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<LevelManager>().RefreshLightmap();
+        serializedObject.targetObject.GetComponent<PatchObject>().RotateUVRight();
+    }
+
+    private void FlipPatch(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<PatchObject>().FlipPatch();
+    }
+
+    private void ResetTransform(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<PatchObject>().TransformReset();
+    }
+
+    private void ForceRegenerate(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<PatchObject>().ForceRegeneration();
+    }
+
+    private void AddMissing(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<PatchObject>().AddMissingComponents();
     }
 }

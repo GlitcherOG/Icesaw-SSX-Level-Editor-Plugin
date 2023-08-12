@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:GroupBox name="Default_Inspector" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-top: 0; padding-bottom: 0;" />
+    <ui:GroupBox name="UVGroup" style="flex-direction: row; min-width: auto; padding-left: 0; padding-bottom: 0; padding-top: 0; margin-top: 0; margin-bottom: 0; margin-right: 0; margin-left: 0;">
+        <ui:Button text="UV Rotate Left" display-tooltip-when-elided="true" name="UVRotateLeft" style="min-width: 49%; min-height: 30px; padding-right: 0; margin-right: 0;" />
+        <ui:Button text="UV Rotate Right" display-tooltip-when-elided="true" name="UVRotateRight" style="max-width: none; min-width: 49%; min-height: 30px; margin-left: 0; padding-left: 0;" />
+    </ui:GroupBox>
+    <ui:Button text="Flip Patch" display-tooltip-when-elided="true" name="FlipPatch" style="min-height: 30px;" />
+    <ui:Button text="Reset Transform" display-tooltip-when-elided="true" name="ResetTransform" style="min-height: 30px;" />
+    <ui:Button text="Force Regenerate" display-tooltip-when-elided="true" name="ForceRegenerate" style="min-height: 30px;" />
+    <ui:Button text="Add Missing Components" display-tooltip-when-elided="true" name="AddMissing" style="min-height: 30px;" />
+</ui:UXML>

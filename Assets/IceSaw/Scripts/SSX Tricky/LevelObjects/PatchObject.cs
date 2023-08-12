@@ -118,8 +118,8 @@ public class PatchObject : MonoBehaviour
     {
         if(meshFilter!=null)
         {
-            Destroy(meshFilter);
-            Destroy(meshRenderer);
+            DestroyImmediate(meshFilter);
+            DestroyImmediate(meshRenderer);
         }
 
         meshFilter = this.AddComponent<MeshFilter>();
@@ -538,10 +538,10 @@ public class PatchObject : MonoBehaviour
         Vector2 Temp3 = UVPoint3;
         Vector2 Temp4 = UVPoint4;
 
-        UVPoint1 = Temp4;
-        UVPoint2 = Temp1;
-        UVPoint3 = Temp2;
-        UVPoint4 = Temp3;
+        UVPoint1 = new Vector2(Temp4.y, Temp1.x);
+        UVPoint2 = new Vector2(Temp1.y, Temp2.x);
+        UVPoint3 = new Vector2(Temp2.y, Temp3.x);
+        UVPoint4 = new Vector2(Temp3.y, Temp4.x);
         LoadUVMap();
     }
 
@@ -553,10 +553,10 @@ public class PatchObject : MonoBehaviour
         Vector2 Temp3 = UVPoint3;
         Vector2 Temp4 = UVPoint4;
 
-        UVPoint1 = Temp2;
-        UVPoint2 = Temp3;
-        UVPoint3 = Temp4;
-        UVPoint4 = Temp1;
+        UVPoint1 = new Vector2(Temp1.y,Temp2.x);
+        UVPoint2 = new Vector2(Temp2.y, Temp3.x);
+        UVPoint3 = new Vector2(Temp3.y, Temp4.x);
+        UVPoint4 = new Vector2(Temp4.y, Temp1.x);
         LoadUVMap();
     }
 
