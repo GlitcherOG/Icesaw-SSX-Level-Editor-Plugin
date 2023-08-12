@@ -16,8 +16,6 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - Auto Update Mat/Prefabs/Instances
  - Clean up Particle Prefabs To much unneeded data
  - Fix Camera Rotations
- - Fix Patch Transform Undo
- - Fix Patch Flip/UV Buttons
  - Sitch Spline Buttons
  - Hash Generation When Saving if none present
  - Easy way to add models

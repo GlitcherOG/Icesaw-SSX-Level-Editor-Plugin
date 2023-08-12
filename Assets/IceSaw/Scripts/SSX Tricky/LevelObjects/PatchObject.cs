@@ -580,22 +580,22 @@ public class PatchObject : MonoBehaviour
         var Temp15 = RawR4C3;
         var Temp16 = RawR4C4;
 
-        RawControlPoint = Temp16;
-        RawR1C2 = Temp15;
-        RawR1C3 = Temp14;
-        RawR1C4 = Temp13;
-        RawR2C1 = Temp12;
-        RawR2C2 = Temp11;
-        RawR2C3 = Temp10;
-        RawR2C4 = Temp9;
-        RawR3C1 = Temp8;
-        RawR3C2 = Temp7;
-        RawR3C3 = Temp6;
-        RawR3C4 = Temp5;
-        RawR4C1 = Temp4;
-        RawR4C2 = Temp3;
-        RawR4C3 = Temp2;
-        RawR4C4 = Temp1;
+        RawControlPoint = Temp4;
+        RawR1C2 = Temp3;
+        RawR1C3 = Temp2;
+        RawR1C4 = Temp1;
+        RawR2C1 = Temp8;
+        RawR2C2 = Temp7;
+        RawR2C3 = Temp6;
+        RawR2C4 = Temp5;
+        RawR3C1 = Temp12;
+        RawR3C2 = Temp11;
+        RawR3C3 = Temp10;
+        RawR3C4 = Temp9;
+        RawR4C1 = Temp16;
+        RawR4C2 = Temp15;
+        RawR4C3 = Temp14;
+        RawR4C4 = Temp13;
 
         LoadNURBSpatch();
     }
