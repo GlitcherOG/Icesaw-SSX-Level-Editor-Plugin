@@ -7,7 +7,8 @@ using UnityEngine;
 [SelectionBase]
 public class InstanceObject : MonoBehaviour
 {
-    public Vector3 LightingVector; 
+    public Vector3 LightingVector;
+    public Quaternion LightingRotation;
 
     public Vector4 Unknown9; //Some Lighting Thing
     public Vector4 Unknown10;
@@ -67,6 +68,8 @@ public class InstanceObject : MonoBehaviour
         transform.localPosition = JsonUtil.ArrayToVector3(instance.Location);
 
         LightingVector = JsonUtil.ArrayToVector3(instance.LightingVector);
+        LightingRotation = JsonUtil.ArrayToQuaternion(instance.LightingRotation);
+
         Unknown9 = JsonUtil.ArrayToVector4(instance.Unknown9);
         Unknown10 = JsonUtil.ArrayToVector4(instance.Unknown10);
         Unknown11 = JsonUtil.ArrayToVector4(instance.Unknown11);
@@ -270,6 +273,8 @@ public class InstanceObject : MonoBehaviour
         TempInstance.Rotation = JsonUtil.QuaternionToArray(Quaternion.Euler(transform.localEulerAngles));
 
         TempInstance.LightingVector = JsonUtil.Vector3ToArray(LightingVector);
+        TempInstance.LightingRotation = JsonUtil.QuaternionToArray(LightingRotation);
+
         TempInstance.Unknown9 = JsonUtil.Vector4ToArray(Unknown9);
         TempInstance.Unknown10 = JsonUtil.Vector4ToArray(Unknown10);
         TempInstance.Unknown11 = JsonUtil.Vector4ToArray(Unknown11);
