@@ -7,10 +7,8 @@ using UnityEngine;
 [SelectionBase]
 public class InstanceObject : MonoBehaviour
 {
-    public Vector4 Unknown5; //Something to do with lightin
-    public Vector4 Unknown6; //Lighting Continued?
-    public Vector4 Unknown7; 
-    public Vector4 Unknown8;
+    public Vector3 LightingVector; 
+
     public Vector4 Unknown9; //Some Lighting Thing
     public Vector4 Unknown10;
     public Vector4 Unknown11;
@@ -68,10 +66,7 @@ public class InstanceObject : MonoBehaviour
         transform.localScale = JsonUtil.ArrayToVector3(instance.Scale);
         transform.localPosition = JsonUtil.ArrayToVector3(instance.Location);
 
-        Unknown5 = JsonUtil.ArrayToVector4(instance.Unknown5);
-        Unknown6 = JsonUtil.ArrayToVector4(instance.Unknown6);
-        Unknown7 = JsonUtil.ArrayToVector4(instance.Unknown7);
-        Unknown8 = JsonUtil.ArrayToVector4(instance.Unknown8);
+        LightingVector = JsonUtil.ArrayToVector3(instance.LightingVector);
         Unknown9 = JsonUtil.ArrayToVector4(instance.Unknown9);
         Unknown10 = JsonUtil.ArrayToVector4(instance.Unknown10);
         Unknown11 = JsonUtil.ArrayToVector4(instance.Unknown11);
@@ -274,10 +269,7 @@ public class InstanceObject : MonoBehaviour
         TempInstance.Scale = JsonUtil.Vector3ToArray(transform.localScale);
         TempInstance.Rotation = JsonUtil.QuaternionToArray(Quaternion.Euler(transform.localEulerAngles));
 
-        TempInstance.Unknown5 = JsonUtil.Vector4ToArray(Unknown5);
-        TempInstance.Unknown6 = JsonUtil.Vector4ToArray(Unknown6);
-        TempInstance.Unknown7 = JsonUtil.Vector4ToArray(Unknown7);
-        TempInstance.Unknown8 = JsonUtil.Vector4ToArray(Unknown8);
+        TempInstance.LightingVector = JsonUtil.Vector3ToArray(LightingVector);
         TempInstance.Unknown9 = JsonUtil.Vector4ToArray(Unknown9);
         TempInstance.Unknown10 = JsonUtil.Vector4ToArray(Unknown10);
         TempInstance.Unknown11 = JsonUtil.Vector4ToArray(Unknown11);
