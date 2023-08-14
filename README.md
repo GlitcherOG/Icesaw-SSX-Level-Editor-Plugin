@@ -20,7 +20,6 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - Hash Generation When Saving if none present
  - Easy way to add models
  - unity model exporting to project
- - ltg generate mode for origin point rather than center
  - add newtonsoft json auto get
  - fix spline rotation and scaling
  - Object warning for if its going over many ltg groups
@@ -29,3 +28,4 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - if object is to big for grids in ltg make it so it will use origin point
  - Fix it so when updating the textures it updates Objects
  - Make clicking lightmap update lightmap mode
+ - Add Parent Select Script
