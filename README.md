@@ -1,13 +1,17 @@
-# IceSaw SSX Level Editor Plugin
- 
+# IceSaw SSX Level Editor Plugin 
+
 ## Requires
-SSX Multitool V0.2 Exported Level
-Recommended Unity Version 2021.3.25f1
-Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
+- SSX Multitool V0.2 Exported Level
+- Recommended Unity Version 2021.3.25f1
+- Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
+
+## Install Instructions
+- Download the correct unity version
+- Create a new project
+- Go to the package manager, click the plus icon and then giturl inputting "com.unity.nuget.newtonsoft-json"
+- Import the Icesaw Package
  
 ## Current Todo
- 
-## Future Todo
  - Proper Spline Editing
  - Proper Patch Editing
  - Custom Inspectors for Buttons (Figured Out Now Add To All)
@@ -28,4 +32,7 @@ Newtonsoft Unity Package (com.unity.nuget.newtonsoft-json)
  - if object is to big for grids in ltg make it so it will use origin point
  - Fix it so when updating the textures it updates Objects
  - Make clicking lightmap update lightmap mode
+<<<<<<< HEAD
  - Add Parent Select Script
+=======
+>>>>>>> 187dcfee410ab82337d2fb960865186883715efe
