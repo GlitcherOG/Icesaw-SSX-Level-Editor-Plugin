@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -153,6 +154,20 @@ public class InstanceObject : MonoBehaviour
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
             Prefab.transform.localPosition = new Vector3(0, 0, 0);
             Prefab.transform.localScale = new Vector3(1, 1, 1);
+            Prefab.AddComponent<SelectParent>();
+
+            var TempPrefablist = Prefab.transform.childCount;
+            for (int i = 0; i < TempPrefablist; i++)
+            {
+                var TempChildPrefab = Prefab.transform.GetChild(i);
+
+                TempChildPrefab.AddComponent<SelectParent>();
+
+                for (int a = 0; a < TempChildPrefab.childCount; a++)
+                {
+                    TempChildPrefab.GetChild(a).AddComponent<SelectParent>();
+                }
+            }
         }
         Prefab.SetActive(WorldManager.Instance.ShowInstanceModels);
     }
