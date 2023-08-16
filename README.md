@@ -27,7 +27,6 @@
  - add newtonsoft json auto get
  - fix spline rotation and scaling
  - Object warning for if its going over many ltg groups
- - display camera tricky cords
  - bbox override in editor
  - if object is to big for grids in ltg make it so it will use origin point
  - Fix it so when updating the textures it updates Objects
