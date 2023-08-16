@@ -17,7 +17,7 @@
  - Custom Inspectors for Buttons (Figured Out Now Add To All)
  - Proper Get Pos System
  - Live Character/Bone Reading
- - Auto Update Mat/Prefabs/Instances
+ - Auto Update Mat/Prefabs/Instances (Perhaps using an event system or something similar)
  - Clean up Particle Prefabs To much unneeded data
  - Fix Camera Rotations
  - Sitch Spline Buttons
@@ -32,7 +32,6 @@
  - if object is to big for grids in ltg make it so it will use origin point
  - Fix it so when updating the textures it updates Objects
  - Make clicking lightmap update lightmap mode
-<<<<<<< HEAD
  - Add Parent Select Script
-=======
->>>>>>> 187dcfee410ab82337d2fb960865186883715efe
+ - Make textures into Struct with texture and name
+ - Add Texture and Model Exporting from Unity 
