@@ -391,7 +391,7 @@ public class TrickyViewOptions
             var List = SceneView.GetAllSceneCameras();
             for (int i = 0; i < List.Length; i++)
             {
-                Debug.Log("Icesaw - Scene Camera " + List[i].name + " " + List[i].transform.position);
+                Debug.Log("Icesaw - Scene Camera " + List[i].name + "\nUnity Cords:" + List[i].transform.position + "\nTricky Cords:" + LevelManager.Instance.transform.InverseTransformPoint(List[i].transform.position));
             }
         }
     }
