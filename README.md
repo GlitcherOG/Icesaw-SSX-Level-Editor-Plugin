@@ -23,7 +23,6 @@
  - Sitch Spline Buttons
  - Hash Generation When Saving if none present
  - Easy way to add models
- - unity model exporting to project
  - add newtonsoft json auto get
  - fix spline rotation and scaling
  - Object warning for if its going over many ltg groups
@@ -33,4 +32,4 @@
  - Make clicking lightmap update lightmap mode
  - Add Parent Select Script
  - Make textures into Struct with texture and name
- - Add Texture and Model Exporting from Unity 
+ - Add Texture and Model Exporting from Unity
