@@ -70,4 +70,24 @@ public class SplineObject : MonoBehaviour
 
     }
 
+    [ContextMenu("Reset Transform")]
+    public void TransformReset()
+    {
+        var Segments = transform.GetComponentsInChildren<SplineSegmentObject>();
+        for (int i = 0; i < Segments.Length; i++)
+        {
+            Segments[i].Hold = true;
+        }
+
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = new Quaternion(0, 0, 0, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+        transform.hasChanged = false;
+
+        for (int i = 0; i < Segments.Length; i++)
+        {
+            Segments[i].DrawCurve();
+            Segments[i].Hold = false;
+        }
+    }
 }

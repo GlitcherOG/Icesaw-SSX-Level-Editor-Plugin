@@ -169,7 +169,7 @@ public class SplineSegmentObject : MonoBehaviour
         }
     }
 
-    bool Hold = false;
+    public bool Hold = false;
     [ContextMenu("Reset Transform")]
     public void TransformReset()
     {
@@ -197,4 +197,35 @@ public class SplineSegmentObject : MonoBehaviour
         TempObject.AddComponent<SplineSegmentObject>().AddMissingComponents();
 
     }
+
+    [ContextMenu("Stitch To Prev Segment")]
+    public void StitchPrev()
+    {
+        var Segment = transform.parent.GetComponentsInChildren<SplineSegmentObject>();
+
+        for (int i = 1; i < Segment.Length; i++)
+        {
+            if(this == Segment[i])
+            {
+                Segment[i].Point1 = Segment[i - 1].Point4;
+            }
+        }
+    }
+
+    [ContextMenu("Stitch To Next Segment")]
+    public void StitchNext()
+    {
+        var Segment = transform.parent.GetComponentsInChildren<SplineSegmentObject>();
+
+        for (int i = 0; i < Segment.Length-1; i++)
+        {
+            if (this == Segment[i])
+            {
+                Segment[i].Point1 = Segment[i + 1].Point4;
+            }
+        }
+    }
+
+
+
 }
