@@ -120,9 +120,9 @@ public class MaterialObject : MonoBehaviour
             {
                 for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
                 {
-                    if (LevelManager.Instance.texture2Ds[i].name.ToLower() == TextureID.ToLower())
+                    if (LevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureID.ToLower())
                     {
-                        texture = LevelManager.Instance.texture2Ds[i];
+                        texture = LevelManager.Instance.texture2Ds[i].Texture;
                         return texture;
                     }
                 }

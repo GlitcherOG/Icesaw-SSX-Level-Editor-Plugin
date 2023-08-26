@@ -453,10 +453,10 @@ public class PatchObject : MonoBehaviour
             bool Found = false;
             for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
             {
-                if (LevelManager.Instance.texture2Ds[i].name.ToLower() == TextureAssigment.ToLower())
+                if (LevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureAssigment.ToLower())
                 {
                     Found = true;
-                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.texture2Ds[i]);
+                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.texture2Ds[i].Texture);
 
                     if (LevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
                     {

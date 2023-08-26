@@ -12,7 +12,9 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     public string LoadPath;
-    public List<Texture2D> texture2Ds = new List<Texture2D>();
+
+    //[OnChangedCall("ForceTextureUpdate")]
+    public List<TextureData> texture2Ds = new List<TextureData>();
     public List<Texture2D> lightmaps = new List<Texture2D>();
 
     public bool LightmapMode;
@@ -133,7 +135,7 @@ public class LevelManager : MonoBehaviour
         string TextureLoadPath = LoadPath + "\\Textures";
 
         string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
-        texture2Ds = new List<Texture2D>();
+        texture2Ds = new List<TextureData>();
         for (int i = 0; i < Files.Length; i++)
         {
             Texture2D NewImage = new Texture2D(1, 1);
@@ -147,7 +149,10 @@ public class LevelManager : MonoBehaviour
                     NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
-                texture2Ds.Add(NewImage);
+                var NewTexture = new TextureData();
+                NewTexture.Name = NewImage.name;
+                NewTexture.Texture = NewImage;
+                texture2Ds.Add(NewTexture);
             }
         }
     }
@@ -177,16 +182,21 @@ public class LevelManager : MonoBehaviour
             bool TestIfExists = false;
             for (int a = 0; a < texture2Ds.Count; a++)
             {
-                if (texture2Ds[i].name==FileName)
+                if (texture2Ds[i].Name==FileName)
                 {
                     TestIfExists = true;
-                    texture2Ds[i] = NewImage;
+                    var Temp = texture2Ds[i];
+                    Temp.Texture = NewImage;
+                    texture2Ds[i] = Temp;
                 }    
             }
 
             if(!TestIfExists)
             {
-                texture2Ds.Add(NewImage);
+                var NewTexture = new TextureData();
+                NewTexture.Name = NewImage.name;
+                NewTexture.Texture = NewImage;
+                texture2Ds.Add(NewTexture);
             }
         }
     }
@@ -289,7 +299,12 @@ public class LevelManager : MonoBehaviour
     public void RefreshTextures()
     {
         ReloadTextures();
+        ForceTextureUpdate();
+    }
 
+    [ContextMenu("Force Texture Update")]
+    public void ForceTextureUpdate()
+    {
         //Reload Patches
         var TempPatches = WorldManager.Instance.GetPatchList();
 
@@ -380,4 +395,12 @@ public class LevelManager : MonoBehaviour
 
         return material;
     }
+
+    [System.Serializable]
+    public struct TextureData
+    {
+        public string Name;
+        public Texture2D Texture;
+    }
+
 }
