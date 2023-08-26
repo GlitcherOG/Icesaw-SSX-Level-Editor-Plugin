@@ -7,7 +7,10 @@ public class SelectParent : MonoBehaviour
 {
     private void OnDrawGizmosSelected()
     {
-        SelectThisParent();
+        if (Selection.activeGameObject == this)
+        {
+            SelectThisParent();
+        }
     }
 
     public void SelectThisParent()

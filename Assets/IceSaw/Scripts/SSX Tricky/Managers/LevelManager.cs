@@ -109,7 +109,7 @@ public class LevelManager : MonoBehaviour
         CreateEmptyObjects();
         LoadPath = TrickyProjectWindow.CurrentPath;
 
-        ReloadTextures();
+        LoadTextures();
         ReloadLightmaps();
 
         PrefabManagerHolder.GetComponent<PrefabManager>().LoadData(Path);
@@ -128,7 +128,7 @@ public class LevelManager : MonoBehaviour
         PathFileManager.GetComponent<PathFileManager>().SaveData(Path);
     }
 
-    public void ReloadTextures()
+    public void LoadTextures()
     {
         string TextureLoadPath = LoadPath + "\\Textures";
 
@@ -147,6 +147,45 @@ public class LevelManager : MonoBehaviour
                     NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
+                texture2Ds.Add(NewImage);
+            }
+        }
+    }
+
+    public void ReloadTextures()
+    {
+        string TextureLoadPath = LoadPath + "\\Textures";
+
+        string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            var FileName = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+
+            Texture2D NewImage = new Texture2D(1, 1);
+            if (Files[i].ToLower().Contains(".png"))
+            {
+                using (Stream stream = File.Open(Files[i], FileMode.Open))
+                {
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, (int)stream.Length);
+                    NewImage.LoadImage(bytes);
+                    NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+                    //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
+                }
+            }
+
+            bool TestIfExists = false;
+            for (int a = 0; a < texture2Ds.Count; a++)
+            {
+                if (texture2Ds[i].name==FileName)
+                {
+                    TestIfExists = true;
+                    texture2Ds[i] = NewImage;
+                }    
+            }
+
+            if(!TestIfExists)
+            {
                 texture2Ds.Add(NewImage);
             }
         }
