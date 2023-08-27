@@ -26,4 +26,7 @@
  - bbox override in editor
  - if object is to big for grids in ltg make it so it will use origin point
  - Make clicking lightmap update lightmap mode
- - Add Texture and Model Exporting from Unity
+ - Fix Spline Undo
+ 
+ - Add Model Exporting from Unity
+ - Fix Mesh Loading (Its just waisting memory and will cause issues with saving back)
