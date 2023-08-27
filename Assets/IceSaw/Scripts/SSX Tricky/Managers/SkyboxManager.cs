@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
+using static LevelManager;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [ExecuteInEditMode]
@@ -15,7 +16,7 @@ public class SkyboxManager : MonoBehaviour
     public GameObject PrefabsHolder;
     public GameObject SkyboxCamera;
 
-    public List<Texture2D> SkyboxTextures2d = new List<Texture2D>();
+    public List<TextureData> SkyboxTextures2d = new List<TextureData>();
     public List<Mesh> SkyboxMeshCache = new List<Mesh>();
 
     public void Awake()
@@ -64,7 +65,7 @@ public class SkyboxManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
-        ReloadTextures(Path + "\\Skybox");
+        LoadTextures(Path + "\\Skybox");
         LoadSkyMeshCache(Path + "\\Skybox\\Models");
         if (File.Exists(Path + "\\Skybox\\Materials.json"))
         {
@@ -86,12 +87,12 @@ public class SkyboxManager : MonoBehaviour
         }
     }
 
-    public void ReloadTextures(string path)
+    public void LoadTextures(string path)
     {
         string TextureLoadPath = path + "\\Textures";
 
         string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
-        SkyboxTextures2d = new List<Texture2D>();
+        SkyboxTextures2d = new List<TextureData>();
         for (int i = 0; i < Files.Length; i++)
         {
             Texture2D NewImage = new Texture2D(1, 1);
@@ -105,7 +106,54 @@ public class SkyboxManager : MonoBehaviour
                     NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
-                SkyboxTextures2d.Add(NewImage);
+                var NewTexture = new TextureData();
+                NewTexture.Name = NewImage.name;
+                NewTexture.Texture = NewImage;
+                SkyboxTextures2d.Add(NewTexture);
+            }
+        }
+    }
+
+    public void ReloadTextures()
+    {
+        string TextureLoadPath = LevelManager.Instance.LoadPath + "\\Skybox\\Textures";
+
+        string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            var FileName = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+
+            Texture2D NewImage = new Texture2D(1, 1);
+            if (Files[i].ToLower().Contains(".png"))
+            {
+                using (Stream stream = File.Open(Files[i], FileMode.Open))
+                {
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, (int)stream.Length);
+                    NewImage.LoadImage(bytes);
+                    NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+                    //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
+                }
+            }
+
+            bool TestIfExists = false;
+            for (int a = 0; a < SkyboxTextures2d.Count; a++)
+            {
+                if (SkyboxTextures2d[i].Name == FileName)
+                {
+                    TestIfExists = true;
+                    var Temp = SkyboxTextures2d[i];
+                    Temp.Texture = NewImage;
+                    SkyboxTextures2d[i] = Temp;
+                }
+            }
+
+            if (!TestIfExists)
+            {
+                var NewTexture = new TextureData();
+                NewTexture.Name = NewImage.name;
+                NewTexture.Texture = NewImage;
+                SkyboxTextures2d.Add(NewTexture);
             }
         }
     }
@@ -256,8 +304,13 @@ public class SkyboxManager : MonoBehaviour
     [ContextMenu("Reload Textures")]
     public void RefreshTextures()
     {
-        ReloadTextures(LevelManager.Instance.LoadPath+ "\\Skybox\\Textures");
+        ReloadTextures();
+        ForceTextureUpdate();
+    }
 
+    [ContextMenu("Force Texture Update")]
+    public void ForceTextureUpdate()
+    {
         //Reload Materials
         var TempMaterials = SkyboxManager.Instance.GetMaterialList();
 
@@ -273,10 +326,9 @@ public class SkyboxManager : MonoBehaviour
         {
             TempPrefabs[i].ForceReloadMeshMat();
         }
-
     }
 
-    [ContextMenu("Reload Models")]
+        [ContextMenu("Reload Models")]
     public void RefreshModels()
     {
         LoadSkyMeshCache(LevelManager.Instance.LoadPath + "\\Skybox\\Models");

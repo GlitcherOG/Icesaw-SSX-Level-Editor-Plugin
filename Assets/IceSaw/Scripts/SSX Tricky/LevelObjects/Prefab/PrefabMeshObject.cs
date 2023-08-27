@@ -120,9 +120,9 @@ public class PrefabMeshObject : MonoBehaviour
             {
                 for (int i = 0; i < SkyboxManager.Instance.SkyboxTextures2d.Count; i++)
                 {
-                    if (SkyboxManager.Instance.SkyboxTextures2d[i].name.ToLower() == TextureID.ToLower())
+                    if (SkyboxManager.Instance.SkyboxTextures2d[i].Name.ToLower() == TextureID.ToLower())
                     {
-                        texture = SkyboxManager.Instance.SkyboxTextures2d[i];
+                        texture = SkyboxManager.Instance.SkyboxTextures2d[i].Texture;
                         return texture;
                     }
                 }
