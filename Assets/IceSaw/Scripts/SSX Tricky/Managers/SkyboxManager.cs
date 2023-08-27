@@ -1,13 +1,10 @@
 using SSXMultiTool.JsonFiles.Tricky;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using static LevelManager;
 using static PrefabManager;
-using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [ExecuteInEditMode]
 public class SkyboxManager : MonoBehaviour
@@ -254,7 +251,7 @@ public class SkyboxManager : MonoBehaviour
     public void SavePrefabs(string path)
     {
         PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
-        prefabJsonHandler.Prefabs = new List<PrefabJson>();
+        prefabJsonHandler.Prefabs = new List<PrefabJsonHandler.PrefabJson>();
 
         var TempList = GetPrefabsList();
 
