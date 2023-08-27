@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.WSA;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class LevelManager : MonoBehaviour
@@ -128,6 +127,9 @@ public class LevelManager : MonoBehaviour
         LogicManager.GetComponent<LogicManager>().SaveData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().SaveData(Path);
         PathFileManager.GetComponent<PathFileManager>().SaveData(Path);
+
+        SaveTextures();
+        SaveLightmap();
     }
 
     public void LoadTextures()
@@ -154,6 +156,73 @@ public class LevelManager : MonoBehaviour
                 NewTexture.Texture = NewImage;
                 texture2Ds.Add(NewTexture);
             }
+        }
+    }
+
+    public void SaveTextures()
+    {
+        for (int i = 0; i < texture2Ds.Count; i++)
+        {
+            var TempTexture = texture2Ds[i];
+            MemoryStream stream = new MemoryStream();
+            stream.Write(TempTexture.Texture.EncodeToPNG());
+
+            string FileName = TempTexture.Name;
+
+            if(!FileName.ToLower().EndsWith(".png"))
+            {
+                FileName = FileName + ".png";
+            }
+
+            if(File.Exists(FileName))
+            {
+                File.Delete(FileName);
+            }
+
+            var file = File.Create(LoadPath + "\\Textures\\" + FileName);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            file.Close();
+            stream.Dispose();
+        }
+    }
+
+    public void SaveLightmap()
+    {
+        for (int i = 0; i < lightmaps.Count; i++)
+        {
+            var TempTexture = lightmaps[i];
+
+            Texture2D correctedTexture = new Texture2D(TempTexture.width, TempTexture.height);
+            for (int x = 0; x < TempTexture.width; x++)
+            {
+                for (int y = 0; y < TempTexture.height; y++)
+                {
+                    correctedTexture.SetPixel(x, y, TempTexture.GetPixel(x, TempTexture.height - 1 - y));
+                }
+            }
+            correctedTexture.Apply();
+
+            MemoryStream stream = new MemoryStream();
+            stream.Write(correctedTexture.EncodeToPNG());
+
+            string FileName = TempTexture.name;
+
+            if (!FileName.ToLower().EndsWith(".png"))
+            {
+                FileName = FileName + ".png";
+            }
+
+            if (File.Exists(FileName))
+            {
+                File.Delete(FileName);
+            }
+
+            var file = File.Create(LoadPath + "\\Lightmaps\\" + FileName);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            file.Close();
+            stream.Dispose();
         }
     }
 
@@ -225,6 +294,7 @@ public class LevelManager : MonoBehaviour
                         correctedTexture.SetPixel(x, y, NewImage.GetPixel(x, NewImage.height - 1 - y));
                     }
                 }
+                correctedTexture.name = Files[i].TrimStart((LoadPath + "\\Lightmaps").ToCharArray());
                 correctedTexture.Apply();
                 lightmaps.Add(correctedTexture);
             }
