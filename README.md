@@ -27,12 +27,12 @@
  - if object is to big for grids in ltg make it so it will use origin point
  - Make clicking lightmap update lightmap mode
  - Fix Spline Undo
- 
+##### 
  - Settings page
  - Save Settings
  -	Save Images
  -	Save Models
- 
+####
  - Reload models Instead of making it remove and add all models. have it check for new images and update old models
  - Check to ensure no names are matching on change (? Cant do in run time only on saving)
  - Add option to remove unused models and textures
