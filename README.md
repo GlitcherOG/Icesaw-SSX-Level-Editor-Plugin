@@ -28,5 +28,14 @@
  - Make clicking lightmap update lightmap mode
  - Fix Spline Undo
  
+ - Settings page
+ - Save Settings
+ -	Save Images
+ -	Save Models
+ 
+ - Reload models Instead of making it remove and add all models. have it check for new images and update old models
+ - Check to ensure no names are matching on change (? Cant do in run time only on saving)
+ - Add option to remove unused models and textures
+ - Options to convert unity model into instance/prefab
  - Add Model Exporting from Unity
  - Fix Mesh Loading (Its just waisting memory and will cause issues with saving back)
