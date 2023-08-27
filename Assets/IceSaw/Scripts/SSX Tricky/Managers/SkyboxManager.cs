@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using static LevelManager;
+using static PrefabManager;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [ExecuteInEditMode]
@@ -17,7 +19,7 @@ public class SkyboxManager : MonoBehaviour
     public GameObject SkyboxCamera;
 
     public List<TextureData> SkyboxTextures2d = new List<TextureData>();
-    public List<Mesh> SkyboxMeshCache = new List<Mesh>();
+    public List<MeshData> SkyboxMeshCache = new List<MeshData>();
 
     public void Awake()
     {
@@ -76,13 +78,14 @@ public class SkyboxManager : MonoBehaviour
 
     public void LoadSkyMeshCache(string path)
     {
-        SkyboxMeshCache = new List<Mesh>();
+        SkyboxMeshCache = new List<MeshData>();
 
         string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
         for (int i = 0; i < Files.Length; i++)
         {
-            Mesh TempMesh = ObjImporter.ObjLoad(Files[i]);
-            TempMesh.name = Files[i].TrimStart(path.ToCharArray());
+            MeshData TempMesh = new MeshData();
+            TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.Name = Files[i].TrimStart(path.ToCharArray());
             SkyboxMeshCache.Add(TempMesh);
         }
     }
@@ -286,15 +289,15 @@ public class SkyboxManager : MonoBehaviour
 
         for (int i = 0; i < SkyboxMeshCache.Count; i++)
         {
-            if (SkyboxMeshCache[i].name == MeshPath)
+            if (SkyboxMeshCache[i].Name == MeshPath)
             {
-                mesh = SkyboxMeshCache[i];
+                mesh = SkyboxMeshCache[i].mesh;
             }
         }
 
         if (mesh == null)
         {
-            //Set Error Mesh
+            mesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\tinker.obj", typeof(Mesh));
         }
 
         return mesh;

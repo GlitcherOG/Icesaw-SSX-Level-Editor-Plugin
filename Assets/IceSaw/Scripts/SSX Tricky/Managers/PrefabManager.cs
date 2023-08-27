@@ -15,8 +15,8 @@ public class PrefabManager : MonoBehaviour
     public GameObject MaterialHolder;
     public GameObject ParticlePrefabHolder;
 
-    public List<Mesh> MeshCache = new List<Mesh>();
-    public List<Mesh> CollisionMeshCahce = new List<Mesh>();
+    public List<MeshData> MeshCache = new List<MeshData>();
+    public List<MeshData> CollisionMeshCahce = new List<MeshData>();
 
     public void Awake()
     {
@@ -67,26 +67,28 @@ public class PrefabManager : MonoBehaviour
 
     public void LoadMeshCache(string path)
     {
-        MeshCache = new List<Mesh>();
+        MeshCache = new List<MeshData>();
 
         string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
         for (int i = 0; i < Files.Length; i++)
         {
-            Mesh TempMesh = ObjImporter.ObjLoad(Files[i]);
-            TempMesh.name = Files[i].TrimStart(path.ToCharArray());
+            MeshData TempMesh = new MeshData();
+            TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.Name = Files[i].TrimStart(path.ToCharArray());
             MeshCache.Add(TempMesh);
         }
     }
 
     public void LoadCollisionMeshCache(string path)
     {
-        CollisionMeshCahce = new List<Mesh>();
+        CollisionMeshCahce = new List<MeshData>();
 
         string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
         for (int i = 0; i < Files.Length; i++)
         {
-            Mesh TempMesh = ObjImporter.ObjLoad(Files[i]);
-            TempMesh.name = Files[i].TrimStart(path.ToCharArray());
+            MeshData TempMesh = new MeshData();
+            TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.Name = Files[i].TrimStart(path.ToCharArray());
             CollisionMeshCahce.Add(TempMesh);
         }
     }
@@ -283,9 +285,9 @@ public class PrefabManager : MonoBehaviour
 
         for (int i = 0; i < MeshCache.Count; i++)
         {
-            if(MeshCache[i].name==MeshPath)
+            if(MeshCache[i].Name==MeshPath)
             {
-                mesh = MeshCache[i];
+                mesh = MeshCache[i].mesh;
             }
         }
 
@@ -304,9 +306,9 @@ public class PrefabManager : MonoBehaviour
 
         for (int i = 0; i < CollisionMeshCahce.Count; i++)
         {
-            if (CollisionMeshCahce[i].name == MeshPath)
+            if (CollisionMeshCahce[i].Name == MeshPath)
             {
-                mesh = CollisionMeshCahce[i];
+                mesh = CollisionMeshCahce[i].mesh;
             }
         }
 
@@ -412,5 +414,12 @@ public class PrefabManager : MonoBehaviour
                 ZPosition += 10000;
             }
         }
+    }
+
+    [System.Serializable]
+    public struct MeshData
+    {
+        public string Name;
+        public Mesh mesh;
     }
 }
