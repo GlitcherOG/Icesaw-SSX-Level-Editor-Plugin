@@ -30,8 +30,8 @@
 ##### 
  - Settings page
  - Save Settings
- -	Save Images
- -	Save Models
+ - Save Images
+ - Save Models
 ####
  - Reload models Instead of making it remove and add all models. have it check for new images and update old models
  - Check to ensure no names are matching on change (? Cant do in run time only on saving)

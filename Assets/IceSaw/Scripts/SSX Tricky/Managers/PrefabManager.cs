@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
@@ -201,9 +202,25 @@ public class PrefabManager : MonoBehaviour
     #region Save Data
     public void SaveData(string Path)
     {
+        SaveMeshCache(Path + "\\Models");
         SaveMaterials(Path + "\\Materials.json");
         SaveParticlePrefabs(Path + "\\ParticlePrefabs.json");
         SavePrefabs(Path + "\\Prefabs.json");
+    }
+
+    public void SaveMeshCache(string Path)
+    {
+        for (int i = 0; i < MeshCache.Count; i++)
+        {
+            string FileName = MeshCache[i].Name;
+
+            if(!FileName.EndsWith(".obj"))
+            {
+                FileName += ".obj";
+            }
+
+            ObjExporter.ObjSave(Path + "\\" + FileName, MeshCache[i].mesh);
+        }
     }
 
     public void SaveMaterials(string path)
