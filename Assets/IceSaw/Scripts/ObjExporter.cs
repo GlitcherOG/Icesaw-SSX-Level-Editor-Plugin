@@ -97,19 +97,24 @@ public class ObjExporter
         File.WriteAllText(path, ObjData);
     }
 
-    public void GenerateMTL(string path, string texturePath)
+    public void GenerateMTL(string path, List<LinkerData> textureData)
     {
         string ObjData = "#Exported From Unity Level Editor Plugin\n";
-        ObjData += "newmtl Texture\n";
-        ObjData += "map_Ka " + texturePath + "\n";
-        ObjData += "map_Kd " + texturePath + "\n";
+        for (int i = 0; i < textureData.Count; i++)
+        {
+            ObjData += "newmtl" + textureData[i].ItemName +"\n";
+            ObjData += "map_Ka " + textureData[i].ItemPath + "\n";
+            ObjData += "map_Kd " + textureData[i].ItemPath + "\n";   
+        }
         File.WriteAllText(path, ObjData);
     }
 
     public void SaveModelList(string SavePath, List<MassModelData> MMD, List<TextureData> textures)
     {
+        string FileName = Path.GetFileNameWithoutExtension(path);
         //String Path down to just folder location
-
+        SavePath = Path.GetDirectoryName(path);
+        
         //Create Texture Folder
         for (int i = 0; i < textures.Count; i++)
         {
@@ -136,14 +141,24 @@ public class ObjExporter
             stream.Dispose();
         }
 
+        List<LinkerData> LinkerDataList = new List<LinkerData>();
         //Create Materials for every Texture
         for (int i = 0; i < textures.Count; i++)
         {
-
-
-        }    
+            LinkerData TempData = new LinkerData();
+            TempData.ItemName = textures[i].Name.ToLower().TrimEnd(".png");
+            TempData.ItemLocation = "\\Textures\\" + FileName;
+        }
+        GenerateMTL(SavePath+"\\" +FileName+".mtl");
 
         //Save Models in Chunks of 500?
+        int ModelPos = 0;
+        while(ModelPos<MMD.Count)
+        {
+            //Make a List of 500 or so of the models
+            //Replace Mass Model Data Texture Name removing PNG
+            //Send To Model Generation
+        }
     }
 
     public struct MassModelData
@@ -151,5 +166,12 @@ public class ObjExporter
         public string Name;
         public Mesh Model;
         public string TextureName;
+    }
+
+    public struct LinkerData
+    {
+        public string ItemName;
+        public string ItemLocation;
+        //Might need mtl name but idk
     }
 }
