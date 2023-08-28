@@ -480,6 +480,33 @@ public class InstanceObject : MonoBehaviour
 
     }
 
+    public static List<MassModelData> GenerateModel()
+    {
+        string[] TempTextures = PrefabManager.Instance.GetPrefabObject(ModelID).GetTextureNames();
+        GameObject[] ObjectList = Prefab.GetComponentsInChildren<MeshFilter>();
+
+        for (int a = 0; a < ObjectList.Length; a++)
+        {
+            MassModelData TempModel = new MassModelData();
+            TempModel.Name = gameObject.Name + a;
+
+            //Go through and update points so they are correct for rotation and then regenerate normals
+            var TempMesh = ObjectList[i].SharedMesh;
+            var Verts = TempMesh.vertices;
+            for (int i = 0; i < ModelFaces.Count; i++)
+            {
+                Verts[i] = ConvertWorldPoint(Verts[i]);
+            }
+            TempMesh.vertices = Verts;
+            TempMesh.Optimize();
+            TempMesh.RecalculateNormals();
+        
+            TempModel.Mesh = TempMesh;
+            TempModel.TextureName = TempTextures[i];
+        }
+        return TempModel;
+    }
+
     [System.Serializable]
     public struct SoundData
     {
