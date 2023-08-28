@@ -645,4 +645,26 @@ public class PatchObject : MonoBehaviour
         TempObject.AddComponent<PatchObject>().AddMissingComponents();
 
     }
+
+    public static MassModelData GenerateModel()
+    {
+        MassModelData TempModel = new MassModelData();
+        TempModel.Name = gameObject.Name;
+
+        //Go through and update points so they are correct for rotation and then regenerate normals
+        Var TempMesh = meshFilter.SharedMesh;
+        var Verts = TempMesh.vertices;
+        for (int i = 0; i < ModelFaces.Count; i++)
+        {
+            Verts[i] = ConvertWorldPoint(Verts[i]);
+        }
+        
+        TempMesh.Optimize();
+        TempMesh.RecalculateNormals();
+        
+        TempModel.Mesh = TempMesh;
+        TempModel.TextureName = TextureAssigment;
+        
+        return TempModel;
+    }
 }
