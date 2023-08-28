@@ -111,11 +111,12 @@ public class ObjExporter
 
     public void SaveModelList(string SavePath, List<MassModelData> MMD, List<TextureData> textures)
     {
-        string FileName = Path.GetFileNameWithoutExtension(path);
+        string FileNameMain = Path.GetFileNameWithoutExtension(path);
         //String Path down to just folder location
         SavePath = Path.GetDirectoryName(path);
         
-        //Create Texture Folder
+        //Create Texture Folder and Create Materials for every Texture
+        List<LinkerData> LinkerDataList = new List<LinkerData>();
         for (int i = 0; i < textures.Count; i++)
         {
             var TempTexture = textures[i];
@@ -134,20 +135,16 @@ public class ObjExporter
                 File.Delete(FileName);
             }
 
-            var file = File.Create(SavePath + "\\Textures\\" + FileName);
+            var file = File.Create(SavePath + "\\"+FileNameMain+" Textures\\" + FileName);
             stream.Position = 0;
             stream.CopyTo(file);
             file.Close();
             stream.Dispose();
-        }
 
-        List<LinkerData> LinkerDataList = new List<LinkerData>();
-        //Create Materials for every Texture
-        for (int i = 0; i < textures.Count; i++)
-        {
             LinkerData TempData = new LinkerData();
             TempData.ItemName = textures[i].Name.ToLower().TrimEnd(".png");
-            TempData.ItemLocation = "\\Textures\\" + FileName;
+            TempData.ItemLocation = "\\"+FileNameMain+" Textures\\" + FileName;
+            LinkerDataList.add(LinkerDataList);
         }
         GenerateMTL(SavePath+"\\" +FileName+".mtl");
 
@@ -155,10 +152,113 @@ public class ObjExporter
         int ModelPos = 0;
         while(ModelPos<MMD.Count)
         {
-            //Make a List of 500 or so of the models
-            //Replace Mass Model Data Texture Name removing PNG
-            //Send To Model Generation
+            int ReadSize = 500;
+            int CalMaths = ModelPos + ReadSize;
+
+            if(CalMaths>MMD.Count)
+            {
+                CalMaths=MMD.Count;
+            }
+            
+            for (int i = ModelPos; i < CalMaths; i++)
+            {
+                //Make a List of 500 or so of the models
+                //Replace Mass Model Data Texture Name removing PNG
+                //Send To Model Generation
+            }
+    }
+
+    void MassObjSave(string path, List<MassModelData> MMD)
+    {
+        string ObjData = "#Exported From Unity Level Editor Plugin\n";
+
+        //Collapse Models
+        var NewVerts = new List<Vector3>();
+        var NewUV = new List<Vector2>();
+        var NewNormal = new List<Vector3>();
+        var ModelFaces = new List<string>();
+
+        var NewVertIndex = new List<int>();
+        var NewUVIndex = new List<int>();
+        var NewNormalIndex = new List<int>();
+        var Verts = mesh.vertices;
+        var UV = mesh.uv;
+        var Normal = mesh.normals;
+        var Index = mesh.triangles;
+
+        //Go Through All Things and do stuff
+        //Alter this so it adds all mesh stuff leaving New Main Lists alone
+        for (int i = 0; i < Index.Length; i++)
+        {
+            int ID = Index[i];
+
+            if (NewVerts.Contains(Verts[ID]))
+            {
+                NewVertIndex.Add(NewVerts.IndexOf(Verts[ID]));
+            }
+            else
+            {
+                NewVerts.Add(Verts[ID]);
+                NewVertIndex.Add(NewVertIndex.Count - 1);
+            }
+
+            if (UV.Length != 0)
+            {
+                if (NewUV.Contains(UV[ID]))
+                {
+                    NewUVIndex.Add(NewUV.IndexOf(UV[ID]));
+                }
+                else
+                {
+                    NewUV.Add(UV[ID]);
+                    NewUVIndex.Add(NewUVIndex.Count - 1);
+                }
+            }
+
+            if (NewNormal.Contains(Normal[ID]))
+            {
+                NewNormalIndex.Add(NewNormal.IndexOf(Normal[ID]));
+            }
+            else
+            {
+                NewNormal.Add(Normal[ID]);
+                NewNormalIndex.Add(NewNormalIndex.Count - 1);
+            }
         }
+
+        for (int i = 0; i < NewVertIndex.Count/3; i++)
+        {
+            if (NewUV.Count != 0)
+            {
+                ObjData += "f " + NewVertIndex[i * 3] + "/" + NewUVIndex[i * 3] + "/" + NewNormalIndex[i * 3] + " "
+                    + NewVertIndex[i * 3 + 1] + "/" + NewUVIndex[i * 3 + 1] + "/" + NewNormalIndex[i * 3 + 1] + " "
+                    + NewVertIndex[i * 3 + 2] + "/" + NewUVIndex[i * 3 + 2] + "/" + NewNormalIndex[i * 3 + 2] + "\n";
+            }
+            else
+            {
+                ObjData += "f " + NewVertIndex[i * 3] + "//" + NewNormalIndex[i * 3] + " "
+                    + NewVertIndex[i * 3 + 1] + "//" + NewNormalIndex[i * 3 + 1] + " "
+                    + NewVertIndex[i * 3 + 2] + "//" + NewNormalIndex[i * 3 + 2] + "\n";
+            }
+        }
+        
+
+        for (int i = 0; i < NewVerts.Count; i++)
+        {
+            ObjData += "v " + NewVerts[i].x + " " + NewVerts[i].y + " " + NewVerts[i].z + "\n";
+        }
+
+        for (int i = 0; i < NewUV.Count; i++)
+        {
+            ObjData += "vt " + NewUV[i].x + " " + NewUV[i].y + "\n";
+        }
+
+        for (int i = 0; i < NewNormal.Count; i++)
+        {
+            ObjData += "vn " + NewNormal[i].x + " " + NewNormal[i].y + " " + NewNormal[i].z + "\n";
+        }
+
+        File.WriteAllText(path, ObjData);
     }
 
     public struct MassModelData
