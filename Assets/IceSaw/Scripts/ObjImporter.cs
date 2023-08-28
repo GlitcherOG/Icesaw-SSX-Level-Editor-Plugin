@@ -143,7 +143,5 @@ public class ObjImporter : MonoBehaviour
         public int Normal1Pos;
         public int Normal2Pos;
         public int Normal3Pos;
-
-        public bool tripstriped;
     }
 }
