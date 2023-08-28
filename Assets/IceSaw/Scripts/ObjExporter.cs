@@ -96,4 +96,60 @@ public class ObjExporter
 
         File.WriteAllText(path, ObjData);
     }
+
+    public void GenerateMTL(string path, string texturePath)
+    {
+        string ObjData = "#Exported From Unity Level Editor Plugin\n";
+        ObjData += "newmtl Texture\n";
+        ObjData += "map_Ka " + texturePath + "\n";
+        ObjData += "map_Kd " + texturePath + "\n";
+        File.WriteAllText(path, ObjData);
+    }
+
+    public void SaveModelList(string SavePath, List<MassModelData> MMD, List<TextureData> textures)
+    {
+        //String Path down to just folder location
+
+        //Create Texture Folder
+        for (int i = 0; i < textures.Count; i++)
+        {
+            var TempTexture = textures[i];
+            MemoryStream stream = new MemoryStream();
+            stream.Write(TempTexture.Texture.EncodeToPNG());
+
+            string FileName = TempTexture.Name;
+
+            if(!FileName.ToLower().EndsWith(".png"))
+            {
+                FileName = FileName + ".png";
+            }
+
+            if(File.Exists(FileName))
+            {
+                File.Delete(FileName);
+            }
+
+            var file = File.Create(SavePath + "\\Textures\\" + FileName);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            file.Close();
+            stream.Dispose();
+        }
+
+        //Create Materials for every Texture
+        for (int i = 0; i < textures.Count; i++)
+        {
+
+
+        }    
+
+        //Save Models in Chunks of 500?
+    }
+
+    public struct MassModelData
+    {
+        public string Name;
+        public Mesh Model;
+        public string TextureName;
+    }
 }
