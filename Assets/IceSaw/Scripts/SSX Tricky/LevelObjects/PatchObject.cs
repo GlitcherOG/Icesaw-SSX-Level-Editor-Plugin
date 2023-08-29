@@ -5,6 +5,7 @@ using SSXMultiTool.Utilities;
 using Unity.VisualScripting;
 using UnityEditor;
 using Newtonsoft.Json.Bson;
+using UnityEngine.Assertions.Must;
 
 [ExecuteInEditMode]
 public class PatchObject : MonoBehaviour
@@ -646,15 +647,15 @@ public class PatchObject : MonoBehaviour
 
     }
 
-    public static MassModelData GenerateModel()
+    public ObjExporter.MassModelData GenerateModel()
     {
-        MassModelData TempModel = new MassModelData();
-        TempModel.Name = gameObject.Name;
+        ObjExporter.MassModelData TempModel = new ObjExporter.MassModelData();
+        TempModel.Name = gameObject.name;
 
         //Go through and update points so they are correct for rotation and then regenerate normals
-        Var TempMesh = meshFilter.SharedMesh;
+        var TempMesh = meshFilter.sharedMesh;
         var Verts = TempMesh.vertices;
-        for (int i = 0; i < ModelFaces.Count; i++)
+        for (int i = 0; i < Verts.Length; i++)
         {
             Verts[i] = ConvertWorldPoint(Verts[i]);
         }
@@ -662,7 +663,7 @@ public class PatchObject : MonoBehaviour
         TempMesh.Optimize();
         TempMesh.RecalculateNormals();
         
-        TempModel.Mesh = TempMesh;
+        TempModel.Model = TempMesh;
         TempModel.TextureName = TextureAssigment;
         
         return TempModel;

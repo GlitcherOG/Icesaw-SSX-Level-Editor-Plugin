@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 public class TrickyTrackExport
 {
@@ -12,16 +13,15 @@ public class TrickyTrackExport
       {
         //Get Save path
         //Sandard method of having them save an obj file and stripping out the obj file to get a path
-        string SavePath = EditorUtility.SaveFilePanel("Open SSX Tricky Model", "", "obj");;
-        SavePath = Path.GetDirectoryName(SavePath);
+        string SavePath = EditorUtility.SaveFilePanel("Open SSX Tricky Model", "", "OBJ Model", "obj");
 
         //Generate MMD List
-        List<MassModelData> MMD = new List<MassModelData>();
+        List<ObjExporter.MassModelData> MMD = new List<ObjExporter.MassModelData>();
 
         var TempPatchList = WorldManager.Instance.GetPatchList();
         for (int i = 0; i < TempPatchList.Length; i++)
         {
-            MMD.add(TempPatchList[i].GenerateModel());
+            MMD.Add(TempPatchList[i].GenerateModel());
         }
 
         var TempInstanceList = WorldManager.Instance.GetInstanceList();
@@ -35,7 +35,7 @@ public class TrickyTrackExport
       }
       else
       {
-          Debug.log("Ice Saw - Unable to Export Track. Level Manager or Prefab Manager Not detected")
+            Debug.Log("Ice Saw - Unable to Export Track. Level Manager or Prefab Manager Not detected");
       }
     }
 }

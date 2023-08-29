@@ -98,23 +98,25 @@ public class ObjExporter
         File.WriteAllText(path, ObjData);
     }
 
-    public void GenerateMTL(string path, List<LinkerData> textureData)
+    public static void GenerateMTL(string path, List<LinkerData> textureData)
     {
         string ObjData = "#Exported From Unity Level Editor Plugin\n";
         for (int i = 0; i < textureData.Count; i++)
         {
-            ObjData += "newmtl" + textureData[i].ItemName +"\n";
+            ObjData += "newmtl " + textureData[i].ItemName +"\n";
             ObjData += "map_Ka " + textureData[i].ItemLocation + "\n";
             ObjData += "map_Kd " + textureData[i].ItemLocation + "\n";   
         }
         File.WriteAllText(path, ObjData);
     }
 
-    public void SaveModelList(string SavePath, List<MassModelData> MMD, List<TextureData> textures)
+    public static void SaveModelList(string SavePath, List<MassModelData> MMD, List<TextureData> textures)
     {
         string FileNameMain = Path.GetFileNameWithoutExtension(SavePath);
         //String Path down to just folder location
         SavePath = Path.GetDirectoryName(SavePath);
+
+        Directory.CreateDirectory(SavePath + "\\" + FileNameMain + " Textures\\");
         
         //Create Texture Folder and Create Materials for every Texture
         List<LinkerData> LinkerDataList = new List<LinkerData>();
@@ -169,14 +171,15 @@ public class ObjExporter
                 ModelPos++;
             }
 
-            MassObjSave(SavePath + "\\" + FileNameMain + FileID + ".obj", massModelDatas);
+            MassObjSave(SavePath + "\\" + FileNameMain + FileID + ".obj", massModelDatas, FileNameMain + ".mtl");
             FileID++;
         }
     }
 
-    void MassObjSave(string path, List<MassModelData> MMD)
+    static void MassObjSave(string path, List<MassModelData> MMD, string MLTPath)
     {
         string ObjData = "#Exported From Unity Level Editor Plugin\n";
+        ObjData += "mtllib " + MLTPath + "\n";
 
         //Collapse Models
         var NewVerts = new List<Vector3>();
@@ -203,39 +206,40 @@ public class ObjExporter
 
                 if (NewVerts.Contains(Verts[ID]))
                 {
-                    NewVertIndex.Add(NewVerts.IndexOf(Verts[ID]));
+                    NewVertIndex.Add(NewVerts.IndexOf(Verts[ID]) + 1);
                 }
                 else
                 {
                     NewVerts.Add(Verts[ID]);
-                    NewVertIndex.Add(NewVertIndex.Count - 1);
+                    NewVertIndex.Add(NewVerts.Count - 1);
                 }
 
                 if (UV.Length != 0)
                 {
                     if (NewUV.Contains(UV[ID]))
                     {
-                        NewUVIndex.Add(NewUV.IndexOf(UV[ID]));
+                        NewUVIndex.Add(NewUV.IndexOf(UV[ID]) + 1);
                     }
                     else
                     {
                         NewUV.Add(UV[ID]);
-                        NewUVIndex.Add(NewUVIndex.Count - 1);
+                        NewUVIndex.Add(NewUV.Count - 1);
                     }
                 }
 
                 if (NewNormal.Contains(Normal[ID]))
                 {
-                    NewNormalIndex.Add(NewNormal.IndexOf(Normal[ID]));
+                    NewNormalIndex.Add(NewNormal.IndexOf(Normal[ID]) + 1);
                 }
                 else
                 {
                     NewNormal.Add(Normal[ID]);
-                    NewNormalIndex.Add(NewNormalIndex.Count - 1);
+                    NewNormalIndex.Add(NewNormal.Count - 1);
                 }
             }
 
             Data += "o " + MMD[a].Name + "\n";
+            Data += "usemtl " + MMD[a].TextureName.ToLower().Replace(".png", "") + "\n";
 
             for (int i = 0; i < NewVertIndex.Count / 3; i++)
             {

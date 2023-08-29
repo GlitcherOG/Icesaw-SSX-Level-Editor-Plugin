@@ -480,20 +480,30 @@ public class InstanceObject : MonoBehaviour
 
     }
 
-    public static List<MassModelData> GenerateModel()
+    Vector3 ConvertWorldPoint(Vector3 point)
+    {
+        if (LevelManager.Instance != null)
+        {
+            return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+        }
+
+        return transform.TransformPoint(point);
+    }
+
+    public List<ObjExporter.MassModelData> GenerateModel()
     {
         string[] TempTextures = PrefabManager.Instance.GetPrefabObject(ModelID).GetTextureNames();
-        GameObject[] ObjectList = Prefab.GetComponentsInChildren<MeshFilter>();
-
+        MeshFilter[] ObjectList = Prefab.GetComponentsInChildren<MeshFilter>();
+        List<ObjExporter.MassModelData> MainList = new List<ObjExporter.MassModelData>();
         for (int a = 0; a < ObjectList.Length; a++)
         {
-            MassModelData TempModel = new MassModelData();
-            TempModel.Name = gameObject.Name + a;
+            ObjExporter.MassModelData TempModel = new ObjExporter.MassModelData();
+            TempModel.Name = gameObject.name + a;
 
             //Go through and update points so they are correct for rotation and then regenerate normals
-            var TempMesh = ObjectList[i].SharedMesh;
+            var TempMesh = ObjectList[a].sharedMesh;
             var Verts = TempMesh.vertices;
-            for (int i = 0; i < ModelFaces.Count; i++)
+            for (int i = 0; i < Verts.Length; i++)
             {
                 Verts[i] = ConvertWorldPoint(Verts[i]);
             }
@@ -501,10 +511,11 @@ public class InstanceObject : MonoBehaviour
             TempMesh.Optimize();
             TempMesh.RecalculateNormals();
         
-            TempModel.Mesh = TempMesh;
-            TempModel.TextureName = TempTextures[i];
+            TempModel.Model = TempMesh;
+            TempModel.TextureName = TempTextures[a];
+            MainList.Add(TempModel);
         }
-        return TempModel;
+        return MainList;
     }
 
     [System.Serializable]

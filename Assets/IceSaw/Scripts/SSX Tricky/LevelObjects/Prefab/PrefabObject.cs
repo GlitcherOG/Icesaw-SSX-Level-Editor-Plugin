@@ -118,12 +118,12 @@ public class PrefabObject : MonoBehaviour
         for (int i = 0; i < TempList.Length; i++)
         {
             var TempModel = TempList[i].GetComponentsInChildren<PrefabMeshObject>();
-            for (int i = 0; i < TempModel.Length; i++)
+            for (int a = 0; a < TempModel.Length; a++)
             {
-                var TempSubModel = TempList[i].MaterialID;
-                TextureNames = PrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath;
+                var TempSubModel = TempModel[a].MaterialID;
+                TextureNames.Add(PrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath);
             }
         }
-        return TextureNames;
+        return TextureNames.ToArray();
     }
 }
