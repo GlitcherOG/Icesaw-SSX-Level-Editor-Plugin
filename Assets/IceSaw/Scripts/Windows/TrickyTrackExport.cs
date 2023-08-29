@@ -11,17 +11,23 @@ public class TrickyTrackExport
       if(LevelManager.Instance != null && PrefabManager.Instance != null && WorldManager.Instance)
       {
         //Get Save path
-
         //Sandard method of having them save an obj file and stripping out the obj file to get a path
-        string SavePath = "";
+        string SavePath = EditorUtility.SaveFilePanel("Open SSX Tricky Model", "", "obj");;
+        SavePath = Path.GetDirectoryName(SavePath);
 
         //Generate MMD List
         List<MassModelData> MMD = new List<MassModelData>();
-        var TempPrefabList = WorldManager.Instance.GetPatchList();
-        
-        for (int i = 0; i < TempPrefabList.Length; i++)
+
+        var TempPatchList = WorldManager.Instance.GetPatchList();
+        for (int i = 0; i < TempPatchList.Length; i++)
         {
-            MMD.add(TempPrefabList[i].GenerateModel());
+            MMD.add(TempPatchList[i].GenerateModel());
+        }
+
+        var TempInstanceList = WorldManager.Instance.GetInstanceList();
+        for (int i = 0; i < TempInstanceList.Length; i++)
+        {
+            MMD.AddRange(TempInstanceList[i].GenerateModel());
         }
         
         //Save Objects 
