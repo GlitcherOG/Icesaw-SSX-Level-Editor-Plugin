@@ -280,8 +280,9 @@ public class ObjExporter
         {
             sb.Append("vn " + NewNormal[i].x + " " + NewNormal[i].y + " " + NewNormal[i].z + "\n");
         }
+
+        sb.Append(sb1);
         File.AppendAllText(path, sb.ToString());
-        File.AppendAllText(path, sb1.ToString());
     }
 
     public struct MassModelData
