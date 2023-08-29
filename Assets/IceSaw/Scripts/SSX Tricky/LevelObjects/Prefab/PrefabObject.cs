@@ -109,4 +109,21 @@ public class PrefabObject : MonoBehaviour
         TempObject.AddComponent<PrefabObject>();
 
     }
+
+    public string[] GetTextureNames()
+    {
+        List<string> TextureNames = new List<string>();
+        var TempList = GetComponentsInChildren<PrefabSubObject>();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            var TempModel = TempList[i].GetComponentsInChildren<PrefabMeshObject>();
+            for (int i = 0; i < TempModel.Length; i++)
+            {
+                var TempSubModel = TempList[i].MaterialID;
+                TextureNames = PrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath;
+            }
+        }
+        return TextureNames;
+    }
 }
