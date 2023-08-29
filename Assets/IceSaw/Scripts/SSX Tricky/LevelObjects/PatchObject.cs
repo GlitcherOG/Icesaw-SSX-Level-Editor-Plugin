@@ -653,13 +653,18 @@ public class PatchObject : MonoBehaviour
         TempModel.Name = gameObject.name;
 
         //Go through and update points so they are correct for rotation and then regenerate normals
-        var TempMesh = meshFilter.sharedMesh;
-        var Verts = TempMesh.vertices;
+        var OldMesh = meshFilter.sharedMesh;
+        var TempMesh = new Mesh();
+
+        var Verts = OldMesh.vertices;
         for (int i = 0; i < Verts.Length; i++)
         {
             Verts[i] = ConvertWorldPoint(Verts[i]);
         }
-        
+        TempMesh.vertices = Verts;
+        TempMesh.uv = OldMesh.uv;
+        TempMesh.normals = OldMesh.normals;
+        TempMesh.triangles = OldMesh.triangles;
         TempMesh.Optimize();
         TempMesh.RecalculateNormals();
         

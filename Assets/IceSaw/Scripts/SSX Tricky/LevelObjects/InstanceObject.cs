@@ -480,14 +480,14 @@ public class InstanceObject : MonoBehaviour
 
     }
 
-    Vector3 ConvertWorldPoint(Vector3 point)
+    Vector3 ConvertWorldPoint(Vector3 point, Transform objectTransform)
     {
         if (LevelManager.Instance != null)
         {
-            return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+            return LevelManager.Instance.transform.InverseTransformPoint(objectTransform.TransformPoint(point));
         }
 
-        return transform.TransformPoint(point);
+        return objectTransform.TransformPoint(point);
     }
 
     public List<ObjExporter.MassModelData> GenerateModel()
@@ -501,13 +501,18 @@ public class InstanceObject : MonoBehaviour
             TempModel.Name = gameObject.name + a;
 
             //Go through and update points so they are correct for rotation and then regenerate normals
-            var TempMesh = ObjectList[a].sharedMesh;
-            var Verts = TempMesh.vertices;
+            var OldMesh = ObjectList[a].sharedMesh;
+            var Verts = OldMesh.vertices;
             for (int i = 0; i < Verts.Length; i++)
             {
-                Verts[i] = ConvertWorldPoint(Verts[i]);
+                Verts[i] = ConvertWorldPoint(Verts[i], ObjectList[a].transform);
             }
+            var TempMesh = new Mesh();
             TempMesh.vertices = Verts;
+            TempMesh.uv = OldMesh.uv;
+            TempMesh.normals = OldMesh.normals;
+            TempMesh.triangles = OldMesh.triangles;
+
             TempMesh.Optimize();
             TempMesh.RecalculateNormals();
         

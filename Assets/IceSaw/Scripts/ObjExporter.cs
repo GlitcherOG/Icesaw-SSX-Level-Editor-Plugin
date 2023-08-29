@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using static LevelManager;
 
@@ -154,9 +155,9 @@ public class ObjExporter
         //Save Models in Chunks of 500?
         int ModelPos = 0;
         int FileID = 0;
-        while (ModelPos < MMD.Count)
+        while (ModelPos < 500)
         {
-            int ReadSize = 500;
+            int ReadSize = MMD.Count;
             int CalMaths = ModelPos + ReadSize;
 
             if (CalMaths > MMD.Count)
@@ -178,8 +179,12 @@ public class ObjExporter
 
     static void MassObjSave(string path, List<MassModelData> MMD, string MLTPath)
     {
+        StringBuilder sb = new StringBuilder("#Exported From Unity Level Editor Plugin\n");
+        StringBuilder sb1 = new StringBuilder();
         string ObjData = "#Exported From Unity Level Editor Plugin\n";
-        ObjData += "mtllib " + MLTPath + "\n";
+
+        sb.Append("mtllib " + MLTPath + "\n");
+        //ObjData += "mtllib " + MLTPath + "\n";
 
         //Collapse Models
         var NewVerts = new List<Vector3>();
@@ -189,7 +194,8 @@ public class ObjExporter
 
         for (int a = 0; a < MMD.Count; a++)
         {
-            string Data = "";
+            //string Data = "";
+            //StringBuilder sb1 = new StringBuilder();
             var NewVertIndex = new List<int>();
             var NewUVIndex = new List<int>();
             var NewNormalIndex = new List<int>();
@@ -211,7 +217,7 @@ public class ObjExporter
                 else
                 {
                     NewVerts.Add(Verts[ID]);
-                    NewVertIndex.Add(NewVerts.Count - 1);
+                    NewVertIndex.Add(NewVerts.Count);
                 }
 
                 if (UV.Length != 0)
@@ -223,7 +229,7 @@ public class ObjExporter
                     else
                     {
                         NewUV.Add(UV[ID]);
-                        NewUVIndex.Add(NewUV.Count - 1);
+                        NewUVIndex.Add(NewUV.Count);
                     }
                 }
 
@@ -234,53 +240,48 @@ public class ObjExporter
                 else
                 {
                     NewNormal.Add(Normal[ID]);
-                    NewNormalIndex.Add(NewNormal.Count - 1);
+                    NewNormalIndex.Add(NewNormal.Count);
                 }
             }
 
-            Data += "o " + MMD[a].Name + "\n";
-            Data += "usemtl " + MMD[a].TextureName.ToLower().Replace(".png", "") + "\n";
+            sb1.Append("o " + MMD[a].Name + "\n");
+            sb1.Append("usemtl " + MMD[a].TextureName.ToLower().Replace(".png", "") + "\n");
 
             for (int i = 0; i < NewVertIndex.Count / 3; i++)
             {
                 if (NewUV.Count != 0)
                 {
-                    Data += "f " + NewVertIndex[i * 3] + "/" + NewUVIndex[i * 3] + "/" + NewNormalIndex[i * 3] + " "
+                    sb1.Append("f " + NewVertIndex[i * 3] + "/" + NewUVIndex[i * 3] + "/" + NewNormalIndex[i * 3] + " "
                         + NewVertIndex[i * 3 + 1] + "/" + NewUVIndex[i * 3 + 1] + "/" + NewNormalIndex[i * 3 + 1] + " "
-                        + NewVertIndex[i * 3 + 2] + "/" + NewUVIndex[i * 3 + 2] + "/" + NewNormalIndex[i * 3 + 2] + "\n";
+                        + NewVertIndex[i * 3 + 2] + "/" + NewUVIndex[i * 3 + 2] + "/" + NewNormalIndex[i * 3 + 2] + "\n");
                 }
                 else
                 {
-                    Data += "f " + NewVertIndex[i * 3] + "//" + NewNormalIndex[i * 3] + " "
+                    sb1.Append("f " + NewVertIndex[i * 3] + "//" + NewNormalIndex[i * 3] + " "
                         + NewVertIndex[i * 3 + 1] + "//" + NewNormalIndex[i * 3 + 1] + " "
-                        + NewVertIndex[i * 3 + 2] + "//" + NewNormalIndex[i * 3 + 2] + "\n";
+                        + NewVertIndex[i * 3 + 2] + "//" + NewNormalIndex[i * 3 + 2] + "\n");
                 }
             }
-            ModelFaces.Add(Data);
+            //ModelFaces.Add(sb1.ToString());
         }
         
 
         for (int i = 0; i < NewVerts.Count; i++)
         {
-            ObjData += "v " + NewVerts[i].x + " " + NewVerts[i].y + " " + NewVerts[i].z + "\n";
+            sb.Append("v " + NewVerts[i].x + " " + NewVerts[i].y + " " + NewVerts[i].z + "\n");
         }
 
         for (int i = 0; i < NewUV.Count; i++)
         {
-            ObjData += "vt " + NewUV[i].x + " " + NewUV[i].y + "\n";
+            sb.Append("vt " + NewUV[i].x + " " + NewUV[i].y + "\n");
         }
 
         for (int i = 0; i < NewNormal.Count; i++)
         {
-            ObjData += "vn " + NewNormal[i].x + " " + NewNormal[i].y + " " + NewNormal[i].z + "\n";
+            sb.Append("vn " + NewNormal[i].x + " " + NewNormal[i].y + " " + NewNormal[i].z + "\n");
         }
-
-        for (int i = 0; i < ModelFaces.Count; i++)
-        {
-            ObjData += ModelFaces[i];
-        }
-
-        File.WriteAllText(path, ObjData);
+        File.AppendAllText(path, sb.ToString());
+        File.AppendAllText(path, sb1.ToString());
     }
 
     public struct MassModelData
