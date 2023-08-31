@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 using static LevelManager;
 
@@ -155,9 +156,10 @@ public class ObjExporter
         //Save Models in Chunks of 500?
         int ModelPos = 0;
         int FileID = 0;
-        while (ModelPos < 500)
+        int ReadSize = 500;
+
+        while (ModelPos < MMD.Count)
         {
-            int ReadSize = MMD.Count;
             int CalMaths = ModelPos + ReadSize;
 
             if (CalMaths > MMD.Count)
@@ -181,7 +183,6 @@ public class ObjExporter
     {
         StringBuilder sb = new StringBuilder("#Exported From Unity Level Editor Plugin\n");
         StringBuilder sb1 = new StringBuilder();
-        string ObjData = "#Exported From Unity Level Editor Plugin\n";
 
         sb.Append("mtllib " + MLTPath + "\n");
         //ObjData += "mtllib " + MLTPath + "\n";
@@ -190,7 +191,6 @@ public class ObjExporter
         var NewVerts = new List<Vector3>();
         var NewUV = new List<Vector2>();
         var NewNormal = new List<Vector3>();
-        var ModelFaces = new List<string>();
 
         for (int a = 0; a < MMD.Count; a++)
         {
