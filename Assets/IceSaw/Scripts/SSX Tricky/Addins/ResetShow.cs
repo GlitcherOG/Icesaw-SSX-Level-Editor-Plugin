@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ResetShow
 {
-    [MenuItem("Reset Plugin/Export Track")]
+    [MenuItem("Reset Plugin/Swap Textures")]
     public static void AddResetTextures()
     {
         if (LevelManager.Instance != null)
@@ -77,18 +77,20 @@ public class ResetShow
                     if (EffectSlots[InstanceList[i].EffectSlotIndex].CollisionEffectSlot != -1 && EffectSlots[InstanceList[i].EffectSlotIndex].CollisionEffectSlot<EffectList.Count)
                     {
                         var Effect = EffectList[EffectSlots[InstanceList[i].EffectSlotIndex].CollisionEffectSlot];
-
-                        var PersistantEffect = EffectList[EffectSlots[InstanceList[i].EffectSlotIndex].PersistantEffectSlot];
                         bool Crowd = false;
-
-                        for (int a = 0; a < PersistantEffect.Effects.Count; a++)
+                        if (EffectSlots[InstanceList[i].EffectSlotIndex].PersistantEffectSlot != -1)
                         {
-                            if (PersistantEffect.Effects[a].MainType==0)
+                            var PersistantEffect = EffectList[EffectSlots[InstanceList[i].EffectSlotIndex].PersistantEffectSlot];
+
+                            for (int a = 0; a < PersistantEffect.Effects.Count; a++)
                             {
-                                if(PersistantEffect.Effects[a].type0.Value.SubType==17)
+                                if (PersistantEffect.Effects[a].MainType == 0)
                                 {
-                                    Crowd = true;
-                                    break;
+                                    if (PersistantEffect.Effects[a].type0.Value.SubType == 17)
+                                    {
+                                        Crowd = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -110,8 +112,8 @@ public class ResetShow
                                         for (int d = 0; d < MeshPrefab.Length; d++)
                                         {
                                             MeshPrefab[d].MaterialID = MaterialID;
-                                            InstanceList[i].LoadPrefabs();
                                             MeshPrefab[d].GenerateModel();
+                                            InstanceList[i].LoadPrefabs();
                                         }
                                     }
                                 }

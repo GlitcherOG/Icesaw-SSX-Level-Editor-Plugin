@@ -97,7 +97,7 @@ public class ObjExporter
             }
         }
 
-        File.WriteAllText(path, ObjData);
+        File.AppendAllText(path, ObjData);
     }
 
     public static void GenerateMTL(string path, List<LinkerData> textureData)
