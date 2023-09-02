@@ -169,6 +169,11 @@ public class PrefabSubObject : MonoBehaviour
         }
     }
 
+    public PrefabMeshObject[] GetPrefabMesh()
+    {
+        return GetComponentsInChildren<PrefabMeshObject>();
+    }
+
     [MenuItem("GameObject/Ice Saw/Prefab Sub Object", false, 102)]
     public static void CreatePrefabSubObject(MenuCommand menuCommand)
     {

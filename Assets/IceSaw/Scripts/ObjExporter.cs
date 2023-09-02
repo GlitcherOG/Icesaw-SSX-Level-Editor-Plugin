@@ -39,7 +39,7 @@ public class ObjExporter
             else
             {
                 NewVerts.Add(Verts[ID]);
-                NewVertIndex.Add(NewVertIndex.Count);
+                NewVertIndex.Add(NewVerts.Count);
             }
 
             if (UV.Length != 0)
@@ -51,7 +51,7 @@ public class ObjExporter
                 else
                 {
                     NewUV.Add(UV[ID]);
-                    NewUVIndex.Add(NewUVIndex.Count);
+                    NewUVIndex.Add(NewUV.Count);
                 }
             }
 
@@ -62,7 +62,7 @@ public class ObjExporter
             else
             {
                 NewNormal.Add(Normal[ID]);
-                NewNormalIndex.Add(NewNormalIndex.Count);
+                NewNormalIndex.Add(NewNormal.Count);
             }
         }
 
