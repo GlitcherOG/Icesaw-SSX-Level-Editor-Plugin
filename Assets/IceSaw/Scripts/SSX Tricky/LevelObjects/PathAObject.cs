@@ -14,7 +14,7 @@ public class PathAObject : MonoBehaviour
     public int U3;
     public int U4;
     public int U5;
-    public int U6;
+    public int Respawnable;
 
     [OnChangedCall("DrawLines")]
     public List<Vector3> PathPoints;
@@ -47,7 +47,7 @@ public class PathAObject : MonoBehaviour
         U3 = pathA.U3;
         U4 = pathA.U4;
         U5 = pathA.U5;
-        U6 = pathA.U6;
+        Respawnable = pathA.Respawnable;
 
         transform.localPosition = JsonUtil.ArrayToVector3(pathA.PathPos);
 
@@ -83,7 +83,7 @@ public class PathAObject : MonoBehaviour
         NewPathA.U3 = U3;
         NewPathA.U4 = U4;
         NewPathA.U5 = U5;
-        NewPathA.U6 = U6;
+        NewPathA.Respawnable = Respawnable;
 
         NewPathA.PathPos = JsonUtil.Vector3ToArray(transform.localPosition);
 

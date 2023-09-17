@@ -71,6 +71,12 @@ public class InstanceObject : MonoBehaviour
         LightingVector = JsonUtil.ArrayToVector3(instance.LightingVector);
         LightingRotation = JsonUtil.ArrayToQuaternion(instance.LightingRotation);
 
+        GameObject gameObject = new GameObject("Lighting");
+        gameObject.transform.parent = transform;
+        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        gameObject.transform.localScale = new Vector3(1, 1, 1);
+        gameObject.transform.position = (LightingVector * 100f) + transform.position;
+
         Unknown9 = JsonUtil.ArrayToVector4(instance.Unknown9);
         Unknown10 = JsonUtil.ArrayToVector4(instance.Unknown10);
         Unknown11 = JsonUtil.ArrayToVector4(instance.Unknown11);
