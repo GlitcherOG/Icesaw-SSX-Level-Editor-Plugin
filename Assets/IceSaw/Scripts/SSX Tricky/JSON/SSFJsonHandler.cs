@@ -1033,7 +1033,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int SubType;
 
             public Type0Sub0? type0Sub0; ///Roller?
-            public int? type0Sub2;  //Debounce?
+            public int? Debounce;  //Debounce?
             public int? DeadNodeMode; //5
             public CounterEffect? Counter; //6
             public BoostEffect? Boost; //Boost
@@ -1227,7 +1227,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int SubType;
 
             public Type2Sub0? type2Sub0; //Emitter
-            public Type2Sub1? type2Sub1; //SplinePath
+            public SplinePathAnimation? SplineAnimation; //SplinePath
             public Type2Sub2? type2Sub2; //CollideEmitter
         }
 
@@ -1286,19 +1286,19 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int U50;
         }
 
-        public struct Type2Sub1
+        public struct SplinePathAnimation
         {
-            public int U0;
+            public int SplineIndex;
             public int U1;
             public int U2;
-            public int U3;
-            public float U4;
+            public int InstanceCount;
+            public float AnimationSpeed;
             public float U5;
             public int U6;
-            public int U7;
-            public int U8;
-            public int U9;
-            public int U10;
+            public float U7;
+            public float R;
+            public float G;
+            public float B;
         }
 
         public struct Type2Sub2

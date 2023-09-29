@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Type0Sub2Effect : EffectBase
+public class DebounceEffect : EffectBase
 {
     public override int EffectType
     {
@@ -15,11 +15,11 @@ public class Type0Sub2Effect : EffectBase
         get { return 2; }
     }
 
-    public int Unknown;
+    public int Debounce;
 
     public override void LoadEffect(SSFJsonHandler.Effect effect)
     {
-        Unknown = effect.type0.Value.type0Sub2.Value;
+        Debounce = effect.type0.Value.Debounce.Value;
     }
 
     public override SSFJsonHandler.Effect SaveEffect()
@@ -31,7 +31,7 @@ public class Type0Sub2Effect : EffectBase
         var NewType0Effect = new SSFJsonHandler.Type0();
 
         NewType0Effect.SubType = SubEffectType;
-        NewType0Effect.type0Sub2 = Unknown;
+        NewType0Effect.Debounce = Debounce;
 
         NewEffect.type0 = NewType0Effect;
 

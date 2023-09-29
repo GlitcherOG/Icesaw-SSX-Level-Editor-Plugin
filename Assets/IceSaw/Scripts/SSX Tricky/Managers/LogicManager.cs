@@ -138,7 +138,7 @@ public class LogicManager : MonoBehaviour
             }
             else if (effect.type0.Value.SubType == 2)
             {
-                Parent.AddComponent<Type0Sub2Effect>().LoadEffect(effect);
+                Parent.AddComponent<DebounceEffect>().LoadEffect(effect);
             }
             else if (effect.type0.Value.SubType == 5)
             {
@@ -221,7 +221,7 @@ public class LogicManager : MonoBehaviour
             }
             else if (effect.type2.Value.SubType == 1)
             {
-                Parent.AddComponent<Type2Sub1Effect>().LoadEffect(effect);
+                Parent.AddComponent<SplineAnimationEffect>().LoadEffect(effect);
             }
             else if (effect.type2.Value.SubType == 2)
             {
