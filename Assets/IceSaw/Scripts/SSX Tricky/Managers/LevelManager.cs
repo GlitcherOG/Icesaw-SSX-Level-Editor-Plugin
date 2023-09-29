@@ -148,7 +148,7 @@ public class LevelManager : MonoBehaviour
                     byte[] bytes = new byte[stream.Length];
                     stream.Read(bytes, 0, (int)stream.Length);
                     NewImage.LoadImage(bytes);
-                    NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+                    NewImage.name = Files[i].Substring(TextureLoadPath.Length + 1);
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
                 var NewTexture = new TextureData();
@@ -294,7 +294,7 @@ public class LevelManager : MonoBehaviour
                         correctedTexture.SetPixel(x, y, NewImage.GetPixel(x, NewImage.height - 1 - y));
                     }
                 }
-                correctedTexture.name = Files[i].TrimStart((LoadPath + "\\Lightmaps").ToCharArray());
+                correctedTexture.name = Files[i].Substring((LoadPath + "\\Lightmaps").Length + 1);
                 correctedTexture.Apply();
                 lightmaps.Add(correctedTexture);
             }

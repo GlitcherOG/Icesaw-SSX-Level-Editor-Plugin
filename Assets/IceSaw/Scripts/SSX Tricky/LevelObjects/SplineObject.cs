@@ -85,12 +85,12 @@ public class SplineObject : MonoBehaviour
         spline.SplineStyle = SplineStyle;
         spline.Segments = new List<SplineJsonHandler.SegmentJson>();
 
-        var Segments = transform.GetComponentsInChildren<SplineSegmentObject>();
+        //var Segments = transform.GetComponentsInChildren<SplineSegmentObject>();
 
-        for (int i = 0; i < Segments.Length; i++)
-        {
-            spline.Segments.Add(Segments[i].GenerateSplineSegment());
-        }
+        //for (int i = 0; i < Segments.Length; i++)
+        //{
+        //    spline.Segments.Add(Segments[i].GenerateSplineSegment());
+        //}
 
         return spline;
     }

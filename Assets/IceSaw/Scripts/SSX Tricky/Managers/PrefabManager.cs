@@ -75,7 +75,7 @@ public class PrefabManager : MonoBehaviour
         {
             MeshData TempMesh = new MeshData();
             TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
-            TempMesh.Name = Files[i].TrimStart(path.ToCharArray());
+            TempMesh.Name = Files[i].Substring(path.Length + 1);
             MeshCache.Add(TempMesh);
         }
     }
@@ -89,7 +89,7 @@ public class PrefabManager : MonoBehaviour
         {
             MeshData TempMesh = new MeshData();
             TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
-            TempMesh.Name = Files[i].TrimStart(path.ToCharArray());
+            TempMesh.Name = Files[i].Substring(path.Length + 1);
             CollisionMeshCahce.Add(TempMesh);
         }
     }

@@ -82,7 +82,7 @@ public class SkyboxManager : MonoBehaviour
         {
             MeshData TempMesh = new MeshData();
             TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
-            TempMesh.Name = Files[i].TrimStart(path.ToCharArray());
+            TempMesh.Name = Files[i].Substring(path.Length+1);
             SkyboxMeshCache.Add(TempMesh);
         }
     }
@@ -103,7 +103,7 @@ public class SkyboxManager : MonoBehaviour
                     byte[] bytes = new byte[stream.Length];
                     stream.Read(bytes, 0, (int)stream.Length);
                     NewImage.LoadImage(bytes);
-                    NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+                    NewImage.name = Files[i].Substring(TextureLoadPath.Length + 1);
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
                 var NewTexture = new TextureData();
@@ -131,7 +131,7 @@ public class SkyboxManager : MonoBehaviour
                     byte[] bytes = new byte[stream.Length];
                     stream.Read(bytes, 0, (int)stream.Length);
                     NewImage.LoadImage(bytes);
-                    NewImage.name = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+                    NewImage.name = Files[i].Substring(TextureLoadPath.Length +1);
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
             }
