@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
-using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 using SSXMultiTool.Utilities;
 using UnityEditor;
 
@@ -18,7 +17,7 @@ public class PathAObject : MonoBehaviour
 
     [OnChangedCall("DrawLines")]
     public List<Vector3> PathPoints;
-    public List<UnknownStruct> UnknownStructs;
+    public List<PathEvent> PathEvents;
 
     LineRenderer lineRenderer;
 
@@ -58,17 +57,17 @@ public class PathAObject : MonoBehaviour
             PathPoints.Add(new Vector3(pathA.PathPoints[i,0], pathA.PathPoints[i, 1], pathA.PathPoints[i, 2]));
         }
 
-        UnknownStructs = new List<UnknownStruct>();
-        for (int i = 0; i < pathA.UnknownStructs.Count; i++)
+        PathEvents = new List<PathEvent>();
+        for (int i = 0; i < pathA.PathEvents.Count; i++)
         {
-            var NewStruct = new UnknownStruct();
+            var NewStruct = new PathEvent();
 
-            NewStruct.U0 = pathA.UnknownStructs[i].U0;
-            NewStruct.U1 = pathA.UnknownStructs[i].U1;
-            NewStruct.U2 = pathA.UnknownStructs[i].U2;
-            NewStruct.U3 = pathA.UnknownStructs[i].U3;
+            NewStruct.U0 = pathA.PathEvents[i].U0;
+            NewStruct.U1 = pathA.PathEvents[i].U1;
+            NewStruct.U2 = pathA.PathEvents[i].U2;
+            NewStruct.U3 = pathA.PathEvents[i].U3;
 
-            UnknownStructs.Add(NewStruct);
+            PathEvents.Add(NewStruct);
         }
         DrawLines();
     }
@@ -96,18 +95,18 @@ public class PathAObject : MonoBehaviour
             NewPathA.PathPoints[i, 2] = PathPoints[i].z;
         }
 
-        NewPathA.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
+        NewPathA.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
 
-        for (int i = 0; i < UnknownStructs.Count; i++)
+        for (int i = 0; i < PathEvents.Count; i++)
         {
-            var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+            var NewStruct = new AIPSOPJsonHandler.PathEvent();
 
-            NewStruct.U0 = UnknownStructs[i].U0;
-            NewStruct.U1 = UnknownStructs[i].U1;
-            NewStruct.U2 = UnknownStructs[i].U2;
-            NewStruct.U3 = UnknownStructs[i].U3;
+            NewStruct.U0 = PathEvents[i].U0;
+            NewStruct.U1 = PathEvents[i].U1;
+            NewStruct.U2 = PathEvents[i].U2;
+            NewStruct.U3 = PathEvents[i].U3;
 
-            NewPathA.UnknownStructs.Add(NewStruct);
+            NewPathA.PathEvents.Add(NewStruct);
         }
 
         return NewPathA;
@@ -139,7 +138,7 @@ public class PathAObject : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct UnknownStruct
+    public struct PathEvent
     {
         public int U0;
         public int U1;

@@ -15,7 +15,7 @@ public class PathBObject : MonoBehaviour
 
     [OnChangedCall("DrawLines")]
     public List<Vector3> PathPoints;
-    public List<UnknownStruct> UnknownStructs;
+    public List<PathEvent> PathEvents;
 
     LineRenderer lineRenderer;
 
@@ -51,17 +51,17 @@ public class PathBObject : MonoBehaviour
             PathPoints.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
         }
 
-        UnknownStructs = new List<UnknownStruct>();
-        for (int i = 0; i < pathB.UnknownStructs.Count; i++)
+        PathEvents = new List<PathEvent>();
+        for (int i = 0; i < pathB.PathEvents.Count; i++)
         {
-            var NewStruct = new UnknownStruct();
+            var NewStruct = new PathEvent();
 
-            NewStruct.U0 = pathB.UnknownStructs[i].U0;
-            NewStruct.U1 = pathB.UnknownStructs[i].U1;
-            NewStruct.U2 = pathB.UnknownStructs[i].U2;
-            NewStruct.U3 = pathB.UnknownStructs[i].U3;
+            NewStruct.U0 = pathB.PathEvents[i].U0;
+            NewStruct.U1 = pathB.PathEvents[i].U1;
+            NewStruct.U2 = pathB.PathEvents[i].U2;
+            NewStruct.U3 = pathB.PathEvents[i].U3;
 
-            UnknownStructs.Add(NewStruct);
+            PathEvents.Add(NewStruct);
         }
 
         DrawLines();
@@ -86,17 +86,17 @@ public class PathBObject : MonoBehaviour
             pathB.PathPoints[i, 2] = PathPoints[i].z;
         }
 
-        pathB.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
-        for (int i = 0; i < UnknownStructs.Count; i++)
+        pathB.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
+        for (int i = 0; i < PathEvents.Count; i++)
         {
-            var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+            var NewStruct = new AIPSOPJsonHandler.PathEvent();
 
-            NewStruct.U0 = UnknownStructs[i].U0;
-            NewStruct.U1 = UnknownStructs[i].U1;
-            NewStruct.U2 = UnknownStructs[i].U2;
-            NewStruct.U3 = UnknownStructs[i].U3;
+            NewStruct.U0 = PathEvents[i].U0;
+            NewStruct.U1 = PathEvents[i].U1;
+            NewStruct.U2 = PathEvents[i].U2;
+            NewStruct.U3 = PathEvents[i].U3;
 
-            pathB.UnknownStructs.Add(NewStruct);
+            pathB.PathEvents.Add(NewStruct);
         }
 
 
@@ -128,7 +128,7 @@ public class PathBObject : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct UnknownStruct
+    public struct PathEvent
     {
         public int U0;
         public int U1;
