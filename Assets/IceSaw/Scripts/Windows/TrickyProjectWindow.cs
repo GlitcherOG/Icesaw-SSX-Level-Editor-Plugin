@@ -51,7 +51,7 @@ public class TrickyProjectWindow : EditorWindow
     [MenuItem("Ice Saw/Load Project", false, -1000)]
     public static void LoadProject()
     {
-        string path = EditorUtility.OpenFilePanel("Open SSX Tricky Project", "", "SSX2");
+        string path = EditorUtility.OpenFilePanel("Open SSX Tricky Project", "", "SSX");
 
         SSXTrickyConfig trickyConfig = SSXTrickyConfig.Load(path);
 
@@ -70,7 +70,7 @@ public class TrickyProjectWindow : EditorWindow
     [MenuItem("Ice Saw/Save Project", false, -1000)]
     public static void SaveProject()
     {
-        string path = EditorUtility.SaveFilePanel("Open SSX Tricky Project", "", "Config" , "SSX2");
+        string path = EditorUtility.SaveFilePanel("Open SSX Tricky Project", "", "Config" , "SSX");
 
         if (path.Length != 0)
         {
