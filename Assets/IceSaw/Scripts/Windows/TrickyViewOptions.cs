@@ -9,7 +9,7 @@ public class TrickyViewOptions
     public static void ShowAll()
     {
         //Grab Patches
-        PatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
         for (int i = 0; i < patchObject.Length; i++)
         {
             patchObject[i].gameObject.SetActive(true);
@@ -36,7 +36,7 @@ public class TrickyViewOptions
     public static void RaceOnly()
     {
         //Grab Patches
-        PatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
         for (int i = 0; i < patchObject.Length; i++)
         {
             if (patchObject[i].TrickOnlyPatch)
@@ -92,7 +92,7 @@ public class TrickyViewOptions
     public static void ShowOffOnly()
     {
         //Grab Patches
-        PatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
         for (int i = 0; i < patchObject.Length; i++)
         {
             patchObject[i].gameObject.SetActive(true);
@@ -136,7 +136,7 @@ public class TrickyViewOptions
     public static void FreerideOnly()
     {
         //Grab Patches
-        PatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
         for (int i = 0; i < patchObject.Length; i++)
         {
             if (patchObject[i].TrickOnlyPatch)

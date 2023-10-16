@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class OGLevelManager : MonoBehaviour
 {
     public static OGLevelManager Instance;
@@ -61,9 +62,9 @@ public class OGLevelManager : MonoBehaviour
         WorldManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         WorldManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
         WorldManagerHolder.transform.localPosition = new Vector3(0, 0, 0);
-        //var TempWorld = WorldManagerHolder.AddComponent<WorldManager>();
-        //TempWorld.runInEditMode = true;
-        //TempWorld.GenerateEmptyObjects();
+        var TempWorld = WorldManagerHolder.AddComponent<OGWorldManager>();
+        TempWorld.runInEditMode = true;
+        TempWorld.GenerateEmptyObjects();
 
         //Generate Skybox Manager
         SkyboxManagerHolder = new GameObject("OG Skybox Manager");
@@ -105,10 +106,10 @@ public class OGLevelManager : MonoBehaviour
         LoadPath = SSXProjectWindow.CurrentPath;
 
         LoadTextures();
-        //ReloadLightmaps();
+        ReloadLightmaps();
 
         //PrefabManagerHolder.GetComponent<PrefabManager>().LoadData(Path);
-        //WorldManagerHolder.GetComponent<WorldManager>().LoadData(Path);
+        WorldManagerHolder.GetComponent<OGWorldManager>().LoadData(Path);
         //LogicManager.GetComponent<LogicManager>().LoadData(Path);
         //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
         //PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
@@ -139,6 +140,101 @@ public class OGLevelManager : MonoBehaviour
                 texture2Ds.Add(NewTexture);
             }
         }
+    }
+
+    public void ReloadLightmaps()
+    {
+        string[] Files = Directory.GetFiles(LoadPath + "\\Lightmaps");
+        lightmaps = new List<Texture2D>();
+        for (int i = 0; i < Files.Length; i++)
+        {
+            Texture2D NewImage = new Texture2D(1, 1);
+            if (Files[i].ToLower().Contains(".png"))
+            {
+                using (Stream stream = File.Open(Files[i], FileMode.Open))
+                {
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, (int)stream.Length);
+                    NewImage.LoadImage(bytes);
+                    NewImage.filterMode = FilterMode.Point;
+                }
+                Texture2D correctedTexture = new Texture2D(NewImage.width, NewImage.height);
+                for (int x = 0; x < NewImage.width; x++)
+                {
+                    for (int y = 0; y < NewImage.height; y++)
+                    {
+                        correctedTexture.SetPixel(x, y, NewImage.GetPixel(x, NewImage.height - 1 - y));
+                    }
+                }
+                correctedTexture.name = Files[i].Substring((LoadPath + "\\Lightmaps").Length + 1);
+                correctedTexture.Apply();
+                lightmaps.Add(correctedTexture);
+            }
+        }
+    }
+
+    public Texture2D GrabLightmapTexture(Vector4 lightmapPoint, int ID)
+    {
+        int XCord = (int)(lightmapPoint.x * lightmaps[ID].width);
+        int YCord = (int)(lightmapPoint.y * lightmaps[ID].height);
+        int Width = (int)(lightmapPoint.z * lightmaps[ID].width);
+        int Height = (int)(lightmapPoint.w * lightmaps[ID].height);
+        Texture2D LightmapGrab = new Texture2D(Width, Height);
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                var Colour = lightmaps[ID].GetPixel(XCord + x, YCord + y);
+                LightmapGrab.SetPixel(x, y, Colour);
+            }
+        }
+        LightmapGrab.Apply();
+
+        Texture2D TenByTen = new Texture2D(Width + 2, Height + 2);
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                var Colour = LightmapGrab.GetPixel(x, y);
+                TenByTen.SetPixel(x + 1, y + 1, Colour);
+            }
+        }
+
+        for (int i = 0; i < Width; i++)
+        {
+            var Colour = LightmapGrab.GetPixel(0, i);
+            TenByTen.SetPixel(0, i + 1, Colour);
+
+            Colour = LightmapGrab.GetPixel(i, Height - 1);
+            TenByTen.SetPixel(i + 1, Height + 1, Colour);
+        }
+
+        for (int i = 0; i < Height; i++)
+        {
+            var Colour = LightmapGrab.GetPixel(i, 0);
+            TenByTen.SetPixel(i + 1, 0, Colour);
+
+            Colour = LightmapGrab.GetPixel(Width - 1, i);
+            TenByTen.SetPixel(Width + 1, i + 1, Colour);
+        }
+
+        //Probably better to replace with averages of what the corners should look like
+        var Colour1 = LightmapGrab.GetPixel(0, 0);
+        TenByTen.SetPixel(0, 0, Colour1);
+
+        Colour1 = LightmapGrab.GetPixel(Width - 1, 0);
+        TenByTen.SetPixel(Width + 1, 0, Colour1);
+
+        Colour1 = LightmapGrab.GetPixel(0, Height - 1);
+        TenByTen.SetPixel(0, Height + 1, Colour1);
+
+        Colour1 = LightmapGrab.GetPixel(Width - 1, Height - 1);
+        TenByTen.SetPixel(Width + 1, Height + 1, Colour1);
+
+        TenByTen.Apply();
+        //TenByTen.filterMode = FilterMode.Bilinear;
+        return TenByTen;
     }
 
     [ContextMenu("Fix Script Links")]

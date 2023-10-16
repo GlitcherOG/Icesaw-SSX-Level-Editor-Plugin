@@ -65,7 +65,7 @@ public class SSXProjectWindow : EditorWindow
             if (path.Length != 0)
             {
                 CurrentPath = Path.GetDirectoryName(path);
-                LoadTrickyProjectData();
+                LoadOGProjectData();
             }
         }
         else if (trickyConfig.Game == 2)

@@ -103,7 +103,7 @@ public class TrickyWorldManager : MonoBehaviour
             NewPatch.transform.localPosition = Vector3.zero;
             NewPatch.transform.localScale = Vector3.one;
             NewPatch.transform.localEulerAngles = Vector3.zero;
-            var TempObject = NewPatch.AddComponent<PatchObject>();
+            var TempObject = NewPatch.AddComponent<TrickyPatchObject>();
             TempObject.AddMissingComponents();
             TempObject.LoadPatch(patchesJsonHandler.Patches[i]);
 
@@ -294,9 +294,9 @@ public class TrickyWorldManager : MonoBehaviour
     #endregion
 
 
-    public PatchObject[] GetPatchList()
+    public TrickyPatchObject[] GetPatchList()
     {
-        return PatchesHolder.GetComponentsInChildren<PatchObject>(true);
+        return PatchesHolder.GetComponentsInChildren<TrickyPatchObject>(true);
     }
 
     public InstanceObject[] GetInstanceList()

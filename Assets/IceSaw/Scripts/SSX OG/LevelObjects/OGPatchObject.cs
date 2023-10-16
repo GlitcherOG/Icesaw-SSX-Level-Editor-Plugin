@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using SSXMultiTool.JsonFiles.Tricky;
+using SSXMultiTool.JsonFiles.SSXOG;
 using SSXMultiTool.Utilities;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -8,7 +8,7 @@ using Newtonsoft.Json.Bson;
 using UnityEngine.Assertions.Must;
 
 [ExecuteInEditMode]
-public class PatchObject : MonoBehaviour
+public class OGPatchObject : MonoBehaviour
 {
     NURBS.Surface surface;
 
@@ -82,7 +82,6 @@ public class PatchObject : MonoBehaviour
 
     [Space(10)]
     public int PatchStyle;
-    public bool TrickOnlyPatch;
     [SerializeField]
     [OnChangedCall("UpdateTexture")]
     public string TextureAssigment;
@@ -163,7 +162,6 @@ public class PatchObject : MonoBehaviour
         RawControlPoint = new Vector3(import.Points[0, 0], import.Points[0, 1], import.Points[0, 2]);
 
         PatchStyle = import.PatchStyle;
-        TrickOnlyPatch = import.TrickOnlyPatch;
         TextureAssigment = import.TexturePath;
         LightmapID = import.LightmapID;
         transform.localPosition = RawControlPoint;
@@ -258,7 +256,6 @@ public class PatchObject : MonoBehaviour
         patch.Points[15, 2] = RawR4C4.z;
 
         patch.PatchStyle = PatchStyle;
-        patch.TrickOnlyPatch = TrickOnlyPatch;
         patch.TexturePath = TextureAssigment;
         patch.LightmapID = LightmapID;
 
@@ -267,9 +264,9 @@ public class PatchObject : MonoBehaviour
 
     Vector3 ConvertLocalPoint(Vector3 point)
     {
-        if (TrickyLevelManager.Instance != null)
+        if (OGLevelManager.Instance != null)
         {
-            return transform.InverseTransformPoint(TrickyLevelManager.Instance.transform.TransformPoint(point));
+            return transform.InverseTransformPoint(OGLevelManager.Instance.transform.TransformPoint(point));
         }
 
         return transform.InverseTransformPoint(point);
@@ -277,9 +274,9 @@ public class PatchObject : MonoBehaviour
 
     Vector3 ConvertWorldPoint(Vector3 point)
     {
-        if(TrickyLevelManager.Instance!=null)
+        if(OGLevelManager.Instance!=null)
         {
-            return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+            return OGLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
         }
 
         return transform.TransformPoint(point);
@@ -452,16 +449,16 @@ public class PatchObject : MonoBehaviour
         try
         {
             bool Found = false;
-            for (int i = 0; i < TrickyLevelManager.Instance.texture2Ds.Count; i++)
+            for (int i = 0; i < OGLevelManager.Instance.texture2Ds.Count; i++)
             {
-                if (TrickyLevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureAssigment.ToLower())
+                if (OGLevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureAssigment.ToLower())
                 {
                     Found = true;
-                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.texture2Ds[i].Texture);
+                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", OGLevelManager.Instance.texture2Ds[i].Texture);
 
-                    if (TrickyLevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
+                    if (OGLevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
                     {
-                        meshRenderer.sharedMaterial.SetTexture("_Lightmap", TrickyLevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
+                        meshRenderer.sharedMaterial.SetTexture("_Lightmap", OGLevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
                     }
                     return;
                 }
@@ -469,7 +466,7 @@ public class PatchObject : MonoBehaviour
 
             if (!Found)
             {
-                meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.Error);
+                meshRenderer.sharedMaterial.SetTexture("_MainTexture", OGLevelManager.Instance.Error);
             }
             else
             {
@@ -478,7 +475,7 @@ public class PatchObject : MonoBehaviour
         }
         catch
         {
-            meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.Error);
+            meshRenderer.sharedMaterial.SetTexture("_MainTexture", OGLevelManager.Instance.Error);
         }
     }
 
@@ -631,7 +628,7 @@ public class PatchObject : MonoBehaviour
         LoadNURBSpatch();
     }
 
-    [MenuItem("GameObject/Ice Saw/Patch", false, 10)]
+    [MenuItem("GameObject/Ice Saw/OG/Patch", false, 10)]
     public static void CreatePatch(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Patch");
@@ -643,7 +640,7 @@ public class PatchObject : MonoBehaviour
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1,1,1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<PatchObject>().AddMissingComponents();
+        TempObject.AddComponent<OGPatchObject>().AddMissingComponents();
 
     }
 

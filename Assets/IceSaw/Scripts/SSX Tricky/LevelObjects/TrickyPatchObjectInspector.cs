@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 using System.ComponentModel;
 using Unity.VisualScripting;
 
-[CustomEditor(typeof(PatchObject))]
-public class PatchObjectInspector : Editor
+[CustomEditor(typeof(TrickyPatchObject))]
+public class TrickyPatchObjectInspector : Editor
 {
     //public override void OnInspectorGUI()
     //{
@@ -65,31 +65,31 @@ public class PatchObjectInspector : Editor
 
     private void UVRotateLeft(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<PatchObject>().RotateUVLeft();
+        serializedObject.targetObject.GetComponent<TrickyPatchObject>().RotateUVLeft();
     }
 
     private void UVRotateRight(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<PatchObject>().RotateUVRight();
+        serializedObject.targetObject.GetComponent<TrickyPatchObject>().RotateUVRight();
     }
 
     private void FlipPatch(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<PatchObject>().FlipPatch();
+        serializedObject.targetObject.GetComponent<TrickyPatchObject>().FlipPatch();
     }
 
     private void ResetTransform(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<PatchObject>().TransformReset();
+        serializedObject.targetObject.GetComponent<TrickyPatchObject>().TransformReset();
     }
 
     private void ForceRegenerate(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<PatchObject>().ForceRegeneration();
+        serializedObject.targetObject.GetComponent<TrickyPatchObject>().ForceRegeneration();
     }
 
     private void AddMissing(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<PatchObject>().AddMissingComponents();
+        serializedObject.targetObject.GetComponent<TrickyPatchObject>().AddMissingComponents();
     }
 }
