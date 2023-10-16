@@ -26,7 +26,7 @@ public class ResetShow
 
 
 
-            var TempPatchList = WorldManager.Instance.GetPatchList();
+            var TempPatchList = TrickyWorldManager.Instance.GetPatchList();
 
             for (int i = 0; i < TempPatchList.Length; i++)
             {
@@ -65,7 +65,7 @@ public class ResetShow
             int MaterialID = gameObject.transform.GetSiblingIndex();
 
 
-            var InstanceList = WorldManager.Instance.GetInstanceList();
+            var InstanceList = TrickyWorldManager.Instance.GetInstanceList();
             var EffectSlots = LogicManager.Instance.GetEffectSlotsList();
             var EffectList = LogicManager.Instance.GetEffectHeadersList();
             var PrefabList = PrefabManager.Instance.GetPrefabList();

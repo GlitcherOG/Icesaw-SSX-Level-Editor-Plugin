@@ -6,8 +6,8 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System.ComponentModel;
 
-[CustomEditor(typeof(WorldManager))]
-public class WorldManagerInspector : Editor
+[CustomEditor(typeof(TrickyWorldManager))]
+public class TrickyWorldManagerInspector : Editor
 {
     public override void OnInspectorGUI()
     {

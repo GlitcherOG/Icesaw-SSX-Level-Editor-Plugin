@@ -343,7 +343,7 @@ public class PrefabManager : MonoBehaviour
         LoadCollisionMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Collision");
 
         //Reload Instances
-        var TempInstanceList = WorldManager.Instance.GetInstanceList();
+        var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
 
         for (int i = 0; i < TempInstanceList.Length; i++)
         {
@@ -365,7 +365,7 @@ public class PrefabManager : MonoBehaviour
         }
 
         //Reload Instances
-        var TempInstanceList = WorldManager.Instance.GetInstanceList();
+        var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
 
         for (int i = 0; i < TempInstanceList.Length; i++)
         {

@@ -175,7 +175,7 @@ public class InstanceObject : MonoBehaviour
                 }
             }
         }
-        Prefab.SetActive(WorldManager.Instance.ShowInstanceModels);
+        Prefab.SetActive(TrickyWorldManager.Instance.ShowInstanceModels);
     }
     [ContextMenu("Refresh Collision Model")]
     public void LoadCollisionModels()
@@ -269,18 +269,18 @@ public class InstanceObject : MonoBehaviour
         //    TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
         //}
 
-        Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
+        Collision.SetActive(TrickyWorldManager.Instance.ShowCollisionModels);
     }
 
     public void RefreshHiddenModels()
     {
         if (Prefab != null)
         {
-            Prefab.SetActive(WorldManager.Instance.ShowInstanceModels);
+            Prefab.SetActive(TrickyWorldManager.Instance.ShowInstanceModels);
         }
         if (Collision != null)
         {
-            Collision.SetActive(WorldManager.Instance.ShowCollisionModels);
+            Collision.SetActive(TrickyWorldManager.Instance.ShowCollisionModels);
         }
     }
 

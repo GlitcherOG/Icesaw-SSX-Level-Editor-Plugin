@@ -39,7 +39,7 @@ public class SplineRunEffect : EffectBase
     [ContextMenu("Goto Spline")]
     public void GotoSpline()
     {
-        var TempList = WorldManager.Instance.GetSplineList();
+        var TempList = TrickyWorldManager.Instance.GetSplineList();
 
         if (TempList.Length - 1 >= SplineIndex)
         {

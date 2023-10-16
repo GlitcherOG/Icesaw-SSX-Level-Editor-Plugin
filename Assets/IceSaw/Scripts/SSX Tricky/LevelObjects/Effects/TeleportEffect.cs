@@ -31,7 +31,7 @@ public class TeleportEffect : EffectBase
     [ContextMenu("Goto Instance")]
     public void GotoInstance()
     {
-        var TempList = WorldManager.Instance.GetInstanceList();
+        var TempList = TrickyWorldManager.Instance.GetInstanceList();
 
         if (TempList.Length - 1 >= TeleportInstanceIndex)
         {

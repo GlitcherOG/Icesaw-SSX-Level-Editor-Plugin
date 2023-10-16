@@ -67,7 +67,7 @@ public class TrickyLevelManager : MonoBehaviour
         WorldManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         WorldManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
         WorldManagerHolder.transform.localPosition = new Vector3(0, 0, 0);
-        var TempWorld = WorldManagerHolder.AddComponent<WorldManager>();
+        var TempWorld = WorldManagerHolder.AddComponent<TrickyWorldManager>();
         TempWorld.runInEditMode = true;
         TempWorld.GenerateEmptyObjects();
 
@@ -114,7 +114,7 @@ public class TrickyLevelManager : MonoBehaviour
         ReloadLightmaps();
 
         PrefabManagerHolder.GetComponent<PrefabManager>().LoadData(Path);
-        WorldManagerHolder.GetComponent<WorldManager>().LoadData(Path);
+        WorldManagerHolder.GetComponent<TrickyWorldManager>().LoadData(Path);
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
         PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
@@ -123,7 +123,7 @@ public class TrickyLevelManager : MonoBehaviour
     public void SaveData(string Path)
     {
         PrefabManagerHolder.GetComponent<PrefabManager>().SaveData(Path);
-        WorldManagerHolder.GetComponent<WorldManager>().SaveData(Path);
+        WorldManagerHolder.GetComponent<TrickyWorldManager>().SaveData(Path);
         LogicManager.GetComponent<LogicManager>().SaveData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().SaveData(Path);
         PathFileManager.GetComponent<PathFileManager>().SaveData(Path);
@@ -376,7 +376,7 @@ public class TrickyLevelManager : MonoBehaviour
     public void ForceTextureUpdate()
     {
         //Reload Patches
-        var TempPatches = WorldManager.Instance.GetPatchList();
+        var TempPatches = TrickyWorldManager.Instance.GetPatchList();
 
         for (int i = 0; i < TempPatches.Length; i++)
         {
@@ -400,7 +400,7 @@ public class TrickyLevelManager : MonoBehaviour
         }
 
         //Reload Instances
-        var TempInstanceList = WorldManager.Instance.GetInstanceList();
+        var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
 
         for (int i = 0; i < TempInstanceList.Length; i++)
         {
@@ -413,7 +413,7 @@ public class TrickyLevelManager : MonoBehaviour
     {
         ReloadLightmaps();
 
-        var TempList = WorldManager.Instance.GetPatchList();
+        var TempList = TrickyWorldManager.Instance.GetPatchList();
 
         for (int i = 0; i < TempList.Length; i++)
         {
@@ -438,10 +438,10 @@ public class TrickyLevelManager : MonoBehaviour
             PrefabManagerHolder.GetComponent<PrefabManager>().Awake();
         }
 
-        if (gameObject.GetComponentInChildren<WorldManager>())
+        if (gameObject.GetComponentInChildren<TrickyWorldManager>())
         {
-            WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
-            WorldManagerHolder.GetComponent<WorldManager>().Awake();
+            WorldManagerHolder = gameObject.GetComponentInChildren<TrickyWorldManager>().gameObject;
+            WorldManagerHolder.GetComponent<TrickyWorldManager>().Awake();
         }
 
         if (gameObject.GetComponentInChildren<SkyboxManager>() != null)

@@ -23,7 +23,7 @@ public class TrickyPatchesViewWindow : EditorWindow
         PickedColour = EditorGUILayout.ColorField("Highlight Colour",PickedColour);
         if(GUILayout.Button("Highlight"))
         {
-            PatchObject[] patchObjects = WorldManager.Instance.GetPatchList();
+            PatchObject[] patchObjects = TrickyWorldManager.Instance.GetPatchList();
             for (int i = 0; i < patchObjects.Length; i++)
             {
                 if (patchObjects[i].PatchStyle == Type)
@@ -34,7 +34,7 @@ public class TrickyPatchesViewWindow : EditorWindow
         }
         if (GUILayout.Button("Reset"))
         {
-            PatchObject[] patchObjects = WorldManager.Instance.GetPatchList();
+            PatchObject[] patchObjects = TrickyWorldManager.Instance.GetPatchList();
             for (int i = 0; i < patchObjects.Length; i++)
             {
                 patchObjects[i].UpdateHighlight(Color.white);

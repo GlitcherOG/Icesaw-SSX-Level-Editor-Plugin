@@ -8,9 +8,9 @@ using UnityEngine;
 using UnityEngine.Experimental.AI;
 
 [ExecuteInEditMode]
-public class WorldManager : MonoBehaviour
+public class TrickyWorldManager : MonoBehaviour
 {
-    public static WorldManager Instance;
+    public static TrickyWorldManager Instance;
 
     public GameObject PatchesHolder;
     public GameObject InstancesHolder;
