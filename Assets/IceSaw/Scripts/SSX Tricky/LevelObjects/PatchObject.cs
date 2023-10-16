@@ -267,9 +267,9 @@ public class PatchObject : MonoBehaviour
 
     Vector3 ConvertLocalPoint(Vector3 point)
     {
-        if (LevelManager.Instance != null)
+        if (TrickyLevelManager.Instance != null)
         {
-            return transform.InverseTransformPoint(LevelManager.Instance.transform.TransformPoint(point));
+            return transform.InverseTransformPoint(TrickyLevelManager.Instance.transform.TransformPoint(point));
         }
 
         return transform.InverseTransformPoint(point);
@@ -277,9 +277,9 @@ public class PatchObject : MonoBehaviour
 
     Vector3 ConvertWorldPoint(Vector3 point)
     {
-        if(LevelManager.Instance!=null)
+        if(TrickyLevelManager.Instance!=null)
         {
-            return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+            return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
         }
 
         return transform.TransformPoint(point);
@@ -452,16 +452,16 @@ public class PatchObject : MonoBehaviour
         try
         {
             bool Found = false;
-            for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
+            for (int i = 0; i < TrickyLevelManager.Instance.texture2Ds.Count; i++)
             {
-                if (LevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureAssigment.ToLower())
+                if (TrickyLevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureAssigment.ToLower())
                 {
                     Found = true;
-                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.texture2Ds[i].Texture);
+                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.texture2Ds[i].Texture);
 
-                    if (LevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
+                    if (TrickyLevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
                     {
-                        meshRenderer.sharedMaterial.SetTexture("_Lightmap", LevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
+                        meshRenderer.sharedMaterial.SetTexture("_Lightmap", TrickyLevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
                     }
                     return;
                 }
@@ -469,7 +469,7 @@ public class PatchObject : MonoBehaviour
 
             if (!Found)
             {
-                meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.Error);
+                meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.Error);
             }
             else
             {
@@ -478,7 +478,7 @@ public class PatchObject : MonoBehaviour
         }
         catch
         {
-            meshRenderer.sharedMaterial.SetTexture("_MainTexture", LevelManager.Instance.Error);
+            meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.Error);
         }
     }
 

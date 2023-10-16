@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 using System.ComponentModel;
 using Unity.VisualScripting;
 
-[CustomEditor(typeof(LevelManager))]
-public class LevelManagerInspector : Editor
+[CustomEditor(typeof(TrickyLevelManager))]
+public class TrickyLevelManagerInspector : Editor
 {
     //public override void OnInspectorGUI()
     //{
@@ -18,7 +18,7 @@ public class LevelManagerInspector : Editor
 
     //    if(EditorGUILayout.LinkButton("Refresh Textures"))
     //    {
-    //        var Temp = (typeof(LevelManager))serializedObject.targetObject;
+    //        var Temp = (typeof(TrickyLevelManager))serializedObject.targetObject;
     //    }
     //}
 
@@ -49,11 +49,11 @@ public class LevelManagerInspector : Editor
 
     private void ReloadTextures(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<LevelManager>().RefreshTextures();
+        serializedObject.targetObject.GetComponent<TrickyLevelManager>().RefreshTextures();
     }
 
     private void ReloadLightmaps(ClickEvent evt)
     {
-        serializedObject.targetObject.GetComponent<LevelManager>().RefreshLightmap();
+        serializedObject.targetObject.GetComponent<TrickyLevelManager>().RefreshLightmap();
     }
 }

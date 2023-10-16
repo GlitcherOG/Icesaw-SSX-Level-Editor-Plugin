@@ -340,7 +340,7 @@ public class PrefabManager : MonoBehaviour
     [ContextMenu("Reload Collision")]
     public void ReloadCollision()
     {
-        LoadCollisionMeshCache(LevelManager.Instance.LoadPath + "\\Collision");
+        LoadCollisionMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Collision");
 
         //Reload Instances
         var TempInstanceList = WorldManager.Instance.GetInstanceList();
@@ -354,7 +354,7 @@ public class PrefabManager : MonoBehaviour
     [ContextMenu("Reload Models")]
     public void ReloadModels()
     {
-        LoadMeshCache(LevelManager.Instance.LoadPath + "\\Models");
+        LoadMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Models");
 
         //Reload Prefabs
         var TempPrefabs = PrefabManager.Instance.GetPrefabList();

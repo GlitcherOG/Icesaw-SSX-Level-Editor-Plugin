@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using static LevelManager;
+using static TrickyLevelManager;
 
 public class ObjExporter
 {

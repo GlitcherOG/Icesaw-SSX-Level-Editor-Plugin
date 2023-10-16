@@ -488,9 +488,9 @@ public class InstanceObject : MonoBehaviour
 
     Vector3 ConvertWorldPoint(Vector3 point, Transform objectTransform)
     {
-        if (LevelManager.Instance != null)
+        if (TrickyLevelManager.Instance != null)
         {
-            return LevelManager.Instance.transform.InverseTransformPoint(objectTransform.TransformPoint(point));
+            return TrickyLevelManager.Instance.transform.InverseTransformPoint(objectTransform.TransformPoint(point));
         }
 
         return objectTransform.TransformPoint(point);

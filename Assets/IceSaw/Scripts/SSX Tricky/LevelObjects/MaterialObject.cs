@@ -118,11 +118,11 @@ public class MaterialObject : MonoBehaviour
         {
             if (!Skybox)
             {
-                for (int i = 0; i < LevelManager.Instance.texture2Ds.Count; i++)
+                for (int i = 0; i < TrickyLevelManager.Instance.texture2Ds.Count; i++)
                 {
-                    if (LevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureID.ToLower())
+                    if (TrickyLevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureID.ToLower())
                     {
-                        texture = LevelManager.Instance.texture2Ds[i].Texture;
+                        texture = TrickyLevelManager.Instance.texture2Ds[i].Texture;
                         return texture;
                     }
                 }
@@ -138,11 +138,11 @@ public class MaterialObject : MonoBehaviour
                     }
                 }
             }
-            texture = LevelManager.Instance.Error;
+            texture = TrickyLevelManager.Instance.Error;
         }
         catch
         {
-            texture = LevelManager.Instance.Error;
+            texture = TrickyLevelManager.Instance.Error;
         }
         return texture;
     }

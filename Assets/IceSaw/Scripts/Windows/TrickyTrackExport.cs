@@ -9,7 +9,7 @@ public class TrickyTrackExport
     [MenuItem("Ice Saw/Export Track")]
     public static void ExportTrackData()
     {  
-      if(LevelManager.Instance != null && PrefabManager.Instance != null && WorldManager.Instance)
+      if(TrickyLevelManager.Instance != null && PrefabManager.Instance != null && WorldManager.Instance)
       {
         //Get Save path
         //Sandard method of having them save an obj file and stripping out the obj file to get a path
@@ -24,14 +24,14 @@ public class TrickyTrackExport
             MMD.Add(TempPatchList[i].GenerateModel());
         }
 
-        var TempInstanceList = WorldManager.Instance.GetInstanceList();
-        for (int i = 0; i < TempInstanceList.Length; i++)
-        {
-            MMD.AddRange(TempInstanceList[i].GenerateModel());
-        }
+        //var TempInstanceList = WorldManager.Instance.GetInstanceList();
+        //for (int i = 0; i < TempInstanceList.Length; i++)
+        //{
+        //    MMD.AddRange(TempInstanceList[i].GenerateModel());
+        //}
         
         //Save Objects 
-        ObjExporter.SaveModelList(SavePath, MMD, LevelManager.Instance.texture2Ds);
+        ObjExporter.SaveModelList(SavePath, MMD, TrickyLevelManager.Instance.texture2Ds);
       }
       else
       {

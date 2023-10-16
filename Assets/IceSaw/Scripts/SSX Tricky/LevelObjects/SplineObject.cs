@@ -30,7 +30,7 @@ public class SplineObject : MonoBehaviour
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = false;
         lineRenderer.hideFlags = HideFlags.HideInInspector;
-        lineRenderer.material = LevelManager.Instance.Spline;
+        lineRenderer.material = TrickyLevelManager.Instance.Spline;
         lineRenderer.textureMode = LineTextureMode.Tile;
         Undo.undoRedoPerformed += UndoAndRedoFix;
     }
@@ -163,12 +163,12 @@ public class SplineObject : MonoBehaviour
 
     Vector3 ConvertLocalPoint(Vector3 point)
     {
-        return transform.InverseTransformPoint(LevelManager.Instance.transform.TransformPoint(point));
+        return transform.InverseTransformPoint(TrickyLevelManager.Instance.transform.TransformPoint(point));
     }
 
     Vector3 ConvertWorldPoint(Vector3 point)
     {
-        return LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+        return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
     }
 
     //[ContextMenu("Reset Transform")]

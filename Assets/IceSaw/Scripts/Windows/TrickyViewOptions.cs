@@ -325,13 +325,13 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Toggle Lightmap", false, 200)]
     public static void LightmapToggle()
     {
-        LevelManager.Instance.LightmapMode = !LevelManager.Instance.LightmapMode;
+        TrickyLevelManager.Instance.LightmapMode = !TrickyLevelManager.Instance.LightmapMode;
 
         var TempPatchList = WorldManager.Instance.GetPatchList();
 
         for (int i = 0; i < TempPatchList.Length; i++)
         {
-            TempPatchList[i].ToggleLightingMode(LevelManager.Instance.LightmapMode);
+            TempPatchList[i].ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
         }
     }
 
@@ -386,12 +386,12 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Get Scene Camera Cords")]
     public static void GetSceneCameraCords()
     {
-        if(LevelManager.Instance!=null)
+        if(TrickyLevelManager.Instance!=null)
         {
             var List = SceneView.GetAllSceneCameras();
             for (int i = 0; i < List.Length; i++)
             {
-                Debug.Log("Icesaw - Scene Camera " + i + "\nUnity Cords:" + List[i].transform.position + " Tricky Cords:" + LevelManager.Instance.transform.InverseTransformPoint(List[i].transform.position));
+                Debug.Log("Icesaw - Scene Camera " + i + "\nUnity Cords:" + List[i].transform.position + " Tricky Cords:" + TrickyLevelManager.Instance.transform.InverseTransformPoint(List[i].transform.position));
             }
         }
     }

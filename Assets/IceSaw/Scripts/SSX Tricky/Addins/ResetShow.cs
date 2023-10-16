@@ -8,21 +8,21 @@ public class ResetShow
     [MenuItem("Reset Plugin/Swap Textures")]
     public static void AddResetTextures()
     {
-        if (LevelManager.Instance != null)
+        if (TrickyLevelManager.Instance != null)
         {
-            var Texture2DData = new LevelManager.TextureData();
+            var Texture2DData = new TrickyLevelManager.TextureData();
 
             Texture2DData.Name = "Reset.png";
             Texture2DData.Texture = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Reset.png", typeof(Texture2D));
 
-            LevelManager.Instance.texture2Ds.Add(Texture2DData);
+            TrickyLevelManager.Instance.texture2Ds.Add(Texture2DData);
 
-            Texture2DData = new LevelManager.TextureData();
+            Texture2DData = new TrickyLevelManager.TextureData();
 
             Texture2DData.Name = "Bounce.png";
             Texture2DData.Texture = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Bounce.png", typeof(Texture2D));
 
-            LevelManager.Instance.texture2Ds.Add(Texture2DData);
+            TrickyLevelManager.Instance.texture2Ds.Add(Texture2DData);
 
 
 

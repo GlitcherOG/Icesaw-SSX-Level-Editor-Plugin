@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
-public class LevelManager : MonoBehaviour
+public class TrickyLevelManager : MonoBehaviour
 {
-    public static LevelManager Instance;
+    public static TrickyLevelManager Instance;
     public string LoadPath;
 
     //[OnChangedCall("ForceTextureUpdate")]
@@ -108,7 +108,7 @@ public class LevelManager : MonoBehaviour
     public void LoadData(string Path)
     {
         CreateEmptyObjects();
-        LoadPath = TrickyProjectWindow.CurrentPath;
+        LoadPath = SSXProjectWindow.CurrentPath;
 
         LoadTextures();
         ReloadLightmaps();

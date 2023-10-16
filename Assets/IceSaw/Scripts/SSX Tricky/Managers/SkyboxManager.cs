@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using static LevelManager;
+using static TrickyLevelManager;
 using static PrefabManager;
 
 [ExecuteInEditMode]
@@ -116,7 +116,7 @@ public class SkyboxManager : MonoBehaviour
 
     public void ReloadTextures()
     {
-        string TextureLoadPath = LevelManager.Instance.LoadPath + "\\Skybox\\Textures";
+        string TextureLoadPath = TrickyLevelManager.Instance.LoadPath + "\\Skybox\\Textures";
 
         string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
         for (int i = 0; i < Files.Length; i++)
@@ -331,7 +331,7 @@ public class SkyboxManager : MonoBehaviour
         [ContextMenu("Reload Models")]
     public void RefreshModels()
     {
-        LoadSkyMeshCache(LevelManager.Instance.LoadPath + "\\Skybox\\Models");
+        LoadSkyMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Skybox\\Models");
 
         //Reload Prefabs
         var TempPrefabs = SkyboxManager.Instance.GetPrefabsList();
