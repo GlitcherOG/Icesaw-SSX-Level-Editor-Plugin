@@ -63,7 +63,7 @@ public class OGPrefabManager : MonoBehaviour
         LoadMeshCache(Path + "\\Models");
         //LoadCollisionMeshCache(Path + "\\Collision");
         LoadMaterials(Path + "\\Materials.json");
-        //LoadPrefabs(Path + "\\Prefabs.json");
+        LoadPrefabs(Path + "\\Prefabs.json");
         //LoadParticlePrefabs(Path + "\\ParticlePrefabs.json");
     }
 
@@ -131,39 +131,39 @@ public class OGPrefabManager : MonoBehaviour
         }
     }
 
-    //public void LoadPrefabs(string Path)
-    //{
-    //    float XPosition = 0;
-    //    float ZPosition = 0;
-    //    int X = 0;
+    public void LoadPrefabs(string Path)
+    {
+        float XPosition = 0;
+        float ZPosition = 0;
+        int X = 0;
 
-    //    PrefabJsonHandler PrefabJson = PrefabJsonHandler.Load(Path);
-    //    int WH = (int)Mathf.Sqrt(PrefabJson.Prefabs.Count);
-    //    for (int i = 0; i < PrefabJson.Prefabs.Count; i++)
-    //    {
-    //        var TempModelJson = PrefabJson.Prefabs[i];
-    //        GameObject gameObject = new GameObject("Prefab " + i);
-    //        //gameObject.transform.hideFlags = HideFlags.HideInInspector;
-    //        gameObject.transform.parent = PrefabsHolder.transform;
-    //        gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
-    //        gameObject.transform.localEulerAngles = new Vector3(0,0, 0);
-    //        gameObject.transform.localScale = new Vector3(1,1,1);
-    //        PrefabObject mObject = gameObject.AddComponent<PrefabObject>();
-    //        mObject.LoadPrefab(TempModelJson);
+        PrefabJsonHandler PrefabJson = PrefabJsonHandler.Load(Path);
+        int WH = (int)Mathf.Sqrt(PrefabJson.Prefabs.Count);
+        for (int i = 0; i < PrefabJson.Prefabs.Count; i++)
+        {
+            var TempModelJson = PrefabJson.Prefabs[i];
+            GameObject gameObject = new GameObject("Prefab " + i);
+            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
+            gameObject.transform.parent = PrefabsHolder.transform;
+            gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
+            gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+            gameObject.transform.localScale = new Vector3(1, 1, 1);
+            OGPrefabObject mObject = gameObject.AddComponent<OGPrefabObject>();
+            mObject.LoadPrefab(TempModelJson);
 
-    //        if(X!=WH)
-    //        {
-    //            XPosition += 10000;
-    //            X++;
-    //        }
-    //        else
-    //        {
-    //            XPosition = 0;
-    //            X = 0;
-    //            ZPosition += 10000;
-    //        }
-    //    }
-    //}
+            if (X != WH)
+            {
+                XPosition += 10000;
+                X++;
+            }
+            else
+            {
+                XPosition = 0;
+                X = 0;
+                ZPosition += 10000;
+            }
+        }
+    }
 
     //public void LoadParticlePrefabs(string Path)
     //{
@@ -291,9 +291,9 @@ public class OGPrefabManager : MonoBehaviour
         return TempObject[A];
     }
 
-    public PrefabObject GetPrefabObject(int A)
+    public TrickyPrefabObject GetPrefabObject(int A)
     {
-        PrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
+        TrickyPrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<TrickyPrefabObject>(true);
         return TempObject[A];
     }
 

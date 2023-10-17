@@ -211,7 +211,7 @@ public class SkyboxManager : MonoBehaviour
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(1, 1, 1);
-            PrefabObject mObject = gameObject.AddComponent<PrefabObject>();
+            TrickyPrefabObject mObject = gameObject.AddComponent<TrickyPrefabObject>();
             mObject.LoadPrefab(TempModelJson, true);
 
             if (X != WH)
@@ -263,9 +263,9 @@ public class SkyboxManager : MonoBehaviour
         prefabJsonHandler.CreateJson(path);
     }
 
-    public PrefabObject[] GetPrefabsList()
+    public TrickyPrefabObject[] GetPrefabsList()
     {
-        return PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
+        return PrefabsHolder.transform.GetComponentsInChildren<TrickyPrefabObject>(true);
     }
 
     public TrickyMaterialObject[] GetMaterialList()

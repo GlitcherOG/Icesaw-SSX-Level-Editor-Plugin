@@ -148,7 +148,7 @@ public class TrickyPrefabManager : MonoBehaviour
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0,0, 0);
             gameObject.transform.localScale = new Vector3(1,1,1);
-            PrefabObject mObject = gameObject.AddComponent<PrefabObject>();
+            TrickyPrefabObject mObject = gameObject.AddComponent<TrickyPrefabObject>();
             mObject.LoadPrefab(TempModelJson);
 
             if(X!=WH)
@@ -279,9 +279,9 @@ public class TrickyPrefabManager : MonoBehaviour
         return ParticlePrefabHolder.transform.GetComponentsInChildren<ParticlePrefabObject>(true);
     }
 
-    public PrefabObject[] GetPrefabList()
+    public TrickyPrefabObject[] GetPrefabList()
     {
-        return PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
+        return PrefabsHolder.transform.GetComponentsInChildren<TrickyPrefabObject>(true);
     }
 
     public TrickyMaterialObject GetMaterialObject(int A)
@@ -291,9 +291,9 @@ public class TrickyPrefabManager : MonoBehaviour
         return TempObject[A];
     }
 
-    public PrefabObject GetPrefabObject(int A)
+    public TrickyPrefabObject GetPrefabObject(int A)
     {
-        PrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
+        TrickyPrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<TrickyPrefabObject>(true);
         return TempObject[A];
     }
 

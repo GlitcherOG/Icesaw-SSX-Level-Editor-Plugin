@@ -61,7 +61,7 @@ public class PrefabMeshObject : MonoBehaviour
     [ContextMenu("Refresh Models")]
     public void GenerateModel()
     {
-        if (!transform.parent.parent.GetComponent<PrefabObject>().SkyboxModel)
+        if (!transform.parent.parent.GetComponent<TrickyPrefabObject>().SkyboxModel)
         {
             mesh = TrickyPrefabManager.Instance.GetMesh(MeshPath);
         }
@@ -69,7 +69,7 @@ public class PrefabMeshObject : MonoBehaviour
         {
             mesh = SkyboxManager.Instance.GetMesh(MeshPath);
         }
-        material = GenerateMaterial(MaterialID, transform.parent.parent.GetComponent<PrefabObject>().SkyboxModel);
+        material = GenerateMaterial(MaterialID, transform.parent.parent.GetComponent<TrickyPrefabObject>().SkyboxModel);
 
         AddMissingComponents();
 

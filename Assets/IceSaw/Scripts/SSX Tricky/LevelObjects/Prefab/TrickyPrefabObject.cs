@@ -11,7 +11,7 @@ using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [System.Serializable]
 [SelectionBase]
-public class PrefabObject : MonoBehaviour
+public class TrickyPrefabObject : MonoBehaviour
 {
     public int Unknown3;
     public float AnimTime;
@@ -111,7 +111,7 @@ public class PrefabObject : MonoBehaviour
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<PrefabObject>();
+        TempObject.AddComponent<TrickyPrefabObject>();
 
     }
 
