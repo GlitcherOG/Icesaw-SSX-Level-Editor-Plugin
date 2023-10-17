@@ -9,7 +9,7 @@ public class TrickyTrackExport
     [MenuItem("Ice Saw/Export Track")]
     public static void ExportTrackData()
     {  
-      if(TrickyLevelManager.Instance != null && PrefabManager.Instance != null && TrickyWorldManager.Instance)
+      if(TrickyLevelManager.Instance != null && TrickyPrefabManager.Instance != null && TrickyWorldManager.Instance)
       {
         //Get Save path
         //Sandard method of having them save an obj file and stripping out the obj file to get a path

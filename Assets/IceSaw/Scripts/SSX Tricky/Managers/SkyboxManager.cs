@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using static TrickyLevelManager;
-using static PrefabManager;
+using static TrickyPrefabManager;
 
 [ExecuteInEditMode]
 public class SkyboxManager : MonoBehaviour
@@ -176,7 +176,7 @@ public class SkyboxManager : MonoBehaviour
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(10, 10, 10);
-            MaterialObject materialObject = gameObject.AddComponent<MaterialObject>();
+            TrickyMaterialObject materialObject = gameObject.AddComponent<TrickyMaterialObject>();
             materialObject.LoadMaterial(materialJsonHandler.Materials[i], true);
 
 
@@ -268,14 +268,14 @@ public class SkyboxManager : MonoBehaviour
         return PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
     }
 
-    public MaterialObject[] GetMaterialList()
+    public TrickyMaterialObject[] GetMaterialList()
     {
-        return MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true);
+        return MaterialHolder.transform.GetComponentsInChildren<TrickyMaterialObject>(true);
     }
 
-    public MaterialObject GetMaterialObject(int A)
+    public TrickyMaterialObject GetMaterialObject(int A)
     {
-        MaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true);
+        TrickyMaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<TrickyMaterialObject>(true);
 
         return TempObject[A];
     }

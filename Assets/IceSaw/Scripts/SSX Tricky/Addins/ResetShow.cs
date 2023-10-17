@@ -45,9 +45,9 @@ public class ResetShow
 
             GameObject gameObject = new GameObject("U");
 
-            gameObject.transform.parent = PrefabManager.Instance.MaterialHolder.transform;
+            gameObject.transform.parent = TrickyPrefabManager.Instance.MaterialHolder.transform;
 
-            var TempMaterial = gameObject.AddComponent<MaterialObject>();
+            var TempMaterial = gameObject.AddComponent<TrickyMaterialObject>();
 
             TempMaterial.TexturePath = "Reset.png";
             TempMaterial.UnknownInt2 = -1;
@@ -68,7 +68,7 @@ public class ResetShow
             var InstanceList = TrickyWorldManager.Instance.GetInstanceList();
             var EffectSlots = LogicManager.Instance.GetEffectSlotsList();
             var EffectList = LogicManager.Instance.GetEffectHeadersList();
-            var PrefabList = PrefabManager.Instance.GetPrefabList();
+            var PrefabList = TrickyPrefabManager.Instance.GetPrefabList();
 
             for (int i = 0; i < InstanceList.Length; i++)
             {

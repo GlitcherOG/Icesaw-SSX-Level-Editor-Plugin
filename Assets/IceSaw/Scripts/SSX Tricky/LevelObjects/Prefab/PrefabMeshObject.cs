@@ -63,7 +63,7 @@ public class PrefabMeshObject : MonoBehaviour
     {
         if (!transform.parent.parent.GetComponent<PrefabObject>().SkyboxModel)
         {
-            mesh = PrefabManager.Instance.GetMesh(MeshPath);
+            mesh = TrickyPrefabManager.Instance.GetMesh(MeshPath);
         }
         else
         {
@@ -85,7 +85,7 @@ public class PrefabMeshObject : MonoBehaviour
         {
             if (!Skybox)
             {
-                TextureID = PrefabManager.Instance.GetMaterialObject(MaterialID).TexturePath;
+                TextureID = TrickyPrefabManager.Instance.GetMaterialObject(MaterialID).TexturePath;
             }
             else
             {

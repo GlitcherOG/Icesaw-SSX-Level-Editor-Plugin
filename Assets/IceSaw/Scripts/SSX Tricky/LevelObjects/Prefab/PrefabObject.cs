@@ -126,7 +126,7 @@ public class PrefabObject : MonoBehaviour
             for (int a = 0; a < TempModel.Length; a++)
             {
                 var TempSubModel = TempModel[a].MaterialID;
-                TextureNames.Add(PrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath);
+                TextureNames.Add(TrickyPrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath);
             }
         }
         return TextureNames.ToArray();

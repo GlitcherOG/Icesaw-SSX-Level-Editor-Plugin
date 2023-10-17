@@ -1,4 +1,4 @@
-using SSXMultiTool.JsonFiles.Tricky;
+using SSXMultiTool.JsonFiles.SSXOG;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,12 +6,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
+using static SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler;
 
 [ExecuteInEditMode]
-public class PrefabManager : MonoBehaviour
+public class OGPrefabManager : MonoBehaviour
 {
-    public static PrefabManager Instance;
+    public static OGPrefabManager Instance;
     public GameObject PrefabsHolder;
     public GameObject MaterialHolder;
     public GameObject ParticlePrefabHolder;
@@ -56,14 +56,15 @@ public class PrefabManager : MonoBehaviour
         ParticlePrefabHolder.transform.localScale = Vector3.one;
         ParticlePrefabHolder.transform.hideFlags = HideFlags.HideInInspector;
     }
+
     #region Load Data
     public void LoadData(string Path)
     {
         LoadMeshCache(Path + "\\Models");
-        LoadCollisionMeshCache(Path + "\\Collision");
+        //LoadCollisionMeshCache(Path + "\\Collision");
         LoadMaterials(Path + "\\Materials.json");
-        LoadPrefabs(Path + "\\Prefabs.json");
-        LoadParticlePrefabs(Path + "\\ParticlePrefabs.json");
+        //LoadPrefabs(Path + "\\Prefabs.json");
+        //LoadParticlePrefabs(Path + "\\ParticlePrefabs.json");
     }
 
     public void LoadMeshCache(string path)
@@ -100,8 +101,8 @@ public class PrefabManager : MonoBehaviour
         float ZPosition = 0;
         int X = 0;
 
-        MaterialJsonHandler materialJsonHandler = new MaterialJsonHandler();
-        materialJsonHandler = MaterialJsonHandler.Load(Path);
+        MaterialsJsonHandler materialJsonHandler = new MaterialsJsonHandler();
+        materialJsonHandler = MaterialsJsonHandler.Load(Path);
 
         int WH = (int)Mathf.Sqrt(materialJsonHandler.Materials.Count);
 
@@ -113,7 +114,7 @@ public class PrefabManager : MonoBehaviour
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(10, 10, 10);
-            MaterialObject materialObject = gameObject.AddComponent<MaterialObject>();
+            OGMaterialObject materialObject = gameObject.AddComponent<OGMaterialObject>();
             materialObject.LoadMaterial(materialJsonHandler.Materials[i]);
 
             if (X != WH)
@@ -130,73 +131,73 @@ public class PrefabManager : MonoBehaviour
         }
     }
 
-    public void LoadPrefabs(string Path)
-    {
-        float XPosition = 0;
-        float ZPosition = 0;
-        int X = 0;
+    //public void LoadPrefabs(string Path)
+    //{
+    //    float XPosition = 0;
+    //    float ZPosition = 0;
+    //    int X = 0;
 
-        PrefabJsonHandler PrefabJson = PrefabJsonHandler.Load(Path);
-        int WH = (int)Mathf.Sqrt(PrefabJson.Prefabs.Count);
-        for (int i = 0; i < PrefabJson.Prefabs.Count; i++)
-        {
-            var TempModelJson = PrefabJson.Prefabs[i];
-            GameObject gameObject = new GameObject("Prefab " + i);
-            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
-            gameObject.transform.parent = PrefabsHolder.transform;
-            gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
-            gameObject.transform.localEulerAngles = new Vector3(0,0, 0);
-            gameObject.transform.localScale = new Vector3(1,1,1);
-            PrefabObject mObject = gameObject.AddComponent<PrefabObject>();
-            mObject.LoadPrefab(TempModelJson);
+    //    PrefabJsonHandler PrefabJson = PrefabJsonHandler.Load(Path);
+    //    int WH = (int)Mathf.Sqrt(PrefabJson.Prefabs.Count);
+    //    for (int i = 0; i < PrefabJson.Prefabs.Count; i++)
+    //    {
+    //        var TempModelJson = PrefabJson.Prefabs[i];
+    //        GameObject gameObject = new GameObject("Prefab " + i);
+    //        //gameObject.transform.hideFlags = HideFlags.HideInInspector;
+    //        gameObject.transform.parent = PrefabsHolder.transform;
+    //        gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
+    //        gameObject.transform.localEulerAngles = new Vector3(0,0, 0);
+    //        gameObject.transform.localScale = new Vector3(1,1,1);
+    //        PrefabObject mObject = gameObject.AddComponent<PrefabObject>();
+    //        mObject.LoadPrefab(TempModelJson);
 
-            if(X!=WH)
-            {
-                XPosition += 10000;
-                X++;
-            }
-            else
-            {
-                XPosition = 0;
-                X = 0;
-                ZPosition += 10000;
-            }
-        }
-    }
+    //        if(X!=WH)
+    //        {
+    //            XPosition += 10000;
+    //            X++;
+    //        }
+    //        else
+    //        {
+    //            XPosition = 0;
+    //            X = 0;
+    //            ZPosition += 10000;
+    //        }
+    //    }
+    //}
 
-    public void LoadParticlePrefabs(string Path)
-    {
-        float XPosition = 0;
-        float ZPosition = 0;
-        int X = 0;
+    //public void LoadParticlePrefabs(string Path)
+    //{
+    //    float XPosition = 0;
+    //    float ZPosition = 0;
+    //    int X = 0;
 
-        ParticleModelJsonHandler PrefabJson = ParticleModelJsonHandler.Load(Path);
-        int WH = (int)Mathf.Sqrt(PrefabJson.ParticlePrefabs.Count);
-        for (int i = 0; i < PrefabJson.ParticlePrefabs.Count; i++)
-        {
-            var TempModelJson = PrefabJson.ParticlePrefabs[i];
-            GameObject gameObject = new GameObject("Particle Prefab " + i);
-            //gameObject.transform.hideFlags = HideFlags.HideInInspector;
-            gameObject.transform.parent = ParticlePrefabHolder.transform;
-            gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
-            gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-            gameObject.transform.localScale = new Vector3(1, 1, 1);
-            ParticlePrefabObject mObject = gameObject.AddComponent<ParticlePrefabObject>();
-            mObject.LoadParticle(TempModelJson);
+    //    ParticleModelJsonHandler PrefabJson = ParticleModelJsonHandler.Load(Path);
+    //    int WH = (int)Mathf.Sqrt(PrefabJson.ParticlePrefabs.Count);
+    //    for (int i = 0; i < PrefabJson.ParticlePrefabs.Count; i++)
+    //    {
+    //        var TempModelJson = PrefabJson.ParticlePrefabs[i];
+    //        GameObject gameObject = new GameObject("Particle Prefab " + i);
+    //        //gameObject.transform.hideFlags = HideFlags.HideInInspector;
+    //        gameObject.transform.parent = ParticlePrefabHolder.transform;
+    //        gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
+    //        gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+    //        gameObject.transform.localScale = new Vector3(1, 1, 1);
+    //        ParticlePrefabObject mObject = gameObject.AddComponent<ParticlePrefabObject>();
+    //        mObject.LoadParticle(TempModelJson);
 
-            if (X != WH)
-            {
-                XPosition += 10000;
-                X++;
-            }
-            else
-            {
-                XPosition = 0;
-                X = 0;
-                ZPosition += 10000;
-            }
-        }
-    }
+    //        if (X != WH)
+    //        {
+    //            XPosition += 10000;
+    //            X++;
+    //        }
+    //        else
+    //        {
+    //            XPosition = 0;
+    //            X = 0;
+    //            ZPosition += 10000;
+    //        }
+    //    }
+    //}
     #endregion
 
     #region Save Data
@@ -204,8 +205,8 @@ public class PrefabManager : MonoBehaviour
     {
         //SaveMeshCache(Path + "\\Models");
         SaveMaterials(Path + "\\Materials.json");
-        SaveParticlePrefabs(Path + "\\ParticlePrefabs.json");
-        SavePrefabs(Path + "\\Prefabs.json");
+        //SaveParticlePrefabs(Path + "\\ParticlePrefabs.json");
+        //SavePrefabs(Path + "\\Prefabs.json");
     }
 
     public void SaveMeshCache(string Path)
@@ -225,8 +226,8 @@ public class PrefabManager : MonoBehaviour
 
     public void SaveMaterials(string path)
     {
-        MaterialJsonHandler materialJsonHandler = new MaterialJsonHandler();
-        materialJsonHandler.Materials = new List<MaterialJsonHandler.MaterialsJson>();
+        MaterialsJsonHandler materialJsonHandler = new MaterialsJsonHandler();
+        materialJsonHandler.Materials = new List<MaterialsJsonHandler.MaterialJson>();
 
         var TempMaterial = GetMaterialList();
 
@@ -237,55 +238,55 @@ public class PrefabManager : MonoBehaviour
         materialJsonHandler.CreateJson(path);
     }
 
-    public void SaveParticlePrefabs(string path)
-    {
-        ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
-        particleModelJsonHandler.ParticlePrefabs = new List<ParticleModelJsonHandler.ParticleModelJson>();
+    //public void SaveParticlePrefabs(string path)
+    //{
+    //    ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
+    //    particleModelJsonHandler.ParticlePrefabs = new List<ParticleModelJsonHandler.ParticleModelJson>();
 
-        var TempList = GetParticlePrefabsList();
-        for (int i = 0; i < TempList.Length; i++)
-        {
-            particleModelJsonHandler.ParticlePrefabs.Add(TempList[i].GenerateParticle());
-        }
+    //    var TempList = GetParticlePrefabsList();
+    //    for (int i = 0; i < TempList.Length; i++)
+    //    {
+    //        particleModelJsonHandler.ParticlePrefabs.Add(TempList[i].GenerateParticle());
+    //    }
 
-        particleModelJsonHandler.CreateJson(path);
-    }
+    //    particleModelJsonHandler.CreateJson(path);
+    //}
 
-    public void SavePrefabs(string path)
-    {
-        PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
-        prefabJsonHandler.Prefabs = new List<PrefabJson>();
+    //public void SavePrefabs(string path)
+    //{
+    //    PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
+    //    prefabJsonHandler.Prefabs = new List<PrefabJson>();
 
-        var TempList = GetPrefabList();
+    //    var TempList = GetPrefabList();
 
-        for (int i = 0; i < TempList.Length; i++)
-        {
-            prefabJsonHandler.Prefabs.Add(TempList[i].GeneratePrefabs());
-        }
+    //    for (int i = 0; i < TempList.Length; i++)
+    //    {
+    //        prefabJsonHandler.Prefabs.Add(TempList[i].GeneratePrefabs());
+    //    }
 
-        prefabJsonHandler.CreateJson(path);
-    }
+    //    prefabJsonHandler.CreateJson(path);
+    //}
 
     #endregion
 
-    public MaterialObject[] GetMaterialList()
+    public OGMaterialObject[] GetMaterialList()
     {
-        return MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true);
+        return MaterialHolder.transform.GetComponentsInChildren<OGMaterialObject>(true);
     }
 
-    public ParticlePrefabObject[] GetParticlePrefabsList()
-    {
-        return ParticlePrefabHolder.transform.GetComponentsInChildren<ParticlePrefabObject>(true);
-    }
+    //public ParticlePrefabObject[] GetParticlePrefabsList()
+    //{
+    //    return ParticlePrefabHolder.transform.GetComponentsInChildren<ParticlePrefabObject>(true);
+    //}
 
-    public PrefabObject[] GetPrefabList()
-    {
-        return PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
-    }
+    //public PrefabObject[] GetPrefabList()
+    //{
+    //    return PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
+    //}
 
-    public MaterialObject GetMaterialObject(int A)
+    public TrickyMaterialObject GetMaterialObject(int A)
     {
-        MaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<MaterialObject>(true); 
+        TrickyMaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<TrickyMaterialObject>(true); 
 
         return TempObject[A];
     }
@@ -357,7 +358,7 @@ public class PrefabManager : MonoBehaviour
         LoadMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Models");
 
         //Reload Prefabs
-        var TempPrefabs = PrefabManager.Instance.GetPrefabList();
+        var TempPrefabs = TrickyPrefabManager.Instance.GetPrefabList();
 
         for (int i = 0; i < TempPrefabs.Length; i++)
         {
@@ -380,7 +381,7 @@ public class PrefabManager : MonoBehaviour
         float ZPosition = 0;
         int X = 0;
 
-        var PrefabJson = PrefabManager.Instance.GetPrefabList();
+        var PrefabJson = TrickyPrefabManager.Instance.GetPrefabList();
         int WH = (int)Mathf.Sqrt(PrefabJson.Length);
         for (int i = 0; i < PrefabJson.Length; i++)
         {
@@ -410,7 +411,7 @@ public class PrefabManager : MonoBehaviour
         float ZPosition = 0;
         int X = 0;
 
-        var PrefabJson = PrefabManager.Instance.GetMaterialList();
+        var PrefabJson = TrickyPrefabManager.Instance.GetMaterialList();
         int WH = (int)Mathf.Sqrt(PrefabJson.Length);
         for (int i = 0; i < PrefabJson.Length; i++)
         {

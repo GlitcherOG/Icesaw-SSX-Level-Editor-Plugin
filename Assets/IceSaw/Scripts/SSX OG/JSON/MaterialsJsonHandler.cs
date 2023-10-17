@@ -25,18 +25,18 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             File.WriteAllText(path, serializer);
         }
 
-        public static PatchesJsonHandler Load(string path)
+        public static MaterialsJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<PatchesJsonHandler>(stream);
+                var container = JsonConvert.DeserializeObject<MaterialsJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new PatchesJsonHandler();
+                return new MaterialsJsonHandler();
             }
         }
 

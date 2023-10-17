@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class MaterialObject : MonoBehaviour
+public class TrickyMaterialObject : MonoBehaviour
 {
     public bool SkyboxMaterial;
 
@@ -194,6 +194,6 @@ public class MaterialObject : MonoBehaviour
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<MaterialObject>().AddMissingComponents();
+        TempObject.AddComponent<TrickyMaterialObject>().AddMissingComponents();
     }
 }

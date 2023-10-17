@@ -154,7 +154,7 @@ public class InstanceObject : MonoBehaviour
 
         if (ModelID != -1)
         {
-            Prefab = PrefabManager.Instance.GetPrefabObject(ModelID).GeneratePrefab();
+            Prefab = TrickyPrefabManager.Instance.GetPrefabObject(ModelID).GeneratePrefab();
             Prefab.gameObject.name = "Prefab";
             Prefab.transform.parent = transform;
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
@@ -210,7 +210,7 @@ public class InstanceObject : MonoBehaviour
                         TempObject.transform.localPosition = new Vector3(0, 0, 0);
                         TempObject.transform.localScale = new Vector3(1, 1, 1);
 
-                        TempObject.AddComponent<MeshFilter>().sharedMesh = PrefabManager.Instance.GetColMesh(CollsionModelPaths[i]);
+                        TempObject.AddComponent<MeshFilter>().sharedMesh = TrickyPrefabManager.Instance.GetColMesh(CollsionModelPaths[i]);
 
                         var TempMaterial = new Material(Shader.Find("Standard"));
                         TempMaterial.color = Color.red;
@@ -389,7 +389,7 @@ public class InstanceObject : MonoBehaviour
     [ContextMenu("Goto Model")]
     public void GotoModel()
     {
-        var TempList = PrefabManager.Instance.GetPrefabList();
+        var TempList = TrickyPrefabManager.Instance.GetPrefabList();
 
         if (TempList.Length - 1 >= ModelID)
         {
@@ -498,7 +498,7 @@ public class InstanceObject : MonoBehaviour
 
     public List<ObjExporter.MassModelData> GenerateModel()
     {
-        string[] TempTextures = PrefabManager.Instance.GetPrefabObject(ModelID).GetTextureNames();
+        string[] TempTextures = TrickyPrefabManager.Instance.GetPrefabObject(ModelID).GetTextureNames();
         MeshFilter[] ObjectList = Prefab.GetComponentsInChildren<MeshFilter>();
         List<ObjExporter.MassModelData> MainList = new List<ObjExporter.MassModelData>();
         for (int a = 0; a < ObjectList.Length; a++)

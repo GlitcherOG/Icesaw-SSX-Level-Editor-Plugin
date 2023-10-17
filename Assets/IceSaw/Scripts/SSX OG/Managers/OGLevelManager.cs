@@ -52,9 +52,9 @@ public class OGLevelManager : MonoBehaviour
         PrefabManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         PrefabManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
         PrefabManagerHolder.transform.localPosition = new Vector3(0, 0, 100000);
-        //var TempPrefab = PrefabManagerHolder.AddComponent<PrefabManager>();
-        //TempPrefab.runInEditMode = true;
-        //TempPrefab.GenerateEmptyObjects();
+        var TempPrefab = PrefabManagerHolder.AddComponent<OGPrefabManager>();
+        TempPrefab.runInEditMode = true;
+        TempPrefab.GenerateEmptyObjects();
 
         //Generate World Manager
         WorldManagerHolder = new GameObject("OG World Manager");
@@ -108,7 +108,7 @@ public class OGLevelManager : MonoBehaviour
         LoadTextures();
         ReloadLightmaps();
 
-        //PrefabManagerHolder.GetComponent<PrefabManager>().LoadData(Path);
+        PrefabManagerHolder.GetComponent<OGPrefabManager>().LoadData(Path);
         WorldManagerHolder.GetComponent<OGWorldManager>().LoadData(Path);
         //LogicManager.GetComponent<LogicManager>().LoadData(Path);
         //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);

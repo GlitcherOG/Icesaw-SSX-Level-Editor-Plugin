@@ -53,7 +53,7 @@ public class TrickyLevelManager : MonoBehaviour
 
         //Generate Prefab Manager
         PrefabManagerHolder = new GameObject("Tricky Prefab Manager");
-        var TempPrefab = PrefabManagerHolder.AddComponent<PrefabManager>();
+        var TempPrefab = PrefabManagerHolder.AddComponent<TrickyPrefabManager>();
         TempPrefab.runInEditMode = true;
         TempPrefab.GenerateEmptyObjects();
         TempPrefab.transform.parent = this.transform;
@@ -113,7 +113,7 @@ public class TrickyLevelManager : MonoBehaviour
         LoadTextures();
         ReloadLightmaps();
 
-        PrefabManagerHolder.GetComponent<PrefabManager>().LoadData(Path);
+        PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
         WorldManagerHolder.GetComponent<TrickyWorldManager>().LoadData(Path);
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
@@ -122,7 +122,7 @@ public class TrickyLevelManager : MonoBehaviour
 
     public void SaveData(string Path)
     {
-        PrefabManagerHolder.GetComponent<PrefabManager>().SaveData(Path);
+        PrefabManagerHolder.GetComponent<TrickyPrefabManager>().SaveData(Path);
         WorldManagerHolder.GetComponent<TrickyWorldManager>().SaveData(Path);
         LogicManager.GetComponent<LogicManager>().SaveData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().SaveData(Path);
@@ -384,7 +384,7 @@ public class TrickyLevelManager : MonoBehaviour
         }
 
         //Reload Materials
-        var TempMaterials = PrefabManager.Instance.GetMaterialList();
+        var TempMaterials = TrickyPrefabManager.Instance.GetMaterialList();
 
         for (int i = 0; i < TempMaterials.Length; i++)
         {
@@ -392,7 +392,7 @@ public class TrickyLevelManager : MonoBehaviour
         }
 
         //Reload Prefabs
-        var TempPrefabs = PrefabManager.Instance.GetPrefabList();
+        var TempPrefabs = TrickyPrefabManager.Instance.GetPrefabList();
 
         for (int i = 0; i < TempPrefabs.Length; i++)
         {
@@ -432,10 +432,10 @@ public class TrickyLevelManager : MonoBehaviour
             LogicManager.GetComponent<LogicManager>().Awake();
         }
 
-        if (gameObject.GetComponentInChildren<PrefabManager>() != null)
+        if (gameObject.GetComponentInChildren<TrickyPrefabManager>() != null)
         {
-            PrefabManagerHolder = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
-            PrefabManagerHolder.GetComponent<PrefabManager>().Awake();
+            PrefabManagerHolder = gameObject.GetComponentInChildren<TrickyPrefabManager>().gameObject;
+            PrefabManagerHolder.GetComponent<TrickyPrefabManager>().Awake();
         }
 
         if (gameObject.GetComponentInChildren<TrickyWorldManager>())
