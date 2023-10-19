@@ -21,8 +21,8 @@ public class OGPrefabSubModel : MonoBehaviour
     public MatrixData matrixData;
     public bool IncludeMatrixData;
 
-    Mesh mesh;
-    Material material;
+    public Mesh mesh;
+    public Material material;
 
     MeshFilter meshFilter;
     MeshRenderer meshRenderer;

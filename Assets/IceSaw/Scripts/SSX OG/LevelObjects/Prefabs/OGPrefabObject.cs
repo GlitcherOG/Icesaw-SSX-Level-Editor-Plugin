@@ -13,24 +13,29 @@ public class OGPrefabObject : MonoBehaviour
     public int U3;
     public int U4;
 
-    //public GameObject GeneratePrefab()
-    //{
-    //    GameObject MainObject = new GameObject(transform.name);
-    //    MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
+    public GameObject GeneratePrefab()
+    {
+        GameObject MainObject = new GameObject(transform.name);
+        MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
 
-    //    var TempList = GetComponentsInChildren<PrefabSubObject>();
+        var TempList = GetComponentsInChildren<OGPrefabSubModel>();
 
-    //    for (int i = 0; i < TempList.Length; i++)
-    //    {
-    //        var TempModel = TempList[i].GenerateSubObject();
-    //        TempModel.transform.parent = MainObject.transform;
-    //        TempModel.transform.localPosition = TempList[i].transform.localPosition;
-    //        TempModel.transform.localScale = TempList[i].transform.localScale;
-    //        TempModel.transform.localRotation = TempList[i].transform.localRotation;
-    //    }
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            GameObject ChildMesh = new GameObject(transform.name);
+            ChildMesh.transform.parent = MainObject.transform;
+            ChildMesh.transform.localPosition = TempList[i].transform.localPosition;
+            ChildMesh.transform.localScale = TempList[i].transform.localScale;
+            ChildMesh.transform.localRotation = TempList[i].transform.localRotation;
+            var TempMeshFilter = ChildMesh.AddComponent<MeshFilter>();
+            var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
+            TempMeshFilter.mesh = TempList[i].mesh;
+            TempRenderer.material = TempList[i].material;
 
-    //    return MainObject;
-    //}
+        }
+
+        return MainObject;
+    }
 
     public void LoadPrefab(PrefabJsonHandler.PrefabJson prefabJson, bool Skybox = false)
     {

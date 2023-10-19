@@ -121,7 +121,7 @@ public class TrickyWorldManager : MonoBehaviour
             TempGameObject.transform.parent = InstancesHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            var TempInstance = TempGameObject.AddComponent<InstanceObject>();
+            var TempInstance = TempGameObject.AddComponent<TrickyInstanceObject>();
             TempInstance.LoadInstance(instanceJsonHandler.Instances[i]);
         }
     }
@@ -299,9 +299,9 @@ public class TrickyWorldManager : MonoBehaviour
         return PatchesHolder.GetComponentsInChildren<TrickyPatchObject>(true);
     }
 
-    public InstanceObject[] GetInstanceList()
+    public TrickyInstanceObject[] GetInstanceList()
     {
-        return InstancesHolder.GetComponentsInChildren<InstanceObject>(true);
+        return InstancesHolder.GetComponentsInChildren<TrickyInstanceObject>(true);
     }
 
     public SplineObject[] GetSplineList()

@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 [SelectionBase]
-public class InstanceObject : MonoBehaviour
+public class TrickyInstanceObject : MonoBehaviour
 {
     public Vector3 LightingVector;
     public Quaternion LightingRotation;
@@ -476,7 +476,7 @@ public class InstanceObject : MonoBehaviour
     public static void CreateInstance(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Instance");
-        TempObject.AddComponent<InstanceObject>();
+        TempObject.AddComponent<TrickyInstanceObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;

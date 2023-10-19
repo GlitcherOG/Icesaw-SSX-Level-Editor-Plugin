@@ -15,7 +15,7 @@ public class TrickyViewOptions
             patchObject[i].gameObject.SetActive(true);
         }
 
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
@@ -49,7 +49,7 @@ public class TrickyViewOptions
             }
         }
 
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
@@ -98,7 +98,7 @@ public class TrickyViewOptions
             patchObject[i].gameObject.SetActive(true);
         }
 
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
@@ -149,7 +149,7 @@ public class TrickyViewOptions
             }
         }
 
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
@@ -187,7 +187,7 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Functions/RaceMode")]
     public static void FunctionRunRace()
     {
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
@@ -201,7 +201,7 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Functions/ShowOff")]
     public static void FunctionRunShowOff()
     {
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
@@ -215,7 +215,7 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Functions/FreeRideMode")]
     public static void FunctionRunFreeRide()
     {
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
@@ -230,7 +230,7 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Functions/StartCountDown")]
     public static void FunctionRunCountDown()
     {
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
@@ -245,7 +245,7 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Functions/EndCountDown")]
     public static void FunctionRunEndCountDown()
     {
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
@@ -260,7 +260,7 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Functions/NoCountDown")]
     public static void FunctionRunNoCountDown()
     {
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
@@ -273,7 +273,7 @@ public class TrickyViewOptions
     }
 
 
-    public static void RunFunction(int Position, InstanceObject[] InstanceList, SplineObject[] splineObjects)
+    public static void RunFunction(int Position, TrickyInstanceObject[] InstanceList, SplineObject[] splineObjects)
     {
         var Function = LogicManager.Instance.GetFunctionList()[Position];
 
@@ -294,7 +294,7 @@ public class TrickyViewOptions
         }
     }
 
-    public static void RunEffectInstance(int Effect, int Instance, InstanceObject[] InstanceList)
+    public static void RunEffectInstance(int Effect, int Instance, TrickyInstanceObject[] InstanceList)
     {
         var TempInstance = InstanceList[Instance];
         var EffectHeader = LogicManager.Instance.GetEffectHeadersList()[Effect];
@@ -364,7 +364,7 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Toggle Invisable Instances", false, 200)]
     public static void VisablityToggle()
     {
-        InstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         bool Active = false;
         bool Test = false;
 

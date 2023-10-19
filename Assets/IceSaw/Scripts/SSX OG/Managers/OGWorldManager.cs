@@ -77,7 +77,7 @@ public class OGWorldManager : MonoBehaviour
     {
         //SetStatic();
         LoadPatches(path + "\\Patches.json");
-        //LoadInstance(path + "\\Instances.json");
+        LoadInstance(path + "\\Instaces.json");
         //LoadSplines(path + "\\Splines.json");
         //LoadLighting(path + "\\Lights.json");
         //LoadParticleInstances(path + "\\ParticleInstances.json");
@@ -100,6 +100,22 @@ public class OGWorldManager : MonoBehaviour
             TempObject.AddMissingComponents();
             TempObject.LoadPatch(patchesJsonHandler.Patches[i]);
 
+        }
+    }
+
+    public void LoadInstance(string Path)
+    {
+        InstanceJsonHandler instanceJsonHandler = new InstanceJsonHandler();
+        instanceJsonHandler = InstanceJsonHandler.Load(Path);
+
+        for (int i = 0; i < instanceJsonHandler.Instances.Count; i++)
+        {
+            var TempGameObject = new GameObject("Instance " + i);
+            TempGameObject.transform.parent = InstancesHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+            var TempInstance = TempGameObject.AddComponent<OGInstanceObject>();
+            TempInstance.LoadInstance(instanceJsonHandler.Instances[i]);
         }
     }
 
