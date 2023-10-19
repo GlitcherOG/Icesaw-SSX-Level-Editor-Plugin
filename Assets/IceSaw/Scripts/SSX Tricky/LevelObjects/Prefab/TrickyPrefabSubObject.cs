@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
-public class PrefabSubObject : MonoBehaviour
+public class TrickyPrefabSubObject : MonoBehaviour
 {
     public int ParentID;
     public int Flags;
@@ -186,7 +186,7 @@ public class PrefabSubObject : MonoBehaviour
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<PrefabSubObject>();
+        TempObject.AddComponent<TrickyPrefabSubObject>();
 
     }
 

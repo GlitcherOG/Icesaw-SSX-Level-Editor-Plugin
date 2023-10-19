@@ -279,21 +279,21 @@ public class OGPrefabManager : MonoBehaviour
     //    return ParticlePrefabHolder.transform.GetComponentsInChildren<ParticlePrefabObject>(true);
     //}
 
-    //public PrefabObject[] GetPrefabList()
-    //{
-    //    return PrefabsHolder.transform.GetComponentsInChildren<PrefabObject>(true);
-    //}
-
-    public TrickyMaterialObject GetMaterialObject(int A)
+    public OGPrefabObject[] GetPrefabList()
     {
-        TrickyMaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<TrickyMaterialObject>(true); 
+        return PrefabsHolder.transform.GetComponentsInChildren<OGPrefabObject>(true);
+    }
+
+    public OGMaterialObject GetMaterialObject(int A)
+    {
+        OGMaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<OGMaterialObject>(true); 
 
         return TempObject[A];
     }
 
-    public TrickyPrefabObject GetPrefabObject(int A)
+    public OGPrefabObject GetPrefabObject(int A)
     {
-        TrickyPrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<TrickyPrefabObject>(true);
+        OGPrefabObject[] TempObject = PrefabsHolder.transform.GetComponentsInChildren<OGPrefabObject>(true);
         return TempObject[A];
     }
 
@@ -355,10 +355,10 @@ public class OGPrefabManager : MonoBehaviour
     [ContextMenu("Reload Models")]
     public void ReloadModels()
     {
-        LoadMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Models");
+        LoadMeshCache(OGLevelManager.Instance.LoadPath + "\\Models");
 
         //Reload Prefabs
-        var TempPrefabs = TrickyPrefabManager.Instance.GetPrefabList();
+        var TempPrefabs = OGPrefabManager.Instance.GetPrefabList();
 
         for (int i = 0; i < TempPrefabs.Length; i++)
         {
@@ -366,12 +366,12 @@ public class OGPrefabManager : MonoBehaviour
         }
 
         //Reload Instances
-        var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
+        //var TempInstanceList = OGWorldManager.Instance.GetInstanceList();
 
-        for (int i = 0; i < TempInstanceList.Length; i++)
-        {
-            TempInstanceList[i].LoadPrefabs();
-        }
+        //for (int i = 0; i < TempInstanceList.Length; i++)
+        //{
+        //    TempInstanceList[i].LoadPrefabs();
+        //}
     }
 
     [ContextMenu("Regen Prefab Square")]
@@ -381,7 +381,7 @@ public class OGPrefabManager : MonoBehaviour
         float ZPosition = 0;
         int X = 0;
 
-        var PrefabJson = TrickyPrefabManager.Instance.GetPrefabList();
+        var PrefabJson = OGPrefabManager.Instance.GetPrefabList();
         int WH = (int)Mathf.Sqrt(PrefabJson.Length);
         for (int i = 0; i < PrefabJson.Length; i++)
         {

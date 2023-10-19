@@ -7,6 +7,12 @@ using UnityEngine;
 public class OGPrefabObject : MonoBehaviour
 {
     public bool SkyboxModel;
+
+    public int U1;
+    public int U2;
+    public int U3;
+    public int U4;
+
     //public GameObject GeneratePrefab()
     //{
     //    GameObject MainObject = new GameObject(transform.name);
@@ -32,8 +38,15 @@ public class OGPrefabObject : MonoBehaviour
 
         if (!Skybox)
         {
-            //transform.name = prefabJson.;
+            //transform.name = prefabJson.nam;
         }
+
+        U1 = prefabJson.U1;
+        U2 = prefabJson.U2;
+        U3 = prefabJson.U3;
+        U4 = prefabJson.U4;
+
+
 
         for (int i = 0; i < prefabJson.models.Count; i++)
         {
@@ -44,7 +57,7 @@ public class OGPrefabObject : MonoBehaviour
             ChildMesh.transform.localScale = Vector3.one;
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
-            //ChildMesh.AddComponent<PrefabSubObject>().LoadPrefabSubModel(prefabJson.models[i]);
+            ChildMesh.AddComponent<OGPrefabSubModel>().LoadSubModel(prefabJson.models[i]);
         }
 
     }
@@ -77,15 +90,16 @@ public class OGPrefabObject : MonoBehaviour
     //    return GetComponentsInChildren<PrefabSubObject>();
     //}
 
-    //public void ForceReloadMeshMat()
-    //{
-    //    var TempHeader = GetComponentsInChildren<PrefabSubObject>();
+    public void ForceReloadMeshMat()
+    {
+        var TempHeader = GetComponentsInChildren<OGPrefabSubModel>();
 
-    //    for (int i = 0; i < TempHeader.Length; i++)
-    //    {
-    //        TempHeader[i].ForceRegenMeshMat();
-    //    }
-    //}
+        for (int i = 0; i < TempHeader.Length; i++)
+        {
+            TempHeader[i].GenerateModel();
+        }
+    }
+
 
     [MenuItem("GameObject/Ice Saw/Prefab Object", false, 101)]
     public static void CreatePatch(MenuCommand menuCommand)
@@ -106,7 +120,7 @@ public class OGPrefabObject : MonoBehaviour
     public string[] GetTextureNames()
     {
         List<string> TextureNames = new List<string>();
-        var TempList = GetComponentsInChildren<PrefabSubObject>();
+        var TempList = GetComponentsInChildren<TrickyPrefabSubObject>();
 
         for (int i = 0; i < TempList.Length; i++)
         {

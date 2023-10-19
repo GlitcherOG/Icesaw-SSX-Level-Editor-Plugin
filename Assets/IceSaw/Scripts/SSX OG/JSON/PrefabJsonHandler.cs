@@ -19,7 +19,10 @@ namespace SSXMultiTool.JsonFiles.SSXOG
                 TempFormating = Formatting.Indented;
             }
 
-            var serializer = JsonConvert.SerializeObject(this, TempFormating);
+            var serializer = JsonConvert.SerializeObject(this, TempFormating, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
             File.WriteAllText(path, serializer);
         }
 
@@ -37,6 +40,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
                 return new PrefabJsonHandler();
             }
         }
+
         [Serializable]
         public struct PrefabJson
         {
@@ -62,7 +66,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
 
             public int U16;
 
-            public MatrixData matrixData;
+            public MatrixData? matrixData;
         }
         [Serializable]
         public struct MatrixData
@@ -97,3 +101,4 @@ namespace SSXMultiTool.JsonFiles.SSXOG
         }
     }
 }
+
