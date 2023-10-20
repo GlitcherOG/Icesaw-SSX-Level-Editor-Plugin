@@ -125,16 +125,12 @@ public class OGPrefabObject : MonoBehaviour
     public string[] GetTextureNames()
     {
         List<string> TextureNames = new List<string>();
-        var TempList = GetComponentsInChildren<TrickyPrefabSubObject>();
+        var TempList = GetComponentsInChildren<OGPrefabSubModel>();
 
         for (int i = 0; i < TempList.Length; i++)
         {
-            var TempModel = TempList[i].GetComponentsInChildren<PrefabMeshObject>();
-            for (int a = 0; a < TempModel.Length; a++)
-            {
-                var TempSubModel = TempModel[a].MaterialID;
-                TextureNames.Add(TrickyPrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath);
-            }
+            var TempSubModel = TempList[i].MaterialID;
+            TextureNames.Add(OGPrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath);
         }
         return TextureNames.ToArray();
     }

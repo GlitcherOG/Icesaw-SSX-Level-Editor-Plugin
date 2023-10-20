@@ -9,7 +9,7 @@ public class OGLevelManager : MonoBehaviour
     public static OGLevelManager Instance;
     public string LoadPath;
 
-    public List<TextureData> texture2Ds = new List<TextureData>();
+    public List<TrickyLevelManager.TextureData> texture2Ds = new List<TrickyLevelManager.TextureData>();
     public List<Texture2D> lightmaps = new List<Texture2D>();
 
     public bool LightmapMode;
@@ -120,7 +120,7 @@ public class OGLevelManager : MonoBehaviour
         string TextureLoadPath = LoadPath + "\\Textures";
 
         string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
-        texture2Ds = new List<TextureData>();
+        texture2Ds = new List<TrickyLevelManager.TextureData>();
         for (int i = 0; i < Files.Length; i++)
         {
             Texture2D NewImage = new Texture2D(1, 1);
@@ -134,7 +134,7 @@ public class OGLevelManager : MonoBehaviour
                     NewImage.name = Files[i].Substring(TextureLoadPath.Length + 1);
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
-                var NewTexture = new TextureData();
+                var NewTexture = new TrickyLevelManager.TextureData();
                 NewTexture.Name = NewImage.name;
                 NewTexture.Texture = NewImage;
                 texture2Ds.Add(NewTexture);
@@ -271,12 +271,5 @@ public class OGLevelManager : MonoBehaviour
         //    PathFileManager = gameObject.GetComponentInChildren<PathFileManager>().gameObject;
         //    PathFileManager.GetComponent<PathFileManager>().Awake();
         //}
-    }
-
-    [System.Serializable]
-    public struct TextureData
-    {
-        public string Name;
-        public Texture2D Texture;
     }
 }

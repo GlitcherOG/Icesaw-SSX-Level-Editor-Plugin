@@ -119,4 +119,14 @@ public class OGWorldManager : MonoBehaviour
         }
     }
 
+    public OGPatchObject[] GetPatchList()
+    {
+        return PatchesHolder.GetComponentsInChildren<OGPatchObject>(true);
+    }
+
+    public OGInstanceObject[] GetInstanceList()
+    {
+        return InstancesHolder.GetComponentsInChildren<OGInstanceObject>(true);
+    }
+
 }
