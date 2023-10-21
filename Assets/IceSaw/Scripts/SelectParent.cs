@@ -8,7 +8,7 @@ public class SelectParent : MonoBehaviour
 {
     private void OnDrawGizmosSelected()
     {
-        if (Selection.activeGameObject == this)
+        if (Selection.activeGameObject == this.gameObject)
         {
             SelectThisParent();
         }
