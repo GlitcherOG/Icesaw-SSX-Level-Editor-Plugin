@@ -16,7 +16,7 @@ public class OGPrefabObject : MonoBehaviour
     public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(transform.name);
-        MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
+        //MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
 
         var TempList = GetComponentsInChildren<OGPrefabSubModel>();
 
@@ -133,5 +133,25 @@ public class OGPrefabObject : MonoBehaviour
             TextureNames.Add(OGPrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath);
         }
         return TextureNames.ToArray();
+    }
+    [ContextMenu("Test If Used")]
+    public void TestIfUsed()
+    {
+        var TempList = OGWorldManager.Instance.GetInstanceList();
+
+        int ID = this.transform.GetSiblingIndex();
+        int Used = 0;
+        string Instance = "";
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            if(TempList[i].PrefabID == ID)
+            {
+                Instance += i + ", ";
+                Used++;
+            }
+        }
+
+        Debug.Log(Used + "(" + Instance + ")");
     }
 }

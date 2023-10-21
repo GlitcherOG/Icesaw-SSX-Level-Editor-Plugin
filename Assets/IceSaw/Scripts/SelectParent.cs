@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class SelectParent : MonoBehaviour
 {
     private void OnDrawGizmosSelected()

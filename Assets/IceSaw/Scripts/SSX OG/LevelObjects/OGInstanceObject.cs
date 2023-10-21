@@ -34,6 +34,8 @@ public class OGInstanceObject : MonoBehaviour
 
     public void LoadInstance(InstanceJsonHandler.InstanceJson instance)
     {
+        transform.name = instance.Name;
+
         transform.localPosition = JsonUtil.ArrayToVector3(instance.Location);
         transform.localRotation = JsonUtil.ArrayToQuaternion(instance.Rotation);
         transform.localScale = JsonUtil.ArrayToVector3(instance.Scale);
@@ -80,7 +82,7 @@ public class OGInstanceObject : MonoBehaviour
             Prefab.AddComponent<SelectParent>();
 
             var TempPrefablist = Prefab.transform.childCount;
-            for (int i = 1; i < TempPrefablist; i++)
+            for (int i = 0; i < TempPrefablist; i++)
             {
                 var TempChildPrefab = Prefab.transform.GetChild(i);
 
