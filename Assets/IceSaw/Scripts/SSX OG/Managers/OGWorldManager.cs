@@ -77,7 +77,7 @@ public class OGWorldManager : MonoBehaviour
     {
         //SetStatic();
         LoadPatches(path + "\\Patches.json");
-        LoadInstance(path + "\\Instaces.json");
+        LoadInstance(path + "\\Instances.json");
         //LoadSplines(path + "\\Splines.json");
         //LoadLighting(path + "\\Lights.json");
         //LoadParticleInstances(path + "\\ParticleInstances.json");

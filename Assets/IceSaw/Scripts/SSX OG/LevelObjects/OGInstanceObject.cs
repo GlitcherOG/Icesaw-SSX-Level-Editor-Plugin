@@ -13,7 +13,10 @@ public class OGInstanceObject : MonoBehaviour
     public int PrefabID;
 
     public int U5; //16
-    public int U6; //16
+
+    public bool Visable;
+    public bool PlayerCollision;
+    public bool PlayerBounce;
 
     public float U7;
 
@@ -45,7 +48,10 @@ public class OGInstanceObject : MonoBehaviour
         PrefabID = instance.PrefabID;
 
         U5 = instance.U5;
-        U6 = instance.U6;
+
+        Visable = instance.Visable;
+        PlayerCollision = instance.PlayerCollision;
+        PlayerBounce = instance.PlayerBounce;
 
         U7 = instance.U7;
 
