@@ -18,7 +18,7 @@ public class OGInstanceObject : MonoBehaviour
     public bool PlayerCollision;
     public bool PlayerBounce;
 
-    public float U7;
+    public float PlayerBounceValue;
 
     public int U8; //16
     public int U9; //16
@@ -53,7 +53,7 @@ public class OGInstanceObject : MonoBehaviour
         PlayerCollision = instance.PlayerCollision;
         PlayerBounce = instance.PlayerBounce;
 
-        U7 = instance.U7;
+        PlayerBounceValue = instance.PlayerBounceValue;
 
         U8 = instance.U8;
         U9 = instance.U9;
