@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class OGPrefabSubModel : MonoBehaviour
+public class OGMeshObject : MonoBehaviour
 {
     public string MeshPath;
 

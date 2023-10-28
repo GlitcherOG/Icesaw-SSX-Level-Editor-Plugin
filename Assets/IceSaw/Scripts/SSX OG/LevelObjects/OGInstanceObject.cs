@@ -20,9 +20,9 @@ public class OGInstanceObject : MonoBehaviour
 
     public float PlayerBounceValue;
 
-    public int U8; //16
-    public int U9; //16
-    public int U10; //16
+    public int CollsionMode; //16
+    public int CollisonModelIndex; //16
+    public int PhysicsIndex; //16
     public int U11; //16
 
     public float U12;
@@ -55,9 +55,9 @@ public class OGInstanceObject : MonoBehaviour
 
         PlayerBounceValue = instance.PlayerBounceValue;
 
-        U8 = instance.U8;
-        U9 = instance.U9;
-        U10 = instance.U10;
+        CollsionMode = instance.CollsionMode;
+        CollisonModelIndex = instance.CollisonModelIndex;
+        PhysicsIndex = instance.PhysicsIndex;
         U11 = instance.U11;
 
         U12 = instance.U12;

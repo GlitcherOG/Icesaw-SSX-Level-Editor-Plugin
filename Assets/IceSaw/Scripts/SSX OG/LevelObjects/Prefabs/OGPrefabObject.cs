@@ -18,7 +18,7 @@ public class OGPrefabObject : MonoBehaviour
         GameObject MainObject = new GameObject(transform.name);
         MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
 
-        var TempList = GetComponentsInChildren<OGPrefabSubModel>();
+        var TempList = GetComponentsInChildren<OGMeshObject>();
 
         for (int i = 0; i < TempList.Length; i++)
         {
@@ -62,7 +62,7 @@ public class OGPrefabObject : MonoBehaviour
             ChildMesh.transform.localScale = Vector3.one;
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
-            ChildMesh.AddComponent<OGPrefabSubModel>().LoadSubModel(prefabJson.models[i]);
+            ChildMesh.AddComponent<OGMeshObject>().LoadSubModel(prefabJson.models[i]);
         }
 
     }
@@ -97,7 +97,7 @@ public class OGPrefabObject : MonoBehaviour
 
     public void ForceReloadMeshMat()
     {
-        var TempHeader = GetComponentsInChildren<OGPrefabSubModel>();
+        var TempHeader = GetComponentsInChildren<OGMeshObject>();
 
         for (int i = 0; i < TempHeader.Length; i++)
         {
@@ -125,7 +125,7 @@ public class OGPrefabObject : MonoBehaviour
     public string[] GetTextureNames()
     {
         List<string> TextureNames = new List<string>();
-        var TempList = GetComponentsInChildren<OGPrefabSubModel>();
+        var TempList = GetComponentsInChildren<OGMeshObject>();
 
         for (int i = 0; i < TempList.Length; i++)
         {
