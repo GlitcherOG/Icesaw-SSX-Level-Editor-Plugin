@@ -56,31 +56,13 @@ public class SSXProjectWindow : EditorWindow
         GameCheckerJson trickyConfig = GameCheckerJson.Load(path);
         if (trickyConfig.Game == 1)
         {
-            if (trickyConfig.Version != 1)
-            {
-                Debug.LogError("IceSaw - SSX OG Project Using Incorrect Version, Please Rebuild and Reextract with latest SSX Multitool");
-                return;
-            }
-
-            if (path.Length != 0)
-            {
-                CurrentPath = Path.GetDirectoryName(path);
-                LoadOGProjectData();
-            }
+            CurrentPath = Path.GetDirectoryName(path);
+            LoadOGProjectData();
         }
         else if (trickyConfig.Game == 2)
         {
-            if (trickyConfig.Version != 2)
-            {
-                Debug.LogError("IceSaw - SSX Tricky Project Using Incorrect Version, Please Rebuild and Reextract with latest SSX Multitool");
-                return;
-            }
-
-            if (path.Length != 0)
-            {
-                CurrentPath = Path.GetDirectoryName(path);
-                LoadTrickyProjectData();
-            }
+            CurrentPath = Path.GetDirectoryName(path);
+            LoadTrickyProjectData();
         }
     }
     [MenuItem("Ice Saw/Save Project", false, -1000)]
