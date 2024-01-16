@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 
-public class PathBObject : MonoBehaviour
+public class TrickyPathBObject : MonoBehaviour
 {
     public int Type;
     public int U0;
@@ -124,7 +124,7 @@ public class PathBObject : MonoBehaviour
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<PathBObject>().AddMissingComponents();
+        TempObject.AddComponent<TrickyPathBObject>().AddMissingComponents();
     }
 
     [System.Serializable]

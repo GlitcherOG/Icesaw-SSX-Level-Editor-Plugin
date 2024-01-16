@@ -95,7 +95,7 @@ public class TrickyLevelManager : MonoBehaviour
         PathFileManager.transform.parent = this.transform;
         PathFileManager.transform.transform.localScale = new Vector3(1, 1, 1);
         PathFileManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        var TempPathFile = PathFileManager.AddComponent<PathFileManager>();
+        var TempPathFile = PathFileManager.AddComponent<TrickyPathFileManager>();
         TempPathFile.runInEditMode = true;
         TempPathFile.GenerateEmptyObjects();
 
@@ -117,7 +117,7 @@ public class TrickyLevelManager : MonoBehaviour
         WorldManagerHolder.GetComponent<TrickyWorldManager>().LoadData(Path);
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
-        PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
+        PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
     }
 
     public void SaveData(string Path)
@@ -126,7 +126,7 @@ public class TrickyLevelManager : MonoBehaviour
         WorldManagerHolder.GetComponent<TrickyWorldManager>().SaveData(Path);
         LogicManager.GetComponent<LogicManager>().SaveData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().SaveData(Path);
-        PathFileManager.GetComponent<PathFileManager>().SaveData(Path);
+        PathFileManager.GetComponent<TrickyPathFileManager>().SaveData(Path);
 
         SaveTextures();
         SaveLightmap();
@@ -450,10 +450,10 @@ public class TrickyLevelManager : MonoBehaviour
             SkyboxManagerHolder.GetComponent<SkyboxManager>().Awake();
         }
 
-        if (gameObject.GetComponentInChildren<PathFileManager>() != null)
+        if (gameObject.GetComponentInChildren<TrickyPathFileManager>() != null)
         {
-            PathFileManager = gameObject.GetComponentInChildren<PathFileManager>().gameObject;
-            PathFileManager.GetComponent<PathFileManager>().Awake();
+            PathFileManager = gameObject.GetComponentInChildren<TrickyPathFileManager>().gameObject;
+            PathFileManager.GetComponent<TrickyPathFileManager>().Awake();
         }
     }
 

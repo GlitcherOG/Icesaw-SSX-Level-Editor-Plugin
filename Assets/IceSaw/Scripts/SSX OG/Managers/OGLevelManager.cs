@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -90,14 +91,14 @@ public class OGLevelManager : MonoBehaviour
         PathFileManager.transform.parent = this.transform;
         PathFileManager.transform.transform.localScale = new Vector3(1, 1, 1);
         PathFileManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        //var TempPathFile = PathFileManager.AddComponent<PathFileManager>();
-        //TempPathFile.runInEditMode = true;
-        //TempPathFile.GenerateEmptyObjects();
+        var TempPathFile = PathFileManager.AddComponent<OGPathFileManager>();
+        TempPathFile.runInEditMode = true;
+        TempPathFile.GenerateEmptyObjects();
 
         //Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
         //Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
-        //AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
-        //RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
+        AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
+        RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
     }
 
     public void LoadData(string Path)
@@ -112,7 +113,7 @@ public class OGLevelManager : MonoBehaviour
         WorldManagerHolder.GetComponent<OGWorldManager>().LoadData(Path);
         //LogicManager.GetComponent<LogicManager>().LoadData(Path);
         //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
-        //PathFileManager.GetComponent<PathFileManager>().LoadData(Path);
+        PathFileManager.GetComponent<OGPathFileManager>().LoadData(Path);
     }
 
     public void LoadTextures()
@@ -266,10 +267,19 @@ public class OGLevelManager : MonoBehaviour
         //    SkyboxManagerHolder.GetComponent<SkyboxManager>().Awake();
         //}
 
-        //if (gameObject.GetComponentInChildren<PathFileManager>() != null)
-        //{
-        //    PathFileManager = gameObject.GetComponentInChildren<PathFileManager>().gameObject;
-        //    PathFileManager.GetComponent<PathFileManager>().Awake();
-        //}
+        if (gameObject.GetComponentInChildren<OGPathFileManager>() != null)
+        {
+            PathFileManager = gameObject.GetComponentInChildren<OGPathFileManager>().gameObject;
+            PathFileManager.GetComponent<OGPathFileManager>().Awake();
+        }
+    }
+
+    public Material CreateLineMaterial(string Path)
+    {
+        Material material = new Material(Shader.Find("Unlit/Texture"));
+
+        material.mainTexture = (Texture2D)AssetDatabase.LoadAssetAtPath(Path, typeof(Texture2D));
+
+        return material;
     }
 }

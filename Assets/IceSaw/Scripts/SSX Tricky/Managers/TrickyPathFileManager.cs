@@ -5,9 +5,9 @@ using UnityEditor;
 using SSXMultiTool.JsonFiles.Tricky;
 
 [ExecuteInEditMode]
-public class PathFileManager : MonoBehaviour
+public class TrickyPathFileManager : MonoBehaviour
 {
-    public static PathFileManager Instance;
+    public static TrickyPathFileManager Instance;
 
     //[HideInInspector]
     public GameObject AIPHolder;

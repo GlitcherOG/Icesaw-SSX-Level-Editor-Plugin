@@ -41,7 +41,7 @@ public class PathManager : MonoBehaviour
             TempGameObject.transform.parent = PathAHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            var TempInstance = TempGameObject.AddComponent<PathAObject>();
+            var TempInstance = TempGameObject.AddComponent<TrickyPathAObject>();
             TempInstance.LoadPathA(pathAs[i]);
         }
     }
@@ -54,7 +54,7 @@ public class PathManager : MonoBehaviour
             TempGameObject.transform.parent = PathBHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            var TempInstance = TempGameObject.AddComponent<PathBObject>();
+            var TempInstance = TempGameObject.AddComponent<TrickyPathBObject>();
             TempInstance.LoadPathB(pathBs[i]);
         }
     }
@@ -67,14 +67,14 @@ public class PathManager : MonoBehaviour
         aipsopJsonHandler.RaceLines = new List<AIPSOPJsonHandler.PathB>();
         aipsopJsonHandler.AIPaths = new List<AIPSOPJsonHandler.PathA>();
 
-        var TempPathAList = PathAHolder.transform.GetComponentsInChildren<PathAObject>();
+        var TempPathAList = PathAHolder.transform.GetComponentsInChildren<TrickyPathAObject>();
 
         for (int i = 0; i < TempPathAList.Length; i++)
         {
             aipsopJsonHandler.AIPaths.Add(TempPathAList[i].GeneratePathA());
         }
 
-        var TempPathBList = PathBHolder.transform.GetComponentsInChildren<PathBObject>();
+        var TempPathBList = PathBHolder.transform.GetComponentsInChildren<TrickyPathBObject>();
 
         for (int i = 0; i < TempPathBList.Length; i++)
         {

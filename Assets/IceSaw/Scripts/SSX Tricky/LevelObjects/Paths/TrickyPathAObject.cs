@@ -5,7 +5,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using UnityEditor;
 
-public class PathAObject : MonoBehaviour
+public class TrickyPathAObject : MonoBehaviour
 {
     public int Type;
     public int U1;
@@ -124,7 +124,7 @@ public class PathAObject : MonoBehaviour
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<PathAObject>().AddMissingComponents();
+        TempObject.AddComponent<TrickyPathAObject>().AddMissingComponents();
 
     }
 
