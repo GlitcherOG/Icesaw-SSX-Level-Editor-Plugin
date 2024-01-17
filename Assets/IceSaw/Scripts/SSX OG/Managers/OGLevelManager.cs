@@ -95,8 +95,8 @@ public class OGLevelManager : MonoBehaviour
         TempPathFile.runInEditMode = true;
         TempPathFile.GenerateEmptyObjects();
 
-        //Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
-        //Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
+        Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
+        Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
         AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
         RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
     }

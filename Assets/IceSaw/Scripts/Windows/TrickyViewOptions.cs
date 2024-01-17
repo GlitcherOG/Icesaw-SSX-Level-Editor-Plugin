@@ -22,7 +22,7 @@ public class TrickyViewOptions
             instanceObjects[i].gameObject.SetActive(true);
         }
 
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
@@ -63,7 +63,7 @@ public class TrickyViewOptions
             }
         }
 
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
@@ -112,7 +112,7 @@ public class TrickyViewOptions
             }
         }
 
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
@@ -163,7 +163,7 @@ public class TrickyViewOptions
             }
         }
 
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
@@ -188,7 +188,7 @@ public class TrickyViewOptions
     public static void FunctionRunRace()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -202,7 +202,7 @@ public class TrickyViewOptions
     public static void FunctionRunShowOff()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -216,7 +216,7 @@ public class TrickyViewOptions
     public static void FunctionRunFreeRide()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -231,7 +231,7 @@ public class TrickyViewOptions
     public static void FunctionRunCountDown()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -246,7 +246,7 @@ public class TrickyViewOptions
     public static void FunctionRunEndCountDown()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -261,7 +261,7 @@ public class TrickyViewOptions
     public static void FunctionRunNoCountDown()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        SplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
         var FunctionList = LogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
@@ -273,7 +273,7 @@ public class TrickyViewOptions
     }
 
 
-    public static void RunFunction(int Position, TrickyInstanceObject[] InstanceList, SplineObject[] splineObjects)
+    public static void RunFunction(int Position, TrickyInstanceObject[] InstanceList, TrickySplineObject[] splineObjects)
     {
         var Function = LogicManager.Instance.GetFunctionList()[Position];
 
@@ -310,7 +310,7 @@ public class TrickyViewOptions
         }
     }
 
-    public static void RunEffectSpline(int Effect, int Spline, SplineObject[] splineObjects)
+    public static void RunEffectSpline(int Effect, int Spline, TrickySplineObject[] splineObjects)
     {
         if(Effect==0)
         {

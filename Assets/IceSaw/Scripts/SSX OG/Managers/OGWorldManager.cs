@@ -77,8 +77,8 @@ public class OGWorldManager : MonoBehaviour
     {
         //SetStatic();
         LoadPatches(path + "\\Patches.json");
-        LoadInstance(path + "\\Instances.json");
-        //LoadSplines(path + "\\Splines.json");
+        LoadInstances(path + "\\Instances.json");
+        LoadSplines(path + "\\Splines.json");
         //LoadLighting(path + "\\Lights.json");
         //LoadParticleInstances(path + "\\ParticleInstances.json");
         //LoadCameraInstances(path + "\\Cameras.json");
@@ -91,7 +91,7 @@ public class OGWorldManager : MonoBehaviour
 
         for (int i = 0; i < patchesJsonHandler.Patches.Count; i++)
         {
-            GameObject NewPatch = new GameObject();
+            GameObject NewPatch = new GameObject("Patch " + i);
             NewPatch.transform.parent = PatchesHolder.transform;
             NewPatch.transform.localPosition = Vector3.zero;
             NewPatch.transform.localScale = Vector3.one;
@@ -103,7 +103,7 @@ public class OGWorldManager : MonoBehaviour
         }
     }
 
-    public void LoadInstance(string Path)
+    public void LoadInstances(string Path)
     {
         InstanceJsonHandler instanceJsonHandler = new InstanceJsonHandler();
         instanceJsonHandler = InstanceJsonHandler.Load(Path);
@@ -116,6 +116,22 @@ public class OGWorldManager : MonoBehaviour
             TempGameObject.transform.localEulerAngles = Vector3.zero;
             var TempInstance = TempGameObject.AddComponent<OGInstanceObject>();
             TempInstance.LoadInstance(instanceJsonHandler.Instances[i]);
+        }
+    }
+
+    public void LoadSplines(string Path)
+    {
+        SplinesJsonHandler splineJsonHandler = new SplinesJsonHandler();
+        splineJsonHandler = SplinesJsonHandler.Load(Path);
+
+        for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
+        {
+            var TempGameObject = new GameObject("Spline " + i);
+            TempGameObject.transform.parent = SplinesHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+            var TempSpline = TempGameObject.AddComponent<OGSplineObject>();
+            TempSpline.LoadSpline(splineJsonHandler.Splines[i]);
         }
     }
 

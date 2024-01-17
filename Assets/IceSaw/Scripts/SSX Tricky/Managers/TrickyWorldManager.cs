@@ -137,7 +137,7 @@ public class TrickyWorldManager : MonoBehaviour
             TempSpline.transform.parent = SplinesHolder.transform;
             TempSpline.transform.localScale = Vector3.one;
             TempSpline.transform.localEulerAngles = Vector3.zero;
-            var TempObj = TempSpline.AddComponent<SplineObject>();
+            var TempObj = TempSpline.AddComponent<TrickySplineObject>();
             TempObj.LoadSpline(TempSplineData);
         }
     }
@@ -304,9 +304,9 @@ public class TrickyWorldManager : MonoBehaviour
         return InstancesHolder.GetComponentsInChildren<TrickyInstanceObject>(true);
     }
 
-    public SplineObject[] GetSplineList()
+    public TrickySplineObject[] GetSplineList()
     {
-        return SplinesHolder.GetComponentsInChildren<SplineObject>(true);
+        return SplinesHolder.GetComponentsInChildren<TrickySplineObject>(true);
     }
 
     public LightObject[] GetLightList()

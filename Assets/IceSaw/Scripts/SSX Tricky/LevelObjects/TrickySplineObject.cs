@@ -4,9 +4,8 @@ using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using UnityEditor;
-using static SplineObject;
 
-public class SplineObject : MonoBehaviour
+public class TrickySplineObject : MonoBehaviour
 {
     public int U0;
     public int U1;
@@ -107,7 +106,7 @@ public class SplineObject : MonoBehaviour
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<SplineObject>().AddMissingComponents();
+        TempObject.AddComponent<TrickySplineObject>().AddMissingComponents();
 
     }
 
