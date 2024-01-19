@@ -325,13 +325,28 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Toggle Lightmap", false, 200)]
     public static void LightmapToggle()
     {
-        TrickyLevelManager.Instance.LightmapMode = !TrickyLevelManager.Instance.LightmapMode;
-
-        var TempPatchList = TrickyWorldManager.Instance.GetPatchList();
-
-        for (int i = 0; i < TempPatchList.Length; i++)
+        if(OGLevelManager.Instance !=null)
         {
-            TempPatchList[i].ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
+            OGLevelManager.Instance.LightmapMode = !OGLevelManager.Instance.LightmapMode;
+
+            var TempPatchList = OGWorldManager.Instance.GetPatchList();
+
+            for (int i = 0; i < TempPatchList.Length; i++)
+            {
+                TempPatchList[i].ToggleLightingMode(OGLevelManager.Instance.LightmapMode);
+            }
+        }
+        else
+        if (TrickyLevelManager.Instance != null)
+        {
+            TrickyLevelManager.Instance.LightmapMode = !TrickyLevelManager.Instance.LightmapMode;
+
+            var TempPatchList = TrickyWorldManager.Instance.GetPatchList();
+
+            for (int i = 0; i < TempPatchList.Length; i++)
+            {
+                TempPatchList[i].ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
+            }
         }
     }
 

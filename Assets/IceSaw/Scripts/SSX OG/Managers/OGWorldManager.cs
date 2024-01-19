@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class OGWorldManager : MonoBehaviour
 {
     public static OGWorldManager Instance;
@@ -10,6 +11,7 @@ public class OGWorldManager : MonoBehaviour
     public GameObject PatchesHolder;
     public GameObject InstancesHolder;
     public GameObject SplinesHolder;
+    public GameObject SegmentsHolder;
     public GameObject ParticlesHolder;
     public GameObject LightingHolder;
     public GameObject CameraHolder;
@@ -52,6 +54,12 @@ public class OGWorldManager : MonoBehaviour
         SplinesHolder.transform.localScale = Vector3.one;
         SplinesHolder.transform.localEulerAngles = Vector3.zero;
         SplinesHolder.transform.hideFlags = HideFlags.HideInInspector;
+
+        SegmentsHolder = new GameObject("Loose Segments");
+        SegmentsHolder.transform.parent = transform;
+        SegmentsHolder.transform.localScale = Vector3.one;
+        SegmentsHolder.transform.localEulerAngles = Vector3.zero;
+        SegmentsHolder.transform.hideFlags = HideFlags.HideInInspector;
 
         ParticlesHolder = new GameObject("Particles");
         ParticlesHolder.transform.parent = transform;
@@ -132,6 +140,16 @@ public class OGWorldManager : MonoBehaviour
             TempGameObject.transform.localEulerAngles = Vector3.zero;
             var TempSpline = TempGameObject.AddComponent<OGSplineObject>();
             TempSpline.LoadSpline(splineJsonHandler.Splines[i]);
+        }
+
+        for (int i = 0; i < splineJsonHandler.SegmentsData.Count; i++)
+        {
+            var TempGameObject = new GameObject("Segment " + i);
+            TempGameObject.transform.parent = SegmentsHolder.transform;
+            TempGameObject.transform.localScale = Vector3.one;
+            TempGameObject.transform.localEulerAngles = Vector3.zero;
+            var TempSpline = TempGameObject.AddComponent<OGLooseSegment>();
+            TempSpline.LoadSpline(splineJsonHandler.SegmentsData[i]);
         }
     }
 

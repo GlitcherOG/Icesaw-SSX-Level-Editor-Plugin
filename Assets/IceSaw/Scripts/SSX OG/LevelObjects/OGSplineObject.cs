@@ -7,9 +7,6 @@ using UnityEditor;
 
 public class OGSplineObject : MonoBehaviour
 {
-    public Vector3 vector3;
-    public Vector3 vector31;
-
     public int U0;
     public int U1;
     public int U2;
@@ -17,12 +14,11 @@ public class OGSplineObject : MonoBehaviour
     //16
     public int U3;
     public int U4;
-    public int U5;
     public int U6;
-    public int U7;
-    public int U8;
     public int U9;
     public int U10;
+
+    public List<SplineSegment> splineSegments = new List<SplineSegment>();
 
     //[OnChangedCall("DrawCurve")]
     LineRenderer lineRenderer;
@@ -58,21 +54,35 @@ public class OGSplineObject : MonoBehaviour
     {
         AddMissingComponents();
 
-        vector3 = JsonUtil.ArrayToVector3(spline.vector3);
-        vector31 = JsonUtil.ArrayToVector3(spline.vector31);
-
+        transform.name = spline.SplineName;
         U0 = spline.U0;
         U1 = spline.U1;
         U2 = spline.U2;
 
         U3 = spline.U3;
         U4 = spline.U4;
-        U5 = spline.U5;
-        U6 = spline.U6;
-        U7 = spline.U7;
-        U8 = spline.U8;
         U9 = spline.U9;
         U10 = spline.U10;
+
+        transform.localPosition = JsonUtil.ArrayToVector3(spline.Segments[0].Point1);
+
+        for (int i = 0; i < spline.Segments.Count; i++)
+        {
+            SplineSegment splineSegment = new SplineSegment();
+
+            splineSegment.Point1 = JsonUtil.ArrayToVector3(spline.Segments[i].Point1);
+            splineSegment.Point2 = JsonUtil.ArrayToVector3(spline.Segments[i].Point2);
+            splineSegment.Point3 = JsonUtil.ArrayToVector3(spline.Segments[i].Point3);
+            splineSegment.Point4 = JsonUtil.ArrayToVector3(spline.Segments[i].Point4);
+
+            splineSegment.U0 = spline.Segments[i].U0;
+            splineSegment.U1 = spline.Segments[i].U1;
+            splineSegment.U2 = spline.Segments[i].U2;
+            splineSegment.U3 = spline.Segments[i].U3;
+            splineSegment.U4 = spline.Segments[i].U4;
+
+            splineSegments.Add(splineSegment);
+        }
 
         DrawCurve();
     }
@@ -114,21 +124,21 @@ public class OGSplineObject : MonoBehaviour
 
     //}
 
-    //Vector3 CalculateCubicBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
-    //{
-    //    float u = 1 - t;
-    //    float tt = t * t;
-    //    float uu = u * u;
-    //    float uuu = uu * u;
-    //    float ttt = tt * t;
+    Vector3 CalculateCubicBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+    {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float ttt = tt * t;
 
-    //    Vector3 p = uuu * p0;
-    //    p += 3 * uu * t * p1;
-    //    p += 3 * u * tt * p2;
-    //    p += ttt * p3;
+        Vector3 p = uuu * p0;
+        p += 3 * uu * t * p1;
+        p += 3 * u * tt * p2;
+        p += ttt * p3;
 
-    //    return p;
-    //}
+        return p;
+    }
 
     [ContextMenu("DrawCurve")]
     public void DrawCurve()
@@ -138,43 +148,41 @@ public class OGSplineObject : MonoBehaviour
         {
             lineRenderer = GetComponent<LineRenderer>();
         }
-        lineRenderer.positionCount = 2;
+        lineRenderer.positionCount = 0;
 
-        curves.Add(vector3);
-        curves.Add(vector31);
-        //for (int i = 0; i < splineSegments.Count; i++)
-        //{
-        //    var TempSegment = splineSegments[i];
+        for (int i = 0; i < splineSegments.Count; i++)
+        {
+            var TempSegment = splineSegments[i];
 
-        //    TempSegment.LocalPoint1 = ConvertLocalPoint(TempSegment.Point1);
-        //    TempSegment.LocalPoint2 = ConvertLocalPoint(TempSegment.Point2);
-        //    TempSegment.LocalPoint3 = ConvertLocalPoint(TempSegment.Point3);
-        //    TempSegment.LocalPoint4 = ConvertLocalPoint(TempSegment.Point4);
+            TempSegment.LocalPoint1 = ConvertLocalPoint(TempSegment.Point1);
+            TempSegment.LocalPoint2 = ConvertLocalPoint(TempSegment.Point2);
+            TempSegment.LocalPoint3 = ConvertLocalPoint(TempSegment.Point3);
+            TempSegment.LocalPoint4 = ConvertLocalPoint(TempSegment.Point4);
 
-        //    lineRenderer.positionCount += SEGMENT_COUNT + 2;
-        //    curves.Add(TempSegment.LocalPoint1);
-        //    for (int a = 1; a <= SEGMENT_COUNT; a++)
-        //    {
-        //        float t = a / (float)SEGMENT_COUNT;
-        //        Vector3 pixel = CalculateCubicBezierPoint(t, (TempSegment.LocalPoint1), (TempSegment.LocalPoint2), (TempSegment.LocalPoint3), (TempSegment.LocalPoint4));
-        //        curves.Add(pixel);
-        //    }
-        //    curves.Add(TempSegment.LocalPoint4);
+            lineRenderer.positionCount += SEGMENT_COUNT + 2;
+            curves.Add(TempSegment.LocalPoint1);
+            for (int a = 1; a <= SEGMENT_COUNT; a++)
+            {
+                float t = a / (float)SEGMENT_COUNT;
+                Vector3 pixel = CalculateCubicBezierPoint(t, (TempSegment.LocalPoint1), (TempSegment.LocalPoint2), (TempSegment.LocalPoint3), (TempSegment.LocalPoint4));
+                curves.Add(pixel);
+            }
+            curves.Add(TempSegment.LocalPoint4);
 
-        //    splineSegments[i] = TempSegment;
-        //}
+            splineSegments[i] = TempSegment;
+        }
 
         lineRenderer.SetPositions(curves.ToArray());
     }
 
     Vector3 ConvertLocalPoint(Vector3 point)
     {
-        return transform.InverseTransformPoint(TrickyLevelManager.Instance.transform.TransformPoint(point));
+        return transform.InverseTransformPoint(OGLevelManager.Instance.transform.TransformPoint(point));
     }
 
     Vector3 ConvertWorldPoint(Vector3 point)
     {
-        return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+        return OGLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
     }
 
     //[ContextMenu("Reset Transform")]
@@ -197,4 +205,30 @@ public class OGSplineObject : MonoBehaviour
     //        Segments[i].Hold = false;
     //    }
     //}
+    [System.Serializable]
+    public struct SplineSegment
+    {
+        public Vector3 Point1;
+        public Vector3 Point2;
+        public Vector3 Point3;
+        public Vector3 Point4;
+
+        public float U0;
+        public float U1;
+        public float U2;
+        public float U3;
+
+
+        public int U4;
+
+        [HideInInspector]
+        public Vector3 LocalPoint1;
+        [HideInInspector]
+        public Vector3 LocalPoint2;
+        [HideInInspector]
+        public Vector3 LocalPoint3;
+        [HideInInspector]
+        public Vector3 LocalPoint4;
+
+    }
 }
