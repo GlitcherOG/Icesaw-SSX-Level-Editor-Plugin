@@ -162,5 +162,4 @@ public class OGWorldManager : MonoBehaviour
     {
         return InstancesHolder.GetComponentsInChildren<OGInstanceObject>(true);
     }
-
 }

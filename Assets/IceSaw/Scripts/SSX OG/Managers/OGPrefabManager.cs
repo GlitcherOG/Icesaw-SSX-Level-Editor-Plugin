@@ -61,7 +61,7 @@ public class OGPrefabManager : MonoBehaviour
     public void LoadData(string Path)
     {
         LoadMeshCache(Path + "\\Models");
-        //LoadCollisionMeshCache(Path + "\\Collision");
+        LoadCollisionMeshCache(Path + "\\Collision");
         LoadMaterials(Path + "\\Materials.json");
         LoadPrefabs(Path + "\\Prefabs.json");
         //LoadParticlePrefabs(Path + "\\ParticlePrefabs.json");

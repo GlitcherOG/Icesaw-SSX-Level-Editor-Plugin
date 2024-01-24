@@ -353,26 +353,54 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Toggle Instance Models", false, 200)]
     public static void TogglePrefabModels()
     {
-        TrickyWorldManager.Instance.ShowInstanceModels = !TrickyWorldManager.Instance.ShowInstanceModels;
-
-        var TempList = TrickyWorldManager.Instance.GetInstanceList();
-
-        for (int i = 0; i < TempList.Length; i++)
+        if(OGWorldManager.Instance!=null)
         {
-            TempList[i].RefreshHiddenModels();
+            OGWorldManager.Instance.ShowInstanceModels = !OGWorldManager.Instance.ShowInstanceModels;
+
+            var TempList = OGWorldManager.Instance.GetInstanceList();
+
+            for (int i = 0; i < TempList.Length; i++)
+            {
+                TempList[i].RefreshHiddenModels();
+            }
+        }
+        else if (TrickyWorldManager.Instance != null)
+        {
+            TrickyWorldManager.Instance.ShowInstanceModels = !TrickyWorldManager.Instance.ShowInstanceModels;
+
+            var TempList = TrickyWorldManager.Instance.GetInstanceList();
+
+            for (int i = 0; i < TempList.Length; i++)
+            {
+                TempList[i].RefreshHiddenModels();
+            }
         }
     }
 
     [MenuItem("Ice Saw View/Toggle Collision Models", false, 200)]
     public static void ToggleCollisionModels()
     {
-        TrickyWorldManager.Instance.ShowCollisionModels = !TrickyWorldManager.Instance.ShowCollisionModels;
-
-        var TempList = TrickyWorldManager.Instance.GetInstanceList();
-
-        for (int i = 0; i < TempList.Length; i++)
+        if(OGWorldManager.Instance != null)
         {
-            TempList[i].RefreshHiddenModels();
+            OGWorldManager.Instance.ShowCollisionModels = !OGWorldManager.Instance.ShowCollisionModels;
+
+            var TempList = OGWorldManager.Instance.GetInstanceList();
+
+            for (int i = 0; i < TempList.Length; i++)
+            {
+                TempList[i].RefreshHiddenModels();
+            }
+        }
+        else if (TrickyWorldManager.Instance != null)
+        {
+            TrickyWorldManager.Instance.ShowCollisionModels = !TrickyWorldManager.Instance.ShowCollisionModels;
+
+            var TempList = TrickyWorldManager.Instance.GetInstanceList();
+
+            for (int i = 0; i < TempList.Length; i++)
+            {
+                TempList[i].RefreshHiddenModels();
+            }
         }
     }
 

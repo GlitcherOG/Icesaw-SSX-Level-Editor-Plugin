@@ -21,7 +21,7 @@ public class OGInstanceObject : MonoBehaviour
     public float PlayerBounceValue;
 
     public int CollsionMode; //16
-    public int CollisonModelIndex; //16
+    public string[] CollsionModelPaths;
     public int PhysicsIndex; //16
     public int U11; //16
 
@@ -33,7 +33,8 @@ public class OGInstanceObject : MonoBehaviour
     public int U16;
     public int U17;
 
-    public GameObject Prefab;
+    GameObject Prefab;
+    GameObject Collision;
 
     public void LoadInstance(InstanceJsonHandler.InstanceJson instance)
     {
@@ -56,7 +57,7 @@ public class OGInstanceObject : MonoBehaviour
         PlayerBounceValue = instance.PlayerBounceValue;
 
         CollsionMode = instance.CollsionMode;
-        CollisonModelIndex = instance.CollisonModelIndex;
+        CollsionModelPaths = instance.CollsionModelPaths;
         PhysicsIndex = instance.PhysicsIndex;
         U11 = instance.U11;
 
@@ -68,6 +69,7 @@ public class OGInstanceObject : MonoBehaviour
         U16 = instance.U16;
         U17 = instance.U17;
         LoadPrefabs();
+        LoadCollisionModels();
     }
 
     public void LoadPrefabs()
@@ -109,6 +111,101 @@ public class OGInstanceObject : MonoBehaviour
         return objectTransform.TransformPoint(point);
     }
 
+    [ContextMenu("Refresh Collision Model")]
+    public void LoadCollisionModels()
+    {
+        //Generate Collisions
+
+        if (Collision != null)
+        {
+            DestroyImmediate(Collision);
+        }
+
+        Collision = new GameObject("CollisionModel");
+        Collision.transform.parent = transform;
+        Collision.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        Collision.transform.localPosition = new Vector3(0, 0, 0);
+        Collision.transform.localScale = new Vector3(1, 1, 1);
+
+        Collision.transform.hideFlags = HideFlags.HideInHierarchy;
+
+        //if (CollsionMode == 1)
+        //{
+            if (CollsionModelPaths != null)
+            {
+                if (CollsionModelPaths.Length != 0)
+                {
+                    //AddSubObjects
+                    for (int i = 0; i < CollsionModelPaths.Length; i++)
+                    {
+                        var TempObject = new GameObject(i.ToString());
+                        TempObject.transform.parent = Collision.transform;
+                        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                        TempObject.transform.localPosition = new Vector3(0, 0, 0);
+                        TempObject.transform.localScale = new Vector3(1, 1, 1);
+
+                        TempObject.AddComponent<MeshFilter>().sharedMesh = OGPrefabManager.Instance.GetColMesh(CollsionModelPaths[i]);
+
+                        var TempMaterial = new Material(Shader.Find("Standard"));
+                        TempMaterial.color = Color.red;
+
+                        TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
+                        TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                        TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
+                    }
+                }
+            }
+        //}
+        //else if (CollsionMode==2)
+        //{
+        //    //Calculate BBox
+        //    Vector3 HighestBBox = new Vector3();
+        //    Vector3 LowestBBox = new Vector3();
+        //    bool Hotfix = false;
+
+        //    var TempMeshList = Prefab.GetComponentsInChildren<MeshFilter>();
+
+        //    for (int i = 0; i < TempMeshList.Length; i++)
+        //    {
+        //        var VertexList = TempMeshList[i].sharedMesh.vertices;
+
+        //        for (int a = 0; a < VertexList.Length; a++)
+        //        {
+        //            var TempVector = TempMeshList[i].transform.TransformPoint(VertexList[a]);
+        //            TempVector = transform.InverseTransformPoint(TempVector);
+
+        //            if(!Hotfix)
+        //            {
+        //                HighestBBox = TempVector;
+        //                LowestBBox = TempVector;
+        //                Hotfix = true;
+        //            }
+
+        //            HighestBBox = JsonUtil.Highest(HighestBBox, TempVector);
+        //            LowestBBox = JsonUtil.Lowest(LowestBBox, TempVector);
+        //        }
+        //    }
+
+        //    //GenerateMesh
+        //    var TempObject = new GameObject("0");
+        //    TempObject.transform.parent = Collision.transform;
+        //    TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        //    TempObject.transform.localPosition = new Vector3(0, 0, 0);
+        //    TempObject.transform.localScale = new Vector3(1, 1, 1);
+
+        //    TempObject.AddComponent<MeshFilter>().sharedMesh = GenerateBBoxMesh(HighestBBox, LowestBBox);
+
+        //    var TempMaterial = new Material(Shader.Find("Standard"));
+        //    TempMaterial.color = Color.red;
+
+        //    TempObject.AddComponent<MeshRenderer>().sharedMaterial = TempMaterial;
+        //    TempObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        //    TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
+        //}
+
+        Collision.SetActive(OGWorldManager.Instance.ShowCollisionModels);
+    }
+
     public List<ObjExporter.MassModelData> GenerateModel()
     {
         string[] TempTextures = OGPrefabManager.Instance.GetPrefabObject(PrefabID).GetTextureNames();
@@ -140,5 +237,17 @@ public class OGInstanceObject : MonoBehaviour
             MainList.Add(TempModel);
         }
         return MainList;
+    }
+
+    public void RefreshHiddenModels()
+    {
+        if (Prefab != null)
+        {
+            Prefab.SetActive(OGWorldManager.Instance.ShowInstanceModels);
+        }
+        if (Collision != null)
+        {
+            Collision.SetActive(OGWorldManager.Instance.ShowCollisionModels);
+        }
     }
 }
