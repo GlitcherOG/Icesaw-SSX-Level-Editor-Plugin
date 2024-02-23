@@ -49,6 +49,10 @@ public class TrickyPathBObject : MonoBehaviour
         for (int i = 0; i < pathB.PathPoints.GetLength(0); i++)
         {
             PathPoints.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
+            if(i!=0)
+            {
+                PathPoints[i] += PathPoints[i - 1];
+            }
         }
 
         PathEvents = new List<PathEvent>();
@@ -84,6 +88,13 @@ public class TrickyPathBObject : MonoBehaviour
             pathB.PathPoints[i, 0] = PathPoints[i].x;
             pathB.PathPoints[i, 1] = PathPoints[i].y;
             pathB.PathPoints[i, 2] = PathPoints[i].z;
+
+            if (i != 0)
+            {
+                pathB.PathPoints[i, 0] -= PathPoints[i-1].x;
+                pathB.PathPoints[i, 1] -= PathPoints[i-1].y;
+                pathB.PathPoints[i, 2] -= PathPoints[i-1].z;
+            }
         }
 
         pathB.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
