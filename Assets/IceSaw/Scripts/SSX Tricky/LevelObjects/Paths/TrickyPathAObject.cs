@@ -100,9 +100,9 @@ public class TrickyPathAObject : MonoBehaviour
 
             if (i != 0)
             {
-                pathB.PathPoints[i, 0] -= PathPoints[i - 1].x;
-                pathB.PathPoints[i, 1] -= PathPoints[i - 1].y;
-                pathB.PathPoints[i, 2] -= PathPoints[i - 1].z;
+                NewPathA.PathPoints[i, 0] -= PathPoints[i - 1].x;
+                NewPathA.PathPoints[i, 1] -= PathPoints[i - 1].y;
+                NewPathA.PathPoints[i, 2] -= PathPoints[i - 1].z;
             }
         }
 
