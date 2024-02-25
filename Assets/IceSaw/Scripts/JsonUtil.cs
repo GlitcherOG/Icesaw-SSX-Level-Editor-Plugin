@@ -24,6 +24,20 @@ namespace SSXMultiTool.Utilities
             return new Vector4(vector3.x, vector3.y, vector3.z, w);
         }
 
+        public static Vector3 Array2DToVector3(float[,] floats, int ArrayPos)
+        {
+            return new Vector3(floats[ArrayPos, 0], floats[ArrayPos, 1], floats[ArrayPos, 2]);
+        }
+
+        public static float[,] Vector3ToArray2D(float[,] floats, Vector3 vector3, int ArrayPos)
+        {
+            floats[ArrayPos, 0] = vector3.x;
+            floats[ArrayPos, 1] = vector3.y;
+            floats[ArrayPos, 2] = vector3.z;
+
+            return floats;
+        }
+
         public static float[] Vector4ToArray(Vector4 vector4)
         {
             float[] array = new float[4];

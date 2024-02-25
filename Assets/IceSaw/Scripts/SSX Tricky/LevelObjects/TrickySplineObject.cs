@@ -51,16 +51,16 @@ public class TrickySplineObject : MonoBehaviour
         U1 = spline.U1;
         SplineStyle = spline.SplineStyle;
 
-        transform.localPosition = JsonUtil.ArrayToVector3(spline.Segments[0].Point1);
+        transform.localPosition = JsonUtil.Array2DToVector3(spline.Segments[0].Points, 0);
 
         for (int i = 0; i < spline.Segments.Count; i++)
         {
             SplineSegment splineSegment = new SplineSegment();
 
-            splineSegment.Point1 = JsonUtil.ArrayToVector3(spline.Segments[i].Point1);
-            splineSegment.Point2 = JsonUtil.ArrayToVector3(spline.Segments[i].Point2);
-            splineSegment.Point3 = JsonUtil.ArrayToVector3(spline.Segments[i].Point3);
-            splineSegment.Point4 = JsonUtil.ArrayToVector3(spline.Segments[i].Point4);
+            splineSegment.Point1 = JsonUtil.Array2DToVector3(spline.Segments[i].Points, 0);
+            splineSegment.Point2 = JsonUtil.Array2DToVector3(spline.Segments[i].Points, 1);
+            splineSegment.Point3 = JsonUtil.Array2DToVector3(spline.Segments[i].Points, 2);
+            splineSegment.Point4 = JsonUtil.Array2DToVector3(spline.Segments[i].Points, 3);
 
             splineSegment.U0 = spline.Segments[i].U0;
             splineSegment.U1 = spline.Segments[i].U1;

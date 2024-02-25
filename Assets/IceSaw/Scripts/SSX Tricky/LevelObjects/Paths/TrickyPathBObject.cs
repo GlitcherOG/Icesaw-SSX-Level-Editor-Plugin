@@ -60,10 +60,10 @@ public class TrickyPathBObject : MonoBehaviour
         {
             var NewStruct = new PathEvent();
 
-            NewStruct.U0 = pathB.PathEvents[i].U0;
-            NewStruct.U1 = pathB.PathEvents[i].U1;
-            NewStruct.U2 = pathB.PathEvents[i].U2;
-            NewStruct.U3 = pathB.PathEvents[i].U3;
+            NewStruct.EventType = pathB.PathEvents[i].EventType;
+            NewStruct.EventValue = pathB.PathEvents[i].EventValue;
+            NewStruct.EventStart = pathB.PathEvents[i].EventStart;
+            NewStruct.EventEnd = pathB.PathEvents[i].EventEnd;
 
             PathEvents.Add(NewStruct);
         }
@@ -102,10 +102,10 @@ public class TrickyPathBObject : MonoBehaviour
         {
             var NewStruct = new AIPSOPJsonHandler.PathEvent();
 
-            NewStruct.U0 = PathEvents[i].U0;
-            NewStruct.U1 = PathEvents[i].U1;
-            NewStruct.U2 = PathEvents[i].U2;
-            NewStruct.U3 = PathEvents[i].U3;
+            NewStruct.EventType = PathEvents[i].EventType;
+            NewStruct.EventValue = PathEvents[i].EventValue;
+            NewStruct.EventStart = PathEvents[i].EventStart;
+            NewStruct.EventEnd = PathEvents[i].EventEnd;
 
             pathB.PathEvents.Add(NewStruct);
         }
@@ -121,6 +121,27 @@ public class TrickyPathBObject : MonoBehaviour
         {
             lineRenderer.SetPosition(i, PathPoints[i]);
         }
+    }
+
+    public void CalcualteEventPoints()
+    {
+        List<float> Distances = new List<float>();
+        Vector3 PrevPoint = Vector3.zero;
+        for (int i = 0;i < PathPoints.Count;i++)
+        {
+            Distances.Add(Vector3.Distance(PrevPoint, PathPoints[i]));
+            PrevPoint = PathPoints[i];
+        }
+
+        int AlongPoint = 0;
+        for (int i = 0; i < Distances.Count; i++)
+        {
+            AlongPoint = i;
+
+
+        }
+
+
     }
 
     [MenuItem("GameObject/Ice Saw/Path B", false, 202)]
@@ -141,10 +162,10 @@ public class TrickyPathBObject : MonoBehaviour
     [System.Serializable]
     public struct PathEvent
     {
-        public int U0;
-        public int U1;
-        public float U2;
-        public float U3;
+        public int EventType;
+        public int EventValue;
+        public float EventStart;
+        public float EventEnd;
     }
 
 }
