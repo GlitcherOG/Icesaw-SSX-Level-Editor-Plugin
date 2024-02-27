@@ -11,6 +11,7 @@ public class TrickyLevelManager : MonoBehaviour
 {
     public static TrickyLevelManager Instance;
     public string LoadPath;
+    public bool EditMode;
 
     //[OnChangedCall("ForceTextureUpdate")]
     public List<TextureData> texture2Ds = new List<TextureData>();
@@ -473,4 +474,45 @@ public class TrickyLevelManager : MonoBehaviour
         public Texture2D Texture;
     }
 
+    private void OnEnable()
+    {
+        SceneView.duringSceneGui += OnSceneGUI;
+    }
+
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -= OnSceneGUI;
+    }
+
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        Handles.BeginGUI();
+        if (EditMode)
+        {
+            if (GUILayout.Button("Edit Mode", GUILayout.Width(100)))
+                EditMode = false;
+        }
+        else
+        {
+            if (GUILayout.Button("Object Mode", GUILayout.Width(100)))
+                EditMode = true;
+        }
+
+        Handles.EndGUI();
+    }
+
+}
+
+[CustomEditor(typeof(TrickyLevelManager))]
+public class TrickyLevelManagerEditor : Editor
+{
+    //protected virtual void OnSceneGUI()
+    //{
+    //    Handles.BeginGUI();
+    //    if()
+    //    if (GUILayout.Button("Press Me", GUILayout.Width(100)))
+    //        Debug.Log("Got it to work.");
+
+    //    Handles.EndGUI();
+    //}
 }

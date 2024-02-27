@@ -5,8 +5,6 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using UnityEditor;
 using System.Drawing;
-using UnityEditor.PackageManager.UI;
-using UnityEngine.UIElements;
 
 [ExecuteInEditMode]
 public class TrickySplineObject : MonoBehaviour
@@ -24,6 +22,12 @@ public class TrickySplineObject : MonoBehaviour
     [HideInInspector]
     public int SEGMENT_COUNT = 10;
 
+    Vector3 OldPos;
+    Vector3 OldPosSeg;
+
+    Quaternion OldRotation;
+    Vector3 OldScale;
+
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
     {
@@ -37,17 +41,9 @@ public class TrickySplineObject : MonoBehaviour
         lineRenderer.hideFlags = HideFlags.HideInInspector;
         lineRenderer.material = TrickyLevelManager.Instance.Spline;
         lineRenderer.textureMode = LineTextureMode.Tile;
-        Undo.undoRedoPerformed += UndoAndRedoFix;
+        //Undo.undoRedoPerformed += UndoAndRedoFix;
     }
 
-    void UndoAndRedoFix()
-    {
-        //LocalPoint1 = ConvertLocalPoint(Point1);
-        //LocalPoint2 = ConvertLocalPoint(Point2);
-        //LocalPoint3 = ConvertLocalPoint(Point3);
-        //LocalPoint4 = ConvertLocalPoint(Point4);
-        DrawCurve();
-    }
     public void LoadSpline(SplineJsonHandler.SplineJson spline)
     {
         AddMissingComponents();
@@ -59,6 +55,9 @@ public class TrickySplineObject : MonoBehaviour
 
         transform.localPosition = JsonUtil.Array2DToVector3(spline.Segments[0].Points, 0);
 
+        OldPos = transform.localPosition;
+        OldPosSeg = transform.localPosition;
+
         for (int i = 0; i < spline.Segments.Count; i++)
         {
             SplineSegment splineSegment = new SplineSegment();
@@ -67,11 +66,6 @@ public class TrickySplineObject : MonoBehaviour
             splineSegment.Point2 = JsonUtil.Array2DToVector3(spline.Segments[i].Points, 1);
             splineSegment.Point3 = JsonUtil.Array2DToVector3(spline.Segments[i].Points, 2);
             splineSegment.Point4 = JsonUtil.Array2DToVector3(spline.Segments[i].Points, 3);
-
-            splineSegment.HiddenPoint1 = splineSegment.Point1;
-            splineSegment.HiddenPoint2 = splineSegment.Point2;
-            splineSegment.HiddenPoint3 = splineSegment.Point3;
-            splineSegment.HiddenPoint4 = splineSegment.Point4;
 
             splineSegment.U0 = spline.Segments[i].U0;
             splineSegment.U1 = spline.Segments[i].U1;
@@ -85,7 +79,6 @@ public class TrickySplineObject : MonoBehaviour
         {
             SplineSegment splineSegment = splineSegments[i];
             splineSegment.Point4 = splineSegments[i + 1].Point1;
-            splineSegment.HiddenPoint4 = splineSegments[i + 1].Point1;
             splineSegments[i] = splineSegment;
         }
 
@@ -192,22 +185,6 @@ public class TrickySplineObject : MonoBehaviour
     //[ContextMenu("Reset Transform")]
     //public void TransformReset()
     //{
-    //    var Segments = transform.GetComponentsInChildren<SplineSegmentObject>();
-    //    for (int i = 0; i < Segments.Length; i++)
-    //    {
-    //        Segments[i].Hold = true;
-    //    }
-
-    //    transform.localPosition = Vector3.zero;
-    //    transform.localRotation = new Quaternion(0, 0, 0, 0);
-    //    transform.localScale = new Vector3(1, 1, 1);
-    //    transform.hasChanged = false;
-
-    //    for (int i = 0; i < Segments.Length; i++)
-    //    {
-    //        Segments[i].DrawCurve();
-    //        Segments[i].Hold = false;
-    //    }
     //}
 
     [System.Serializable]
@@ -221,15 +198,6 @@ public class TrickySplineObject : MonoBehaviour
         public float U1;
         public float U2;
         public float U3;
-
-        [HideInInspector]
-        public Vector3 HiddenPoint1;
-        [HideInInspector]
-        public Vector3 HiddenPoint2;
-        [HideInInspector]
-        public Vector3 HiddenPoint3;
-        [HideInInspector]
-        public Vector3 HiddenPoint4;
 
         [HideInInspector]
         public Vector3 LocalPoint1;
@@ -250,12 +218,64 @@ public class TrickySplineObject : MonoBehaviour
     {
         SceneView.duringSceneGui -= OnSceneGUI;
     }
-
+    bool SetOnce = false;
+    bool PrevSelected = false;
     private void OnSceneGUI(SceneView sceneView)
     {
-        if(Selection.activeObject!=this.gameObject)
+        if (Selection.activeObject == this.gameObject)
+        {
+            PrevSelected = true;
+            if (!TrickyLevelManager.Instance.EditMode && !SetOnce)
+            {
+                lineRenderer.enabled = false;
+                SetOnce = true;
+                Tools.current = Tool.Move;
+            }
+            else if (TrickyLevelManager.Instance.EditMode)
+            {
+                SetOnce = false;
+            }
+        }
+        else
         {
             lineRenderer.enabled = true;
+            SetOnce = false;
+            if (PrevSelected)
+            {
+                DrawCurve();
+                PrevSelected = false;
+                Tools.current = Tool.Move;
+            }
+        }
+
+        //If Transform Moved While In Object Mode
+        if(transform.localPosition != OldPos)
+        {
+            Vector3 Change = transform.localPosition - OldPos;
+            OldPos = transform.localPosition;
+            OldPosSeg = transform.localPosition;
+            for (int i = 0; i < splineSegments.Count; i++)
+            {
+                var TempSegment = splineSegments[i];
+
+                TempSegment.Point1 += Change;
+                TempSegment.Point2 += Change;
+                TempSegment.Point3 += Change;
+                TempSegment.Point4 += Change;
+
+                splineSegments[i] = TempSegment;
+            }
+        }
+
+        if(splineSegments.Count>0)
+        {
+            if (splineSegments[0].Point1 != OldPosSeg)
+            {
+                transform.localPosition = splineSegments[0].Point1;
+                OldPos = transform.localPosition;
+                OldPosSeg = transform.localPosition;
+                DrawCurve();
+            }
         }
     }
 }
@@ -268,70 +288,99 @@ public class TrickySplineObjectEditor : Editor
     {
         TrickySplineObject connectedObjects = target as TrickySplineObject;
 
-        connectedObjects.lineRenderer.enabled = false;
-
-        //Draw Curve Handle
-        List<Vector3> curves = new List<Vector3>();
-        for (int i = 0; i < connectedObjects.splineSegments.Count; i++)
+        if (TrickyLevelManager.Instance.EditMode)
         {
-            Vector3 LocalPoint1 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point1);
-            Vector3 LocalPoint2 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point2);
-            Vector3 LocalPoint3 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point3);
-            Vector3 LocalPoint4 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point4);
+            Tools.current = Tool.None;
+            connectedObjects.lineRenderer.enabled = false;
 
-            curves.Add(LocalPoint1);
-            for (int a = 1; a <= connectedObjects.SEGMENT_COUNT; a++)
+            //Draw Curve Handle
+            List<Vector3> curves = new List<Vector3>();
+            for (int i = 0; i < connectedObjects.splineSegments.Count; i++)
             {
-                float t = a / (float)connectedObjects.SEGMENT_COUNT;
-                Vector3 pixel = connectedObjects.CalculateCubicBezierPoint(t, (LocalPoint1), (LocalPoint2), (LocalPoint3), (LocalPoint4));
-                curves.Add(pixel);
+                Vector3 LocalPoint1 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point1);
+                Vector3 LocalPoint2 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point2);
+                Vector3 LocalPoint3 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point3);
+                Vector3 LocalPoint4 = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point4);
+
+                curves.Add(LocalPoint1);
+                for (int a = 1; a <= connectedObjects.SEGMENT_COUNT; a++)
+                {
+                    float t = a / (float)connectedObjects.SEGMENT_COUNT;
+                    Vector3 pixel = connectedObjects.CalculateCubicBezierPoint(t, (LocalPoint1), (LocalPoint2), (LocalPoint3), (LocalPoint4));
+                    curves.Add(pixel);
+                }
+                curves.Add(LocalPoint4);
             }
-            curves.Add(LocalPoint4);
-        }
-        Handles.color = UnityEngine.Color.yellow;
-        Handles.zTest = UnityEngine.Rendering.CompareFunction.Less;
-        for (int i = 0; i < curves.Count - 1; i++)
-        {
-            Handles.DrawLine(curves[i], curves[i + 1], 6f);
-        }
-        Handles.color = UnityEngine.Color.white;
-
-        // Draw your handles here No Curve Handle
-        Vector3[] positions = new Vector3[4 * connectedObjects.splineSegments.Count];
-        for (var i = 0; i < connectedObjects.splineSegments.Count; i++)
-        {
-            positions[0 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point1);
-            positions[1 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point2);
-            positions[2 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point3);
-            positions[3 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point4);
-
-        }
-        Handles.color = UnityEngine.Color.red;
-        Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
-        for (int i = 0; i < positions.Length - 1; i++)
-        {
-            Handles.DrawLine(positions[i], positions[i + 1], 6f);
-        }
-        Handles.color = UnityEngine.Color.white;
-
-        //Draw Gizmo
-        for (var i = 0; i < connectedObjects.splineSegments.Count; i++)
-        {
-            var TempSegment = connectedObjects.splineSegments[i];
-            if (i==0)
+            Handles.color = UnityEngine.Color.yellow;
+            Handles.zTest = UnityEngine.Rendering.CompareFunction.Less;
+            for (int i = 0; i < curves.Count - 1; i++)
             {
-                TempSegment.Point1 = TrickyLevelManager.Instance.transform.InverseTransformPoint(Handles.PositionHandle(positions[0 + i * 4], Quaternion.identity));
+                Handles.DrawLine(curves[i], curves[i + 1], 6f);
             }
-            TempSegment.Point2 = TrickyLevelManager.Instance.transform.InverseTransformPoint(Handles.PositionHandle(positions[1 + i * 4], Quaternion.identity));
-            TempSegment.Point3 = TrickyLevelManager.Instance.transform.InverseTransformPoint(Handles.PositionHandle(positions[2 + i * 4], Quaternion.identity));
-            TempSegment.Point4 = TrickyLevelManager.Instance.transform.InverseTransformPoint(Handles.PositionHandle(positions[3 + i * 4], Quaternion.identity));
-            if(i!= connectedObjects.splineSegments.Count-1)
+            Handles.color = UnityEngine.Color.white;
+
+            // Draw your handles here No Curve Handle
+            positions = new Vector3[4 * connectedObjects.splineSegments.Count];
+            for (var i = 0; i < connectedObjects.splineSegments.Count; i++)
             {
-                var TempSegment1 = connectedObjects.splineSegments[i+1];
-                TempSegment1.Point1 = TempSegment.Point4;
-                connectedObjects.splineSegments[i+1] = TempSegment1;
+                positions[0 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point1);
+                positions[1 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point2);
+                positions[2 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point3);
+                positions[3 + i * 4] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.splineSegments[i].Point4);
+
             }
-            connectedObjects.splineSegments[i] = TempSegment;
+            Handles.color = UnityEngine.Color.red;
+            Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+            for (int i = 0; i < positions.Length - 1; i++)
+            {
+                Handles.DrawLine(positions[i], positions[i + 1], 6f);
+            }
+            Handles.color = UnityEngine.Color.white;
+
+            //Draw Gizmo
+            for (var i = 0; i < connectedObjects.splineSegments.Count; i++)
+            {
+                var TempSegment = connectedObjects.splineSegments[i];
+                Vector3 TestVector;
+                if (i == 0)
+                {
+                    TestVector = Handles.PositionHandle(positions[0 + i * 4], Quaternion.identity);
+                    if (TestVector != positions[0 + i * 4])
+                    {
+                        TempSegment.Point1 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
+                    }
+                }
+
+                TestVector = Handles.PositionHandle(positions[1 + i * 4], Quaternion.identity);
+                if (TestVector != positions[1 + i * 4])
+                {
+                    TempSegment.Point2 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
+                }
+
+                TestVector = Handles.PositionHandle(positions[2 + i * 4], Quaternion.identity);
+                if (TestVector != positions[2 + i * 4])
+                {
+                    TempSegment.Point3 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
+                }
+
+                TestVector = Handles.PositionHandle(positions[3 + i * 4], Quaternion.identity);
+                if (TestVector != positions[3 + i * 4])
+                {
+                    TempSegment.Point4 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
+                    if (i != connectedObjects.splineSegments.Count - 1)
+                    {
+                        var TempSegment1 = connectedObjects.splineSegments[i + 1];
+                        TempSegment1.Point1 = TempSegment.Point4;
+                        connectedObjects.splineSegments[i + 1] = TempSegment1;
+                    }
+                }
+                connectedObjects.splineSegments[i] = TempSegment;
+            }
+        }
+        else
+        {
+            connectedObjects.lineRenderer.enabled = true;
+            connectedObjects.DrawCurve();
         }
     }
 }

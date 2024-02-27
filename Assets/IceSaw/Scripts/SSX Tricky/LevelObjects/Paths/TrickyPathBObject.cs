@@ -13,6 +13,8 @@ public class TrickyPathBObject : MonoBehaviour
     public int U1;
     public float U2;
 
+    public float TestDistance;
+
     [OnChangedCall("DrawLines")]
     public List<Vector3> PathPoints;
     public List<PathEvent> PathEvents;
@@ -37,7 +39,7 @@ public class TrickyPathBObject : MonoBehaviour
     public void LoadPathB(AIPSOPJsonHandler.PathB pathB)
     {
         AddMissingComponents();
-
+        bool find = false;
         Type = pathB.Type;
         U1 = pathB.U1;
         U2 = pathB.U2;
@@ -45,11 +47,27 @@ public class TrickyPathBObject : MonoBehaviour
         transform.localPosition = JsonUtil.ArrayToVector3(pathB.PathPos);
 
         PathPoints = new List<Vector3>();
-
+        //List<Vector3> PathPointsOld = new List<Vector3>();
         for (int i = 0; i < pathB.PathPoints.GetLength(0); i++)
         {
             PathPoints.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
-            if(i!=0)
+            //PathPointsOld.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
+            TestDistance += Vector2.Distance(PathPoints[i], new Vector2(0,0));
+
+            if (TestDistance > U2 && !find)
+            {
+                find = true;
+                GameObject tempGameObject = new GameObject("Test " + i + " " + gameObject.name);
+                tempGameObject.transform.parent = gameObject.transform.parent;
+                tempGameObject.transform.localScale = gameObject.transform.localScale;
+
+                Vector3 vector3 = Vector3.Normalize(PathPoints[i]);
+
+                vector3 = vector3 * (U2 - TestDistance);
+                tempGameObject.transform.localPosition = vector3+ PathPoints[i - 1]+gameObject.transform.localPosition;
+            }
+
+            if (i!=0)
             {
                 PathPoints[i] += PathPoints[i - 1];
             }

@@ -1033,7 +1033,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int SubType;
 
             public Type0Sub0? type0Sub0; ///Roller?
-            public int? Debounce;  //Debounce?
+            public float? Debounce;  //Debounce?
             public int? DeadNodeMode; //5
             public CounterEffect? Counter; //6
             public BoostEffect? Boost; //Boost

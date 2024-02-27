@@ -15,7 +15,7 @@ public class DebounceEffect : EffectBase
         get { return 2; }
     }
 
-    public int Debounce;
+    public float Debounce;
 
     public override void LoadEffect(SSFJsonHandler.Effect effect)
     {
