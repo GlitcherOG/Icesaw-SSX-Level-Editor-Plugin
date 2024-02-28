@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
@@ -52,6 +53,8 @@ public class TrickyPathBObject : MonoBehaviour
         {
             PathPoints.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
             //PathPointsOld.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
+
+            float OldDistance = TestDistance;
             TestDistance += Vector2.Distance(PathPoints[i], new Vector2(0,0));
 
             if (TestDistance > U2 && !find)
@@ -61,10 +64,16 @@ public class TrickyPathBObject : MonoBehaviour
                 tempGameObject.transform.parent = gameObject.transform.parent;
                 tempGameObject.transform.localScale = gameObject.transform.localScale;
 
-                Vector3 vector3 = Vector3.Normalize(PathPoints[i]);
+                //Get Size
+                float Size = TestDistance - OldDistance;
+                //Get Pos
+                float position = TestDistance - U2;
+                //Get Percentage
+                float Percentage = (position/ Size);
 
-                vector3 = vector3 * (U2 - TestDistance);
-                tempGameObject.transform.localPosition = vector3+ PathPoints[i - 1]+gameObject.transform.localPosition;
+                //Apply 
+
+                tempGameObject.transform.localPosition = (Percentage*PathPoints[i])+PathPoints[i - 1]+gameObject.transform.localPosition ;
             }
 
             if (i!=0)
