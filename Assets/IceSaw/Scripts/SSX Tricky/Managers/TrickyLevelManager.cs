@@ -483,22 +483,30 @@ public class TrickyLevelManager : MonoBehaviour
     {
         SceneView.duringSceneGui -= OnSceneGUI;
     }
-
+    public Rect windowRect = new Rect(20, 20, 120, 50);
     private void OnSceneGUI(SceneView sceneView)
     {
         Handles.BeginGUI();
+        windowRect = GUI.Window(0, windowRect, DoMyWindow, "IceSaw Tools");
+        Handles.EndGUI();
+    }
+
+    void DoMyWindow(int windowID)
+    {
+        // Make a very long rect that is 20 pixels tall.
+        // This will make the window be resizable by the top
+        // title bar - no matter how wide it gets.
+        GUI.DragWindow(new Rect(0, 0, 10000, 20));
         if (EditMode)
         {
-            if (GUILayout.Button("Edit Mode", GUILayout.Width(100)))
+            if (GUILayout.Button("Edit Mode"))
                 EditMode = false;
         }
         else
         {
-            if (GUILayout.Button("Object Mode", GUILayout.Width(100)))
+            if (GUILayout.Button("Object Mode"))
                 EditMode = true;
         }
-
-        Handles.EndGUI();
     }
 
 }

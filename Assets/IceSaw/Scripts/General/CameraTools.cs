@@ -10,17 +10,26 @@ public class CameraTools : MonoBehaviour
     void Update()
     {
         Event e = Event.current;
-        switch (e.type)
+        if (e != null)
         {
-            case EventType.KeyDown:
-                {
-                    if (Event.current.keyCode == (KeyCode.F))
+            switch (e.type)
+            {
+                case EventType.KeyDown:
                     {
-                        transform.position = SceneView.lastActiveSceneView.camera.transform.position;
-                        transform.rotation = SceneView.lastActiveSceneView.camera.transform.rotation;
+                        if (Event.current.keyCode == (KeyCode.F))
+                        {
+                            transform.position = SceneView.lastActiveSceneView.camera.transform.position;
+                            transform.rotation = SceneView.lastActiveSceneView.camera.transform.rotation;
+                        }
+                        break;
                     }
-                    break;
-                }
+            }
         }
+    }
+    [ContextMenu("Match Scene View")]
+    void MatchSceneView()
+    {
+        transform.position = SceneView.lastActiveSceneView.camera.transform.position;
+        transform.rotation = SceneView.lastActiveSceneView.camera.transform.rotation;
     }
 }
