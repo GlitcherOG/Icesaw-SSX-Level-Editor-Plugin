@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class GameCheckerJson : MonoBehaviour
+public class GameCheckerJson
 {
     public int Game = 0;
     public int Version = 0;

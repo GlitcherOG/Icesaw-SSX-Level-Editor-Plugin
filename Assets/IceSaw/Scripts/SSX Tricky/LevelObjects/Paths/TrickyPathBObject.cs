@@ -14,10 +14,11 @@ public class TrickyPathBObject : MonoBehaviour
     public int U1;
     public float U2;
 
-    public float TestDistance;
-
-    [OnChangedCall("DrawLines")]
+    [OnChangedCall("PathPointsUpdate")]
     public List<Vector3> PathPoints;
+    //[HideInInspector]
+    public List<Vector3> VectorPoints;
+
     public List<PathEvent> PathEvents;
 
     LineRenderer lineRenderer;
@@ -40,7 +41,6 @@ public class TrickyPathBObject : MonoBehaviour
     public void LoadPathB(AIPSOPJsonHandler.PathB pathB)
     {
         AddMissingComponents();
-        bool find = false;
         Type = pathB.Type;
         U1 = pathB.U1;
         U2 = pathB.U2;
@@ -48,35 +48,12 @@ public class TrickyPathBObject : MonoBehaviour
         transform.localPosition = JsonUtil.ArrayToVector3(pathB.PathPos);
 
         PathPoints = new List<Vector3>();
-        //List<Vector3> PathPointsOld = new List<Vector3>();
+        VectorPoints = new List<Vector3>();
         for (int i = 0; i < pathB.PathPoints.GetLength(0); i++)
         {
-            PathPoints.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
-            //PathPointsOld.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
-
-            float OldDistance = TestDistance;
-            TestDistance += Vector2.Distance(PathPoints[i], new Vector2(0,0));
-
-            if (TestDistance > U2 && !find)
-            {
-                find = true;
-                GameObject tempGameObject = new GameObject("Test " + i + " " + gameObject.name);
-                tempGameObject.transform.parent = gameObject.transform.parent;
-                tempGameObject.transform.localScale = gameObject.transform.localScale;
-
-                //Get Size
-                float Size = TestDistance - OldDistance;
-                //Get Pos
-                float position = TestDistance - U2;
-                //Get Percentage
-                float Percentage = (position/ Size);
-
-                //Apply 
-
-                tempGameObject.transform.localPosition = (Percentage*PathPoints[i])+PathPoints[i - 1]+gameObject.transform.localPosition ;
-            }
-
-            if (i!=0)
+            VectorPoints.Add(new Vector3(pathB.PathPoints[i, 0], pathB.PathPoints[i, 1], pathB.PathPoints[i, 2]));
+            PathPoints.Add(VectorPoints[i]);
+            if (i != 0)
             {
                 PathPoints[i] += PathPoints[i - 1];
             }
@@ -96,6 +73,31 @@ public class TrickyPathBObject : MonoBehaviour
         }
 
         DrawLines();
+    }
+
+    public Vector3 FindPathLocalPoint(float FindDistance)
+    {
+        float OldDistance = 0f;
+        float TestDistance = 0f;
+        for (int i = 0; i < VectorPoints.Count; i++)
+        {
+            TestDistance += Vector2.Distance(VectorPoints[i], new Vector2(0, 0));
+            if (TestDistance >= FindDistance)
+            {
+                //Get Size
+                float Size = TestDistance - OldDistance;
+                //Get Pos
+                float position = TestDistance - FindDistance;
+                //Get Percentage
+                float Percentage = (position / Size);
+
+                //Return Local Point
+                return (Percentage * VectorPoints[i]) + PathPoints[i - 1];
+            }
+            OldDistance = TestDistance;
+        }
+
+        return new Vector3 (0, 0, 0);
     }
 
     public AIPSOPJsonHandler.PathB GeneratePathB()
@@ -141,34 +143,37 @@ public class TrickyPathBObject : MonoBehaviour
         return pathB;
     }
 
+    public void PathPointsUpdate()
+    {
+        GenerateVectors();
+        DrawLines();
+    }
+
     public void DrawLines()
     {
-        lineRenderer.positionCount = PathPoints.Count;
+        lineRenderer.positionCount = PathPoints.Count+1;
+        lineRenderer.SetPosition(0, new Vector3(0,0,0));
         for (int i = 0; i < PathPoints.Count; i++)
         {
-            lineRenderer.SetPosition(i, PathPoints[i]);
+            lineRenderer.SetPosition(i+1, PathPoints[i]);
         }
     }
 
-    public void CalcualteEventPoints()
+    public void GenerateVectors()
     {
-        List<float> Distances = new List<float>();
-        Vector3 PrevPoint = Vector3.zero;
-        for (int i = 0;i < PathPoints.Count;i++)
+        VectorPoints = new List<Vector3>();
+        for (int i = 0; i < PathPoints.Count;i++)
         {
-            Distances.Add(Vector3.Distance(PrevPoint, PathPoints[i]));
-            PrevPoint = PathPoints[i];
-        }
-
-        int AlongPoint = 0;
-        for (int i = 0; i < Distances.Count; i++)
-        {
-            AlongPoint = i;
-
+            if(i==0)
+            {
+               VectorPoints.Add(PathPoints[i]);
+            }
+            else
+            {
+                VectorPoints.Add(PathPoints[i] - PathPoints[i-1]);
+            }
 
         }
-
-
     }
 
     [MenuItem("GameObject/Ice Saw/Path B", false, 202)]
@@ -195,4 +200,27 @@ public class TrickyPathBObject : MonoBehaviour
         public float EventEnd;
     }
 
+}
+
+[CustomEditor(typeof(TrickyPathBObject))]
+public class TrickyPathBObjectEditor : Editor
+{
+    private Vector3[] positions;
+    void OnSceneGUI()
+    {
+        TrickyPathBObject connectedObjects = target as TrickyPathBObject;
+        if (TrickyLevelManager.Instance.EditMode)
+        {
+            positions = new Vector3[connectedObjects.PathEvents.Count];
+            for (int i = 0; i < connectedObjects.PathEvents.Count; i++)
+            {
+                positions[i] = Handles.PositionHandle(TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.gameObject.transform.localPosition+connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart)), Quaternion.identity);
+                positions[i] = Handles.PositionHandle(TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.gameObject.transform.localPosition + connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd)), Quaternion.identity);
+            }
+        }
+        else
+        {            
+            //connectedObjects.DrawCurve();
+        }
+    }
 }
