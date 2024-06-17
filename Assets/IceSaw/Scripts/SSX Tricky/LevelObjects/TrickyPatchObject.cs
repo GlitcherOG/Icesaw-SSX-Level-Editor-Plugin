@@ -13,7 +13,6 @@ using UnityEngine.UIElements;
 public class TrickyPatchObject : MonoBehaviour
 {
     NURBS.Surface surface;
-
     public Vector4 LightMapPoint;
     //[Space(10)]
     [SerializeField]
@@ -732,6 +731,16 @@ public class TrickyPatchObjectEditor : Editor
         m_InspectorXML.CloneTree(myInspector);
 
         VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
+
+        MonoBehaviour monoBev = (MonoBehaviour)target;
+        TrickyPatchObject PatchObject = monoBev.GetComponent<TrickyPatchObject>();
+
+        TextElement Details = new TextElement();
+        Details.style.fontSize = 16;
+        Details.text = "Patch ID " + PatchObject.transform.GetSiblingIndex();
+
+        inspectorGroup.Add(Details);
+
         InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
         VisualElement ButtonGroup = myInspector.Q("UVGroup");

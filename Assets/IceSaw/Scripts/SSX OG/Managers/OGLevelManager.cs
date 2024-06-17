@@ -249,17 +249,17 @@ public class OGLevelManager : MonoBehaviour
         //    LogicManager.GetComponent<LogicManager>().Awake();
         //}
 
-        //if (gameObject.GetComponentInChildren<PrefabManager>() != null)
-        //{
-        //    PrefabManagerHolder = gameObject.GetComponentInChildren<PrefabManager>().gameObject;
-        //    PrefabManagerHolder.GetComponent<PrefabManager>().Awake();
-        //}
+        if (gameObject.GetComponentInChildren<OGPrefabManager>() != null)
+        {
+            PrefabManagerHolder = gameObject.GetComponentInChildren<OGPrefabManager>().gameObject;
+            PrefabManagerHolder.GetComponent<OGPrefabManager>().Awake();
+        }
 
-        //if (gameObject.GetComponentInChildren<WorldManager>())
-        //{
-        //    WorldManagerHolder = gameObject.GetComponentInChildren<WorldManager>().gameObject;
-        //    WorldManagerHolder.GetComponent<WorldManager>().Awake();
-        //}
+        if (gameObject.GetComponentInChildren<OGWorldManager>())
+        {
+            WorldManagerHolder = gameObject.GetComponentInChildren<OGWorldManager>().gameObject;
+            WorldManagerHolder.GetComponent<OGWorldManager>().Awake();
+        }
 
         //if (gameObject.GetComponentInChildren<SkyboxManager>() != null)
         //{

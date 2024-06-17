@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-public class TrickyTrackExport
+public class IceSawTrackExportTrackExport
 {
     [MenuItem("Ice Saw/Export Track")]
     public static void ExportTrackData()
