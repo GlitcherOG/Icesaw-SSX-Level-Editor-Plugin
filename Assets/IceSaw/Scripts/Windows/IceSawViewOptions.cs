@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class TrickyViewOptions
+public class IceSawViewOptions
 {
     [MenuItem("Ice Saw View/Show All",false,10)]
     public static void ShowAll()
@@ -407,6 +407,27 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Toggle Invisable Instances", false, 200)]
     public static void VisablityToggle()
     {
+        if (OGLevelManager.Instance != null)
+        {
+            OGInstanceObject[] instanceObjects = OGWorldManager.Instance.GetInstanceList();
+            bool Active = false;
+            bool Test = false;
+
+            for (int i = 0; i < instanceObjects.Length; i++)
+            {
+                if (!instanceObjects[i].Visable)
+                {
+                    if (Test == false)
+                    {
+                        Test = true;
+                        Active = !instanceObjects[i].gameObject.activeInHierarchy;
+                    }
+
+                    instanceObjects[i].gameObject.SetActive(Active);
+                }
+            }
+        }
+        else
         if (TrickyWorldManager.Instance != null)
         {
             TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
@@ -432,7 +453,16 @@ public class TrickyViewOptions
     [MenuItem("Ice Saw View/Get Scene Camera Cords")]
     public static void GetSceneCameraCords()
     {
-        if(TrickyLevelManager.Instance!=null)
+        if (OGLevelManager.Instance != null)
+        {
+            var List = SceneView.GetAllSceneCameras();
+            for (int i = 0; i < List.Length; i++)
+            {
+                Debug.Log("Icesaw - Scene Camera " + i + "\nUnity Cords:" + List[i].transform.position + " Tricky Cords:" + OGLevelManager.Instance.transform.InverseTransformPoint(List[i].transform.position));
+            }
+        }
+        else
+        if (TrickyLevelManager.Instance!=null)
         {
             var List = SceneView.GetAllSceneCameras();
             for (int i = 0; i < List.Length; i++)

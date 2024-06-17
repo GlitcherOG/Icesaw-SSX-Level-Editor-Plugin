@@ -33,7 +33,7 @@ public class TrickyTrackExport
             //Save Objects 
             ObjExporter.SaveModelList(SavePath, MMD, TrickyLevelManager.Instance.texture2Ds);
         }
-        else if (OGLevelManager.Instance != null && OGPrefabManager.Instance != null && OGWorldManager.Instance)
+        else if (OGLevelManager.Instance != null && OGPrefabManager.Instance != null && OGWorldManager.Instance != null)
         {
             //Get Save path
             //Sandard method of having them save an obj file and stripping out the obj file to get a path
