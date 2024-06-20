@@ -3,7 +3,9 @@ using SSXMultiTool.Utilities;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [SelectionBase]
 public class TrickyInstanceObject : MonoBehaviour
@@ -511,7 +513,7 @@ public class TrickyInstanceObject : MonoBehaviour
             var Verts = OldMesh.vertices;
             for (int i = 0; i < Verts.Length; i++)
             {
-                Verts[i] = ConvertWorldPoint(Verts[i], ObjectList[a].transform);
+                Verts[i] = ObjectList[a].transform.TransformPoint(Verts[i]);
             }
             var TempMesh = new Mesh();
             TempMesh.vertices = Verts;
@@ -545,5 +547,53 @@ public class TrickyInstanceObject : MonoBehaviour
         public float U4;
         public float U5; //Radius?
         public float U6;
+    }
+}
+
+[CustomEditor(typeof(TrickyInstanceObject))]
+public class TrickyInstanceObjectEditor : Editor
+{
+    //public override void OnInspectorGUI()
+    //{
+    //    DrawDefaultInspector();
+
+    //    //Component.hideFlags = HideFlags.HideInInspector;
+
+    //    if(EditorGUILayout.LinkButton("Refresh Textures"))
+    //    {
+    //        var Temp = (typeof(LevelManager))serializedObject.targetObject;
+    //    }
+    //}
+
+    public VisualTreeAsset m_InspectorXML;
+
+    public override VisualElement CreateInspectorGUI()
+    {
+        m_InspectorXML = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets\\IceSaw\\Scripts\\SSX Tricky\\LevelObjects\\Inspectors\\InstanceObjects.uxml");
+
+        // Create a new VisualElement to be the root of our inspector UI
+        VisualElement myInspector = new VisualElement();
+        m_InspectorXML.CloneTree(myInspector);
+
+        VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
+
+        MonoBehaviour monoBev = (MonoBehaviour)target;
+        TrickyInstanceObject PatchObject = monoBev.GetComponent<TrickyInstanceObject>();
+
+        TextElement Details = new TextElement();
+        Details.style.fontSize = 16;
+        Details.text = "Instance ID " + PatchObject.transform.GetSiblingIndex();
+
+        inspectorGroup.Add(Details);
+
+        InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
+
+        // Return the finished inspector UI
+        return myInspector;
+    }
+
+    void OnSceneGUI()
+    {
+        
     }
 }

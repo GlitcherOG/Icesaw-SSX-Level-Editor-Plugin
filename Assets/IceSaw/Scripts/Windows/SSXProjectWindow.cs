@@ -54,15 +54,19 @@ public class SSXProjectWindow : EditorWindow
         string path = EditorUtility.OpenFilePanel("Open SSX Project", "", "SSX");
 
         GameCheckerJson trickyConfig = GameCheckerJson.Load(path);
-        if (trickyConfig.Game == 1)
+        if (trickyConfig.Game == 1 && trickyConfig.Version == 1)
         {
             CurrentPath = Path.GetDirectoryName(path);
             LoadOGProjectData();
         }
-        else if (trickyConfig.Game == 2)
+        else if (trickyConfig.Game == 2 && trickyConfig.Version == 2)
         {
             CurrentPath = Path.GetDirectoryName(path);
             LoadTrickyProjectData();
+        }
+        else
+        {
+            Debug.LogError("Unknown Game and Version");
         }
     }
     [MenuItem("Ice Saw/Save Project", false, -1000)]
