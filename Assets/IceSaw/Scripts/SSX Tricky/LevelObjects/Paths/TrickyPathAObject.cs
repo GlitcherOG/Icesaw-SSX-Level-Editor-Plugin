@@ -22,6 +22,7 @@ public class TrickyPathAObject : MonoBehaviour
 
     public List<PathEvent> PathEvents;
 
+    [HideInInspector]
     public LineRenderer lineRenderer;
 
     Vector3 OldPos;
