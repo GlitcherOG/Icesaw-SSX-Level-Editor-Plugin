@@ -645,7 +645,7 @@ public class TrickyPatchObject : MonoBehaviour
         var Verts = OldMesh.vertices;
         for (int i = 0; i < Verts.Length; i++)
         {
-            Verts[i] = ConvertWorldPoint(Verts[i]);
+            Verts[i] = transform.TransformPoint(Verts[i]);
         }
         TempMesh.vertices = Verts;
         TempMesh.uv = OldMesh.uv;

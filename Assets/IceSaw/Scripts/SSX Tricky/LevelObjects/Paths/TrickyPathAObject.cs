@@ -17,9 +17,20 @@ public class TrickyPathAObject : MonoBehaviour
 
     [OnChangedCall("DrawLines")]
     public List<Vector3> PathPoints;
+    [HideInInspector]
+    public List<Vector3> WorldPathPoints;
+
     public List<PathEvent> PathEvents;
 
-    LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
+
+    Vector3 OldPos;
+    Vector3 OldPosSeg;
+    Quaternion OldRotation;
+    Vector3 OldScale;
+
+    [HideInInspector]
+    public bool Hold = false;
 
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
@@ -29,7 +40,7 @@ public class TrickyPathAObject : MonoBehaviour
             Destroy(lineRenderer);
         }
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.useWorldSpace = false;
+        lineRenderer.useWorldSpace = true;
         lineRenderer.hideFlags = HideFlags.HideInInspector;
         lineRenderer.material = TrickyLevelManager.Instance.AIPath;
         lineRenderer.textureMode = LineTextureMode.Tile;
@@ -141,11 +152,22 @@ public class TrickyPathAObject : MonoBehaviour
 
     public void DrawLines()
     {
-        lineRenderer.positionCount = PathPoints.Count;
+        lineRenderer.positionCount = PathPoints.Count+1;
+        lineRenderer.SetPosition(0, transform.TransformPoint(new Vector3(0, 0, 0)));
         for (int i = 0; i < PathPoints.Count; i++)
         {
-            lineRenderer.SetPosition(i, PathPoints[i]);
+            lineRenderer.SetPosition(i+1, transform.TransformPoint(PathPoints[i]));
         }
+    }
+
+    Vector3 ConvertLocalPoint(Vector3 point)
+    {
+        return transform.InverseTransformPoint(TrickyLevelManager.Instance.transform.TransformPoint(point));
+    }
+
+    Vector3 ConvertWorldPoint(Vector3 point)
+    {
+        return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
     }
 
     [System.Serializable]
@@ -155,5 +177,120 @@ public class TrickyPathAObject : MonoBehaviour
         public int EventValue;
         public float EventStart;
         public float EventEnd;
+    }
+
+    private void OnEnable()
+    {
+        SceneView.duringSceneGui += OnSceneGUI;
+    }
+
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -= OnSceneGUI;
+    }
+    bool SetOnce = false;
+    bool PrevSelected = false;
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        if (Selection.activeObject == this.gameObject)
+        {
+            PrevSelected = true;
+            if (!TrickyLevelManager.Instance.EditMode && !SetOnce)
+            {
+                lineRenderer.enabled = false;
+                SetOnce = true;
+                Tools.current = Tool.Move;
+            }
+            else if (TrickyLevelManager.Instance.EditMode)
+            {
+                SetOnce = false;
+            }
+        }
+        else
+        {
+            lineRenderer.enabled = true;
+            SetOnce = false;
+            if (PrevSelected)
+            {
+                DrawLines();
+                PrevSelected = false;
+                Tools.current = Tool.Move;
+            }
+        }
+
+        if ((transform.localRotation != OldRotation || transform.localScale != OldScale || transform.localPosition != OldPos) && !Hold)
+        {
+            Hold = true;
+            OldRotation = transform.localRotation;
+            OldScale = transform.localScale;
+            OldPos = transform.localPosition;
+            OldPosSeg = transform.localPosition;
+
+            DrawLines();
+            Hold = false;
+        }
+        else if (PathPoints.Count > 0)
+        {
+            //if (splineSegments[0].Point1 != OldPosSeg)
+            //{
+            //    transform.localPosition = splineSegments[0].Point1;
+            //    OldPos = transform.localPosition;
+            //    OldPosSeg = transform.localPosition;
+            //    DrawLines();
+            //}
+        }
+        else if (Selection.activeObject == this.gameObject && TrickyLevelManager.Instance.EditMode)
+        {
+            DrawLines();
+        }
+    }
+}
+
+[CustomEditor(typeof(TrickyPathAObject))]
+public class TrickyPathAObjectEditor : Editor
+{
+    private Vector3[] positions;
+    void OnSceneGUI()
+    {
+        TrickyPathAObject connectedObjects = target as TrickyPathAObject;
+        if (!connectedObjects.Hold)
+        {
+            if (TrickyLevelManager.Instance.EditMode)
+            {
+                Tools.current = Tool.None;
+                connectedObjects.lineRenderer.enabled = false;
+
+                // Draw your handles here No Curve Handle
+                positions = new Vector3[connectedObjects.PathPoints.Count];
+                for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
+                {
+                    positions[i] = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
+                }
+
+                Handles.color = UnityEngine.Color.red;
+                Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+                for (int i = 0; i < positions.Length - 1; i++)
+                {
+                    Handles.DrawLine(positions[i], positions[i + 1], 6f);
+                }
+                Handles.color = UnityEngine.Color.white;
+
+                //Draw Gizmo
+                for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
+                {
+                    var TempSegment = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
+                    Vector3 TestVector = Handles.PositionHandle(positions[i], Quaternion.identity);
+                    if (TestVector != positions[i])
+                    {
+                        connectedObjects.PathPoints[i] = connectedObjects.transform.InverseTransformPoint(TestVector);
+                    }
+                }
+            }
+            else
+            {
+                connectedObjects.lineRenderer.enabled = true;
+                connectedObjects.DrawLines();
+            }
+        }
     }
 }
