@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ResetShow
 {
-    [MenuItem("Reset Plugin/Swap Textures")]
+    //[MenuItem("Reset Plugin/Swap Textures")]
     public static void AddResetTextures()
     {
         if (TrickyLevelManager.Instance != null)
