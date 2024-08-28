@@ -12,6 +12,7 @@ public class TrickyLevelManager : MonoBehaviour
     public static TrickyLevelManager Instance;
     public string LoadPath;
     public bool EditMode;
+    public bool PathEventMode;
 
     //[OnChangedCall("ForceTextureUpdate")]
     public List<TextureData> texture2Ds = new List<TextureData>();
@@ -483,7 +484,7 @@ public class TrickyLevelManager : MonoBehaviour
     {
         SceneView.duringSceneGui -= OnSceneGUI;
     }
-    public Rect windowRect = new Rect(20, 20, 120, 50);
+    public Rect windowRect = new Rect(20, 20, 120, 70);
     private void OnSceneGUI(SceneView sceneView)
     {
         Handles.BeginGUI();
@@ -501,6 +502,16 @@ public class TrickyLevelManager : MonoBehaviour
         {
             if (GUILayout.Button("Edit Mode"))
                 EditMode = false;
+            if (!PathEventMode)
+            {
+                if (GUILayout.Button("Path Mode"))
+                    PathEventMode = true;
+            }
+            else
+            {
+                if (GUILayout.Button("Event Mode"))
+                    PathEventMode = false;
+            }
         }
         else
         {

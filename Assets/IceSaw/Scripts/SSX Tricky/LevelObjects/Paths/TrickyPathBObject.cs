@@ -21,7 +21,16 @@ public class TrickyPathBObject : MonoBehaviour
 
     public List<PathEvent> PathEvents;
 
-    LineRenderer lineRenderer;
+    [HideInInspector]
+    public LineRenderer lineRenderer;
+
+    Vector3 OldPos;
+    Vector3 OldPosSeg;
+    Quaternion OldRotation;
+    Vector3 OldScale;
+
+    [HideInInspector]
+    public bool Hold = false;
 
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
@@ -191,6 +200,16 @@ public class TrickyPathBObject : MonoBehaviour
         TempObject.AddComponent<TrickyPathBObject>().AddMissingComponents();
     }
 
+    public Vector3 ConvertLocalPoint(Vector3 point)
+    {
+        return transform.InverseTransformPoint(TrickyLevelManager.Instance.transform.TransformPoint(point));
+    }
+
+    public Vector3 ConvertWorldPoint(Vector3 point)
+    {
+        return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+    }
+
     [System.Serializable]
     public struct PathEvent
     {
@@ -200,6 +219,71 @@ public class TrickyPathBObject : MonoBehaviour
         public float EventEnd;
     }
 
+    private void OnEnable()
+    {
+        SceneView.duringSceneGui += OnSceneGUI;
+    }
+
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -= OnSceneGUI;
+    }
+    bool SetOnce = false;
+    bool PrevSelected = false;
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        if (Selection.activeObject == this.gameObject)
+        {
+            PrevSelected = true;
+            if (!TrickyLevelManager.Instance.EditMode && !SetOnce)
+            {
+                lineRenderer.enabled = false;
+                SetOnce = true;
+                Tools.current = Tool.Move;
+            }
+            else if (TrickyLevelManager.Instance.EditMode)
+            {
+                SetOnce = false;
+            }
+        }
+        else
+        {
+            lineRenderer.enabled = true;
+            SetOnce = false;
+            if (PrevSelected)
+            {
+                DrawLines();
+                PrevSelected = false;
+                Tools.current = Tool.Move;
+            }
+        }
+
+        if ((transform.localRotation != OldRotation || transform.localScale != OldScale || transform.localPosition != OldPos) && !Hold)
+        {
+            Hold = true;
+            OldRotation = transform.localRotation;
+            OldScale = transform.localScale;
+            OldPos = transform.localPosition;
+            OldPosSeg = transform.localPosition;
+
+            DrawLines();
+            Hold = false;
+        }
+        else if (PathPoints.Count > 0)
+        {
+            //if (splineSegments[0].Point1 != OldPosSeg)
+            //{
+            //    transform.localPosition = splineSegments[0].Point1;
+            //    OldPos = transform.localPosition;
+            //    OldPosSeg = transform.localPosition;
+            //    DrawLines();
+            //}
+        }
+        else if (Selection.activeObject == this.gameObject && TrickyLevelManager.Instance.EditMode)
+        {
+            DrawLines();
+        }
+    }
 }
 
 [CustomEditor(typeof(TrickyPathBObject))]
@@ -209,18 +293,54 @@ public class TrickyPathBObjectEditor : Editor
     void OnSceneGUI()
     {
         TrickyPathBObject connectedObjects = target as TrickyPathBObject;
-        if (TrickyLevelManager.Instance.EditMode)
+        if (!connectedObjects.Hold)
         {
-            positions = new Vector3[connectedObjects.PathEvents.Count];
-            for (int i = 0; i < connectedObjects.PathEvents.Count; i++)
+            if (TrickyLevelManager.Instance.EditMode && TrickyLevelManager.Instance.PathEventMode)
             {
-                positions[i] = Handles.PositionHandle(TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.gameObject.transform.localPosition+connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart)), Quaternion.identity);
-                positions[i] = Handles.PositionHandle(TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.gameObject.transform.localPosition + connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd)), Quaternion.identity);
+                Tools.current = Tool.None;
+                positions = new Vector3[connectedObjects.PathEvents.Count];
+                for (int i = 0; i < connectedObjects.PathEvents.Count; i++)
+                {
+                    positions[i] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart)), Quaternion.identity);
+                    positions[i] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd)), Quaternion.identity);
+                }
             }
-        }
-        else
-        {            
-            //connectedObjects.DrawCurve();
+            else if (TrickyLevelManager.Instance.EditMode && !TrickyLevelManager.Instance.PathEventMode)
+            {
+                Tools.current = Tool.None;
+                connectedObjects.lineRenderer.enabled = false;
+
+                // Draw your handles here No Curve Handle
+                positions = new Vector3[connectedObjects.PathPoints.Count];
+                for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
+                {
+                    positions[i] = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
+                }
+
+                Handles.color = UnityEngine.Color.red;
+                Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+                for (int i = 0; i < positions.Length - 1; i++)
+                {
+                    Handles.DrawLine(positions[i], positions[i + 1], 6f);
+                }
+                Handles.color = UnityEngine.Color.white;
+
+                //Draw Gizmo
+                for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
+                {
+                    var TempSegment = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
+                    Vector3 TestVector = Handles.PositionHandle(positions[i], Quaternion.identity);
+                    if (TestVector != positions[i])
+                    {
+                        connectedObjects.PathPoints[i] = connectedObjects.transform.InverseTransformPoint(TestVector);
+                    }
+                }
+            }
+            else
+            {
+                connectedObjects.lineRenderer.enabled = true;
+                connectedObjects.DrawLines();
+            }
         }
     }
 }
