@@ -210,6 +210,25 @@ public class TrickyPathBObject : MonoBehaviour
         return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
     }
 
+    [ContextMenu("Reset Tranformation")]
+    public void ResetTransformation()
+    {
+        var Positions = PathPoints;
+
+        for (int i = 0; i < Positions.Count; i++)
+        {
+            Positions[i] = transform.TransformPoint(Positions[i]);
+        }
+
+        transform.localRotation = new Quaternion(0, 0, 0, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+
+        for (int i = 0; i < Positions.Count; i++)
+        {
+            PathPoints[i] = transform.InverseTransformPoint(Positions[i]);
+        }
+    }
+
     [System.Serializable]
     public struct PathEvent
     {
