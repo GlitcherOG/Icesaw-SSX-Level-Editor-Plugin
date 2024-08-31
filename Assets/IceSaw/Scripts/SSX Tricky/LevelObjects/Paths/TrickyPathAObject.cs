@@ -17,8 +17,8 @@ public class TrickyPathAObject : MonoBehaviour
 
     [OnChangedCall("DrawLines")]
     public List<Vector3> PathPoints;
-    [HideInInspector]
-    public List<Vector3> WorldPathPoints;
+    //[HideInInspector]
+    //public List<Vector3> WorldPathPoints;
 
     public List<PathEvent> PathEvents;
 
@@ -90,6 +90,8 @@ public class TrickyPathAObject : MonoBehaviour
 
     public AIPSOPJsonHandler.PathA GeneratePathA()
     {
+        ResetTransformation();
+
         AIPSOPJsonHandler.PathA NewPathA = new AIPSOPJsonHandler.PathA();
 
         NewPathA.Type = Type;
@@ -158,6 +160,24 @@ public class TrickyPathAObject : MonoBehaviour
         for (int i = 0; i < PathPoints.Count; i++)
         {
             lineRenderer.SetPosition(i+1, transform.TransformPoint(PathPoints[i]));
+        }
+    }
+    [ContextMenu("Reset Tranformation")]
+    public void ResetTransformation()
+    {
+        var Positions = PathPoints;
+
+        for (int i = 0;i < Positions.Count;i++)
+        {
+            Positions[i] = transform.TransformPoint(Positions[i]);
+        }
+
+        transform.localRotation = new Quaternion(0, 0, 0, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+
+        for (int i = 0; i < Positions.Count; i++)
+        {
+            PathPoints[i] = transform.InverseTransformPoint(Positions[i]);
         }
     }
 
