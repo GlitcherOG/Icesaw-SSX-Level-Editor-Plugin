@@ -10,13 +10,15 @@ using UnityEngine.UIElements;
 [SelectionBase]
 public class TrickyInstanceObject : MonoBehaviour
 {
-    public Vector3 LightingVector;
-    public Quaternion LightingRotation;
+    public Vector4 LightVector1;
+    public Vector4 LightVector2;
+    public Vector4 LightVector3;
+    public Vector4 AmbentLightVector;
 
-    public Vector4 LightColour1; //Some Lighting Thing
-    public Vector4 LightColour2; //Probably Wrong
+    public Vector4 LightColour1;
+    public Vector4 LightColour2;
     public Vector4 LightColour3;
-    public Vector4 AmbentLight;
+    public Vector4 AmbentLightColour;
 
     [OnChangedCall("LoadPrefabs")]
     public int ModelID;
@@ -70,19 +72,21 @@ public class TrickyInstanceObject : MonoBehaviour
         transform.localScale = JsonUtil.ArrayToVector3(instance.Scale);
         transform.localPosition = JsonUtil.ArrayToVector3(instance.Location);
 
-        LightingVector = JsonUtil.ArrayToVector3(instance.LightingVector);
-        LightingRotation = JsonUtil.ArrayToQuaternion(instance.LightingRotation);
+        LightVector1 = JsonUtil.ArrayToVector4(instance.LightVector1);
+        LightVector2 = JsonUtil.ArrayToVector4(instance.LightVector2);
+        LightVector3 = JsonUtil.ArrayToVector4(instance.LightVector3);
+        AmbentLightVector = JsonUtil.ArrayToVector4(instance.AmbentLightVector);
 
-        GameObject gameObject = new GameObject("Lighting");
-        gameObject.transform.parent = transform;
-        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        gameObject.transform.localScale = new Vector3(1, 1, 1);
-        gameObject.transform.position = (LightingVector * 100f) + transform.position;
+        //GameObject gameObject = new GameObject("Lighting");
+        //gameObject.transform.parent = transform;
+        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        //gameObject.transform.localScale = new Vector3(1, 1, 1);
+        //gameObject.transform.position = (LightingVector * 100f) + transform.position;
 
-        LightColour1 = JsonUtil.ArrayToVector4(instance.Unknown9);
-        LightColour2 = JsonUtil.ArrayToVector4(instance.Unknown10);
-        LightColour3 = JsonUtil.ArrayToVector4(instance.Unknown11);
-        AmbentLight = JsonUtil.ArrayToVector4(instance.RGBA);
+        LightColour1 = JsonUtil.ArrayToVector4(instance.LightColour1);
+        LightColour2 = JsonUtil.ArrayToVector4(instance.LightColour2);
+        LightColour3 = JsonUtil.ArrayToVector4(instance.LightColour3);
+        AmbentLightColour = JsonUtil.ArrayToVector4(instance.AmbentLightColour);
 
 
         ModelID = instance.ModelID;
@@ -295,13 +299,15 @@ public class TrickyInstanceObject : MonoBehaviour
         TempInstance.Scale = JsonUtil.Vector3ToArray(transform.localScale);
         TempInstance.Rotation = JsonUtil.QuaternionToArray(Quaternion.Euler(transform.localEulerAngles));
 
-        TempInstance.LightingVector = JsonUtil.Vector3ToArray(LightingVector);
-        TempInstance.LightingRotation = JsonUtil.QuaternionToArray(LightingRotation);
+        TempInstance.LightVector1 = JsonUtil.Vector4ToArray(LightVector1);
+        TempInstance.LightVector2 = JsonUtil.Vector4ToArray(LightVector2);
+        TempInstance.LightVector3 = JsonUtil.Vector4ToArray(LightVector3);
+        TempInstance.AmbentLightVector = JsonUtil.Vector4ToArray(AmbentLightVector);
 
-        TempInstance.Unknown9 = JsonUtil.Vector4ToArray(LightColour1);
-        TempInstance.Unknown10 = JsonUtil.Vector4ToArray(LightColour2);
-        TempInstance.Unknown11 = JsonUtil.Vector4ToArray(LightColour3);
-        TempInstance.RGBA = JsonUtil.Vector4ToArray(AmbentLight);
+        TempInstance.LightColour1 = JsonUtil.Vector4ToArray(LightColour1);
+        TempInstance.LightColour2 = JsonUtil.Vector4ToArray(LightColour2);
+        TempInstance.LightColour3 = JsonUtil.Vector4ToArray(LightColour3);
+        TempInstance.AmbentLightColour = JsonUtil.Vector4ToArray(AmbentLightColour);
 
         TempInstance.ModelID = ModelID;
         TempInstance.PrevInstance = PrevInstance;
