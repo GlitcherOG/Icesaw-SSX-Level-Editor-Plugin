@@ -13,10 +13,10 @@ public class TrickyInstanceObject : MonoBehaviour
     public Vector3 LightingVector;
     public Quaternion LightingRotation;
 
-    public Vector4 Unknown9; //Some Lighting Thing
-    public Vector4 Unknown10;
-    public Vector4 Unknown11;
-    public Vector4 RGBA;
+    public Vector4 LightColour1; //Some Lighting Thing
+    public Vector4 LightColour2; //Probably Wrong
+    public Vector4 LightColour3;
+    public Vector4 AmbentLight;
 
     [OnChangedCall("LoadPrefabs")]
     public int ModelID;
@@ -79,11 +79,10 @@ public class TrickyInstanceObject : MonoBehaviour
         gameObject.transform.localScale = new Vector3(1, 1, 1);
         gameObject.transform.position = (LightingVector * 100f) + transform.position;
 
-        Unknown9 = JsonUtil.ArrayToVector4(instance.Unknown9);
-        Unknown10 = JsonUtil.ArrayToVector4(instance.Unknown10);
-        Unknown11 = JsonUtil.ArrayToVector4(instance.Unknown11);
-        Unknown11 = JsonUtil.ArrayToVector4(instance.Unknown11);
-        RGBA = JsonUtil.ArrayToVector4(instance.RGBA);
+        LightColour1 = JsonUtil.ArrayToVector4(instance.Unknown9);
+        LightColour2 = JsonUtil.ArrayToVector4(instance.Unknown10);
+        LightColour3 = JsonUtil.ArrayToVector4(instance.Unknown11);
+        AmbentLight = JsonUtil.ArrayToVector4(instance.RGBA);
 
 
         ModelID = instance.ModelID;
@@ -299,10 +298,10 @@ public class TrickyInstanceObject : MonoBehaviour
         TempInstance.LightingVector = JsonUtil.Vector3ToArray(LightingVector);
         TempInstance.LightingRotation = JsonUtil.QuaternionToArray(LightingRotation);
 
-        TempInstance.Unknown9 = JsonUtil.Vector4ToArray(Unknown9);
-        TempInstance.Unknown10 = JsonUtil.Vector4ToArray(Unknown10);
-        TempInstance.Unknown11 = JsonUtil.Vector4ToArray(Unknown11);
-        TempInstance.RGBA = JsonUtil.Vector4ToArray(RGBA);
+        TempInstance.Unknown9 = JsonUtil.Vector4ToArray(LightColour1);
+        TempInstance.Unknown10 = JsonUtil.Vector4ToArray(LightColour2);
+        TempInstance.Unknown11 = JsonUtil.Vector4ToArray(LightColour3);
+        TempInstance.RGBA = JsonUtil.Vector4ToArray(AmbentLight);
 
         TempInstance.ModelID = ModelID;
         TempInstance.PrevInstance = PrevInstance;
