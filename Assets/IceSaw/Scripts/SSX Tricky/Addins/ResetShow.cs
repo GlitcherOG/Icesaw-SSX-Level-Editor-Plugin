@@ -36,7 +36,7 @@ public class ResetShow
                     TempPatchList[i].UpdateTexture();
                 }
 
-                if (TempPatchList[i].PatchStyle == 10)
+                if (TempPatchList[i].PatchStyle == TrickyPatchObjectEditor.PatchType.Wall)
                 {
                     TempPatchList[i].TextureAssigment = "Bounce.png";
                     TempPatchList[i].UpdateTexture();

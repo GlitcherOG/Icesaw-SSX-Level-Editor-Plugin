@@ -77,11 +77,23 @@ public class TrickyInstanceObject : MonoBehaviour
         LightVector3 = JsonUtil.ArrayToVector4(instance.LightVector3);
         AmbentLightVector = JsonUtil.ArrayToVector4(instance.AmbentLightVector);
 
-        //GameObject gameObject = new GameObject("Lighting");
-        //gameObject.transform.parent = transform;
-        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        //gameObject.transform.localScale = new Vector3(1, 1, 1);
-        //gameObject.transform.position = (LightingVector * 100f) + transform.position;
+        GameObject gameObject = new GameObject("Lighting");
+        gameObject.transform.parent = transform;
+        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        gameObject.transform.localScale = new Vector3(1, 1, 1);
+        gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector1) * 1000f);
+
+        GameObject gameObject1 = new GameObject("Lighting2");
+        gameObject.transform.parent = transform;
+        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        gameObject.transform.localScale = new Vector3(1, 1, 1);
+        gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector2) * 1000f);
+
+        GameObject gameObject2 = new GameObject("Lighting3");
+        gameObject.transform.parent = transform;
+        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        gameObject.transform.localScale = new Vector3(1, 1, 1);
+        gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector3) * 1000f);
 
         LightColour1 = JsonUtil.ArrayToVector4(instance.LightColour1);
         LightColour2 = JsonUtil.ArrayToVector4(instance.LightColour2);
@@ -211,6 +223,7 @@ public class TrickyInstanceObject : MonoBehaviour
                     for (int i = 0; i < CollsionModelPaths.Length; i++)
                     {
                         var TempObject = new GameObject(i.ToString());
+                        TempObject.AddComponent<SelectParent>();
                         TempObject.transform.parent = Collision.transform;
                         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
                         TempObject.transform.localPosition = new Vector3(0, 0, 0);

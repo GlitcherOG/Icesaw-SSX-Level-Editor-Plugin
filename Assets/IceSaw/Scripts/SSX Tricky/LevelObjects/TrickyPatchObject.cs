@@ -8,6 +8,7 @@ using Newtonsoft.Json.Bson;
 using UnityEngine.Assertions.Must;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using static TrickyPatchObjectEditor;
 
 [ExecuteInEditMode]
 public class TrickyPatchObject : MonoBehaviour
@@ -82,7 +83,7 @@ public class TrickyPatchObject : MonoBehaviour
     public Vector3 RawR4C4 = new Vector3(750, 750, 0);
 
     [Space(10)]
-    public int PatchStyle;
+    public PatchType PatchStyle;
     public bool TrickOnlyPatch;
     [SerializeField]
     [OnChangedCall("UpdateTexture")]
@@ -163,7 +164,7 @@ public class TrickyPatchObject : MonoBehaviour
         RawR1C2 = new Vector3(import.Points[1, 0], import.Points[1, 1], import.Points[1, 2]);
         RawControlPoint = new Vector3(import.Points[0, 0], import.Points[0, 1], import.Points[0, 2]);
 
-        PatchStyle = import.PatchStyle;
+        PatchStyle = (PatchType)import.PatchStyle;
         TrickOnlyPatch = import.TrickOnlyPatch;
         TextureAssigment = import.TexturePath;
         LightmapID = import.LightmapID;
@@ -258,7 +259,7 @@ public class TrickyPatchObject : MonoBehaviour
         patch.Points[15, 1] = RawR4C4.y;
         patch.Points[15, 2] = RawR4C4.z;
 
-        patch.PatchStyle = PatchStyle;
+        patch.PatchStyle = (int)PatchStyle;
         patch.TrickOnlyPatch = TrickOnlyPatch;
         patch.TexturePath = TextureAssigment;
         patch.LightmapID = LightmapID;
@@ -929,4 +930,27 @@ public class TrickyPatchObjectEditor : Editor
             }
         }
     }
+
+    public enum PatchType
+    {
+        Reset,
+        StandardSnow,
+        StandardOffTrack,
+        PoweredSnow,
+        SlowPoweredSnow,
+        IceStandard,
+        BounceUnskiable,
+        IceWaterNoTrail,
+        GlidyPoweredSnow,
+        Rock,
+        Wall,
+        IceNoTrail,
+        SmallParticleWake,
+        OffTrackMetal,
+        MetalGliding,
+        Standard1,
+        StandardSand,
+        NoCollision,
+        ShowOffRampMetal
+}
 }
