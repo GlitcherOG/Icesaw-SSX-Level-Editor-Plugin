@@ -190,6 +190,7 @@ public class TrickyInstanceObject : MonoBehaviour
         }
 
         Collision = new GameObject("CollisionModel");
+        Collision.AddComponent<SelectParent>();
         Collision.transform.parent = transform;
         Collision.transform.localRotation = new Quaternion(0, 0, 0, 0);
         Collision.transform.localPosition = new Vector3(0, 0, 0);
