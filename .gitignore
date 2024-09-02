@@ -2,6 +2,9 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
+/[Aa]ssets/[Aa]mplify[Ss]hader[Ee]ditor/
+/[Aa]ssets/[Aa]mplify[Ss]hader[Ee]ditor.meta
+/[Pp]rojectSettings/[Aa]mplify[Ss]hader[Ee]ditor.asset
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
