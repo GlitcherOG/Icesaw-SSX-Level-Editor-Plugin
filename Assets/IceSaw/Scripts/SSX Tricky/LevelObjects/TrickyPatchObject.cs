@@ -604,7 +604,7 @@ public class TrickyPatchObject : MonoBehaviour
     {
         if (Lightmap)
         {
-            meshRenderer.sharedMaterial.SetFloat("_LightMapStrength", 1);
+            meshRenderer.sharedMaterial.SetFloat("_LightMapStrength", 1f);
         }
         else
         {
