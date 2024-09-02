@@ -190,8 +190,10 @@ public class TrickyInstanceObject : MonoBehaviour
                 {
                     //TempChildPrefab.GetChild(a).AddComponent<SelectParent>();
                     var MeshRender = TempChildPrefab.GetChild(a).GetComponent<MeshRenderer>();
-                    MeshRender.sharedMaterial.SetColor("_AmbientColour", new Color(AmbentLightColour.x / 255f, AmbentLightColour.y / 255f, AmbentLightColour.z / 255f, (AmbentLightColour.w * 2)/255f));
-                    MeshRender.sharedMaterial.SetColor("_VectorColour1", new Color(LightColour1.x / 255f, LightColour1.y / 255f, LightColour1.z / 255f));
+                    var TempLight = (AmbentLightColour)/255f;
+                    MeshRender.sharedMaterial.SetColor("_AmbientColour", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
+                    TempLight = (LightColour1) / 255f;
+                    MeshRender.sharedMaterial.SetColor("_VectorColour1", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
                     MeshRender.sharedMaterial.SetVector("_VectorDir1", transform.TransformVector(LightVector1)*100);
                 }
             }

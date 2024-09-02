@@ -114,7 +114,7 @@ public class ObjImporter : MonoBehaviour
         mesh.uv = NewTextureCords.ToArray();
         mesh.triangles = Indices.ToArray();
         mesh.Optimize();
-        mesh.RecalculateNormals();
+        //mesh.RecalculateNormals();
 
         return mesh;
     }
