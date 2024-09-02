@@ -105,9 +105,6 @@ public class TrickyMaterialObject : MonoBehaviour
     public void GenerateMaterialSphere()
     {
         meshRenderer.sharedMaterial.SetTexture("_MainTexture", GetTexture(TexturePath, SkyboxMaterial));
-        meshRenderer.sharedMaterial.SetFloat("_OutlineWidth", 0);
-        meshRenderer.sharedMaterial.SetFloat("_OpacityMaskOutline", 0f);
-        meshRenderer.sharedMaterial.SetColor("_OutlineColor", new Color32(255, 255, 255, 0));
         meshRenderer.sharedMaterial.SetFloat("_NoLightMode", 1);
     }
 

@@ -32,24 +32,24 @@ Shader "NewModelShader"
 		struct Input
 		{
 			float2 uv_texcoord;
-			half3 worldNormal;
+			float3 worldNormal;
 		};
 
 		uniform int _LightMode;
-		uniform half4 _AmbientColour;
+		uniform float4 _AmbientColour;
 		uniform sampler2D _MainTexture;
-		uniform half4 _VectorColour1;
-		uniform half4 _VectorColour2;
-		uniform half4 _VectorColour3;
+		uniform float4 _VectorColour1;
+		uniform float4 _VectorColour2;
+		uniform float4 _VectorColour3;
 
 		UNITY_INSTANCING_BUFFER_START(NewModelShader)
-			UNITY_DEFINE_INSTANCED_PROP(half4, _MainTexture_ST)
+			UNITY_DEFINE_INSTANCED_PROP(float4, _MainTexture_ST)
 #define _MainTexture_ST_arr NewModelShader
-			UNITY_DEFINE_INSTANCED_PROP(half3, _VectorDir1)
+			UNITY_DEFINE_INSTANCED_PROP(float3, _VectorDir1)
 #define _VectorDir1_arr NewModelShader
-			UNITY_DEFINE_INSTANCED_PROP(half3, _VectorDir2)
+			UNITY_DEFINE_INSTANCED_PROP(float3, _VectorDir2)
 #define _VectorDir2_arr NewModelShader
-			UNITY_DEFINE_INSTANCED_PROP(half3, _VectorDir3)
+			UNITY_DEFINE_INSTANCED_PROP(float3, _VectorDir3)
 #define _VectorDir3_arr NewModelShader
 		UNITY_INSTANCING_BUFFER_END(NewModelShader)
 
@@ -60,21 +60,21 @@ Shader "NewModelShader"
 
 		void surf( Input i , inout SurfaceOutput o )
 		{
-			half4 _MainTexture_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_MainTexture_ST_arr, _MainTexture_ST);
+			float4 _MainTexture_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_MainTexture_ST_arr, _MainTexture_ST);
 			float2 uv_MainTexture = i.uv_texcoord * _MainTexture_ST_Instance.xy + _MainTexture_ST_Instance.zw;
-			half4 tex2DNode17 = tex2D( _MainTexture, uv_MainTexture );
-			half4 myMainTexture26 = tex2DNode17;
-			half4 temp_output_20_0 = ( _AmbientColour * myMainTexture26 );
-			half3 ase_worldNormal = i.worldNormal;
-			half3 _VectorDir1_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir1_arr, _VectorDir1);
-			half dotResult6 = dot( ase_worldNormal , _VectorDir1_Instance );
-			half3 _VectorDir2_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir2_arr, _VectorDir2);
-			half dotResult48 = dot( ase_worldNormal , _VectorDir2_Instance );
-			half3 _VectorDir3_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir3_arr, _VectorDir3);
-			half dotResult53 = dot( ase_worldNormal , _VectorDir3_Instance );
-			half4 temp_output_21_0 = ( myMainTexture26 * ( ( dotResult6 * _VectorColour1 ) + ( dotResult48 * _VectorColour2 ) + ( dotResult53 * _VectorColour3 ) ) );
+			float4 tex2DNode17 = tex2D( _MainTexture, uv_MainTexture );
+			float4 myMainTexture26 = tex2DNode17;
+			float4 temp_output_20_0 = ( _AmbientColour * myMainTexture26 );
+			float3 ase_worldNormal = i.worldNormal;
+			float3 _VectorDir1_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir1_arr, _VectorDir1);
+			float dotResult6 = dot( ase_worldNormal , _VectorDir1_Instance );
+			float3 _VectorDir2_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir2_arr, _VectorDir2);
+			float dotResult48 = dot( ase_worldNormal , _VectorDir2_Instance );
+			float3 _VectorDir3_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir3_arr, _VectorDir3);
+			float dotResult53 = dot( ase_worldNormal , _VectorDir3_Instance );
+			float4 temp_output_21_0 = ( myMainTexture26 * ( ( dotResult6 * _VectorColour1 ) + ( dotResult48 * _VectorColour2 ) + ( dotResult53 * _VectorColour3 ) ) );
 			o.Emission = ( (float)_LightMode > 0.0 ? ( temp_output_20_0 > temp_output_21_0 ? temp_output_20_0 : temp_output_21_0 ) : myMainTexture26 ).rgb;
-			half myAlpha29 = tex2DNode17.a;
+			float myAlpha29 = tex2DNode17.a;
 			o.Alpha = myAlpha29;
 		}
 
@@ -113,7 +113,7 @@ Node;AmplifyShaderEditor.IntNode;43;-1120,-752;Inherit;False;Property;_LightMode
 Node;AmplifyShaderEditor.Compare;41;-1136,-544;Inherit;False;2;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;30;-976,-240;Inherit;False;29;myAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Compare;45;-928,-544;Inherit;False;2;4;0;INT;0;False;1;FLOAT;0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-768,-592;Half;False;True;-1;7;ASEMaterialInspector;0;0;Unlit;NewModelShader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Off;0;False;;0;False;;False;0;False;;0;False;;False;0;Custom;0.5;True;False;0;True;TransparentCutout;;Transparent;ForwardOnly;12;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;False;2;5;False;;10;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;0;-1;-1;-1;0;False;0;0;False;;-1;0;False;;0;0;0;False;0.1;False;;0;False;;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;16;FLOAT4;0,0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-768,-592;Float;False;True;-1;7;ASEMaterialInspector;0;0;Unlit;NewModelShader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Off;0;False;;0;False;;False;0;False;;0;False;;False;0;Custom;0.5;True;False;0;True;TransparentCutout;;Transparent;ForwardOnly;12;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;False;2;5;False;;10;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;0;-1;-1;-1;0;False;0;0;False;;-1;0;False;;0;0;0;False;0.1;False;;0;False;;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;16;FLOAT4;0,0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;48;0;49;0
 WireConnection;48;1;50;0
 WireConnection;6;0;5;0
@@ -145,4 +145,4 @@ WireConnection;45;3;46;0
 WireConnection;0;2;45;0
 WireConnection;0;9;30;0
 ASEEND*/
-//CHKSM=A74D7D9A3D90580B7EDCA90619CCD118177BA9D5
+//CHKSM=33DDA473EC7C747F33B9963AF70E7210FD2EDB1E

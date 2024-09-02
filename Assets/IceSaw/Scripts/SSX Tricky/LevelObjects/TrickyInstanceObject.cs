@@ -195,6 +195,12 @@ public class TrickyInstanceObject : MonoBehaviour
                     TempLight = (LightColour1) / 255f;
                     MeshRender.sharedMaterial.SetColor("_VectorColour1", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
                     MeshRender.sharedMaterial.SetVector("_VectorDir1", transform.TransformVector(LightVector1)*100);
+                    TempLight = (LightColour2) / 255f;
+                    MeshRender.sharedMaterial.SetColor("_VectorColour2", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
+                    MeshRender.sharedMaterial.SetVector("_VectorDir2", transform.TransformVector(LightVector2) * 100);
+                    TempLight = (LightColour3) / 255f;
+                    MeshRender.sharedMaterial.SetColor("_VectorColour3", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
+                    MeshRender.sharedMaterial.SetVector("_VectorDir3", transform.TransformVector(LightVector3) * 100);
                 }
             }
         }
