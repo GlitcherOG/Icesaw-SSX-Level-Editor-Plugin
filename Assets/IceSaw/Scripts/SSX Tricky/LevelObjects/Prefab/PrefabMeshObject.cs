@@ -1,6 +1,4 @@
-using SSXMultiTool.JsonFiles.Tricky;
-using System.Collections;
-using System.Collections.Generic;
+using SSXMultiTool.JsonFiles.Tricky; 
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -36,8 +34,8 @@ public class PrefabMeshObject : MonoBehaviour
         meshFilter = transform.AddComponent<MeshFilter>();
         meshRenderer = transform.AddComponent<MeshRenderer>();
 
-        meshFilter.hideFlags = HideFlags.HideInInspector;
-        meshRenderer.hideFlags = HideFlags.HideInInspector;
+        //meshFilter.hideFlags = HideFlags.HideInInspector;
+        //meshRenderer.hideFlags = HideFlags.HideInInspector;
     }
 
     public void LoadPrefabMeshObject(PrefabJsonHandler.MeshHeader objectHeader)
@@ -79,7 +77,7 @@ public class PrefabMeshObject : MonoBehaviour
 
     public static Material GenerateMaterial(int MaterialID, bool Skybox)
     {
-        Material material = new Material(Shader.Find("ModelShader"));
+        Material material = new Material(Shader.Find("NewModelShader"));
         string TextureID = "";
         if (MaterialID != -1)
         {
@@ -93,10 +91,7 @@ public class PrefabMeshObject : MonoBehaviour
             }
         }
         material.SetTexture("_MainTexture", GetTexture(TextureID, Skybox));
-        material.SetFloat("_OutlineWidth", 0);
-        material.SetFloat("_OpacityMaskOutline", 0f);
-        material.SetColor("_OutlineColor", new Color32(255, 255, 255, 0));
-        material.SetFloat("_NoLightMode", 1);
+        //material.SetFloat("_NoLightMode", 1);
         return material;
     }
 

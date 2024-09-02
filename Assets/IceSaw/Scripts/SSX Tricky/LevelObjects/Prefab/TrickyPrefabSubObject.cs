@@ -3,6 +3,7 @@ using SSXMultiTool.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
@@ -140,7 +141,7 @@ public class TrickyPrefabSubObject : MonoBehaviour
     public GameObject GenerateSubObject()
     {
         GameObject MainObject = new GameObject(transform.name);
-        MainObject.AddComponent<SelectParent>();
+        //MainObject.AddComponent<SelectParent>();
         var MeshObjectList = GetComponentsInChildren<PrefabMeshObject>();
 
         for (int a = 0; a < MeshObjectList.Length; a++)
@@ -152,9 +153,9 @@ public class TrickyPrefabSubObject : MonoBehaviour
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
             var TempMeshFilter = ChildMesh.AddComponent<MeshFilter>();
             var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
-            ChildMesh.AddComponent<SelectParent>();
+            //ChildMesh.AddComponent<SelectParent>();
             TempMeshFilter.mesh = MeshObjectList[a].mesh;
-            TempRenderer.material = MeshObjectList[a].material;
+            TempRenderer.material = PrefabMeshObject.GenerateMaterial(MeshObjectList[a].MaterialID, false);//MeshObjectList[a].material;
         }
 
         return MainObject;

@@ -77,23 +77,23 @@ public class TrickyInstanceObject : MonoBehaviour
         LightVector3 = JsonUtil.ArrayToVector4(instance.LightVector3);
         AmbentLightVector = JsonUtil.ArrayToVector4(instance.AmbentLightVector);
 
-        GameObject gameObject = new GameObject("Lighting");
-        gameObject.transform.parent = transform;
-        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        gameObject.transform.localScale = new Vector3(1, 1, 1);
-        gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector1) * 1000f);
+        //GameObject gameObject = new GameObject("Lighting");
+        //gameObject.transform.parent = transform;
+        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        //gameObject.transform.localScale = new Vector3(1, 1, 1);
+        //gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector1) * 1000f);
 
-        GameObject gameObject1 = new GameObject("Lighting2");
-        gameObject.transform.parent = transform;
-        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        gameObject.transform.localScale = new Vector3(1, 1, 1);
-        gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector2) * 1000f);
+        //GameObject gameObject1 = new GameObject("Lighting2");
+        //gameObject.transform.parent = transform;
+        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        //gameObject.transform.localScale = new Vector3(1, 1, 1);
+        //gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector2) * 1000f);
 
-        GameObject gameObject2 = new GameObject("Lighting3");
-        gameObject.transform.parent = transform;
-        gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        gameObject.transform.localScale = new Vector3(1, 1, 1);
-        gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector3) * 1000f);
+        //GameObject gameObject2 = new GameObject("Lighting3");
+        //gameObject.transform.parent = transform;
+        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        //gameObject.transform.localScale = new Vector3(1, 1, 1);
+        //gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector3) * 1000f);
 
         LightColour1 = JsonUtil.ArrayToVector4(instance.LightColour1);
         LightColour2 = JsonUtil.ArrayToVector4(instance.LightColour2);
@@ -177,18 +177,22 @@ public class TrickyInstanceObject : MonoBehaviour
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
             Prefab.transform.localPosition = new Vector3(0, 0, 0);
             Prefab.transform.localScale = new Vector3(1, 1, 1);
-            Prefab.AddComponent<SelectParent>();
+            //Prefab.AddComponent<SelectParent>();
 
             var TempPrefablist = Prefab.transform.childCount;
             for (int i = 0; i < TempPrefablist; i++)
             {
                 var TempChildPrefab = Prefab.transform.GetChild(i);
 
-                TempChildPrefab.AddComponent<SelectParent>();
+                //TempChildPrefab.AddComponent<SelectParent>();
 
                 for (int a = 0; a < TempChildPrefab.childCount; a++)
                 {
-                    TempChildPrefab.GetChild(a).AddComponent<SelectParent>();
+                    //TempChildPrefab.GetChild(a).AddComponent<SelectParent>();
+                    var MeshRender = TempChildPrefab.GetChild(a).GetComponent<MeshRenderer>();
+                    MeshRender.sharedMaterial.SetColor("_AmbientColour", new Color(AmbentLightColour.x / 255f, AmbentLightColour.y / 255f, AmbentLightColour.z / 255f, (AmbentLightColour.w * 2)/255f));
+                    MeshRender.sharedMaterial.SetColor("_VectorColour1", new Color(LightColour1.x / 255f, LightColour1.y / 255f, LightColour1.z / 255f));
+                    MeshRender.sharedMaterial.SetVector("_VectorDir1", transform.TransformVector(LightVector1)*100);
                 }
             }
         }
