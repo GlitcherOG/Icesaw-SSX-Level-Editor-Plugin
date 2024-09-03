@@ -347,6 +347,13 @@ public class IceSawViewOptions
             {
                 TempPatchList[i].ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
             }
+
+            var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
+
+            for (int i = 0; i < TempInstanceList.Length; i++)
+            {
+                TempInstanceList[i].ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
+            }
         }
     }
 

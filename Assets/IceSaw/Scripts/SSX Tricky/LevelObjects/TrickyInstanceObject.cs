@@ -562,6 +562,22 @@ public class TrickyInstanceObject : MonoBehaviour
         return MainList;
     }
 
+    public void ToggleLightingMode(bool Lightmap)
+    {
+        var TempPrefabs = Prefab.GetComponentsInChildren<Renderer>();
+        for (int i = 0; i < TempPrefabs.Length; i++)
+        {
+            if (Lightmap)
+            {
+                TempPrefabs[i].sharedMaterial.SetFloat("_LightMode", 1f);
+            }
+            else
+            {
+                TempPrefabs[i].sharedMaterial.SetFloat("_LightMode", 0f);
+            }
+        }
+    }
+
     [System.Serializable]
     public struct SoundData
     {

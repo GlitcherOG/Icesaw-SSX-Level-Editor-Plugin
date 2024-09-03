@@ -14,7 +14,7 @@ Shader "NewModelShader"
 		_VectorColour3("VectorColour3", Color) = (0,0,0,1)
 		_AmbientColour("AmbientColour", Color) = (1,1,1,1)
 		_MainTexture("Main Texture", 2D) = "white" {}
-		_LightMode("LightMode", Int) = 1
+		_LightMode("LightMode", Int) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -109,8 +109,8 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;20;-1408,-800;Inherit;True;2;2;0;C
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;21;-1408,-432;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;29;-816,-1024;Inherit;False;myAlpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;46;-1168,-384;Inherit;False;26;myMainTexture;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.IntNode;43;-1120,-752;Inherit;False;Property;_LightMode;LightMode;9;0;Create;True;0;0;0;False;0;False;1;1;False;0;1;INT;0
 Node;AmplifyShaderEditor.Compare;41;-1136,-544;Inherit;False;2;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.IntNode;43;-1120,-752;Inherit;False;Property;_LightMode;LightMode;9;0;Create;True;0;0;0;False;0;False;0;1;False;0;1;INT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;30;-976,-240;Inherit;False;29;myAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Compare;45;-928,-544;Inherit;False;2;4;0;INT;0;False;1;FLOAT;0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-768,-592;Float;False;True;-1;7;ASEMaterialInspector;0;0;Unlit;NewModelShader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Off;0;False;;0;False;;False;0;False;;0;False;;False;0;Custom;0.5;True;False;0;True;TransparentCutout;;Transparent;ForwardOnly;12;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;False;2;5;False;;10;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;0;-1;-1;-1;0;False;0;0;False;;-1;0;False;;0;0;0;False;0.1;False;;0;False;;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;16;FLOAT4;0,0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
@@ -145,4 +145,4 @@ WireConnection;45;3;46;0
 WireConnection;0;2;45;0
 WireConnection;0;9;30;0
 ASEEND*/
-//CHKSM=33DDA473EC7C747F33B9963AF70E7210FD2EDB1E
+//CHKSM=813637700B56539779B15121D2B95DF0198C9E06
