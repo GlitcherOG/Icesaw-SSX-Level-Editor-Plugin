@@ -335,6 +335,13 @@ public class IceSawViewOptions
             {
                 TempPatchList[i].ToggleLightingMode(OGLevelManager.Instance.LightmapMode);
             }
+
+            var TempInstanceList = OGWorldManager.Instance.GetInstanceList();
+
+            for (int i = 0; i < TempInstanceList.Length; i++)
+            {
+                TempInstanceList[i].ToggleLightingMode(OGLevelManager.Instance.LightmapMode);
+            }
         }
         else
         if (TrickyLevelManager.Instance != null)

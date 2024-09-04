@@ -6,9 +6,9 @@ Shader "NewNewModelShader"
 {
 	Properties
 	{
-		_LightVector1("LightVector1", Vector) = (0.5557215,0.8313487,-0.005775411,0)
-		_LightVector2("LightVector2", Vector) = (0.5557215,0.8313487,-0.005775411,0)
-		_LightVector3("LightVector3", Vector) = (0.5557215,0.8313487,-0.005775411,0)
+		_VectorDir1("VectorDir1", Vector) = (0.5557215,0.8313487,-0.005775411,0)
+		_VectorDir2("VectorDir2", Vector) = (0.5557215,0.8313487,-0.005775411,0)
+		_VectorDir3("VectorDir3", Vector) = (0.5557215,0.8313487,-0.005775411,0)
 		_VectorColour1("VectorColour1", Color) = (1,0.9386792,1,1)
 		_VectorColour2("VectorColour2", Color) = (1,0.9386792,1,1)
 		_VectorColour3("VectorColour3", Color) = (1,0.9386792,1,1)
@@ -51,12 +51,12 @@ Shader "NewNewModelShader"
 #define _VectorColour2_arr NewNewModelShader
 			UNITY_DEFINE_INSTANCED_PROP(half4, _VectorColour3)
 #define _VectorColour3_arr NewNewModelShader
-			UNITY_DEFINE_INSTANCED_PROP(half3, _LightVector1)
-#define _LightVector1_arr NewNewModelShader
-			UNITY_DEFINE_INSTANCED_PROP(half3, _LightVector2)
-#define _LightVector2_arr NewNewModelShader
-			UNITY_DEFINE_INSTANCED_PROP(half3, _LightVector3)
-#define _LightVector3_arr NewNewModelShader
+			UNITY_DEFINE_INSTANCED_PROP(half3, _VectorDir1)
+#define _VectorDir1_arr NewNewModelShader
+			UNITY_DEFINE_INSTANCED_PROP(half3, _VectorDir2)
+#define _VectorDir2_arr NewNewModelShader
+			UNITY_DEFINE_INSTANCED_PROP(half3, _VectorDir3)
+#define _VectorDir3_arr NewNewModelShader
 		UNITY_INSTANCING_BUFFER_END(NewNewModelShader)
 
 		inline half4 LightingUnlit( SurfaceOutput s, half3 lightDir, half atten )
@@ -73,16 +73,16 @@ Shader "NewNewModelShader"
 			half4 _AmbientColour_Instance = UNITY_ACCESS_INSTANCED_PROP(_AmbientColour_arr, _AmbientColour);
 			half3 ase_worldNormal = i.worldNormal;
 			half3 WorldNormal54 = ase_worldNormal;
-			half3 _LightVector1_Instance = UNITY_ACCESS_INSTANCED_PROP(_LightVector1_arr, _LightVector1);
-			half dotResult6 = dot( WorldNormal54 , _LightVector1_Instance );
+			half3 _VectorDir1_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir1_arr, _VectorDir1);
+			half dotResult6 = dot( WorldNormal54 , _VectorDir1_Instance );
 			half4 _VectorColour1_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorColour1_arr, _VectorColour1);
 			half4 clampResult63 = clamp( ( dotResult6 * _VectorColour1_Instance ) , float4( 0,0,0,0 ) , float4( 1,1,1,0 ) );
-			half3 _LightVector2_Instance = UNITY_ACCESS_INSTANCED_PROP(_LightVector2_arr, _LightVector2);
-			half dotResult48 = dot( WorldNormal54 , _LightVector2_Instance );
+			half3 _VectorDir2_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir2_arr, _VectorDir2);
+			half dotResult48 = dot( WorldNormal54 , _VectorDir2_Instance );
 			half4 _VectorColour2_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorColour2_arr, _VectorColour2);
 			half4 clampResult62 = clamp( ( dotResult48 * _VectorColour2_Instance ) , float4( 0,0,0,0 ) , float4( 1,1,1,0 ) );
-			half3 _LightVector3_Instance = UNITY_ACCESS_INSTANCED_PROP(_LightVector3_arr, _LightVector3);
-			half dotResult52 = dot( WorldNormal54 , _LightVector3_Instance );
+			half3 _VectorDir3_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorDir3_arr, _VectorDir3);
+			half dotResult52 = dot( WorldNormal54 , _VectorDir3_Instance );
 			half4 _VectorColour3_Instance = UNITY_ACCESS_INSTANCED_PROP(_VectorColour3_arr, _VectorColour3);
 			half4 clampResult60 = clamp( ( dotResult52 * _VectorColour3_Instance ) , float4( 0,0,0,0 ) , float4( 1,1,1,0 ) );
 			half4 Directional_Lighting65 = ( ( clampResult63 + clampResult62 + clampResult60 ) / _Divider );
@@ -101,12 +101,12 @@ Version=19603
 Node;AmplifyShaderEditor.CommentaryNode;70;-3888,-400;Inherit;False;2244;1483;Directional Lighting;24;5;54;1;55;56;57;46;50;2;6;48;52;47;51;15;45;49;62;63;60;44;69;67;65;//Directional Lighting;1,1,0.2352941,1;0;0
 Node;AmplifyShaderEditor.WorldNormalVector;5;-3824,272;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RegisterLocalVarNode;54;-3632,272;Inherit;False;WorldNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.Vector3Node;1;-3328,-224;Inherit;False;InstancedProperty;_LightVector1;LightVector1;1;0;Create;True;0;0;0;False;0;False;0.5557215,0.8313487,-0.005775411;0.5557215,0.8313487,-0.005775411;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.GetLocalVarNode;55;-3344,-352;Inherit;False;54;WorldNormal;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;56;-3296,160;Inherit;False;54;WorldNormal;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;57;-3264,608;Inherit;False;54;WorldNormal;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.Vector3Node;46;-3328,240;Inherit;False;InstancedProperty;_LightVector2;LightVector2;2;0;Create;True;0;0;0;False;0;False;0.5557215,0.8313487,-0.005775411;0.5557215,0.8313487,-0.005775411;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.Vector3Node;50;-3296,688;Inherit;False;InstancedProperty;_LightVector3;LightVector3;3;0;Create;True;0;0;0;False;0;False;0.5557215,0.8313487,-0.005775411;0.5557215,0.8313487,-0.005775411;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;1;-3328,-224;Inherit;False;InstancedProperty;_VectorDir1;VectorDir1;1;0;Create;True;0;0;0;False;0;False;0.5557215,0.8313487,-0.005775411;0.5557215,0.8313487,-0.005775411;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;46;-3328,240;Inherit;False;InstancedProperty;_VectorDir2;VectorDir2;2;0;Create;True;0;0;0;False;0;False;0.5557215,0.8313487,-0.005775411;0.5557215,0.8313487,-0.005775411;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;50;-3296,688;Inherit;False;InstancedProperty;_VectorDir3;VectorDir3;3;0;Create;True;0;0;0;False;0;False;0.5557215,0.8313487,-0.005775411;0.5557215,0.8313487,-0.005775411;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.ColorNode;2;-3328,-64;Inherit;False;InstancedProperty;_VectorColour1;VectorColour1;4;0;Create;True;0;0;0;False;0;False;1,0.9386792,1,1;0.6318335,0.573073,0.5218945,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.DotProductOpNode;6;-3072,-272;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DotProductOpNode;48;-3072,192;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
@@ -134,14 +134,14 @@ Node;AmplifyShaderEditor.CommentaryNode;74;-1010,-626;Inherit;False;507;336;Appl
 Node;AmplifyShaderEditor.RegisterLocalVarNode;26;-2576,-960;Inherit;False;myMainTexture;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;72;-1344,-928;Inherit;False;Final Lighting;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;29;-2576,-864;Inherit;False;myAlpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;73;-960,-464;Inherit;False;72;Final Lighting;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;28;-960,-576;Inherit;False;26;myMainTexture;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;73;-960,-464;Inherit;False;72;Final Lighting;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;30;-368,-144;Inherit;False;29;myAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;-736,-544;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.DotProductOpNode;11;-336,-1648;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldNormalVector;10;-656,-1840;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.ViewDirInputsCoordNode;14;-640,-1648;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RegisterLocalVarNode;13;-144,-1616;Inherit;False;ViewDir;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;30;-368,-144;Inherit;False;29;myAlpha;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;-736,-544;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-160,-368;Half;False;True;-1;7;ASEMaterialInspector;0;0;Unlit;NewNewModelShader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Off;0;False;;0;False;;False;0;False;;0;False;;False;0;Custom;0.5;True;False;0;True;TransparentCutout;;Transparent;ForwardOnly;12;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;False;2;5;False;;10;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;0;-1;-1;-1;0;False;0;0;False;;-1;0;False;;0;0;0;False;0.1;False;;0;False;;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;16;FLOAT4;0,0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;54;0;5;0
 WireConnection;6;0;55;0
@@ -172,12 +172,12 @@ WireConnection;39;1;66;0
 WireConnection;26;0;17;0
 WireConnection;72;0;39;0
 WireConnection;29;0;17;4
+WireConnection;42;0;28;0
+WireConnection;42;1;73;0
 WireConnection;11;0;10;0
 WireConnection;11;1;14;0
 WireConnection;13;0;11;0
-WireConnection;42;0;28;0
-WireConnection;42;1;73;0
 WireConnection;0;2;42;0
 WireConnection;0;9;30;0
 ASEEND*/
-//CHKSM=47608884A68739827BC153F72DD41799A97ACD37
+//CHKSM=E6FEC92A48255792B186656A817269DA740F2FDD

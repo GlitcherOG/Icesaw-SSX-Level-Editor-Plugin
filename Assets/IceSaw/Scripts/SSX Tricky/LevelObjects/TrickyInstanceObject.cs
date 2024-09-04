@@ -77,24 +77,6 @@ public class TrickyInstanceObject : MonoBehaviour
         LightVector3 = JsonUtil.ArrayToVector4(instance.LightVector3);
         AmbentLightVector = JsonUtil.ArrayToVector4(instance.AmbentLightVector);
 
-        //GameObject gameObject = new GameObject("Lighting");
-        //gameObject.transform.parent = transform;
-        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        //gameObject.transform.localScale = new Vector3(1, 1, 1);
-        //gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector1) * 1000f);
-
-        //GameObject gameObject1 = new GameObject("Lighting2");
-        //gameObject.transform.parent = transform;
-        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        //gameObject.transform.localScale = new Vector3(1, 1, 1);
-        //gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector2) * 1000f);
-
-        //GameObject gameObject2 = new GameObject("Lighting3");
-        //gameObject.transform.parent = transform;
-        //gameObject.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        //gameObject.transform.localScale = new Vector3(1, 1, 1);
-        //gameObject.transform.position = transform.TransformPoint(JsonUtil.Vector4ToVector3(LightVector3) * 1000f);
-
         LightColour1 = JsonUtil.ArrayToVector4(instance.LightColour1);
         LightColour2 = JsonUtil.ArrayToVector4(instance.LightColour2);
         LightColour3 = JsonUtil.ArrayToVector4(instance.LightColour3);

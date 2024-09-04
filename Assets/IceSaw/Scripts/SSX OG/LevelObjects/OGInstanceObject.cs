@@ -7,6 +7,17 @@ using UnityEngine;
 
 public class OGInstanceObject : MonoBehaviour
 {
+
+    public Vector4 LightVector1;
+    public Vector4 LightVector2;
+    public Vector4 LightVector3;
+    public Vector4 AmbentLightVector;
+
+    public Vector4 LightColour1;
+    public Vector4 LightColour2;
+    public Vector4 LightColour3;
+    public Vector4 AmbentLightColour;
+
     public int U2;
     public int U3;
     [OnChangedCall("LoadPrefabs")]
@@ -43,6 +54,16 @@ public class OGInstanceObject : MonoBehaviour
         transform.localPosition = JsonUtil.ArrayToVector3(instance.Location);
         transform.localRotation = JsonUtil.ArrayToQuaternion(instance.Rotation);
         transform.localScale = JsonUtil.ArrayToVector3(instance.Scale);
+
+        LightVector1 = JsonUtil.ArrayToVector4(instance.LightVector1);
+        LightVector2 = JsonUtil.ArrayToVector4(instance.LightVector2);
+        LightVector3 = JsonUtil.ArrayToVector4(instance.LightVector3);
+        AmbentLightVector = JsonUtil.ArrayToVector4(instance.AmbentLightVector);
+
+        LightColour1 = JsonUtil.ArrayToVector4(instance.LightColour1);
+        LightColour2 = JsonUtil.ArrayToVector4(instance.LightColour2);
+        LightColour3 = JsonUtil.ArrayToVector4(instance.LightColour3);
+        AmbentLightColour = JsonUtil.ArrayToVector4(instance.AmbentLightColour);
 
         U2 = instance.U2;
         U3 = instance.U3;
@@ -87,14 +108,28 @@ public class OGInstanceObject : MonoBehaviour
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
             Prefab.transform.localPosition = new Vector3(0, 0, 0);
             Prefab.transform.localScale = new Vector3(1, 1, 1);
-            Prefab.AddComponent<SelectParent>();
+            //Prefab.AddComponent<SelectParent>();
 
             var TempPrefablist = Prefab.transform.childCount;
             for (int i = 0; i < TempPrefablist; i++)
             {
                 var TempChildPrefab = Prefab.transform.GetChild(i);
 
-                TempChildPrefab.AddComponent<SelectParent>();
+                //TempChildPrefab.AddComponent<SelectParent>();
+
+                var MeshRender = TempChildPrefab.GetComponent<MeshRenderer>();
+                var TempLight = (AmbentLightColour) / 255f;
+                MeshRender.sharedMaterial.SetColor("_AmbientColour", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
+                TempLight = (LightColour1) / 255f;
+                MeshRender.sharedMaterial.SetColor("_VectorColour1", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
+                MeshRender.sharedMaterial.SetVector("_VectorDir1", transform.TransformVector(LightVector1) * 100);
+                TempLight = (LightColour2) / 255f;
+                MeshRender.sharedMaterial.SetColor("_VectorColour2", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
+                MeshRender.sharedMaterial.SetVector("_VectorDir2", transform.TransformVector(LightVector2) * 100);
+                TempLight = (LightColour3) / 255f;
+                MeshRender.sharedMaterial.SetColor("_VectorColour3", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
+                MeshRender.sharedMaterial.SetVector("_VectorDir3", transform.TransformVector(LightVector3) * 100);
+
 
             }
         }
@@ -204,6 +239,22 @@ public class OGInstanceObject : MonoBehaviour
         //}
 
         Collision.SetActive(OGWorldManager.Instance.ShowCollisionModels);
+    }
+
+    public void ToggleLightingMode(bool Lightmap)
+    {
+        var TempPrefabs = Prefab.GetComponentsInChildren<Renderer>();
+        for (int i = 0; i < TempPrefabs.Length; i++)
+        {
+            if (Lightmap)
+            {
+                TempPrefabs[i].sharedMaterial.SetFloat("_LightMode", 1f);
+            }
+            else
+            {
+                TempPrefabs[i].sharedMaterial.SetFloat("_LightMode", 0f);
+            }
+        }
     }
 
     public List<ObjExporter.MassModelData> GenerateModel()

@@ -88,7 +88,7 @@ public class OGMeshObject : MonoBehaviour
 
     public static Material GenerateMaterial(int MaterialID, bool Skybox)
     {
-        Material material = new Material(Shader.Find("ModelShader"));
+        Material material = new Material(Shader.Find("NewModelShader"));
         string TextureID = "";
         if (MaterialID != -1)
         {
@@ -102,10 +102,6 @@ public class OGMeshObject : MonoBehaviour
             }
         }
         material.SetTexture("_MainTexture", GetTexture(TextureID, Skybox));
-        material.SetFloat("_OutlineWidth", 0);
-        material.SetFloat("_OpacityMaskOutline", 0f);
-        material.SetColor("_OutlineColor", new Color32(255, 255, 255, 0));
-        material.SetFloat("_NoLightMode", 1);
         return material;
     }
 

@@ -16,7 +16,7 @@ public class OGPrefabObject : MonoBehaviour
     public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(transform.name);
-        MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
+        //MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
 
         var TempList = GetComponentsInChildren<OGMeshObject>();
 
