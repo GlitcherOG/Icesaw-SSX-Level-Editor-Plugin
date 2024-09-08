@@ -141,7 +141,7 @@ public class TrickyPrefabSubObject : MonoBehaviour
     public GameObject GenerateSubObject()
     {
         GameObject MainObject = new GameObject(transform.name);
-        //MainObject.AddComponent<SelectParent>();
+        MainObject.AddComponent<SelectParent>();
         var MeshObjectList = GetComponentsInChildren<PrefabMeshObject>();
 
         for (int a = 0; a < MeshObjectList.Length; a++)

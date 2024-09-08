@@ -34,8 +34,8 @@ public class PrefabMeshObject : MonoBehaviour
         meshFilter = transform.AddComponent<MeshFilter>();
         meshRenderer = transform.AddComponent<MeshRenderer>();
 
-        //meshFilter.hideFlags = HideFlags.HideInInspector;
-        //meshRenderer.hideFlags = HideFlags.HideInInspector;
+        meshFilter.hideFlags = HideFlags.HideInInspector;
+        meshRenderer.hideFlags = HideFlags.HideInInspector;
     }
 
     public void LoadPrefabMeshObject(PrefabJsonHandler.MeshHeader objectHeader)

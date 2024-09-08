@@ -20,14 +20,14 @@ public class TrickyPrefabObject : MonoBehaviour
     public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(transform.name);
-        //MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
-        //MainObject.AddComponent<SelectParent>();
+        MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
+        MainObject.AddComponent<SelectParent>();
         var TempList = GetComponentsInChildren<TrickyPrefabSubObject>();
 
         for (int i = 0; i < TempList.Length; i++)
         {
             var TempModel = TempList[i].GenerateSubObject();
-            //TempModel.AddComponent<SelectParent>();
+            TempModel.AddComponent<SelectParent>();
             TempModel.transform.parent = MainObject.transform;
             TempModel.transform.localPosition = TempList[i].transform.localPosition;
             TempModel.transform.localScale = TempList[i].transform.localScale;
