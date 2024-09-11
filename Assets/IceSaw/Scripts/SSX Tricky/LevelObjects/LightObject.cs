@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEditor;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
+using static SSXMultiTool.JsonFiles.Tricky.LightJsonHandler;
 
 [ExecuteInEditMode]
 public class LightObject : MonoBehaviour
 {
-    public int Type;
+    public LightType Type;
     public int SpriteRes;
     public float UnknownFloat1;
     public int UnknownInt1;
-    public float[] Colour;
-    public float[] Direction;
+    public Vector3 Colour;
     public float[] LowestXYZ;
     public float[] HighestXYZ;
     public float UnknownFloat2;
@@ -27,12 +27,12 @@ public class LightObject : MonoBehaviour
     {
         transform.name = lightJson.LightName;
 
-        Type = lightJson.Type;
+        Type = (LightType)lightJson.Type;
         SpriteRes = lightJson.SpriteRes;
         UnknownFloat1 = lightJson.UnknownFloat1;
         UnknownInt1 = lightJson.UnknownInt1;
-        Colour = lightJson.Colour;
-        Direction = lightJson.Direction;
+        Colour = JsonUtil.ArrayToVector3(lightJson.Colour);
+
         LowestXYZ = lightJson.LowestXYZ;
         HighestXYZ = lightJson.HighestXYZ;
         UnknownFloat2 = lightJson.UnknownFloat2;
@@ -42,6 +42,7 @@ public class LightObject : MonoBehaviour
         Hash = lightJson.Hash;
 
         transform.localPosition = JsonUtil.ArrayToVector3(lightJson.Postion);
+        transform.localRotation = Quaternion.LookRotation(JsonUtil.ArrayToVector3(lightJson.Direction), Vector3.down);
     }
 
     public LightJsonHandler.LightJson GenerateLight()
@@ -50,12 +51,12 @@ public class LightObject : MonoBehaviour
 
         NewLight.LightName = transform.name;
         NewLight.Postion = JsonUtil.Vector3ToArray(transform.localPosition);
-        NewLight.Type = Type;
+        NewLight.Type = (int)Type;
         NewLight.SpriteRes = SpriteRes;
         NewLight.UnknownFloat1 = UnknownFloat1;
         NewLight.UnknownInt1 = UnknownInt1;
-        NewLight.Colour = Colour;
-        NewLight.Direction = Direction;
+        NewLight.Colour = JsonUtil.Vector3ToArray(Colour);
+        NewLight.Direction = JsonUtil.Vector3ToArray(TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformVector(Vector3.forward * 100)).normalized);
         NewLight.LowestXYZ = LowestXYZ;
         NewLight.HighestXYZ = HighestXYZ;
         NewLight.UnknownFloat2 = UnknownFloat2;
@@ -80,5 +81,23 @@ public class LightObject : MonoBehaviour
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
         TempObject.AddComponent<LightObject>();
+    }
+
+    Vector3 ConvertLocalPoint(Vector3 point)
+    {
+        return transform.InverseTransformPoint(TrickyLevelManager.Instance.transform.TransformPoint(point));
+    }
+
+    Vector3 ConvertWorldPoint(Vector3 point)
+    {
+        return TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+    }
+
+    public enum LightType
+    {
+        Directional,
+        U0,
+        U1,
+        Ambient,
     }
 }

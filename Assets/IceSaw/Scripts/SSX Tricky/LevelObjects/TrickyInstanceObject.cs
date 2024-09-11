@@ -159,18 +159,18 @@ public class TrickyInstanceObject : MonoBehaviour
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
             Prefab.transform.localPosition = new Vector3(0, 0, 0);
             Prefab.transform.localScale = new Vector3(1, 1, 1);
-            //Prefab.AddComponent<SelectParent>();
+            Prefab.AddComponent<SelectParent>();
 
             var TempPrefablist = Prefab.transform.childCount;
             for (int i = 0; i < TempPrefablist; i++)
             {
                 var TempChildPrefab = Prefab.transform.GetChild(i);
 
-                //TempChildPrefab.AddComponent<SelectParent>();
+                TempChildPrefab.AddComponent<SelectParent>();
 
                 for (int a = 0; a < TempChildPrefab.childCount; a++)
                 {
-                    //TempChildPrefab.GetChild(a).AddComponent<SelectParent>();
+                    TempChildPrefab.GetChild(a).AddComponent<SelectParent>();
                     var MeshRender = TempChildPrefab.GetChild(a).GetComponent<MeshRenderer>();
                     var TempLight = (AmbentLightColour)/255f;
                     MeshRender.sharedMaterial.SetColor("_AmbientColour", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
