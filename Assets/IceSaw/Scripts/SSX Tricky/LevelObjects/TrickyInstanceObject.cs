@@ -615,6 +615,10 @@ public class TrickyInstanceObjectEditor : Editor
 
         inspectorGroup.Add(Details);
 
+        //VisualElement FlipPatchButton = myInspector.Q("FlipPatch");
+        //TempButton = FlipPatchButton.Query<Button>();
+        //TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
+
         InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
         // Return the finished inspector UI
