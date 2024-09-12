@@ -14,8 +14,8 @@ public class LightObject : MonoBehaviour
     public float UnknownFloat1;
     public int UnknownInt1;
     public Vector3 Colour;
-    public float[] LowestXYZ;
-    public float[] HighestXYZ;
+    public Vector3 LowestXYZ;
+    public Vector3 HighestXYZ;
     public float UnknownFloat2;
     public int UnknownInt2;
     public float UnknownFloat3;
@@ -33,8 +33,8 @@ public class LightObject : MonoBehaviour
         UnknownInt1 = lightJson.UnknownInt1;
         Colour = JsonUtil.ArrayToVector3(lightJson.Colour);
 
-        LowestXYZ = lightJson.LowestXYZ;
-        HighestXYZ = lightJson.HighestXYZ;
+        LowestXYZ = JsonUtil.ArrayToVector3(lightJson.LowestXYZ);
+        HighestXYZ = JsonUtil.ArrayToVector3(lightJson.HighestXYZ);
         UnknownFloat2 = lightJson.UnknownFloat2;
         UnknownInt2 = lightJson.UnknownInt2;
         UnknownFloat3 = lightJson.UnknownFloat3;
@@ -57,8 +57,8 @@ public class LightObject : MonoBehaviour
         NewLight.UnknownInt1 = UnknownInt1;
         NewLight.Colour = JsonUtil.Vector3ToArray(Colour);
         NewLight.Direction = JsonUtil.Vector3ToArray(TrickyLevelManager.Instance.transform.InverseTransformPoint(transform.TransformVector(Vector3.forward * 100)).normalized);
-        NewLight.LowestXYZ = LowestXYZ;
-        NewLight.HighestXYZ = HighestXYZ;
+        NewLight.LowestXYZ = JsonUtil.Vector3ToArray(LowestXYZ);
+        NewLight.HighestXYZ = JsonUtil.Vector3ToArray(HighestXYZ);
         NewLight.UnknownFloat2 = UnknownFloat2;
         NewLight.UnknownInt2 = UnknownInt2;
         NewLight.UnknownFloat3 = UnknownFloat3;
