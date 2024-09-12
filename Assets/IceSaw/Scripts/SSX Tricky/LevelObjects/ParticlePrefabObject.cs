@@ -9,7 +9,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ParticlePrefabObject : MonoBehaviour
 {
-     public List<ParticleObject> ParticleObjects;
+    public List<ParticleObject> ParticleObjects;
 
     public void LoadParticle(ParticleModelJsonHandler.ParticleModelJson particleModel)
     {

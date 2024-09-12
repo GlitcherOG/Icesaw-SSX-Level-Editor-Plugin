@@ -317,11 +317,11 @@ public class TrickyPathBObjectEditor : Editor
             if (TrickyLevelManager.Instance.EditMode && TrickyLevelManager.Instance.PathEventMode)
             {
                 Tools.current = Tool.None;
-                positions = new Vector3[connectedObjects.PathEvents.Count];
-                for (int i = 0; i < connectedObjects.PathEvents.Count; i++)
+                positions = new Vector3[connectedObjects.PathEvents.Count*2];
+                for (int i = 0; i < connectedObjects.PathEvents.Count*2; i++)
                 {
-                    positions[i] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart)), Quaternion.identity);
-                    positions[i] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd)), Quaternion.identity);
+                    positions[i*2] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart)), Quaternion.identity);
+                    positions[i*2+1] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd)), Quaternion.identity);
                 }
             }
             else if (TrickyLevelManager.Instance.EditMode && !TrickyLevelManager.Instance.PathEventMode)

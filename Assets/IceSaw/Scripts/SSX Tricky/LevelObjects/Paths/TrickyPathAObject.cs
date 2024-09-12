@@ -88,6 +88,31 @@ public class TrickyPathAObject : MonoBehaviour
         DrawLines();
     }
 
+    public Vector3 FindPathLocalPoint(float FindDistance)
+    {
+        float OldDistance = 0f;
+        float TestDistance = 0f;
+        for (int i = 0; i < VectorPoints.Count; i++)
+        {
+            TestDistance += Vector2.Distance(VectorPoints[i], new Vector2(0, 0));
+            if (TestDistance >= FindDistance)
+            {
+                //Get Size
+                float Size = TestDistance - OldDistance;
+                //Get Pos
+                float position = TestDistance - FindDistance;
+                //Get Percentage
+                float Percentage = (position / Size);
+
+                //Return Local Point
+                return (Percentage * VectorPoints[i]) + PathPoints[i - 1];
+            }
+            OldDistance = TestDistance;
+        }
+
+        return new Vector3(0, 0, 0);
+    }
+
     public AIPSOPJsonHandler.PathA GeneratePathA()
     {
         ResetTransformation();
@@ -276,7 +301,17 @@ public class TrickyPathAObjectEditor : Editor
         TrickyPathAObject connectedObjects = target as TrickyPathAObject;
         if (!connectedObjects.Hold)
         {
-            if (TrickyLevelManager.Instance.EditMode)
+            if (TrickyLevelManager.Instance.EditMode && TrickyLevelManager.Instance.PathEventMode)
+            {
+                Tools.current = Tool.None;
+                positions = new Vector3[connectedObjects.PathEvents.Count * 2];
+                for (int i = 0; i < connectedObjects.PathEvents.Count * 2; i++)
+                {
+                    positions[i*2] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart)), Quaternion.identity);
+                    positions[i*2 + 1] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd)), Quaternion.identity);
+                }
+            }
+            else if (TrickyLevelManager.Instance.EditMode && !TrickyLevelManager.Instance.PathEventMode)
             {
                 Tools.current = Tool.None;
                 connectedObjects.lineRenderer.enabled = false;
