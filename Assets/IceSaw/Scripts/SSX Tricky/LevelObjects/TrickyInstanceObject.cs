@@ -615,9 +615,25 @@ public class TrickyInstanceObjectEditor : Editor
 
         inspectorGroup.Add(Details);
 
-        //VisualElement FlipPatchButton = myInspector.Q("FlipPatch");
-        //TempButton = FlipPatchButton.Query<Button>();
-        //TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
+        VisualElement RefreshModelButton = myInspector.Q("RefreshModel");
+        var TempButton = RefreshModelButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(LoadPrefabs);
+
+        VisualElement RefreshCollisionModelButton = myInspector.Q("RefreshCollisionModel");
+        TempButton = RefreshCollisionModelButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(LoadCollisionModels);
+
+        VisualElement GotoEffectSlotButton = myInspector.Q("GotoEffectSlot");
+        TempButton = GotoEffectSlotButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
+
+        VisualElement GotoPhysicsButton = myInspector.Q("GotoPhysics");
+        TempButton = GotoPhysicsButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(GotoPhysicsEffect);
+
+        VisualElement GotoModelButton = myInspector.Q("GotoModel");
+        TempButton = GotoModelButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(GotoModel);
 
         InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
