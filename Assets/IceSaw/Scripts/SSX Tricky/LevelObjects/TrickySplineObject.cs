@@ -227,6 +227,46 @@ public class TrickySplineObject : MonoBehaviour
         Hold = false;
     }
 
+    public void SubdivideSegments()
+    {
+        //public List<SplineSegment> splineSegments = new List<SplineSegment>();
+        //Collect All Segments
+        var TempSegmentList = splineSegments = new List<SplineSegment>();
+        //Create a new segment list
+        splineSegments = new List<SplineSegment>();
+
+        //For each segment split in half calculating mid points along curve
+        for (int i = 0; i < TempSegmentList.Count; i++)
+        {
+            var NewSegment = new SplineSegment();
+            NewSegment.Point1 = TempSegmentList[i].Point1;
+
+            NewSegment.Point2 = CalculateCubicBezierPoint((1f/3f) / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
+
+            NewSegment.Point3 = CalculateCubicBezierPoint((2f / 3f) / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
+
+            NewSegment.Point4 = CalculateCubicBezierPoint(1f / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
+
+            splineSegments.Add(NewSegment);
+
+            NewSegment.Point1 = CalculateCubicBezierPoint(1f / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
+
+            NewSegment.Point2 = CalculateCubicBezierPoint(((1f / 3f)+1f) / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
+
+            NewSegment.Point3 = CalculateCubicBezierPoint(((2f / 3f) + 1f) / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
+
+            NewSegment.Point4 = TempSegmentList[i].Point4;
+
+        }
+
+
+        //Add to list
+    }
+
+    public void CollapseSegments()
+    {
+
+    }
     [System.Serializable]
     public struct SplineSegment
     {
