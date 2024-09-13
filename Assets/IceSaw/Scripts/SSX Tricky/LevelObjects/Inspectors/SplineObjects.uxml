@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:GroupBox name="Default_Inspector" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-top: 0; padding-bottom: 0;" />
+    <ui:Button text="Subdivide Segments" display-tooltip-when-elided="true" name="SubdivideSegments" />
+    <ui:Button text="Collapse Segments" display-tooltip-when-elided="true" name="CollapseSegments" />
+    <ui:Button text="Reset Transform" display-tooltip-when-elided="true" name="ResetTransform" />
+    <ui:Button text="Refresh Curve" display-tooltip-when-elided="true" name="RefreshCurve" />
+</ui:UXML>

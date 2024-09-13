@@ -166,7 +166,7 @@ public class TrickySplineObject : MonoBehaviour
         return p;
     }
 
-    [ContextMenu("DrawCurve")]
+    [ContextMenu("Refresh Curve")]
     public void DrawCurve(bool Generated = false)
     {
         List<Vector3> curves = new List<Vector3>();
@@ -413,6 +413,54 @@ public class TrickySplineObject : MonoBehaviour
 [CustomEditor(typeof(TrickySplineObject))]
 public class TrickySplineObjectEditor : Editor
 {
+    public VisualTreeAsset m_InspectorXML;
+
+    public override VisualElement CreateInspectorGUI()
+    {
+        m_InspectorXML = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets\\IceSaw\\Scripts\\SSX Tricky\\LevelObjects\\Inspectors\\SplineObjects.uxml");
+
+        // Create a new VisualElement to be the root of our inspector UI
+        VisualElement myInspector = new VisualElement();
+        m_InspectorXML.CloneTree(myInspector);
+
+        VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
+
+        MonoBehaviour monoBev = (MonoBehaviour)target;
+        TrickyInstanceObject PatchObject = monoBev.GetComponent<TrickySplineObject>();
+
+        //TextElement Details = new TextElement();
+        //Details.style.fontSize = 16;
+        //Details.text = "Instance ID " + PatchObject.transform.GetSiblingIndex();
+
+        //inspectorGroup.Add(Details);
+
+        //VisualElement RefreshModelButton = myInspector.Q("RefreshModel");
+        //var TempButton = RefreshModelButton.Query<Button>();
+        //TempButton.First().RegisterCallback<ClickEvent>(LoadPrefabs);
+
+        //VisualElement RefreshCollisionModelButton = myInspector.Q("RefreshCollisionModel");
+        //TempButton = RefreshCollisionModelButton.Query<Button>();
+        //TempButton.First().RegisterCallback<ClickEvent>(LoadCollisionModels);
+
+        //VisualElement GotoEffectSlotButton = myInspector.Q("GotoEffectSlot");
+        //TempButton = GotoEffectSlotButton.Query<Button>();
+        //TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
+
+        //VisualElement GotoPhysicsButton = myInspector.Q("GotoPhysics");
+        //TempButton = GotoPhysicsButton.Query<Button>();
+        //TempButton.First().RegisterCallback<ClickEvent>(GotoPhysicsEffect);
+
+        //VisualElement GotoModelButton = myInspector.Q("GotoModel");
+        //TempButton = GotoModelButton.Query<Button>();
+        //TempButton.First().RegisterCallback<ClickEvent>(GotoModel);
+
+        InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
+
+        // Return the finished inspector UI
+        return myInspector;
+    }
+
+
     private Vector3[] positions;
     void OnSceneGUI()
     {
