@@ -5,6 +5,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using UnityEditor;
 using System.Drawing;
+using static TrickySplineObject;
 
 [ExecuteInEditMode]
 public class TrickySplineObject : MonoBehaviour
@@ -100,12 +101,35 @@ public class TrickySplineObject : MonoBehaviour
         spline.SplineStyle = SplineStyle;
         spline.Segments = new List<SplineJsonHandler.SegmentJson>();
 
-        //var Segments = transform.GetComponentsInChildren<SplineSegmentObject>();
+        for (int i = 0; i < splineSegments.Count; i++)
+        {
+            SplineJsonHandler.SegmentJson Segment = new SplineJsonHandler.SegmentJson();
 
-        //for (int i = 0; i < Segments.Length; i++)
-        //{
-        //    spline.Segments.Add(Segments[i].GenerateSplineSegment());
-        //}
+            Segment.Points = new float[4, 3];
+
+            Segment.Points[0, 0] = splineSegments[i].Point1.x;
+            Segment.Points[0, 1] = splineSegments[i].Point1.y;
+            Segment.Points[0, 2] = splineSegments[i].Point1.y;
+
+            Segment.Points[1, 0] = splineSegments[i].Point2.x;
+            Segment.Points[1, 1] = splineSegments[i].Point2.y;
+            Segment.Points[1, 2] = splineSegments[i].Point2.y;
+
+            Segment.Points[2, 0] = spline.splineSegments[i].Point3.x;
+            Segment.Points[2, 1] = splineSegments[i].Point3.y;
+            Segment.Points[2, 2] = splineSegments[i].Point3.y;
+
+            Segment.Points[3, 0] = splineSegments[i].Point4.x;
+            Segment.Points[3, 1] = splineSegments[i].Point4.y;
+            Segment.Points[3, 2] = splineSegments[i].Point4.y;
+
+            Segment.U0 = splineSegments[i].U0;
+            Segment.U1 = splineSegments[i].U1;
+            Segment.U2 = splineSegments[i].U2;
+            Segment.U3 = splineSegments[i].U3;
+
+            spline.Segments.Add(Segment);
+        }
 
         return spline;
     }
