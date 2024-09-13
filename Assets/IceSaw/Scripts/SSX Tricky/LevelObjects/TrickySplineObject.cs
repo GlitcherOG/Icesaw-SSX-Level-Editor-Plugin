@@ -231,13 +231,14 @@ public class TrickySplineObject : MonoBehaviour
     {
         //public List<SplineSegment> splineSegments = new List<SplineSegment>();
         //Collect All Segments
-        var TempSegmentList = splineSegments = new List<SplineSegment>();
+        var TempSegmentList = splineSegments;
         //Create a new segment list
         splineSegments = new List<SplineSegment>();
 
         //For each segment split in half calculating mid points along curve
         for (int i = 0; i < TempSegmentList.Count; i++)
         {
+            //Maths might be wrong
             var NewSegment = new SplineSegment();
             NewSegment.Point1 = TempSegmentList[i].Point1;
 
@@ -248,6 +249,8 @@ public class TrickySplineObject : MonoBehaviour
             NewSegment.Point4 = CalculateCubicBezierPoint(1f / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
 
             splineSegments.Add(NewSegment);
+
+            NewSegment = new SplineSegment();
 
             NewSegment.Point1 = CalculateCubicBezierPoint(1f / 2, TempSegmentList[i].Point1, TempSegmentList[i].Point2, TempSegmentList[i].Point3, TempSegmentList[i].Point4);
 
@@ -266,7 +269,35 @@ public class TrickySplineObject : MonoBehaviour
 
     public void CollapseSegments()
     {
+        int Remainder = 0;
+        if(TempSegmentList.Count/2 != 0)
+        {
+            Remainder = 1;
+        }
 
+        var TempSegmentList = splineSegments;
+
+        splineSegments = new List<SplineSegment>();
+
+        for (int i = 0; i < (TempSegmentList.Count - Remainder)/2; i++)
+        {
+            var NewSegment = new SplineSegment();
+
+            NewSegment.Point1 = TempSegmentList[i*2].Point1;
+
+            NewSegment.Point2 = CalculateCubicBezierPoint(2f / 3f, TempSegmentList[i*2].Point1, TempSegmentList[i*2].Point2, TempSegmentList[i*2].Point3, TempSegmentList[i*2].Point4);
+
+            NewSegment.Point3 = CalculateCubicBezierPoint(1f / 3f, TempSegmentList[i * 2 + 1].Point1, TempSegmentList[i * 2 + 1].Point2, TempSegmentList[i * 2 + 1].Point3, TempSegmentList[i * 2 + 1].Point4);
+
+            NewSegment.Point4 = TempSegmentList[i*2+1].Point4;
+
+            splineSegments.Add(NewSegment);
+        }
+
+        if(Remainder ==1)
+        {
+            splineSegments.Add(TempSegmentList[TempSegmentList.Count - 1]);
+        }
     }
     [System.Serializable]
     public struct SplineSegment
