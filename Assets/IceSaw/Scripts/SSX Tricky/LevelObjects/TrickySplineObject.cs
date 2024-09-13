@@ -257,6 +257,7 @@ public class TrickySplineObject : MonoBehaviour
 
             NewSegment.Point4 = TempSegmentList[i].Point4;
 
+            splineSegments.Add(NewSegment);
         }
 
 
