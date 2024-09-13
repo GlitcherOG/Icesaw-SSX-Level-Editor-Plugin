@@ -2,13 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
-using Unity.VisualScripting;
 using UnityEditor;
-using Newtonsoft.Json.Bson;
-using UnityEngine.Assertions.Must;
+using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using static TrickyPatchObjectEditor;
 
 [ExecuteInEditMode]
 public class TrickyPatchObject : MonoBehaviour
@@ -704,6 +701,29 @@ public class TrickyPatchObject : MonoBehaviour
             SetOnce = false;
         }
     }
+
+    public enum PatchType
+    {
+        Reset,
+        StandardSnow,
+        StandardOffTrack,
+        PoweredSnow,
+        SlowPoweredSnow,
+        IceStandard,
+        BounceUnskiable,
+        IceWaterNoTrail,
+        GlidyPoweredSnow,
+        Rock,
+        Wall,
+        IceNoTrail,
+        SmallParticleWake,
+        OffTrackMetal,
+        MetalGliding,
+        Standard1,
+        StandardSand,
+        NoCollision,
+        ShowOffRampMetal
+    }
 }
 
 [CustomEditor(typeof(TrickyPatchObject))]
@@ -930,27 +950,4 @@ public class TrickyPatchObjectEditor : Editor
             }
         }
     }
-
-    public enum PatchType
-    {
-        Reset,
-        StandardSnow,
-        StandardOffTrack,
-        PoweredSnow,
-        SlowPoweredSnow,
-        IceStandard,
-        BounceUnskiable,
-        IceWaterNoTrail,
-        GlidyPoweredSnow,
-        Rock,
-        Wall,
-        IceNoTrail,
-        SmallParticleWake,
-        OffTrackMetal,
-        MetalGliding,
-        Standard1,
-        StandardSand,
-        NoCollision,
-        ShowOffRampMetal
-}
 }

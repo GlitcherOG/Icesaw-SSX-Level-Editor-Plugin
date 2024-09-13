@@ -4,8 +4,8 @@ using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using UnityEditor;
-using System.Drawing;
-using static TrickySplineObject;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 [ExecuteInEditMode]
 public class TrickySplineObject : MonoBehaviour
@@ -115,7 +115,7 @@ public class TrickySplineObject : MonoBehaviour
             Segment.Points[1, 1] = splineSegments[i].Point2.y;
             Segment.Points[1, 2] = splineSegments[i].Point2.y;
 
-            Segment.Points[2, 0] = spline.splineSegments[i].Point3.x;
+            Segment.Points[2, 0] = splineSegments[i].Point3.x;
             Segment.Points[2, 1] = splineSegments[i].Point3.y;
             Segment.Points[2, 2] = splineSegments[i].Point3.y;
 
@@ -226,7 +226,7 @@ public class TrickySplineObject : MonoBehaviour
         DrawCurve();
         Hold = false;
     }
-
+    [ContextMenu("Subdivide Segments")]
     public void SubdivideSegments()
     {
         //public List<SplineSegment> splineSegments = new List<SplineSegment>();
@@ -266,11 +266,11 @@ public class TrickySplineObject : MonoBehaviour
 
         //Add to list
     }
-
+    [ContextMenu("Collapse Segments")]
     public void CollapseSegments()
     {
         int Remainder = 0;
-        if(TempSegmentList.Count/2 != 0)
+        if(splineSegments.Count%2 != 0)
         {
             Remainder = 1;
         }
@@ -426,7 +426,7 @@ public class TrickySplineObjectEditor : Editor
         VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
 
         MonoBehaviour monoBev = (MonoBehaviour)target;
-        TrickyInstanceObject PatchObject = monoBev.GetComponent<TrickySplineObject>();
+        TrickySplineObject PatchObject = monoBev.GetComponent<TrickySplineObject>();
 
         //TextElement Details = new TextElement();
         //Details.style.fontSize = 16;

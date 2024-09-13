@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [SelectionBase]
+[ExecuteInEditMode]
 public class TrickyInstanceObject : MonoBehaviour
 {
     public Vector4 LightVector1;
@@ -615,6 +616,8 @@ public class TrickyInstanceObjectEditor : Editor
 
         inspectorGroup.Add(Details);
 
+        InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
+
         VisualElement RefreshModelButton = myInspector.Q("RefreshModel");
         var TempButton = RefreshModelButton.Query<Button>();
         TempButton.First().RegisterCallback<ClickEvent>(LoadPrefabs);
@@ -625,7 +628,7 @@ public class TrickyInstanceObjectEditor : Editor
 
         VisualElement GotoEffectSlotButton = myInspector.Q("GotoEffectSlot");
         TempButton = GotoEffectSlotButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
+        TempButton.First().RegisterCallback<ClickEvent>(GotoEffectSlot);
 
         VisualElement GotoPhysicsButton = myInspector.Q("GotoPhysics");
         TempButton = GotoPhysicsButton.Query<Button>();
@@ -639,6 +642,31 @@ public class TrickyInstanceObjectEditor : Editor
 
         // Return the finished inspector UI
         return myInspector;
+    }
+
+    private void LoadPrefabs(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().LoadPrefabs();
+    }
+
+    private void LoadCollisionModels(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().LoadCollisionModels();
+    }
+
+    private void GotoPhysicsEffect(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().GotoPhysicsEffect();
+    }
+
+    private void GotoEffectSlot(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().GotoEffectSlot();
+    }
+
+    private void GotoModel(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().GotoModel();
     }
 
     void OnSceneGUI()

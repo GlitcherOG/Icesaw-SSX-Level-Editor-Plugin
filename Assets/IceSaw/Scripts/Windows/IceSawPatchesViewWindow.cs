@@ -51,7 +51,7 @@ public class IceSawPatchesViewWindow : EditorWindow
                 TrickyPatchObject[] patchObjects = TrickyWorldManager.Instance.GetPatchList();
                 for (int i = 0; i < patchObjects.Length; i++)
                 {
-                    if (patchObjects[i].PatchStyle == (TrickyPatchObjectEditor.PatchType)Type)
+                    if (patchObjects[i].PatchStyle == (TrickyPatchObject.PatchType)Type)
                     {
                         patchObjects[i].UpdateHighlight(PickedColour);
                     }

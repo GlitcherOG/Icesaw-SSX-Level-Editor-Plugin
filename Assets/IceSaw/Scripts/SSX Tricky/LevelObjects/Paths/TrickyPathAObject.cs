@@ -4,6 +4,7 @@ using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using UnityEditor;
+using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 
 public class TrickyPathAObject : MonoBehaviour
 {
@@ -15,8 +16,10 @@ public class TrickyPathAObject : MonoBehaviour
     public int U5;
     public int Respawnable;
 
-    [OnChangedCall("DrawLines")]
+    [OnChangedCall("PathPointsUpdate")]
     public List<Vector3> PathPoints;
+    [HideInInspector]
+    public List<Vector3> VectorPoints;
     //[HideInInspector]
     //public List<Vector3> WorldPathPoints;
 
@@ -63,10 +66,11 @@ public class TrickyPathAObject : MonoBehaviour
         transform.localPosition = JsonUtil.ArrayToVector3(pathA.PathPos);
 
         PathPoints = new List<Vector3>();
-
+        VectorPoints = new List<Vector3>();
         for (int i = 0; i < pathA.PathPoints.GetLength(0); i++)
         {
-            PathPoints.Add(new Vector3(pathA.PathPoints[i,0], pathA.PathPoints[i, 1], pathA.PathPoints[i, 2]));
+            VectorPoints.Add(new Vector3(pathA.PathPoints[i, 0], pathA.PathPoints[i, 1], pathA.PathPoints[i, 2]));
+            PathPoints.Add(VectorPoints[i]);
             if (i != 0)
             {
                 PathPoints[i] += PathPoints[i - 1];
@@ -178,6 +182,12 @@ public class TrickyPathAObject : MonoBehaviour
 
     }
 
+    public void PathPointsUpdate()
+    {
+        GenerateVectors();
+        DrawLines();
+    }
+
     public void DrawLines()
     {
         lineRenderer.positionCount = PathPoints.Count+1;
@@ -187,6 +197,24 @@ public class TrickyPathAObject : MonoBehaviour
             lineRenderer.SetPosition(i+1, transform.TransformPoint(PathPoints[i]));
         }
     }
+
+    public void GenerateVectors()
+    {
+        VectorPoints = new List<Vector3>();
+        for (int i = 0; i < PathPoints.Count; i++)
+        {
+            if (i == 0)
+            {
+                VectorPoints.Add(PathPoints[i]);
+            }
+            else
+            {
+                VectorPoints.Add(PathPoints[i] - PathPoints[i - 1]);
+            }
+
+        }
+    }
+
     [ContextMenu("Reset Tranformation")]
     public void ResetTransformation()
     {
@@ -258,7 +286,7 @@ public class TrickyPathAObject : MonoBehaviour
             SetOnce = false;
             if (PrevSelected)
             {
-                DrawLines();
+                PathPointsUpdate();
                 PrevSelected = false;
                 Tools.current = Tool.Move;
             }
@@ -272,7 +300,7 @@ public class TrickyPathAObject : MonoBehaviour
             OldPos = transform.localPosition;
             OldPosSeg = transform.localPosition;
 
-            DrawLines();
+            PathPointsUpdate();
             Hold = false;
         }
         else if (PathPoints.Count > 0)
@@ -287,7 +315,7 @@ public class TrickyPathAObject : MonoBehaviour
         }
         else if (Selection.activeObject == this.gameObject && TrickyLevelManager.Instance.EditMode)
         {
-            DrawLines();
+            PathPointsUpdate();
         }
     }
 }
@@ -345,7 +373,7 @@ public class TrickyPathAObjectEditor : Editor
             else
             {
                 connectedObjects.lineRenderer.enabled = true;
-                connectedObjects.DrawLines();
+                connectedObjects.PathPointsUpdate();
             }
         }
     }

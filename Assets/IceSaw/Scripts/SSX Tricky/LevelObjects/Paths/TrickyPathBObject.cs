@@ -16,7 +16,7 @@ public class TrickyPathBObject : MonoBehaviour
 
     [OnChangedCall("PathPointsUpdate")]
     public List<Vector3> PathPoints;
-    //[HideInInspector]
+    [HideInInspector]
     public List<Vector3> VectorPoints;
 
     public List<PathEvent> PathEvents;
