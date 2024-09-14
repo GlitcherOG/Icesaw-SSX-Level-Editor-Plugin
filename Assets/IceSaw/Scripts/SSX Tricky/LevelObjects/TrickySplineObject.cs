@@ -165,9 +165,9 @@ public class TrickySplineObject : MonoBehaviour
 
         return p;
     }
-
+    bool Generated = false;
     [ContextMenu("Refresh Curve")]
-    public void DrawCurve(bool Generated = false)
+    public void DrawCurve()
     {
         List<Vector3> curves = new List<Vector3>();
         if (lineRenderer == null)
@@ -185,6 +185,7 @@ public class TrickySplineObject : MonoBehaviour
                 TempSegment.LocalPoint2 = ConvertLocalPoint(TempSegment.Point2);
                 TempSegment.LocalPoint3 = ConvertLocalPoint(TempSegment.Point3);
                 TempSegment.LocalPoint4 = ConvertLocalPoint(TempSegment.Point4);
+                Generated = false;
             }
 
             lineRenderer.positionCount += SEGMENT_COUNT + 2;
@@ -229,6 +230,7 @@ public class TrickySplineObject : MonoBehaviour
     [ContextMenu("Subdivide Segments")]
     public void SubdivideSegments()
     {
+        Hold = true;
         //public List<SplineSegment> splineSegments = new List<SplineSegment>();
         //Collect All Segments
         var TempSegmentList = splineSegments;
@@ -262,13 +264,14 @@ public class TrickySplineObject : MonoBehaviour
 
             splineSegments.Add(NewSegment);
         }
-
-
+        DrawCurve();
+        Hold = false;
         //Add to list
     }
     [ContextMenu("Collapse Segments")]
     public void CollapseSegments()
     {
+        Hold = true;
         int Remainder = 0;
         if(splineSegments.Count%2 != 0)
         {
@@ -298,6 +301,8 @@ public class TrickySplineObject : MonoBehaviour
         {
             splineSegments.Add(TempSegmentList[TempSegmentList.Count - 1]);
         }
+        DrawCurve();
+        Hold = false;
     }
     [System.Serializable]
     public struct SplineSegment
@@ -390,7 +395,8 @@ public class TrickySplineObject : MonoBehaviour
 
                 splineSegments[i] = TempSegment;
             }
-            DrawCurve(true);
+            Generated = true;
+            DrawCurve();
             Hold = false;
         }
         else if(splineSegments.Count>0)
