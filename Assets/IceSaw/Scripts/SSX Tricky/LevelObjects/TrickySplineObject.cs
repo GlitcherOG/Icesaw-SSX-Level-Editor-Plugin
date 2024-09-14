@@ -6,6 +6,7 @@ using SSXMultiTool.Utilities;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using System;
 
 [ExecuteInEditMode]
 public class TrickySplineObject : MonoBehaviour
@@ -200,7 +201,7 @@ public class TrickySplineObject : MonoBehaviour
 
             splineSegments[i] = TempSegment;
         }
-
+        SizeWarning();
         lineRenderer.SetPositions(curves.ToArray());
     }
 
@@ -412,6 +413,18 @@ public class TrickySplineObject : MonoBehaviour
         else if (Selection.activeObject == this.gameObject && TrickyLevelManager.Instance.EditMode)
         {
             DrawCurve();
+        }
+    }
+
+    public void SizeWarning()
+    {
+        for (int i = 0; i < splineSegments.Count; i++)
+        {
+            float Distance = Vector2.Distance(new Vector2(splineSegments[i].Point1.x, splineSegments[i].Point1.y), new Vector2(splineSegments[i].Point4.x, splineSegments[i].Point4.y));
+            if(Distance>10000f)
+            {
+                Debug.Log(DateTime.Now.TimeOfDay + " - " + Distance + "cm - " + transform.name + " " + i + " Element is past the size limit");
+            }
         }
     }
 }
