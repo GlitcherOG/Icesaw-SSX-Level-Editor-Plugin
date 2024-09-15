@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System;
+using Unity.VisualScripting;
 
 [ExecuteInEditMode]
 public class TrickySplineObject : MonoBehaviour
@@ -453,25 +454,21 @@ public class TrickySplineObjectEditor : Editor
 
         //inspectorGroup.Add(Details);
 
-        //VisualElement RefreshModelButton = myInspector.Q("RefreshModel");
-        //var TempButton = RefreshModelButton.Query<Button>();
-        //TempButton.First().RegisterCallback<ClickEvent>(LoadPrefabs);
+        VisualElement RefreshModelButton = myInspector.Q("SubdivideSegments");
+        var TempButton = RefreshModelButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(SubdivideSegments);
 
-        //VisualElement RefreshCollisionModelButton = myInspector.Q("RefreshCollisionModel");
-        //TempButton = RefreshCollisionModelButton.Query<Button>();
-        //TempButton.First().RegisterCallback<ClickEvent>(LoadCollisionModels);
+        VisualElement RefreshCollisionModelButton = myInspector.Q("CollapseSegments");
+        TempButton = RefreshCollisionModelButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(CollapseSegments);
 
-        //VisualElement GotoEffectSlotButton = myInspector.Q("GotoEffectSlot");
-        //TempButton = GotoEffectSlotButton.Query<Button>();
-        //TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
+        VisualElement GotoEffectSlotButton = myInspector.Q("ResetTransform");
+        TempButton = GotoEffectSlotButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(ResetTransform);
 
-        //VisualElement GotoPhysicsButton = myInspector.Q("GotoPhysics");
-        //TempButton = GotoPhysicsButton.Query<Button>();
-        //TempButton.First().RegisterCallback<ClickEvent>(GotoPhysicsEffect);
-
-        //VisualElement GotoModelButton = myInspector.Q("GotoModel");
-        //TempButton = GotoModelButton.Query<Button>();
-        //TempButton.First().RegisterCallback<ClickEvent>(GotoModel);
+        VisualElement GotoPhysicsButton = myInspector.Q("RefreshCurve");
+        TempButton = GotoPhysicsButton.Query<Button>();
+        TempButton.First().RegisterCallback<ClickEvent>(RefreshCurve);
 
         InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
@@ -479,6 +476,25 @@ public class TrickySplineObjectEditor : Editor
         return myInspector;
     }
 
+    private void SubdivideSegments(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickySplineObject>().SubdivideSegments();
+    }
+
+    private void CollapseSegments(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickySplineObject>().CollapseSegments();
+    }
+
+    private void ResetTransform(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickySplineObject>().TransformReset();
+    }
+
+    private void RefreshCurve(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickySplineObject>().DrawCurve();
+    }
 
     private Vector3[] positions;
     void OnSceneGUI()
