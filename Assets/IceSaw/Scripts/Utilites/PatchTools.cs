@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PatchTools : MonoBehaviour
 {
-    [MenuItem("Ice Saw Tools/Patch/Merge Edges", false, 0)]
+    //[MenuItem("Ice Saw Tools/Patch/Merge Edges", false, 0)]
     static void MergeEdge(MenuCommand menuCommand)
     {
         if (Selection.gameObjects.Length < 1)

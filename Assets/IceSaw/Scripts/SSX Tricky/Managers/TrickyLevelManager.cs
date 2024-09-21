@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 [ExecuteInEditMode]
 public class TrickyLevelManager : MonoBehaviour
@@ -502,16 +503,16 @@ public class TrickyLevelManager : MonoBehaviour
         {
             if (GUILayout.Button("Edit Mode"))
                 EditMode = false;
-            if (!PathEventMode)
-            {
-                if (GUILayout.Button("Path Mode"))
-                    PathEventMode = true;
-            }
-            else
-            {
-                if (GUILayout.Button("Event Mode"))
-                    PathEventMode = false;
-            }
+            //if (!PathEventMode)
+            //{
+            //    if (GUILayout.Button("Path Mode"))
+            //        PathEventMode = true;
+            //}
+            //else
+            //{
+            //    if (GUILayout.Button("Event Mode"))
+            //        PathEventMode = false;
+            //}
         }
         else
         {
@@ -522,16 +523,55 @@ public class TrickyLevelManager : MonoBehaviour
 
 }
 
-[CustomEditor(typeof(TrickyLevelManager))]
-public class TrickyLevelManagerEditor : Editor
-{
-    //protected virtual void OnSceneGUI()
-    //{
-    //    Handles.BeginGUI();
-    //    if()
-    //    if (GUILayout.Button("Press Me", GUILayout.Width(100)))
-    //        Debug.Log("Got it to work.");
 
-    //    Handles.EndGUI();
+[CustomEditor(typeof(TrickyLevelManager))]
+public class TrickyLevelManagerInspector : Editor
+{
+    //public override void OnInspectorGUI()
+    //{
+    //    DrawDefaultInspector();
+
+    //    //Component.hideFlags = HideFlags.HideInInspector;
+
+    //    if(EditorGUILayout.LinkButton("Refresh Textures"))
+    //    {
+    //        var Temp = (typeof(TrickyLevelManager))serializedObject.targetObject;
+    //    }
     //}
+
+    public VisualTreeAsset m_InspectorXML;
+
+    public override VisualElement CreateInspectorGUI()
+    {
+        // Create a new VisualElement to be the root of our inspector UI
+        VisualElement myInspector = new VisualElement();
+        m_InspectorXML.CloneTree(myInspector);
+
+        VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
+        InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
+
+        VisualElement ButtonGroup = myInspector.Q("ButtonGroup1");
+
+        VisualElement ReloadTextureButton = ButtonGroup.Q("_ReloadTextures");
+        var TempTextureButton = ReloadTextureButton.Query<Button>();
+        TempTextureButton.First().RegisterCallback<ClickEvent>(ReloadTextures);
+
+        VisualElement ReloadLightButton = ButtonGroup.Q("_RefreshLightmap");
+        var TempLightButton = ReloadLightButton.Query<Button>();
+        TempLightButton.First().RegisterCallback<ClickEvent>(ReloadLightmaps);
+
+        // Return the finished inspector UI
+        return myInspector;
+    }
+
+    private void ReloadTextures(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickyLevelManager>().RefreshTextures();
+    }
+
+    private void ReloadLightmaps(ClickEvent evt)
+    {
+        serializedObject.targetObject.GetComponent<TrickyLevelManager>().RefreshLightmap();
+    }
 }
+

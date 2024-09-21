@@ -111,19 +111,19 @@ public class TrickySplineObject : MonoBehaviour
 
             Segment.Points[0, 0] = splineSegments[i].Point1.x;
             Segment.Points[0, 1] = splineSegments[i].Point1.y;
-            Segment.Points[0, 2] = splineSegments[i].Point1.y;
+            Segment.Points[0, 2] = splineSegments[i].Point1.z;
 
             Segment.Points[1, 0] = splineSegments[i].Point2.x;
             Segment.Points[1, 1] = splineSegments[i].Point2.y;
-            Segment.Points[1, 2] = splineSegments[i].Point2.y;
+            Segment.Points[1, 2] = splineSegments[i].Point2.z;
 
             Segment.Points[2, 0] = splineSegments[i].Point3.x;
             Segment.Points[2, 1] = splineSegments[i].Point3.y;
-            Segment.Points[2, 2] = splineSegments[i].Point3.y;
+            Segment.Points[2, 2] = splineSegments[i].Point3.z;
 
             Segment.Points[3, 0] = splineSegments[i].Point4.x;
             Segment.Points[3, 1] = splineSegments[i].Point4.y;
-            Segment.Points[3, 2] = splineSegments[i].Point4.y;
+            Segment.Points[3, 2] = splineSegments[i].Point4.z;
 
             Segment.U0 = splineSegments[i].U0;
             Segment.U1 = splineSegments[i].U1;
