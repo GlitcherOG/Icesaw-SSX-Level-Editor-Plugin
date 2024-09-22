@@ -187,6 +187,9 @@ public class TrickySplineObject : MonoBehaviour
                 TempSegment.LocalPoint2 = ConvertLocalPoint(TempSegment.Point2);
                 TempSegment.LocalPoint3 = ConvertLocalPoint(TempSegment.Point3);
                 TempSegment.LocalPoint4 = ConvertLocalPoint(TempSegment.Point4);
+            }
+            else
+            {
                 Generated = false;
             }
 
@@ -378,19 +381,12 @@ public class TrickySplineObject : MonoBehaviour
             var TempSegment = splineSegments[0];
             TempSegment.LocalPoint1 = new Vector3 (0.0f, 0.0f, 0.0f);
             splineSegments[0] = TempSegment;
+
             for (int i = 0; i < splineSegments.Count; i++)
             {
                 TempSegment = splineSegments[i];
 
-                if (i != 0)
-                {
-                    TempSegment.Point1 = ConvertWorldPoint(TempSegment.LocalPoint1);
-                }
-                else
-                {
-                    TempSegment.LocalPoint1 = new Vector3(0.0f, 0.0f, 0.0f);
-                    TempSegment.Point1 = OldPos;
-                }
+                TempSegment.Point1 = ConvertWorldPoint(TempSegment.LocalPoint1);
                 TempSegment.Point2 = ConvertWorldPoint(TempSegment.LocalPoint2);
                 TempSegment.Point3 = ConvertWorldPoint(TempSegment.LocalPoint3);
                 TempSegment.Point4 = ConvertWorldPoint(TempSegment.LocalPoint4);
@@ -411,9 +407,9 @@ public class TrickySplineObject : MonoBehaviour
                 DrawCurve();
             }
         }
-        else if (Selection.activeObject == this.gameObject && TrickyLevelManager.Instance.EditMode)
+        if (Selection.activeObject == this.gameObject && !TrickyLevelManager.Instance.EditMode)
         {
-            DrawCurve();
+            //DrawCurve();
         }
     }
 
@@ -590,6 +586,7 @@ public class TrickySplineObjectEditor : Editor
                     }
                     connectedObjects.splineSegments[i] = TempSegment;
                 }
+                connectedObjects.DrawCurve();
             }
             else
             {
