@@ -116,7 +116,7 @@ public class OGMaterialObject : MonoBehaviour
         return NewJson;
     }
 
-    [MenuItem("GameObject/Ice Saw/OG/Material", false, 104)]
+    //[MenuItem("GameObject/Ice Saw/OG/Material", false, 104)]
     public static void CreateMaterialObject(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Material");

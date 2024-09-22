@@ -106,7 +106,7 @@ public class OGPrefabObject : MonoBehaviour
     }
 
 
-    [MenuItem("GameObject/Ice Saw/OG/Prefab Object", false, 101)]
+    //[MenuItem("GameObject/Ice Saw/OG/Prefab Object", false, 101)]
     public static void CreatePatch(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("PrefabObject");

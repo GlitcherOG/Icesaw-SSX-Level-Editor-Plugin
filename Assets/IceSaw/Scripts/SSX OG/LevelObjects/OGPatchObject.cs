@@ -628,7 +628,7 @@ public class OGPatchObject : MonoBehaviour
         LoadNURBSpatch();
     }
 
-    [MenuItem("GameObject/Ice Saw/OG/Patch", false, 10)]
+    //[MenuItem("GameObject/Ice Saw/OG/Patch", false, 10)]
     public static void CreatePatch(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Patch");

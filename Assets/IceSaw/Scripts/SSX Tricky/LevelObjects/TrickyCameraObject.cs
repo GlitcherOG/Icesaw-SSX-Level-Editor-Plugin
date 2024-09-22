@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.CameraJSONHandler;
 
-public class CameraObject : MonoBehaviour
+public class TrickyCameraObject : MonoBehaviour
 {
     public int Type;
     public float FocalLength;
@@ -129,7 +129,7 @@ public class CameraObject : MonoBehaviour
     public static void CreateCameraObject(MenuCommand menuCommand)
     {
         GameObject TempObject = new GameObject("Camera");
-        TempObject.AddComponent<CameraObject>();
+        TempObject.AddComponent<TrickyCameraObject>();
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;

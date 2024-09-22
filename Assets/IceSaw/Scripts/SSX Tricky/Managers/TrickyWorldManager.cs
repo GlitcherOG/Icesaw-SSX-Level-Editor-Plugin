@@ -185,7 +185,7 @@ public class TrickyWorldManager : MonoBehaviour
             TempGameObject.transform.parent = CameraHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            var TempInstance = TempGameObject.AddComponent<CameraObject>();
+            var TempInstance = TempGameObject.AddComponent<TrickyCameraObject>();
             TempInstance.LoadCamera(instanceJsonHandler.Cameras[i]);
         }
     }
@@ -314,9 +314,9 @@ public class TrickyWorldManager : MonoBehaviour
         return LightingHolder.GetComponentsInChildren<LightObject>(true);
     }
 
-    public CameraObject[] GetCameraList()
+    public TrickyCameraObject[] GetCameraList()
     {
-        return CameraHolder.GetComponentsInChildren<CameraObject>(true);
+        return CameraHolder.GetComponentsInChildren<TrickyCameraObject>(true);
     }
 
     public PaticleInstanceObject[] GetParticleInstanceList()
