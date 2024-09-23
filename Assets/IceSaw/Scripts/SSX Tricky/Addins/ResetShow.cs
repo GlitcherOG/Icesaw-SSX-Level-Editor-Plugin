@@ -66,21 +66,20 @@ public class ResetShow
 
 
             var InstanceList = TrickyWorldManager.Instance.GetInstanceList();
-            var EffectSlots = LogicManager.Instance.GetEffectSlotsList();
             var EffectList = LogicManager.Instance.GetEffectHeadersList();
             var PrefabList = TrickyPrefabManager.Instance.GetPrefabList();
 
             for (int i = 0; i < InstanceList.Length; i++)
             {
-                if (InstanceList[i].EffectSlotIndex != -1)
+                if (InstanceList[i].EffectSlotObject != null)
                 {
-                    if (EffectSlots[InstanceList[i].EffectSlotIndex].CollisionEffectSlot != -1 && EffectSlots[InstanceList[i].EffectSlotIndex].CollisionEffectSlot<EffectList.Count)
+                    if (InstanceList[i].EffectSlotObject.CollisionEffectSlot != -1 && InstanceList[i].EffectSlotObject.CollisionEffectSlot<EffectList.Count)
                     {
-                        var Effect = EffectList[EffectSlots[InstanceList[i].EffectSlotIndex].CollisionEffectSlot];
+                        var Effect = EffectList[InstanceList[i].EffectSlotObject.CollisionEffectSlot];
                         bool Crowd = false;
-                        if (EffectSlots[InstanceList[i].EffectSlotIndex].PersistantEffectSlot != -1)
+                        if (InstanceList[i].EffectSlotObject.PersistantEffectSlot != -1)
                         {
-                            var PersistantEffect = EffectList[EffectSlots[InstanceList[i].EffectSlotIndex].PersistantEffectSlot];
+                            var PersistantEffect = EffectList[InstanceList[i].EffectSlotObject.PersistantEffectSlot];
 
                             for (int a = 0; a < PersistantEffect.Effects.Count; a++)
                             {
@@ -103,17 +102,20 @@ public class ResetShow
                                 if (Effect.Effects[a].MainType == 13)
                                 {
                                     InstanceList[i].Visable = true;
-                                    var SubPrefab = PrefabList[InstanceList[i].ModelID].GetPrefabSubObject();
-
-                                    for (int c = 0; c < SubPrefab.Length; c++)
+                                    if (InstanceList[i].PrefabObject != null)
                                     {
-                                        var MeshPrefab = SubPrefab[c].GetPrefabMesh();
+                                        var SubPrefab = InstanceList[i].PrefabObject.GetPrefabSubObject();
 
-                                        for (int d = 0; d < MeshPrefab.Length; d++)
+                                        for (int c = 0; c < SubPrefab.Length; c++)
                                         {
-                                            MeshPrefab[d].MaterialID = MaterialID;
-                                            MeshPrefab[d].GenerateModel();
-                                            InstanceList[i].LoadPrefabs();
+                                            var MeshPrefab = SubPrefab[c].GetPrefabMesh();
+
+                                            for (int d = 0; d < MeshPrefab.Length; d++)
+                                            {
+                                                MeshPrefab[d].MaterialID = MaterialID;
+                                                MeshPrefab[d].GenerateModel();
+                                                InstanceList[i].LoadPrefabs();
+                                            }
                                         }
                                     }
                                 }

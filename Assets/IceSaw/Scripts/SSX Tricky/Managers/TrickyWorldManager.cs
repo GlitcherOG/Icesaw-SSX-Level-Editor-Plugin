@@ -2,6 +2,7 @@ using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -293,6 +294,17 @@ public class TrickyWorldManager : MonoBehaviour
 
     #endregion
 
+    #region Post Load
+    public void PostLoad()
+    {
+        var TempInstanceList = GetInstanceList();
+
+        for (int i = 0; i < TempInstanceList.Length; i++)
+        {
+            TempInstanceList[i].PostLoad();
+        }
+    }
+    #endregion 
 
     public TrickyPatchObject[] GetPatchList()
     {

@@ -2,7 +2,4 @@
     <ui:GroupBox name="Default_Inspector" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-top: 0; padding-bottom: 0;" />
     <ui:Button text="Refresh Model" display-tooltip-when-elided="true" name="RefreshModel" />
     <ui:Button text="Refresh Collision Model" display-tooltip-when-elided="true" name="RefreshCollisionModel" />
-    <ui:Button text="Goto Effect Slot" display-tooltip-when-elided="true" name="GotoEffectSlot" />
-    <ui:Button text="Goto Physics" display-tooltip-when-elided="true" name="GotoPhysics" />
-    <ui:Button text="Goto Model" display-tooltip-when-elided="true" name="GotoModel" />
 </ui:UXML>

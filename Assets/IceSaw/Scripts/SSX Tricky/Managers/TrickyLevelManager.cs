@@ -121,6 +121,17 @@ public class TrickyLevelManager : MonoBehaviour
         LogicManager.GetComponent<LogicManager>().LoadData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
         PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
+
+        PostLoad();
+    }
+
+    public void PostLoad()
+    {
+        //PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
+        WorldManagerHolder.GetComponent<TrickyWorldManager>().PostLoad();
+        //LogicManager.GetComponent<LogicManager>().LoadData(Path);
+        //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
+        //PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
     }
 
     public void SaveData(string Path)
@@ -543,6 +554,8 @@ public class TrickyLevelManagerInspector : Editor
 
     public override VisualElement CreateInspectorGUI()
     {
+        m_InspectorXML = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets\\IceSaw\\Scripts\\SSX Tricky\\Managers\\Inspectors\\LevelManager.uxml");
+
         // Create a new VisualElement to be the root of our inspector UI
         VisualElement myInspector = new VisualElement();
         m_InspectorXML.CloneTree(myInspector);

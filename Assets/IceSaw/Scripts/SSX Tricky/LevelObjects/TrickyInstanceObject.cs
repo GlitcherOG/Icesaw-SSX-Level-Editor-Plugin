@@ -21,15 +21,20 @@ public class TrickyInstanceObject : MonoBehaviour
     public Vector4 LightColour3;
     public Vector4 AmbentLightColour;
 
+    int ModelID;
     [OnChangedCall("LoadPrefabs")]
-    public int ModelID;
-    public int PrevInstance; //Next Connected Model 
-    public int NextInstance; //Prev Connected Model
+    public TrickyPrefabObject PrefabObject;
+
+    int PrevInstance; //Next Connected Model 
+    int NextInstance; //Prev Connected Model
+
+    public TrickyInstanceObject PrevInstanceObject;
+    public TrickyInstanceObject NextInstanceObject;
 
     public int UnknownInt26;
     public int UnknownInt27;
     public int UnknownInt28;
-    public int ModelID2;
+    int ModelID2;
     public int UnknownInt30;
     public int UnknownInt31;
     public int UnknownInt32;
@@ -52,14 +57,20 @@ public class TrickyInstanceObject : MonoBehaviour
     public bool PlayerBounce;
     public bool Unknown241;
     public bool UVScroll;
-
     public int U4;
+
+
     [OnChangedCall("LoadCollisionModels")]
     public int CollsionMode;
     [OnChangedCall("LoadCollisionModels")]
     public string[] CollsionModelPaths;
-    public int EffectSlotIndex;
-    public int PhysicsIndex;
+
+    int EffectSlotIndex;
+    public EffectSlotObject EffectSlotObject;
+
+    int PhysicsIndex;
+    public PhysicsObject PhysicsObject;
+
     public int U8;
 
     GameObject Prefab;
@@ -82,7 +93,6 @@ public class TrickyInstanceObject : MonoBehaviour
         LightColour2 = JsonUtil.ArrayToVector4(instance.LightColour2);
         LightColour3 = JsonUtil.ArrayToVector4(instance.LightColour3);
         AmbentLightColour = JsonUtil.ArrayToVector4(instance.AmbentLightColour);
-
 
         ModelID = instance.ModelID;
         PrevInstance = instance.PrevInstance;
@@ -140,10 +150,48 @@ public class TrickyInstanceObject : MonoBehaviour
         EffectSlotIndex = instance.EffectSlotIndex;
         PhysicsIndex = instance.PhysicsIndex;
         U8 = instance.U8;
+    }
+
+    public void PostLoad()
+    {
+        var TempListInstance = TrickyWorldManager.Instance.GetInstanceList();
+
+        if (TempListInstance.Length - 1 >= PrevInstance && PrevInstance != -1)
+        {
+            PrevInstanceObject = TempListInstance[PrevInstance];
+        }
+
+        if (TempListInstance.Length - 1 >= NextInstance && NextInstance != -1)
+        {
+            NextInstanceObject = TempListInstance[NextInstance];
+        }
+
+        var TempList = LogicManager.Instance.GetEffectSlotsList();
+
+        if (TempList.Length - 1 >= EffectSlotIndex && EffectSlotIndex != -1)
+        {
+            EffectSlotObject = TempList[EffectSlotIndex];
+        }
+
+        var TempList2 = LogicManager.Instance.GetPhysicsObjects();
+
+        if (TempList2.Length - 1 >= PhysicsIndex && PhysicsIndex != -1)
+        {
+            PhysicsObject = TempList2[PhysicsIndex];
+        }
+
+        var TempList3 = TrickyPrefabManager.Instance.GetPrefabList();
+
+        if (TempList3.Length - 1 >= ModelID && ModelID != -1)
+        {
+            PrefabObject = TempList3[ModelID];
+        }
+
 
         LoadPrefabs();
         LoadCollisionModels();
     }
+
     [ContextMenu("Refresh Models")]
     public void LoadPrefabs()
     {
@@ -152,9 +200,9 @@ public class TrickyInstanceObject : MonoBehaviour
             DestroyImmediate(Prefab);
         }
 
-        if (ModelID != -1)
+        if (PrefabObject != null)
         {
-            Prefab = TrickyPrefabManager.Instance.GetPrefabObject(ModelID).GeneratePrefab();
+            Prefab = PrefabObject.GeneratePrefab();
             Prefab.gameObject.name = "Prefab";
             Prefab.transform.parent = transform;
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
@@ -189,6 +237,7 @@ public class TrickyInstanceObject : MonoBehaviour
         }
         Prefab.SetActive(TrickyWorldManager.Instance.ShowInstanceModels);
     }
+
     [ContextMenu("Refresh Collision Model")]
     public void LoadCollisionModels()
     {
@@ -317,14 +366,38 @@ public class TrickyInstanceObject : MonoBehaviour
         TempInstance.LightColour3 = JsonUtil.Vector4ToArray(LightColour3);
         TempInstance.AmbentLightColour = JsonUtil.Vector4ToArray(AmbentLightColour);
 
-        TempInstance.ModelID = ModelID;
-        TempInstance.PrevInstance = PrevInstance;
-        TempInstance.NextInstance = NextInstance;
+        if (PrefabObject != null)
+        {
+            TempInstance.ModelID = PrefabObject.transform.GetSiblingIndex();
+            TempInstance.ModelID2 = PrefabObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            TempInstance.ModelID = -1;
+            TempInstance.ModelID2 = -1;
+        }
+
+        if(PrevInstanceObject != null)
+        {
+            TempInstance.PrevInstance = PrevInstanceObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            TempInstance.PrevInstance = -1; 
+        }
+
+        if (NextInstanceObject != null)
+        {
+            TempInstance.NextInstance = NextInstanceObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            TempInstance.NextInstance = -1; 
+        }
 
         TempInstance.UnknownInt26 = UnknownInt26;
         TempInstance.UnknownInt27 = UnknownInt27;
         TempInstance.UnknownInt28 = UnknownInt28;
-        TempInstance.ModelID2 = ModelID2;
         TempInstance.UnknownInt30 = UnknownInt30;
         TempInstance.UnknownInt31 = UnknownInt31;
         TempInstance.UnknownInt32 = UnknownInt32;
@@ -372,45 +445,28 @@ public class TrickyInstanceObject : MonoBehaviour
         TempInstance.U4 = U4;
         TempInstance.CollsionMode = CollsionMode;
         TempInstance.CollsionModelPaths = CollsionModelPaths;
-        TempInstance.EffectSlotIndex = EffectSlotIndex;
-        TempInstance.PhysicsIndex = PhysicsIndex;
         TempInstance.U8 = U8;
+
+        if (EffectSlotObject != null)
+        {
+            TempInstance.EffectSlotIndex = EffectSlotObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            TempInstance.EffectSlotIndex = -1;
+        }
+
+        if(PhysicsObject!=null)
+        {
+            TempInstance.PhysicsIndex = PhysicsObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            TempInstance.PhysicsIndex = -1; 
+        }
 
 
         return TempInstance;
-    }
-
-    [ContextMenu("Goto Effect Slot")]
-    public void GotoEffectSlot()
-    {
-        var TempList = LogicManager.Instance.GetEffectSlotsList();
-
-        if (TempList.Length - 1 >= EffectSlotIndex)
-        {
-            Selection.activeObject = TempList[EffectSlotIndex];
-        }
-    }
-
-    [ContextMenu("Goto Physics")]
-    public void GotoPhysicsEffect()
-    {
-        var TempList = LogicManager.Instance.GetPhysicsObjects();
-
-        if (TempList.Length - 1 >= PhysicsIndex)
-        {
-            Selection.activeObject = TempList[PhysicsIndex];
-        }
-    }
-
-    [ContextMenu("Goto Model")]
-    public void GotoModel()
-    {
-        var TempList = TrickyPrefabManager.Instance.GetPrefabList();
-
-        if (TempList.Length - 1 >= ModelID)
-        {
-            Selection.activeObject = TempList[ModelID];
-        }
     }
 
     Mesh GenerateBBoxMesh(Vector3 HighestBBox, Vector3 LowestBBox)
@@ -616,7 +672,7 @@ public class TrickyInstanceObjectEditor : Editor
 
         inspectorGroup.Add(Details);
 
-        InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
+        //InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
         VisualElement RefreshModelButton = myInspector.Q("RefreshModel");
         var TempButton = RefreshModelButton.Query<Button>();
@@ -625,18 +681,6 @@ public class TrickyInstanceObjectEditor : Editor
         VisualElement RefreshCollisionModelButton = myInspector.Q("RefreshCollisionModel");
         TempButton = RefreshCollisionModelButton.Query<Button>();
         TempButton.First().RegisterCallback<ClickEvent>(LoadCollisionModels);
-
-        VisualElement GotoEffectSlotButton = myInspector.Q("GotoEffectSlot");
-        TempButton = GotoEffectSlotButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(GotoEffectSlot);
-
-        VisualElement GotoPhysicsButton = myInspector.Q("GotoPhysics");
-        TempButton = GotoPhysicsButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(GotoPhysicsEffect);
-
-        VisualElement GotoModelButton = myInspector.Q("GotoModel");
-        TempButton = GotoModelButton.Query<Button>();
-        TempButton.First().RegisterCallback<ClickEvent>(GotoModel);
 
         InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
 
@@ -652,21 +696,6 @@ public class TrickyInstanceObjectEditor : Editor
     private void LoadCollisionModels(ClickEvent evt)
     {
         serializedObject.targetObject.GetComponent<TrickyInstanceObject>().LoadCollisionModels();
-    }
-
-    private void GotoPhysicsEffect(ClickEvent evt)
-    {
-        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().GotoPhysicsEffect();
-    }
-
-    private void GotoEffectSlot(ClickEvent evt)
-    {
-        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().GotoEffectSlot();
-    }
-
-    private void GotoModel(ClickEvent evt)
-    {
-        serializedObject.targetObject.GetComponent<TrickyInstanceObject>().GotoModel();
     }
 
     void OnSceneGUI()
