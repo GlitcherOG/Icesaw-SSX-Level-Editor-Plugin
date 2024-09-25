@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrickyFunctionHeader : TrickyEffectHeader
+public class TrickyFunctionHeader : TrickyEffectHeaderBase
 {
     public void LoadFunction(SSFJsonHandler.Function EffectHeader)
     {
