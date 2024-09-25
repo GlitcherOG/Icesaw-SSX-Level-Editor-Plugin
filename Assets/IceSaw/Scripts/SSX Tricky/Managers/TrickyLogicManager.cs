@@ -71,7 +71,7 @@ public class TrickyLogicManager : MonoBehaviour
             TempGameObject.transform.parent = EffectSlotHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            //TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
 
             var TempInstance = TempGameObject.AddComponent<EffectSlotObject>();
             TempInstance.LoadEffectSlot(effectSlotJson[i]);
@@ -86,7 +86,7 @@ public class TrickyLogicManager : MonoBehaviour
             TempGameObject.transform.parent = PhysicsHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            //TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
             var TempInstance = TempGameObject.AddComponent<PhysicsObject>();
             TempInstance.LoadPhysics(physicsHeaders[i]);
         }
@@ -100,7 +100,7 @@ public class TrickyLogicManager : MonoBehaviour
             TempGameObject.transform.parent = EffectHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            //TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
             TempGameObject.AddComponent<TrickyEffectHeader>().LoadEffectList(effects[i]);
         }
     }
@@ -113,7 +113,7 @@ public class TrickyLogicManager : MonoBehaviour
             TempGameObject.transform.parent = FunctionHolder.transform;
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
-            //TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
+            TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
             TempGameObject.AddComponent<TrickyFunctionHeader>().LoadFunction(effects[i]);
         }
     }

@@ -200,6 +200,18 @@ public class TrickyPrefabManager : MonoBehaviour
     }
     #endregion
 
+    public void PostLoad()
+    {
+        var TempPrefabList = GetPrefabList();
+        var TempMaterialList = GetMaterialList();
+
+        for (int i = 0; i < TempPrefabList.Length; i++)
+        {
+            TempPrefabList[i].PostLoad(TempMaterialList);
+        }
+
+    }
+
     #region Save Data
     public void SaveData(string Path)
     {

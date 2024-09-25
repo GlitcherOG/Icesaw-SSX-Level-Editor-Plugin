@@ -11,12 +11,15 @@ using UnityEngine.UIElements;
 public class TrickyLevelManager : MonoBehaviour
 {
     public static TrickyLevelManager Instance;
+    [HideInInspector]
     public string LoadPath;
+    [HideInInspector]
     public bool EditMode;
+    [HideInInspector]
     public bool PathEventMode;
 
     //[OnChangedCall("ForceTextureUpdate")]
-    public List<TextureData> texture2Ds = new List<TextureData>();
+    public List<TextureData> texture2ds = new List<TextureData>();
     public List<Texture2D> lightmaps = new List<Texture2D>();
 
     public bool LightmapMode;
@@ -127,10 +130,10 @@ public class TrickyLevelManager : MonoBehaviour
 
     public void PostLoad()
     {
-        //PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
+        PrefabManagerHolder.GetComponent<TrickyPrefabManager>().PostLoad();
         WorldManagerHolder.GetComponent<TrickyWorldManager>().PostLoad();
         LogicManager.GetComponent<TrickyLogicManager>().PostLoad();
-        //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
+        SkyboxManagerHolder.GetComponent<SkyboxManager>().PostLoad();
         //PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
     }
 
@@ -151,7 +154,7 @@ public class TrickyLevelManager : MonoBehaviour
         string TextureLoadPath = LoadPath + "\\Textures";
 
         string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
-        texture2Ds = new List<TextureData>();
+        texture2ds = new List<TextureData>();
         for (int i = 0; i < Files.Length; i++)
         {
             Texture2D NewImage = new Texture2D(1, 1);
@@ -168,16 +171,16 @@ public class TrickyLevelManager : MonoBehaviour
                 var NewTexture = new TextureData();
                 NewTexture.Name = NewImage.name;
                 NewTexture.Texture = NewImage;
-                texture2Ds.Add(NewTexture);
+                texture2ds.Add(NewTexture);
             }
         }
     }
 
     public void SaveTextures()
     {
-        for (int i = 0; i < texture2Ds.Count; i++)
+        for (int i = 0; i < texture2ds.Count; i++)
         {
-            var TempTexture = texture2Ds[i];
+            var TempTexture = texture2ds[i];
             MemoryStream stream = new MemoryStream();
             stream.Write(TempTexture.Texture.EncodeToPNG());
 
@@ -263,14 +266,14 @@ public class TrickyLevelManager : MonoBehaviour
             }
 
             bool TestIfExists = false;
-            for (int a = 0; a < texture2Ds.Count; a++)
+            for (int a = 0; a < texture2ds.Count; a++)
             {
-                if (texture2Ds[i].Name==FileName)
+                if (texture2ds[i].Name==FileName)
                 {
                     TestIfExists = true;
-                    var Temp = texture2Ds[i];
+                    var Temp = texture2ds[i];
                     Temp.Texture = NewImage;
-                    texture2Ds[i] = Temp;
+                    texture2ds[i] = Temp;
                 }    
             }
 
@@ -279,7 +282,7 @@ public class TrickyLevelManager : MonoBehaviour
                 var NewTexture = new TextureData();
                 NewTexture.Name = NewImage.name;
                 NewTexture.Texture = NewImage;
-                texture2Ds.Add(NewTexture);
+                texture2ds.Add(NewTexture);
             }
         }
     }

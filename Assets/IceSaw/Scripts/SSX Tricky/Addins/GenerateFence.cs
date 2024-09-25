@@ -29,9 +29,9 @@ public class GenerateFence : MonoBehaviour
             Material mat = new Material(TempMaterial);
 
             Texture2D texture = null;
-            if (TextureID<TrickyLevelManager.Instance.texture2Ds.Count)
+            if (TextureID<TrickyLevelManager.Instance.texture2ds.Count)
             {
-                texture = TrickyLevelManager.Instance.texture2Ds[TextureID].Texture;
+                texture = TrickyLevelManager.Instance.texture2ds[TextureID].Texture;
             }
 
             TempMaterial.SetTexture("_MainTexture", texture);

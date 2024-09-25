@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
+using static SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler;
 using static SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler;
 
 [System.Serializable]
@@ -62,9 +63,19 @@ public class TrickyPrefabObject : MonoBehaviour
 
     }
 
+    public void PostLoad(TrickyMaterialObject[] MaterialObjects)
+    {
+        var TempList = GetComponentsInChildren<TrickyPrefabSubObject>();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            TempList[i].PostLoad(MaterialObjects);
+        }
+    }
+
     public PrefabJsonHandler.PrefabJson GeneratePrefabs(bool Skybox = false)
     {
-        PrefabJsonHandler.PrefabJson prefabJson = new PrefabJson();
+        PrefabJsonHandler.PrefabJson prefabJson = new PrefabJsonHandler.PrefabJson();
 
         if(!Skybox)
         {
@@ -126,8 +137,7 @@ public class TrickyPrefabObject : MonoBehaviour
             var TempModel = TempList[i].GetComponentsInChildren<PrefabMeshObject>();
             for (int a = 0; a < TempModel.Length; a++)
             {
-                var TempSubModel = TempModel[a].MaterialID;
-                TextureNames.Add(TrickyPrefabManager.Instance.GetMaterialObject(TempSubModel).TexturePath);
+                TextureNames.Add(TempModel[a].TrickyMaterialObject.TexturePath);
             }
         }
         return TextureNames.ToArray();

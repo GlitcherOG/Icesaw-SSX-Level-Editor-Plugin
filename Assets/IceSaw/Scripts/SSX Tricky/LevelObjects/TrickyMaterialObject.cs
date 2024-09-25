@@ -33,8 +33,9 @@ public class TrickyMaterialObject : MonoBehaviour
     public int UnknownInt17;
     public int UnknownInt18;
 
-    public List<string> TextureFlipbook;
     public int UnknownInt20;
+
+    public List<string> TextureFlipbook;
 
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
@@ -115,11 +116,11 @@ public class TrickyMaterialObject : MonoBehaviour
         {
             if (!Skybox)
             {
-                for (int i = 0; i < TrickyLevelManager.Instance.texture2Ds.Count; i++)
+                for (int i = 0; i < TrickyLevelManager.Instance.texture2ds.Count; i++)
                 {
-                    if (TrickyLevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureID.ToLower())
+                    if (TrickyLevelManager.Instance.texture2ds[i].Name.ToLower() == TextureID.ToLower())
                     {
-                        texture = TrickyLevelManager.Instance.texture2Ds[i].Texture;
+                        texture = TrickyLevelManager.Instance.texture2ds[i].Texture;
                         return texture;
                     }
                 }

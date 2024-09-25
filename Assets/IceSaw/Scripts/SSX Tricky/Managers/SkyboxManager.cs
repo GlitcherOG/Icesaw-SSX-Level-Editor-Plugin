@@ -73,6 +73,18 @@ public class SkyboxManager : MonoBehaviour
         }
     }
 
+    public void PostLoad()
+    {
+        var TempPrefabList = GetPrefabsList();
+        var TempMaterialList = GetMaterialList();
+
+        for (int i = 0; i < TempPrefabList.Length; i++)
+        {
+            TempPrefabList[i].PostLoad(TempMaterialList);
+        }
+
+    }
+
     public void LoadSkyMeshCache(string path)
     {
         SkyboxMeshCache = new List<MeshData>();

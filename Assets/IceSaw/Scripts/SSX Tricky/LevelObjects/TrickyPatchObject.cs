@@ -451,12 +451,12 @@ public class TrickyPatchObject : MonoBehaviour
         try
         {
             bool Found = false;
-            for (int i = 0; i < TrickyLevelManager.Instance.texture2Ds.Count; i++)
+            for (int i = 0; i < TrickyLevelManager.Instance.texture2ds.Count; i++)
             {
-                if (TrickyLevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureAssigment.ToLower())
+                if (TrickyLevelManager.Instance.texture2ds[i].Name.ToLower() == TextureAssigment.ToLower())
                 {
                     Found = true;
-                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.texture2Ds[i].Texture);
+                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", TrickyLevelManager.Instance.texture2ds[i].Texture);
 
                     if (TrickyLevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
                     {

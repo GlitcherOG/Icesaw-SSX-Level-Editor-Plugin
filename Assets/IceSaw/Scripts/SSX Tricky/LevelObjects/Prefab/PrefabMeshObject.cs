@@ -8,11 +8,13 @@ public class PrefabMeshObject : MonoBehaviour
 {
     [OnChangedCall("GenerateModel")]
     public string MeshPath;
-    public int MeshID;
     [HideInInspector]
     public Mesh mesh;
+
     [OnChangedCall("GenerateModel")]
-    public int MaterialID;
+    public TrickyMaterialObject TrickyMaterialObject;
+
+    int MaterialIndex;
     [HideInInspector]
     public Material material;
 
@@ -42,8 +44,16 @@ public class PrefabMeshObject : MonoBehaviour
     {
         AddMissingComponents();
         MeshPath = objectHeader.MeshPath;
-        MeshID = objectHeader.MeshID;
-        MaterialID = objectHeader.MaterialID;
+        MaterialIndex = objectHeader.MaterialID;
+    }
+
+    public void PostLoad(TrickyMaterialObject[] MaterialObjects)
+    {
+        if (MaterialObjects.Length - 1 >= MaterialIndex && MaterialIndex != -1)
+        {
+            TrickyMaterialObject = MaterialObjects[MaterialIndex];
+        }
+
         GenerateModel();
     }
 
@@ -51,8 +61,15 @@ public class PrefabMeshObject : MonoBehaviour
     {
         PrefabJsonHandler.MeshHeader meshHeader = new PrefabJsonHandler.MeshHeader();
         meshHeader.MeshPath = MeshPath;
-        meshHeader.MeshID = MeshID;
-        meshHeader.MaterialID = MaterialID;
+
+        if (TrickyMaterialObject != null)
+        {
+            meshHeader.MaterialID = TrickyMaterialObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            meshHeader.MaterialID = -1;
+        }
 
         return meshHeader;
     }
@@ -67,7 +84,7 @@ public class PrefabMeshObject : MonoBehaviour
         {
             mesh = SkyboxManager.Instance.GetMesh(MeshPath);
         }
-        material = GenerateMaterial(MaterialID, transform.parent.parent.GetComponent<TrickyPrefabObject>().SkyboxModel);
+        material = GenerateMaterial(TrickyMaterialObject, transform.parent.parent.GetComponent<TrickyPrefabObject>().SkyboxModel);
 
         AddMissingComponents();
 
@@ -75,20 +92,13 @@ public class PrefabMeshObject : MonoBehaviour
         meshRenderer.material = material;
     }
 
-    public static Material GenerateMaterial(int MaterialID, bool Skybox)
+    public static Material GenerateMaterial(TrickyMaterialObject trickyMaterialObject, bool Skybox)
     {
         Material material = new Material(Shader.Find("NewModelShader"));
         string TextureID = "";
-        if (MaterialID != -1)
+        if(trickyMaterialObject!=null)
         {
-            if (!Skybox)
-            {
-                TextureID = TrickyPrefabManager.Instance.GetMaterialObject(MaterialID).TexturePath;
-            }
-            else
-            {
-                TextureID = SkyboxManager.Instance.GetMaterialObject(MaterialID).TexturePath;
-            }
+            TextureID = trickyMaterialObject.TexturePath;
         }
         material.SetTexture("_MainTexture", GetTexture(TextureID, Skybox));
         //material.SetFloat("_NoLightMode", 1);
@@ -102,11 +112,11 @@ public class PrefabMeshObject : MonoBehaviour
         {
             if (!Skybox)
             {
-                for (int i = 0; i < TrickyLevelManager.Instance.texture2Ds.Count; i++)
+                for (int i = 0; i < TrickyLevelManager.Instance.texture2ds.Count; i++)
                 {
-                    if (TrickyLevelManager.Instance.texture2Ds[i].Name.ToLower() == TextureID.ToLower())
+                    if (TrickyLevelManager.Instance.texture2ds[i].Name.ToLower() == TextureID.ToLower())
                     {
-                        texture = TrickyLevelManager.Instance.texture2Ds[i].Texture;
+                        texture = TrickyLevelManager.Instance.texture2ds[i].Texture;
                         return texture;
                     }
                 }

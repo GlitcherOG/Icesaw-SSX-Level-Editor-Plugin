@@ -80,6 +80,16 @@ public class TrickyPrefabSubObject : MonoBehaviour
 
     }
 
+    public void PostLoad(TrickyMaterialObject[] MaterialObjects)
+    {
+        var TempMeshList = GetComponentsInChildren<PrefabMeshObject>();
+
+        for (int i = 0; i < TempMeshList.Length; i++)
+        {
+            TempMeshList[i].PostLoad(MaterialObjects);
+        }
+    }
+
     public PrefabJsonHandler.ObjectHeader GeneratePrefabSubModel()
     {
         PrefabJsonHandler.ObjectHeader objectHeader = new PrefabJsonHandler.ObjectHeader();
@@ -155,7 +165,7 @@ public class TrickyPrefabSubObject : MonoBehaviour
             var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
             //ChildMesh.AddComponent<SelectParent>();
             TempMeshFilter.mesh = MeshObjectList[a].mesh;
-            TempRenderer.material = PrefabMeshObject.GenerateMaterial(MeshObjectList[a].MaterialID, false);//MeshObjectList[a].material;
+            TempRenderer.material = PrefabMeshObject.GenerateMaterial(MeshObjectList[a].TrickyMaterialObject, false);//MeshObjectList[a].material;
         }
 
         return MainObject;
