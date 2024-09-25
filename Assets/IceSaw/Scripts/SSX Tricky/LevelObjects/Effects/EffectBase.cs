@@ -21,6 +21,11 @@ public class EffectBase : MonoBehaviour
 
     }
 
+    public virtual void PostLoad(TrickyInstanceObject[] TempInstanceObjects, TrickyEffectHeader[] TempEffectHeader, TrickySplineObject[] TempListSplines, TrickyFunctionHeader[] TempFunctionList)
+    {
+
+    }
+
     public virtual SSFJsonHandler.Effect SaveEffect()
     {
         return new SSFJsonHandler.Effect();

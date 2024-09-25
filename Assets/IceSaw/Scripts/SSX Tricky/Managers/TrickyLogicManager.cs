@@ -87,7 +87,6 @@ public class TrickyLogicManager : MonoBehaviour
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
             //TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
-
             var TempInstance = TempGameObject.AddComponent<PhysicsObject>();
             TempInstance.LoadPhysics(physicsHeaders[i]);
         }
@@ -115,189 +114,38 @@ public class TrickyLogicManager : MonoBehaviour
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
             //TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
-
-            for (int a = 0; a < effects[i].Effects.Count; a++)
-            {
-                GenerateEffectData(effects[i].Effects[a], TempGameObject, "Effect " + a);
-            }
+            TempGameObject.AddComponent<TrickyFunctionHeader>().LoadFunction(effects[i]);
         }
     }
 
-    public void GenerateEffectData(SSFJsonHandler.Effect effect, GameObject Parent, string name)
-    {
-        if (effect.MainType == 0)
-        {
-            if (effect.type0.Value.SubType == 0)
-            {
-                Parent.AddComponent<Type0Sub0Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 2)
-            {
-                Parent.AddComponent<DebounceEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 5)
-            {
-                Parent.AddComponent<DeadNodeEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 6)
-            {
-                Parent.AddComponent<CounterEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 7)
-            {
-                Parent.AddComponent<BoostEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 10)
-            {
-                Parent.AddComponent<UVScrollingEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 11)
-            {
-                Parent.AddComponent<TextureFlipEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 12)
-            {
-                Parent.AddComponent<FenceFlexEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 13)
-            {
-                Parent.AddComponent<Type0Sub13Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 14)
-            {
-                Parent.AddComponent<Type0Sub14Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 15)
-            {
-                Parent.AddComponent<Type0Sub15Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 17)
-            {
-                Parent.AddComponent<CrowdBoxEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 18)
-            {
-                Parent.AddComponent<Type0Sub18Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 20)
-            {
-                Parent.AddComponent<Type0Sub20Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 23)
-            {
-                Parent.AddComponent<MovieScreenEffect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 24)
-            {
-                Parent.AddComponent<Type0Sub24Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 256)
-            {
-                Parent.AddComponent<Type0Sub256Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 257)
-            {
-                Parent.AddComponent<Type0Sub257Effect>().LoadEffect(effect);
-            }
-            else if (effect.type0.Value.SubType == 258)
-            {
-                Parent.AddComponent<Type0Sub258Effect>().LoadEffect(effect);
-            }
-            else
-            {
-                Parent.AddComponent<EffectBase>().LoadEffect(effect);
-            }
-        }
-        else if (effect.MainType == 2)
-        {
-            if (effect.type2.Value.SubType == 0)
-            {
-                Parent.AddComponent<Type2Sub0Effect>().LoadEffect(effect);
-            }
-            else if (effect.type2.Value.SubType == 1)
-            {
-                Parent.AddComponent<SplineAnimationEffect>().LoadEffect(effect);
-            }
-            else if (effect.type2.Value.SubType == 2)
-            {
-                Parent.AddComponent<Type2Sub2Effect>().LoadEffect(effect);
-            }
-            else
-            {
-                Parent.AddComponent<EffectBase>().LoadEffect(effect);
-            }
-        }
-        else if (effect.MainType == 3)
-        {
-            Parent.AddComponent<Type3Effect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 4)
-        {
-            Parent.AddComponent<WaitEffect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 5)
-        {
-            Parent.AddComponent<Type5Effect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 7)
-        {
-            Parent.AddComponent<InstanceRunEffect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 8)
-        {
-            Parent.AddComponent<SoundEffect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 9)
-        {
-            Parent.AddComponent<Type9Effect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 13)
-        {
-            Parent.AddComponent<Type13Effect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 14)
-        {
-            Parent.AddComponent<MultiplierEffect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 17)
-        {
-            Parent.AddComponent<Type17Effect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 18)
-        {
-            Parent.AddComponent<Type18Effect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 21)
-        {
-            Parent.AddComponent<FunctionRunEffect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 24)
-        {
-            Parent.AddComponent<TeleportEffect>().LoadEffect(effect);
-        }
-        else if (effect.MainType == 25)
-        {
-            Parent.AddComponent<SplineRunEffect>().LoadEffect(effect);
-        }
-        else
-        {
-            Parent.AddComponent<EffectBase>().LoadEffect(effect);
-        }
-    }
     #endregion
 
     public void PostLoad()
     {
         var TempListEffectSlot = GetEffectSlotsList();
         var TempListEffectHeaders = GetEffectObjects();
+        var TempListFunctionHeaders = GetFunctionObjects();
+
+        var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
+        var TempListSplines = TrickyWorldManager.Instance.GetSplineList();
 
         for (int i = 0; i < TempListEffectSlot.Length; i++)
         {
             TempListEffectSlot[i].PostLoad(TempListEffectHeaders);
         }
 
-        TempListEffectSlot = null;
-        TempListEffectHeaders = null;
+        for (int i = 0; i < TempListEffectHeaders.Length; i++)
+        {
+            TempListEffectHeaders[i].PostLoad(TempInstanceList, TempListEffectHeaders, TempListSplines, TempListFunctionHeaders);
+        }
+
+        for (int i = 0; i < TempListFunctionHeaders.Length; i++)
+        {
+            TempListFunctionHeaders[i].PostLoad(TempInstanceList, TempListEffectHeaders, TempListSplines, TempListFunctionHeaders);
+        }
+
+        //TempListEffectSlot = null;
+        //TempListEffectHeaders = null;
     }
 
     #region Save Data
@@ -352,41 +200,22 @@ public class TrickyLogicManager : MonoBehaviour
 
     public List<SSFJsonHandler.Function> GetFunctionList()
     {
-        int ChildList = FunctionHolder.transform.childCount;
+        var EffectObjects = GetFunctionObjects();
 
         List<SSFJsonHandler.Function> HeaderList = new List<SSFJsonHandler.Function>();
 
-        for (int i = 0; i < ChildList; i++)
+        for (int i = 0; i < EffectObjects.Length; i++)
         {
-            var TempObject = FunctionHolder.transform.GetChild(i);
-            var NewHeader = new SSFJsonHandler.Function();
-
-            NewHeader.FunctionName = TempObject.name;
-            NewHeader.Effects = new List<SSFJsonHandler.Effect>();
-
-            var TempEffects = TempObject.GetComponentsInChildren<EffectBase>(true);
-
-            for (int a = 0; a < TempEffects.Length; a++)
-            {
-                NewHeader.Effects.Add(TempEffects[a].SaveEffect());
-            }
-            HeaderList.Add(NewHeader);
+            HeaderList.Add(EffectObjects[i].GenerateFunction());
         }
 
         return HeaderList;
     }
     #endregion
 
-    public GameObject[] GetFunctionObjects()
+    public TrickyFunctionHeader[] GetFunctionObjects()
     {
-        int ChildList = FunctionHolder.transform.childCount;
-        List<GameObject> FunctionList = new List<GameObject>();
-        for (int i = 0; i < ChildList; i++)
-        {
-            FunctionList.Add(FunctionHolder.transform.GetChild(i).gameObject);
-        }
-
-        return FunctionList.ToArray();
+        return FunctionHolder.GetComponentsInChildren<TrickyFunctionHeader>(true);
     }
 
     public TrickyEffectHeader[] GetEffectObjects()

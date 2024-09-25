@@ -179,6 +179,18 @@ public class TrickyEffectHeader : MonoBehaviour
         }
     }
 
+    public void PostLoad(TrickyInstanceObject[] TempInstanceObjects, TrickyEffectHeader[] TempEffectHeader, TrickySplineObject[] TempSplineList, TrickyFunctionHeader[] TempFunctionList)
+    {
+        var TempEffects = GetEffects();
+
+        for (int a = 0; a < TempEffects.Length; a++)
+        {
+            TempEffects[a].PostLoad(TempInstanceObjects, TempEffectHeader, TempSplineList, TempFunctionList);
+        }
+
+
+    }
+
     public SSFJsonHandler.EffectHeaderStruct GenerateEffectHeader()
     {
         var NewHeader = new SSFJsonHandler.EffectHeaderStruct();

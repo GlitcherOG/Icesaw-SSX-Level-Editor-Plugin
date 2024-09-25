@@ -12,13 +12,29 @@ public class InstanceRunEffect : EffectBase
         get { return 7; }
     }
 
-    public int InstanceIndex;
-    public int EffectIndex;
+    public TrickyInstanceObject InstanceObject;
+    public TrickyEffectHeader EffectHeaderObject;
+
+    int InstanceIndex;
+    int EffectIndex;
 
     public override void LoadEffect(SSFJsonHandler.Effect effect)
     {
         InstanceIndex = effect.Instance.Value.InstanceIndex;
         EffectIndex = effect.Instance.Value.EffectIndex;
+    }
+
+    public override void PostLoad(TrickyInstanceObject[] TempInstanceObjects, TrickyEffectHeader[] TempEffectHeader, TrickySplineObject[] TempListSplines, TrickyFunctionHeader[] TempFunctionList)
+    {
+        if (TempInstanceObjects.Length - 1 >= InstanceIndex && InstanceIndex != -1)
+        {
+            InstanceObject = TempInstanceObjects[InstanceIndex];
+        }
+
+        if (TempEffectHeader.Length - 1 >= EffectIndex && EffectIndex != -1)
+        {
+            EffectHeaderObject = TempEffectHeader[EffectIndex];
+        }
     }
 
     public override SSFJsonHandler.Effect SaveEffect()
@@ -29,8 +45,23 @@ public class InstanceRunEffect : EffectBase
 
         var NewInstanceEffect = new SSFJsonHandler.InstanceEffect();
 
-        NewInstanceEffect.InstanceIndex = InstanceIndex;
-        NewInstanceEffect.EffectIndex = EffectIndex;
+        if(InstanceObject != null)
+        {
+            NewInstanceEffect.InstanceIndex = InstanceObject.transform.GetSiblingIndex();
+        }    
+        else
+        {
+            NewInstanceEffect.InstanceIndex = -1;
+        }
+
+        if (EffectHeaderObject != null)
+        {
+            NewInstanceEffect.EffectIndex = EffectHeaderObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            NewInstanceEffect.EffectIndex = -1;
+        }
 
         NewEffect.Instance = NewInstanceEffect;
 

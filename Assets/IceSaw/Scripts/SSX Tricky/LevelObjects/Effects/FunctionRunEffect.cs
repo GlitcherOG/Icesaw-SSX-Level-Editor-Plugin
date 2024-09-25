@@ -11,11 +11,20 @@ public class FunctionRunEffect : EffectBase
         get { return 21; }
     }
 
-    public int FunctionID;
+    public TrickyFunctionHeader FunctionObject;
+    int FunctionIndex;
 
     public override void LoadEffect(SSFJsonHandler.Effect effect)
     {
-        FunctionID = effect.FunctionRunIndex.Value;
+        FunctionIndex = effect.FunctionRunIndex.Value;
+    }
+
+    public override void PostLoad(TrickyInstanceObject[] TempInstanceObjects, TrickyEffectHeader[] TempEffectHeader, TrickySplineObject[] TempListSplines, TrickyFunctionHeader[] TempFunctionList)
+    {
+        if (TempFunctionList.Length - 1 >= FunctionIndex && FunctionIndex != -1)
+        {
+            FunctionObject = TempFunctionList[FunctionIndex];
+        }
     }
 
     public override SSFJsonHandler.Effect SaveEffect()
@@ -23,19 +32,16 @@ public class FunctionRunEffect : EffectBase
         var NewEffect = new SSFJsonHandler.Effect();
 
         NewEffect.MainType = EffectType;
-        NewEffect.FunctionRunIndex = FunctionID;
+
+        if(FunctionObject!=null)
+        {
+            NewEffect.FunctionRunIndex = FunctionObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            NewEffect.FunctionRunIndex = -1;
+        }
 
         return NewEffect;
-    }
-
-    [ContextMenu("Goto Function")]
-    public void GotoFunction()
-    {
-        var TempList = TrickyLogicManager.Instance.GetFunctionObjects();
-
-        if(TempList.Length-1>=FunctionID)
-        {
-            Selection.activeObject = TempList[FunctionID];
-        }
     }
 }

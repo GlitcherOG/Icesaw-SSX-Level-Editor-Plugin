@@ -11,13 +11,29 @@ public class SplineRunEffect : EffectBase
         get { return 25; }
     }
 
-    public int SplineIndex;
-    public int Effect;
+    public TrickySplineObject SplineObject;
+    public TrickyEffectHeader EffectHeader;
+
+    int SplineIndex;
+    int EffectIndex;
 
     public override void LoadEffect(SSFJsonHandler.Effect effect)
     {
         SplineIndex = effect.Spline.Value.SplineIndex;
-        Effect = effect.Spline.Value.Effect;
+        EffectIndex = effect.Spline.Value.Effect;
+    }
+
+    public override void PostLoad(TrickyInstanceObject[] TempInstanceObjects, TrickyEffectHeader[] TempEffectHeader, TrickySplineObject[] TempListSplines, TrickyFunctionHeader[] TempFunctionList)
+    {
+        if (TempListSplines.Length - 1 >= SplineIndex && SplineIndex != -1)
+        {
+            SplineObject = TempListSplines[SplineIndex];
+        }
+
+        if (TempEffectHeader.Length - 1 >= EffectIndex && EffectIndex != -1)
+        {
+            EffectHeader = TempEffectHeader[EffectIndex];
+        }
     }
 
     public override SSFJsonHandler.Effect SaveEffect()
@@ -28,22 +44,27 @@ public class SplineRunEffect : EffectBase
 
         var NewInstanceEffect = new SSFJsonHandler.SplineEffect();
 
-        NewInstanceEffect.SplineIndex = SplineIndex;
-        NewInstanceEffect.Effect = Effect;
+        if (SplineObject != null)
+        {
+            NewInstanceEffect.SplineIndex = SplineObject.transform.GetSiblingIndex();
+        }
+        else
+        {
+            NewInstanceEffect.SplineIndex = -1;
+        }
+
+        if (EffectHeader != null)
+        {
+            NewInstanceEffect.Effect = EffectHeader.transform.GetSiblingIndex();
+        }
+        else
+        {
+            NewInstanceEffect.Effect = -1;
+        }
+
 
         NewEffect.Spline = NewInstanceEffect;
 
         return NewEffect;
-    }
-
-    [ContextMenu("Goto Spline")]
-    public void GotoSpline()
-    {
-        var TempList = TrickyWorldManager.Instance.GetSplineList();
-
-        if (TempList.Length - 1 >= SplineIndex)
-        {
-            Selection.activeObject = TempList[SplineIndex].gameObject;
-        }
     }
 }
