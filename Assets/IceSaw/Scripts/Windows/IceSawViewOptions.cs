@@ -70,12 +70,12 @@ public class IceSawViewOptions
         }
 
         //Run Effect
-        if(LogicManager.Instance==null)
+        if(TrickyLogicManager.Instance==null)
         {
             Debug.Log("IceSaw - NotNull");
         }
 
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "RaceMode")
@@ -119,7 +119,7 @@ public class IceSawViewOptions
         }
 
         //Run Effect
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "ShowoffMode")
@@ -171,7 +171,7 @@ public class IceSawViewOptions
 
         //Run Effect
 
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "FreerideMode")
@@ -189,7 +189,7 @@ public class IceSawViewOptions
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "RaceMode")
@@ -203,7 +203,7 @@ public class IceSawViewOptions
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "ShowoffMode")
@@ -217,7 +217,7 @@ public class IceSawViewOptions
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "FreerideMode")
@@ -232,7 +232,7 @@ public class IceSawViewOptions
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "StartCountDown")
@@ -247,7 +247,7 @@ public class IceSawViewOptions
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "EndCountDown")
@@ -262,7 +262,7 @@ public class IceSawViewOptions
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
         TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = LogicManager.Instance.GetFunctionList();
+        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
         for (int i = 0; i < FunctionList.Count; i++)
         {
             if (FunctionList[i].FunctionName == "NoCountDown")
@@ -275,7 +275,7 @@ public class IceSawViewOptions
 
     public static void RunFunction(int Position, TrickyInstanceObject[] InstanceList, TrickySplineObject[] splineObjects)
     {
-        var Function = LogicManager.Instance.GetFunctionList()[Position];
+        var Function = TrickyLogicManager.Instance.GetFunctionList()[Position];
 
         for (int i = 0; i < Function.Effects.Count; i++)
         {
@@ -297,7 +297,7 @@ public class IceSawViewOptions
     public static void RunEffectInstance(int Effect, int Instance, TrickyInstanceObject[] InstanceList)
     {
         var TempInstance = InstanceList[Instance];
-        var EffectHeader = LogicManager.Instance.GetEffectHeadersList()[Effect];
+        var EffectHeader = TrickyLogicManager.Instance.GetEffectHeadersList()[Effect];
         for (int i = 0; i < EffectHeader.Effects.Count; i++)
         {
             if (EffectHeader.Effects[i].MainType==0)

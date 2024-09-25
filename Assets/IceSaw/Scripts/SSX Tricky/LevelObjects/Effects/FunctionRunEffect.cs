@@ -31,7 +31,7 @@ public class FunctionRunEffect : EffectBase
     [ContextMenu("Goto Function")]
     public void GotoFunction()
     {
-        var TempList = LogicManager.Instance.GetFunctionObjects();
+        var TempList = TrickyLogicManager.Instance.GetFunctionObjects();
 
         if(TempList.Length-1>=FunctionID)
         {

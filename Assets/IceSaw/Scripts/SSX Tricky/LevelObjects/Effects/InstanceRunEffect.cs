@@ -51,7 +51,7 @@ public class InstanceRunEffect : EffectBase
     [ContextMenu("Goto Effect")]
     public void GotoEffect()
     {
-        var TempList = LogicManager.Instance.GetEffectObjects();
+        var TempList = TrickyLogicManager.Instance.GetEffectObjects();
 
         if (TempList.Length - 1 >= EffectIndex)
         {

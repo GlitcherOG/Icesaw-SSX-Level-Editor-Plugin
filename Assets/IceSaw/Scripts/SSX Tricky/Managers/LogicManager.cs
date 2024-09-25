@@ -5,9 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class LogicManager : MonoBehaviour
+public class TrickyLogicManager : MonoBehaviour
 {
-    public static LogicManager Instance;
+    public static TrickyLogicManager Instance;
 
     public GameObject EffectSlotHolder;
     public GameObject PhysicsHolder;
@@ -52,7 +52,7 @@ public class LogicManager : MonoBehaviour
         FunctionHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
         FunctionHolder.transform.hideFlags = HideFlags.HideInInspector;
     }
-
+    #region Load Data
     public void LoadData(string path)
     {
         SSFJsonHandler ssfJsonHandler = new SSFJsonHandler();
@@ -102,11 +102,7 @@ public class LogicManager : MonoBehaviour
             TempGameObject.transform.localScale = Vector3.one;
             TempGameObject.transform.localEulerAngles = Vector3.zero;
             //TempGameObject.transform.hideFlags = HideFlags.HideInInspector;
-
-            for (int a = 0; a < effects[i].Effects.Count; a++)
-            {
-                GenerateEffectData(effects[i].Effects[a], TempGameObject, "Effect " + a);
-            }
+            TempGameObject.AddComponent<TrickyEffectHeader>().LoadEffectList(effects[i]);
         }
     }
 
@@ -129,7 +125,6 @@ public class LogicManager : MonoBehaviour
 
     public void GenerateEffectData(SSFJsonHandler.Effect effect, GameObject Parent, string name)
     {
-
         if (effect.MainType == 0)
         {
             if (effect.type0.Value.SubType == 0)
@@ -289,7 +284,23 @@ public class LogicManager : MonoBehaviour
             Parent.AddComponent<EffectBase>().LoadEffect(effect);
         }
     }
+    #endregion
 
+    public void PostLoad()
+    {
+        var TempListEffectSlot = GetEffectSlotsList();
+        var TempListEffectHeaders = GetEffectObjects();
+
+        for (int i = 0; i < TempListEffectSlot.Length; i++)
+        {
+            TempListEffectSlot[i].PostLoad(TempListEffectHeaders);
+        }
+
+        TempListEffectSlot = null;
+        TempListEffectHeaders = null;
+    }
+
+    #region Save Data
     public void SaveData(string path)
     {
         SSFJsonHandler ssfJsonHandler = new SSFJsonHandler();
@@ -325,37 +336,15 @@ public class LogicManager : MonoBehaviour
         return NewPhysicsHeaders;
     }
 
-    public EffectSlotObject[] GetEffectSlotsList()
-    {
-        return EffectSlotHolder.GetComponentsInChildren<EffectSlotObject>(true);
-    }
-
-    public PhysicsObject[] GetPhysicsObjects()
-    {
-        return PhysicsHolder.GetComponentsInChildren<PhysicsObject>(true);
-    }
-
     public List<SSFJsonHandler.EffectHeaderStruct> GetEffectHeadersList()
     {
-        int ChildList = EffectHolder.transform.childCount;
+        var EffectObjects = GetEffectObjects();
 
         List<SSFJsonHandler.EffectHeaderStruct> HeaderList = new List<SSFJsonHandler.EffectHeaderStruct>();
 
-        for (int i = 0; i < ChildList; i++)
+        for (int i = 0; i < EffectObjects.Length; i++)
         {
-            var TempObject = EffectHolder.transform.GetChild(i);
-            var NewHeader = new SSFJsonHandler.EffectHeaderStruct();
-
-            NewHeader.EffectName = TempObject.name;
-            NewHeader.Effects = new List<SSFJsonHandler.Effect>();
-
-            var TempEffects = TempObject.GetComponentsInChildren<EffectBase>(true);
-
-            for (int a = 0; a < TempEffects.Length; a++)
-            {
-                NewHeader.Effects.Add(TempEffects[a].SaveEffect());
-            }
-            HeaderList.Add(NewHeader);
+            HeaderList.Add(EffectObjects[i].GenerateEffectHeader());
         }
 
         return HeaderList;
@@ -386,6 +375,7 @@ public class LogicManager : MonoBehaviour
 
         return HeaderList;
     }
+    #endregion
 
     public GameObject[] GetFunctionObjects()
     {
@@ -399,15 +389,18 @@ public class LogicManager : MonoBehaviour
         return FunctionList.ToArray();
     }
 
-    public GameObject[] GetEffectObjects()
+    public TrickyEffectHeader[] GetEffectObjects()
     {
-        int ChildList = EffectHolder.transform.childCount;
-        List<GameObject> FunctionList = new List<GameObject>();
-        for (int i = 0; i < ChildList; i++)
-        {
-            FunctionList.Add(EffectHolder.transform.GetChild(i).gameObject);
-        }
-
-        return FunctionList.ToArray();
+        return EffectHolder.GetComponentsInChildren<TrickyEffectHeader>(true);
     }
+    public EffectSlotObject[] GetEffectSlotsList()
+    {
+        return EffectSlotHolder.GetComponentsInChildren<EffectSlotObject>(true);
+    }
+
+    public PhysicsObject[] GetPhysicsObjects()
+    {
+        return PhysicsHolder.GetComponentsInChildren<PhysicsObject>(true);
+    }
+
 }

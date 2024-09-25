@@ -298,11 +298,19 @@ public class TrickyWorldManager : MonoBehaviour
     public void PostLoad()
     {
         var TempInstanceList = GetInstanceList();
+        var TempListEffectSlot = TrickyLogicManager.Instance.GetEffectSlotsList();
+        var TempListPhysics = TrickyLogicManager.Instance.GetPhysicsObjects();
+        var TempPrefabObject = TrickyPrefabManager.Instance.GetPrefabList();
 
         for (int i = 0; i < TempInstanceList.Length; i++)
         {
-            TempInstanceList[i].PostLoad();
+            TempInstanceList[i].PostLoad(TempInstanceList, TempListEffectSlot, TempListPhysics, TempPrefabObject);
         }
+
+        TempInstanceList = null;
+        TempListEffectSlot= null;
+        TempListPhysics = null;
+        TempPrefabObject = null;
     }
     #endregion 
 

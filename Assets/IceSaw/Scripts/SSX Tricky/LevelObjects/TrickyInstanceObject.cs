@@ -152,10 +152,8 @@ public class TrickyInstanceObject : MonoBehaviour
         U8 = instance.U8;
     }
 
-    public void PostLoad()
+    public void PostLoad(TrickyInstanceObject[] TempListInstance, EffectSlotObject[] TempListEffectSlot, PhysicsObject[] TempListPhysics, TrickyPrefabObject[] TempListPrefabObject)
     {
-        var TempListInstance = TrickyWorldManager.Instance.GetInstanceList();
-
         if (TempListInstance.Length - 1 >= PrevInstance && PrevInstance != -1)
         {
             PrevInstanceObject = TempListInstance[PrevInstance];
@@ -166,25 +164,19 @@ public class TrickyInstanceObject : MonoBehaviour
             NextInstanceObject = TempListInstance[NextInstance];
         }
 
-        var TempList = LogicManager.Instance.GetEffectSlotsList();
-
-        if (TempList.Length - 1 >= EffectSlotIndex && EffectSlotIndex != -1)
+        if (TempListEffectSlot.Length - 1 >= EffectSlotIndex && EffectSlotIndex != -1)
         {
-            EffectSlotObject = TempList[EffectSlotIndex];
+            EffectSlotObject = TempListEffectSlot[EffectSlotIndex];
         }
 
-        var TempList2 = LogicManager.Instance.GetPhysicsObjects();
-
-        if (TempList2.Length - 1 >= PhysicsIndex && PhysicsIndex != -1)
+        if (TempListPhysics.Length - 1 >= PhysicsIndex && PhysicsIndex != -1)
         {
-            PhysicsObject = TempList2[PhysicsIndex];
+            PhysicsObject = TempListPhysics[PhysicsIndex];
         }
 
-        var TempList3 = TrickyPrefabManager.Instance.GetPrefabList();
-
-        if (TempList3.Length - 1 >= ModelID && ModelID != -1)
+        if (TempListPrefabObject.Length - 1 >= ModelID && ModelID != -1)
         {
-            PrefabObject = TempList3[ModelID];
+            PrefabObject = TempListPrefabObject[ModelID];
         }
 
 

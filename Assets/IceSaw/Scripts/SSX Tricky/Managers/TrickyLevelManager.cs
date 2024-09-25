@@ -89,7 +89,7 @@ public class TrickyLevelManager : MonoBehaviour
         LogicManager.transform.parent = this.transform;
         LogicManager.transform.transform.localScale = new Vector3(1, 1, 1);
         LogicManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        var TempLogic = LogicManager.AddComponent<LogicManager>();
+        var TempLogic = LogicManager.AddComponent<TrickyLogicManager>();
         TempLogic.runInEditMode = true;
         TempLogic.GenerateEmptyObjects();
 
@@ -118,7 +118,7 @@ public class TrickyLevelManager : MonoBehaviour
 
         PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
         WorldManagerHolder.GetComponent<TrickyWorldManager>().LoadData(Path);
-        LogicManager.GetComponent<LogicManager>().LoadData(Path);
+        LogicManager.GetComponent<TrickyLogicManager>().LoadData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
         PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
 
@@ -129,7 +129,7 @@ public class TrickyLevelManager : MonoBehaviour
     {
         //PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
         WorldManagerHolder.GetComponent<TrickyWorldManager>().PostLoad();
-        //LogicManager.GetComponent<LogicManager>().LoadData(Path);
+        LogicManager.GetComponent<TrickyLogicManager>().PostLoad();
         //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
         //PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
     }
@@ -138,7 +138,7 @@ public class TrickyLevelManager : MonoBehaviour
     {
         PrefabManagerHolder.GetComponent<TrickyPrefabManager>().SaveData(Path);
         WorldManagerHolder.GetComponent<TrickyWorldManager>().SaveData(Path);
-        LogicManager.GetComponent<LogicManager>().SaveData(Path);
+        LogicManager.GetComponent<TrickyLogicManager>().SaveData(Path);
         SkyboxManagerHolder.GetComponent<SkyboxManager>().SaveData(Path);
         PathFileManager.GetComponent<TrickyPathFileManager>().SaveData(Path);
 
@@ -440,10 +440,10 @@ public class TrickyLevelManager : MonoBehaviour
     {
         Awake();
 
-        if (gameObject.GetComponentInChildren<LogicManager>() != null)
+        if (gameObject.GetComponentInChildren<TrickyLogicManager>() != null)
         {
-            LogicManager = gameObject.GetComponentInChildren<LogicManager>().gameObject;
-            LogicManager.GetComponent<LogicManager>().Awake();
+            LogicManager = gameObject.GetComponentInChildren<TrickyLogicManager>().gameObject;
+            LogicManager.GetComponent<TrickyLogicManager>().Awake();
         }
 
         if (gameObject.GetComponentInChildren<TrickyPrefabManager>() != null)
