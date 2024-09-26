@@ -11,16 +11,7 @@ using UnityEngine.UIElements;
 [ExecuteInEditMode]
 public class TrickyInstanceObject : MonoBehaviour
 {
-    public Vector4 LightVector1;
-    public Vector4 LightVector2;
-    public Vector4 LightVector3;
-    public Vector4 AmbentLightVector;
-
-    public Vector4 LightColour1;
-    public Vector4 LightColour2;
-    public Vector4 LightColour3;
-    public Vector4 AmbentLightColour;
-
+    [Header("Basic Properties")]
     int ModelID;
     [OnChangedCall("LoadPrefabs")]
     public TrickyPrefabObject PrefabObject;
@@ -34,7 +25,6 @@ public class TrickyInstanceObject : MonoBehaviour
     public int UnknownInt26;
     public int UnknownInt27;
     public int UnknownInt28;
-    int ModelID2;
     public int UnknownInt30;
     public int UnknownInt31;
     public int UnknownInt32;
@@ -47,7 +37,7 @@ public class TrickyInstanceObject : MonoBehaviour
     public SoundData Sounds;
 
     //Object Properties
-
+    [Header("Object Properties")]
     public float U0;
     public float PlayerBounceAmmount;
     public int U2;
@@ -57,8 +47,7 @@ public class TrickyInstanceObject : MonoBehaviour
     public bool PlayerBounce;
     public bool Unknown241;
     public bool UVScroll;
-    public int U4;
-
+    public _SurfaceType SurfaceType;
 
     [OnChangedCall("LoadCollisionModels")]
     public int CollsionMode;
@@ -72,6 +61,17 @@ public class TrickyInstanceObject : MonoBehaviour
     public PhysicsObject PhysicsObject;
 
     public int U8;
+
+    [Header("Lighting Properties")]
+    public Vector4 LightVector1;
+    public Vector4 LightVector2;
+    public Vector4 LightVector3;
+    public Vector4 AmbentLightVector;
+
+    public Vector4 LightColour1;
+    public Vector4 LightColour2;
+    public Vector4 LightColour3;
+    public Vector4 AmbentLightColour;
 
     GameObject Prefab;
     GameObject Collision;
@@ -101,7 +101,6 @@ public class TrickyInstanceObject : MonoBehaviour
         UnknownInt26 = instance.UnknownInt26;
         UnknownInt27 = instance.UnknownInt27;
         UnknownInt28 = instance.UnknownInt28;
-        ModelID2 = instance.ModelID2;
         UnknownInt30 = instance.UnknownInt30;
         UnknownInt31 = instance.UnknownInt31;
         UnknownInt32 = instance.UnknownInt32;
@@ -144,7 +143,7 @@ public class TrickyInstanceObject : MonoBehaviour
         Unknown241 = instance.Unknown241;
         UVScroll = instance.UVScroll;
 
-        U4 = instance.U4;
+        SurfaceType = (_SurfaceType)(instance.U4+1);
         CollsionMode = instance.CollsionMode;
         CollsionModelPaths = instance.CollsionModelPaths;
         EffectSlotIndex = instance.EffectSlotIndex;
@@ -434,7 +433,7 @@ public class TrickyInstanceObject : MonoBehaviour
         TempInstance.Unknown241 = Unknown241;
         TempInstance.UVScroll = UVScroll;
 
-        TempInstance.U4 = U4;
+        TempInstance.U4 = ((int)SurfaceType)-1;
         TempInstance.CollsionMode = CollsionMode;
         TempInstance.CollsionModelPaths = CollsionModelPaths;
         TempInstance.U8 = U8;
@@ -625,6 +624,30 @@ public class TrickyInstanceObject : MonoBehaviour
         public float U4;
         public float U5; //Radius?
         public float U6;
+    }
+
+    public enum _SurfaceType
+    {
+        None,
+        Reset,
+        StandardSnow,
+        StandardOffTrack,
+        PoweredSnow,
+        SlowPoweredSnow,
+        IceStandard,
+        BounceUnskiable,
+        IceWaterNoTrail,
+        GlidyPoweredSnow,
+        Rock,
+        Wall,
+        IceNoTrail,
+        SmallParticleWake,
+        OffTrackMetal,
+        MetalGliding,
+        Standard1,
+        StandardSand,
+        NoCollision,
+        ShowOffRampMetal
     }
 }
 
