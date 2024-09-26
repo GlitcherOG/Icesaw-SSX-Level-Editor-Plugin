@@ -7,8 +7,8 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[SelectionBase]
 [ExecuteInEditMode]
+[SelectionBase]
 public class TrickyInstanceObject : MonoBehaviour
 {
     [Header("Basic Properties")]
@@ -194,6 +194,8 @@ public class TrickyInstanceObject : MonoBehaviour
         if (PrefabObject != null)
         {
             Prefab = PrefabObject.GeneratePrefab();
+            //SceneVisibilityManager.instance.DisablePicking(Prefab, true);
+            //SceneVisibilityManager.instance.EnablePicking(gameObject,false);
             Prefab.gameObject.name = "Prefab";
             Prefab.transform.parent = transform;
             Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
@@ -240,6 +242,8 @@ public class TrickyInstanceObject : MonoBehaviour
         }
 
         Collision = new GameObject("CollisionModel");
+        //SceneVisibilityManager.instance.DisablePicking(Collision, true);
+        //SceneVisibilityManager.instance.EnablePicking(gameObject, false);
         Collision.AddComponent<SelectParent>();
         Collision.transform.parent = transform;
         Collision.transform.localRotation = new Quaternion(0, 0, 0, 0);
