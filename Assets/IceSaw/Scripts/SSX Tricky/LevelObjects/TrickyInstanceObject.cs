@@ -47,7 +47,7 @@ public class TrickyInstanceObject : MonoBehaviour
     public bool PlayerBounce;
     public bool Unknown241;
     public bool UVScroll;
-    public _SurfaceType SurfaceType;
+    public InstanceSurfaceType SurfaceType;
 
     [OnChangedCall("LoadCollisionModels")]
     public int CollsionMode;
@@ -143,7 +143,7 @@ public class TrickyInstanceObject : MonoBehaviour
         Unknown241 = instance.Unknown241;
         UVScroll = instance.UVScroll;
 
-        SurfaceType = (_SurfaceType)(instance.U4+1);
+        SurfaceType = (InstanceSurfaceType)(instance.SurfaceType + 1);
         CollsionMode = instance.CollsionMode;
         CollsionModelPaths = instance.CollsionModelPaths;
         EffectSlotIndex = instance.EffectSlotIndex;
@@ -433,7 +433,7 @@ public class TrickyInstanceObject : MonoBehaviour
         TempInstance.Unknown241 = Unknown241;
         TempInstance.UVScroll = UVScroll;
 
-        TempInstance.U4 = ((int)SurfaceType)-1;
+        TempInstance.SurfaceType = ((int)SurfaceType)-1;
         TempInstance.CollsionMode = CollsionMode;
         TempInstance.CollsionModelPaths = CollsionModelPaths;
         TempInstance.U8 = U8;
@@ -625,8 +625,8 @@ public class TrickyInstanceObject : MonoBehaviour
         public float U5; //Radius?
         public float U6;
     }
-
-    public enum _SurfaceType
+    [System.Serializable]
+    public enum InstanceSurfaceType
     {
         None,
         Reset,

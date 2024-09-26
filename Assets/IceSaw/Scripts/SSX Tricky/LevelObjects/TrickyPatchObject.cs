@@ -80,7 +80,7 @@ public class TrickyPatchObject : MonoBehaviour
     public Vector3 RawR4C4 = new Vector3(750, 750, 0);
 
     [Space(10)]
-    public PatchType PatchStyle;
+    public PatchSurfaceType SurfaceType;
     public bool TrickOnlyPatch;
     [SerializeField]
     [OnChangedCall("UpdateTexture")]
@@ -161,7 +161,7 @@ public class TrickyPatchObject : MonoBehaviour
         RawR1C2 = new Vector3(import.Points[1, 0], import.Points[1, 1], import.Points[1, 2]);
         RawControlPoint = new Vector3(import.Points[0, 0], import.Points[0, 1], import.Points[0, 2]);
 
-        PatchStyle = (PatchType)import.PatchStyle;
+        SurfaceType = (PatchSurfaceType)import.SurfaceType;
         TrickOnlyPatch = import.TrickOnlyPatch;
         TextureAssigment = import.TexturePath;
         LightmapID = import.LightmapID;
@@ -256,7 +256,7 @@ public class TrickyPatchObject : MonoBehaviour
         patch.Points[15, 1] = RawR4C4.y;
         patch.Points[15, 2] = RawR4C4.z;
 
-        patch.PatchStyle = (int)PatchStyle;
+        patch.SurfaceType = (int)SurfaceType;
         patch.TrickOnlyPatch = TrickOnlyPatch;
         patch.TexturePath = TextureAssigment;
         patch.LightmapID = LightmapID;
@@ -702,7 +702,7 @@ public class TrickyPatchObject : MonoBehaviour
         }
     }
 
-    public enum PatchType
+    public enum PatchSurfaceType
     {
         Reset,
         StandardSnow,
