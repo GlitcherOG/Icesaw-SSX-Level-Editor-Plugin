@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class IceSawViewOptions
 {
-    [MenuItem("Ice Saw View/Show All",false,10)]
+    [MenuItem("Ice Saw/View/Show All",false,10)]
     public static void ShowAll()
     {
         //Grab Patches
@@ -32,7 +32,7 @@ public class IceSawViewOptions
         TrickyPathFileManager.Instance.SOPHolder.SetActive(true);
     }
 
-    [MenuItem("Ice Saw View/Race Only", false, 10)]
+    [MenuItem("Ice Saw/View/Race Only", false, 10)]
     public static void RaceOnly()
     {
         //Grab Patches
@@ -88,7 +88,7 @@ public class IceSawViewOptions
         TrickyPathFileManager.Instance.AIPHolder.SetActive(true);
     }
 
-    [MenuItem("Ice Saw View/Showoff Only", false, 10)]
+    [MenuItem("Ice Saw/View/Showoff Only", false, 10)]
     public static void ShowOffOnly()
     {
         //Grab Patches
@@ -132,7 +132,7 @@ public class IceSawViewOptions
         TrickyPathFileManager.Instance.AIPHolder.SetActive(false);
     }
 
-    [MenuItem("Ice Saw View/Freeride Only", false, 10)]
+    [MenuItem("Ice Saw/View/Freeride Only", false, 10)]
     public static void FreerideOnly()
     {
         //Grab Patches
@@ -184,7 +184,7 @@ public class IceSawViewOptions
         TrickyPathFileManager.Instance.SOPHolder.SetActive(false);
     }
 
-    [MenuItem("Ice Saw View/Functions/RaceMode")]
+    [MenuItem("Ice Saw/View/Functions/RaceMode")]
     public static void FunctionRunRace()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
@@ -198,7 +198,7 @@ public class IceSawViewOptions
             }
         }
     }
-    [MenuItem("Ice Saw View/Functions/ShowOff")]
+    [MenuItem("Ice Saw/View/Functions/ShowOff")]
     public static void FunctionRunShowOff()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
@@ -212,7 +212,7 @@ public class IceSawViewOptions
             }
         }
     }
-    [MenuItem("Ice Saw View/Functions/FreeRideMode")]
+    [MenuItem("Ice Saw/View/Functions/FreeRideMode")]
     public static void FunctionRunFreeRide()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
@@ -227,7 +227,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Functions/StartCountDown")]
+    [MenuItem("Ice Saw/View/Functions/StartCountDown")]
     public static void FunctionRunCountDown()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
@@ -242,7 +242,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Functions/EndCountDown")]
+    [MenuItem("Ice Saw/View/Functions/EndCountDown")]
     public static void FunctionRunEndCountDown()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
@@ -257,7 +257,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Functions/NoCountDown")]
+    [MenuItem("Ice Saw/View/Functions/NoCountDown")]
     public static void FunctionRunNoCountDown()
     {
         TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
@@ -322,7 +322,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Toggle Lightmap", false, 200)]
+    [MenuItem("Ice Saw/View/Toggle Lightmap", false, 200)]
     public static void LightmapToggle()
     {
         if(OGLevelManager.Instance !=null)
@@ -364,7 +364,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Toggle Instance Models", false, 200)]
+    [MenuItem("Ice Saw/View/Toggle Instance Models", false, 200)]
     public static void TogglePrefabModels()
     {
         if(OGWorldManager.Instance!=null)
@@ -391,7 +391,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Toggle Collision Models", false, 200)]
+    [MenuItem("Ice Saw/View/Toggle Collision Models", false, 200)]
     public static void ToggleCollisionModels()
     {
         if(OGWorldManager.Instance != null)
@@ -418,7 +418,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Toggle Invisable Instances", false, 200)]
+    [MenuItem("Ice Saw/View/Toggle Invisable Instances", false, 200)]
     public static void VisablityToggle()
     {
         if (OGLevelManager.Instance != null)
@@ -464,7 +464,7 @@ public class IceSawViewOptions
         }
     }
 
-    [MenuItem("Ice Saw View/Get Scene Camera Cords")]
+    [MenuItem("Ice Saw/View/Get Scene Camera Cords")]
     public static void GetSceneCameraCords()
     {
         if (OGLevelManager.Instance != null)

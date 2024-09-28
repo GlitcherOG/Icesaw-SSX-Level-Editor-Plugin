@@ -9,7 +9,7 @@ public class GrabNewtonSoft
 {
     static AddRequest Request;
 
-    [MenuItem("Ice Saw/Download Newtonsoft")]
+    [MenuItem("Ice Saw/Settings/Download Newtonsoft")]
     static void Add()
     {
         // Add a package to the project

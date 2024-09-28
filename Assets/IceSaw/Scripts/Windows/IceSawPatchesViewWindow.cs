@@ -8,7 +8,7 @@ public class IceSawPatchesViewWindow : EditorWindow
     Color PickedColour;
     int Type;
 
-    [MenuItem("Ice Saw View/Patch Highlighter")]
+    [MenuItem("Ice Saw/View/Patch Highlighter")]
     static void Init()
     {
         // Get existing open window or if none, make a new one:

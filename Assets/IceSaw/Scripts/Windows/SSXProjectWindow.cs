@@ -48,7 +48,7 @@ public class SSXProjectWindow : EditorWindow
     //    }
     //    GUILayout.EndHorizontal();
     //}
-    [MenuItem("Ice Saw/Load Project", false, -1000)]
+    [MenuItem("Ice Saw/File/Load Project", false, -1000)]
     public static void LoadProject()
     {
         string path = EditorUtility.OpenFilePanel("Open SSX Project", "", "SSX");
@@ -69,7 +69,7 @@ public class SSXProjectWindow : EditorWindow
             Debug.LogError("Unknown Game and Version");
         }
     }
-    [MenuItem("Ice Saw/Save Project", false, -1000)]
+    [MenuItem("Ice Saw/File/Save Project", false, -1000)]
     public static void SaveProject()
     {
         string path = EditorUtility.SaveFilePanel("Open SSX Project", "", "Config" , "SSX");

@@ -8,8 +8,13 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 [ExecuteInEditMode]
-public class TrickyPatchObject : MonoBehaviour
+public class TrickyPatchObject : TrickyBaseObject
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Patch; }
+    }
+
     NURBS.Surface surface;
     public Vector4 LightMapPoint;
     //[Space(10)]

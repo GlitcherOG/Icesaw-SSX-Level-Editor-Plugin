@@ -9,8 +9,13 @@ using UnityEngine.UIElements;
 
 [ExecuteInEditMode]
 [SelectionBase]
-public class TrickyInstanceObject : MonoBehaviour
+public class TrickyInstanceObject : TrickyBaseObject
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Instance; }
+    }
+
     [Header("Basic Properties")]
     int ModelID;
     [OnChangedCall("LoadPrefabs")]
