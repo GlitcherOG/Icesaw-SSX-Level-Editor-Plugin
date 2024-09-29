@@ -3,16 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathManager : MonoBehaviour
+public class PathManager : TrickyBaseObject
 {
-    public GameObject PathAHolder;
-    public GameObject PathBHolder;
+    public override ObjectType Type
+    {
+        get { return ObjectType.PathManager; }
+    }
+
+    public PathManagerType pathManagerType;
+
+    [HideInInspector]
+    GameObject PathAHolder;
+    [HideInInspector]
+    GameObject PathBHolder;
 
     public List<int> StartPos = new List<int>();
 
 
-    public void GenerateEmptyObjects()
+    public void GenerateEmptyObjects(PathManagerType type)
     {
+        pathManagerType = type;
+
         PathAHolder = new GameObject("AI Path");
         PathAHolder.transform.parent = transform;
         PathAHolder.transform.localScale = Vector3.one;
@@ -67,14 +78,14 @@ public class PathManager : MonoBehaviour
         aipsopJsonHandler.RaceLines = new List<AIPSOPJsonHandler.PathB>();
         aipsopJsonHandler.AIPaths = new List<AIPSOPJsonHandler.PathA>();
 
-        var TempPathAList = PathAHolder.transform.GetComponentsInChildren<TrickyPathAObject>();
+        var TempPathAList = transform.GetComponentsInChildren<TrickyPathAObject>();
 
         for (int i = 0; i < TempPathAList.Length; i++)
         {
             aipsopJsonHandler.AIPaths.Add(TempPathAList[i].GeneratePathA());
         }
 
-        var TempPathBList = PathBHolder.transform.GetComponentsInChildren<TrickyPathBObject>();
+        var TempPathBList = transform.GetComponentsInChildren<TrickyPathBObject>();
 
         for (int i = 0; i < TempPathBList.Length; i++)
         {
@@ -85,4 +96,10 @@ public class PathManager : MonoBehaviour
     }
 
 
+
+    public enum PathManagerType
+    {
+        General,
+        Showoff
+    }
 }

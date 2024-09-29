@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class PrefabMeshBase : MonoBehaviour
+public class PrefabMeshBase : TrickyBaseObject
 {
     [OnChangedCall("GenerateModel")]
     public string MeshPath;

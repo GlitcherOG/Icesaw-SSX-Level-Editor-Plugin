@@ -22,9 +22,15 @@ public class TrickyBaseObject : MonoBehaviour
         Material,
         Spline,
         Prefab,
+        PrefabSub,
+        PrefabMesh,
         ParticlePrefab,
-        PathA,
-        PathB,
-        Effect
+        SkyboxMaterial,
+        SkyboxPrefab,
+        SkyboxPrefabSub,
+        SkyboxPrefabMesh,
+        PathManager,
+        Effect,
+        Function
     }
 }

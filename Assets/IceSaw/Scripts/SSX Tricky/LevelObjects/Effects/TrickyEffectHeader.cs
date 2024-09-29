@@ -2,9 +2,14 @@ using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TrickyBaseObject;
 
 public class TrickyEffectHeader : TrickyEffectHeaderBase
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Effect; }
+    }
     public void LoadEffectList(SSFJsonHandler.EffectHeaderStruct EffectHeader)
     {
         gameObject.transform.name = EffectHeader.EffectName;

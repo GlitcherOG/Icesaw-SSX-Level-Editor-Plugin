@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TrickyEffectHeaderBase : MonoBehaviour
+public class TrickyEffectHeaderBase : TrickyBaseObject
 {
-
-
     public void LoadEffectData(SSFJsonHandler.Effect effect)
     {
         if (effect.MainType == 0)
@@ -178,8 +176,6 @@ public class TrickyEffectHeaderBase : MonoBehaviour
         {
             TempEffects[a].PostLoad(TempInstanceObjects, TempEffectHeader, TempSplineList, TempFunctionList);
         }
-
-
     }
 
 

@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class TrickyPrefabSubBase : MonoBehaviour
+public class TrickyPrefabSubBase : TrickyBaseObject
 {
     public int ParentID;
     public int Flags;

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class TrickyFunctionHeader : TrickyEffectHeaderBase
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Function; }
+    }
+
     public void LoadFunction(SSFJsonHandler.Function EffectHeader)
     {
         gameObject.transform.name = EffectHeader.FunctionName;

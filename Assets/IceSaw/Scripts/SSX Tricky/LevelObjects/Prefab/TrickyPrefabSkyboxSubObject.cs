@@ -3,9 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
+using static TrickyBaseObject;
 
 public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.PrefabSub; }
+    }
     public void LoadPrefabSubModel(PrefabJsonHandler.ObjectHeader objectHeader)
     {
         ParentID = objectHeader.ParentID;

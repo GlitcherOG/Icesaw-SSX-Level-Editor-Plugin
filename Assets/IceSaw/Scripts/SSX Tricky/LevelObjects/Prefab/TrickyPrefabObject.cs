@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class TrickyPrefabObject : TrickyPrefabBase
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Prefab; }
+    }
     public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(transform.name);

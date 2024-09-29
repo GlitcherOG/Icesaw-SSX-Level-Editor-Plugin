@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class PhysicsObject : MonoBehaviour
+public class PhysicsObject : TrickyBaseObject
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Physics; }
+    }
+
     public List<PhysicsData> PhysicsDatas;
     public void LoadPhysics(SSFJsonHandler.PhysicsHeader physicsHeader)
     {

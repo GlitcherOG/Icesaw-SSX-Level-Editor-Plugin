@@ -5,6 +5,11 @@ using SSXMultiTool.JsonFiles.Tricky;
 
 public class PrefabMeshObject : PrefabMeshBase
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.PrefabMesh; }
+    }
+
     [OnChangedCall("GenerateModel")]
     public TrickyMaterialObject TrickyMaterialObject;
     public void LoadPrefabMeshObject(PrefabJsonHandler.MeshHeader objectHeader)

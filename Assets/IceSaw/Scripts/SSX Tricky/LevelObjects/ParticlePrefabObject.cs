@@ -7,8 +7,13 @@ using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class ParticlePrefabObject : MonoBehaviour
+public class ParticlePrefabObject : TrickyBaseObject
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.ParticlePrefab; }
+    }
+
     public List<ParticleObject> ParticleObjects;
 
     public void LoadParticle(ParticleModelJsonHandler.ParticleModelJson particleModel)

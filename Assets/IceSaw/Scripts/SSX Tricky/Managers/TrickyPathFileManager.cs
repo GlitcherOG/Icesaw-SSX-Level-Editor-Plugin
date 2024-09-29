@@ -35,14 +35,14 @@ public class TrickyPathFileManager : MonoBehaviour
         AIPHolder.transform.localScale = Vector3.one;
         AIPHolder.transform.localEulerAngles = Vector3.zero;
         AIPHolder.transform.hideFlags = HideFlags.HideInInspector;
-        AIPHolder.AddComponent<PathManager>().GenerateEmptyObjects();
+        AIPHolder.AddComponent<PathManager>().GenerateEmptyObjects(PathManager.PathManagerType.General);
 
         SOPHolder = new GameObject("Showoff");
         SOPHolder.transform.parent = transform;
         SOPHolder.transform.localScale = Vector3.one;
         SOPHolder.transform.localEulerAngles = Vector3.zero;
         SOPHolder.transform.hideFlags = HideFlags.HideInInspector;
-        SOPHolder.AddComponent<PathManager>().GenerateEmptyObjects();
+        SOPHolder.AddComponent<PathManager>().GenerateEmptyObjects(PathManager.PathManagerType.Showoff);
     }
 
     public void LoadData(string Path)

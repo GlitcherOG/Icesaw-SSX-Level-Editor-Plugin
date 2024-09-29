@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class TrickyMaterialObject : TrickyMaterialBase
 {
-
+    public override ObjectType Type
+    {
+        get { return ObjectType.Material; }
+    }
 }
