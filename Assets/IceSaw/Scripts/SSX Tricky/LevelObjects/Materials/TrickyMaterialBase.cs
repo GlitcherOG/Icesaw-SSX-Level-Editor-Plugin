@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class TrickyMaterialObject : MonoBehaviour
+public class TrickyMaterialBase : MonoBehaviour
 {
     public bool SkyboxMaterial;
 

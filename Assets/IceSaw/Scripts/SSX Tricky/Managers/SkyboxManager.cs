@@ -188,7 +188,7 @@ public class SkyboxManager : MonoBehaviour
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(10, 10, 10);
-            TrickyMaterialObject materialObject = gameObject.AddComponent<TrickyMaterialObject>();
+            TrickySkyboxMaterialObject materialObject = gameObject.AddComponent<TrickySkyboxMaterialObject>();
             materialObject.LoadMaterial(materialJsonHandler.Materials[i], true);
 
 
@@ -223,7 +223,7 @@ public class SkyboxManager : MonoBehaviour
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(1, 1, 1);
-            TrickyPrefabObject mObject = gameObject.AddComponent<TrickyPrefabObject>();
+            TrickySkyboxPrefabObject mObject = gameObject.AddComponent<TrickySkyboxPrefabObject>();
             mObject.LoadPrefab(TempModelJson, true);
 
             if (X != WH)
@@ -275,19 +275,19 @@ public class SkyboxManager : MonoBehaviour
         prefabJsonHandler.CreateJson(path);
     }
 
-    public TrickyPrefabObject[] GetPrefabsList()
+    public TrickySkyboxPrefabObject[] GetPrefabsList()
     {
-        return PrefabsHolder.transform.GetComponentsInChildren<TrickyPrefabObject>(true);
+        return PrefabsHolder.transform.GetComponentsInChildren<TrickySkyboxPrefabObject>(true);
     }
 
-    public TrickyMaterialObject[] GetMaterialList()
+    public TrickySkyboxMaterialObject[] GetMaterialList()
     {
-        return MaterialHolder.transform.GetComponentsInChildren<TrickyMaterialObject>(true);
+        return MaterialHolder.transform.GetComponentsInChildren<TrickySkyboxMaterialObject>(true);
     }
 
-    public TrickyMaterialObject GetMaterialObject(int A)
+    public TrickySkyboxMaterialObject GetMaterialObject(int A)
     {
-        TrickyMaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<TrickyMaterialObject>(true);
+        TrickySkyboxMaterialObject[] TempObject = MaterialHolder.transform.GetComponentsInChildren<TrickySkyboxMaterialObject>(true);
 
         return TempObject[A];
     }

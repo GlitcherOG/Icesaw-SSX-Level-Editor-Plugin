@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 
-public class PrefabMeshObject : PrefabMeshBase
+public class PrefabSkyboxMeshObject : PrefabMeshBase
 {
     [OnChangedCall("GenerateModel")]
-    public TrickyMaterialObject TrickyMaterialObject;
+    public TrickySkyboxMaterialObject TrickyMaterialObject;
+
     public void LoadPrefabMeshObject(PrefabJsonHandler.MeshHeader objectHeader)
     {
         AddMissingComponents();
@@ -14,7 +15,7 @@ public class PrefabMeshObject : PrefabMeshBase
         MaterialIndex = objectHeader.MaterialID;
     }
 
-    public void PostLoad(TrickyMaterialObject[] MaterialObjects)
+    public void PostLoad(TrickySkyboxMaterialObject[] MaterialObjects)
     {
         if (MaterialObjects.Length - 1 >= MaterialIndex && MaterialIndex != -1)
         {
@@ -43,8 +44,7 @@ public class PrefabMeshObject : PrefabMeshBase
     [ContextMenu("Refresh Models")]
     public void GenerateModel()
     {
-        mesh = TrickyPrefabManager.Instance.GetMesh(MeshPath);
-
+        mesh = SkyboxManager.Instance.GetMesh(MeshPath);
         material = GenerateMaterial(TrickyMaterialObject);
 
         AddMissingComponents();
@@ -53,7 +53,7 @@ public class PrefabMeshObject : PrefabMeshBase
         meshRenderer.material = material;
     }
 
-    public static Material GenerateMaterial(TrickyMaterialObject trickyMaterialObject)
+    public static Material GenerateMaterial(TrickySkyboxMaterialObject trickyMaterialObject)
     {
         Material material = new Material(Shader.Find("NewModelShader"));
         string TextureID = "";
@@ -71,14 +71,14 @@ public class PrefabMeshObject : PrefabMeshBase
         Texture2D texture = null;
         try
         {
-                for (int i = 0; i < TrickyLevelManager.Instance.texture2ds.Count; i++)
+            for (int i = 0; i < SkyboxManager.Instance.SkyboxTextures2d.Count; i++)
+            {
+                if (SkyboxManager.Instance.SkyboxTextures2d[i].Name.ToLower() == TextureID.ToLower())
                 {
-                    if (TrickyLevelManager.Instance.texture2ds[i].Name.ToLower() == TextureID.ToLower())
-                    {
-                        texture = TrickyLevelManager.Instance.texture2ds[i].Texture;
-                        return texture;
-                    }
+                    texture = SkyboxManager.Instance.SkyboxTextures2d[i].Texture;
+                    return texture;
                 }
+            }
             texture = TrickyLevelManager.Instance.Error;
         }
         catch
@@ -86,10 +86,5 @@ public class PrefabMeshObject : PrefabMeshBase
             texture = TrickyLevelManager.Instance.Error;
         }
         return texture;
-    }
-
-    public PrefabMeshObject[] GetPrefabMesh()
-    {
-        return GetComponentsInChildren<PrefabMeshObject>();
     }
 }
