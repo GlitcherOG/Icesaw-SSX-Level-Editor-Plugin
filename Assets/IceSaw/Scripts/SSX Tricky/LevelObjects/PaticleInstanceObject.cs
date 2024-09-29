@@ -6,8 +6,13 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class PaticleInstanceObject : MonoBehaviour
+public class PaticleInstanceObject : TrickyBaseObject
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Particle; }
+    }
+
     public int UnknownInt1;
     public float[] LowestXYZ;
     public float[] HighestXYZ;

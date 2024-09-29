@@ -5,11 +5,17 @@ using UnityEditor;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using static SSXMultiTool.JsonFiles.Tricky.LightJsonHandler;
+using static TrickyBaseObject;
 
 [ExecuteInEditMode]
-public class LightObject : MonoBehaviour
+public class LightObject : TrickyBaseObject
 {
-    public LightType Type;
+    public override ObjectType Type
+    {
+        get { return ObjectType.Light; }
+    }
+
+    public LightType lightType;
     public int SpriteRes;
     public float UnknownFloat1;
     public int UnknownInt1;
@@ -27,7 +33,7 @@ public class LightObject : MonoBehaviour
     {
         transform.name = lightJson.LightName;
 
-        Type = (LightType)lightJson.Type;
+        lightType = (LightType)lightJson.Type;
         SpriteRes = lightJson.SpriteRes;
         UnknownFloat1 = lightJson.UnknownFloat1;
         UnknownInt1 = lightJson.UnknownInt1;
@@ -51,7 +57,7 @@ public class LightObject : MonoBehaviour
 
         NewLight.LightName = transform.name;
         NewLight.Postion = JsonUtil.Vector3ToArray(transform.localPosition);
-        NewLight.Type = (int)Type;
+        NewLight.Type = (int)lightType;
         NewLight.SpriteRes = SpriteRes;
         NewLight.UnknownFloat1 = UnknownFloat1;
         NewLight.UnknownInt1 = UnknownInt1;

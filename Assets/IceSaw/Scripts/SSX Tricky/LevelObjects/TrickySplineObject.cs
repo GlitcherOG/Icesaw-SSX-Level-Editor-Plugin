@@ -8,10 +8,16 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
+using static TrickyBaseObject;
 
 [ExecuteInEditMode]
-public class TrickySplineObject : MonoBehaviour
+public class TrickySplineObject : TrickyBaseObject
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.Spline; }
+    }
+
     public int U0;
     public int U1;
     public int SplineStyle;

@@ -22,6 +22,7 @@ public class TrickyBaseObject : MonoBehaviour
         Material,
         Spline,
         Prefab,
+        ParticlePrefab,
         PathA,
         PathB,
         Effect
