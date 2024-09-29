@@ -233,7 +233,7 @@ public class TrickyInstanceObject : TrickyBaseObject
                 }
             }
         }
-        Prefab.SetActive(TrickyWorldManager.Instance.ShowInstanceModels);
+        Prefab.SetActive(TrickyLevelManager.Instance.ShowInstanceModels);
     }
 
     [ContextMenu("Refresh Collision Model")]
@@ -273,7 +273,7 @@ public class TrickyInstanceObject : TrickyBaseObject
                         TempObject.transform.localPosition = new Vector3(0, 0, 0);
                         TempObject.transform.localScale = new Vector3(1, 1, 1);
 
-                        TempObject.AddComponent<MeshFilter>().sharedMesh = TrickyPrefabManager.Instance.GetColMesh(CollsionModelPaths[i]);
+                        TempObject.AddComponent<MeshFilter>().sharedMesh = TrickyLevelManager.Instance.GetColMesh(CollsionModelPaths[i]);
 
                         var TempMaterial = new Material(Shader.Find("Standard"));
                         TempMaterial.color = Color.red;
@@ -332,18 +332,18 @@ public class TrickyInstanceObject : TrickyBaseObject
         //    TempObject.GetComponent<MeshRenderer>().receiveShadows = false;
         //}
 
-        Collision.SetActive(TrickyWorldManager.Instance.ShowCollisionModels);
+        Collision.SetActive(TrickyLevelManager.Instance.ShowCollisionModels);
     }
 
     public void RefreshHiddenModels()
     {
         if (Prefab != null)
         {
-            Prefab.SetActive(TrickyWorldManager.Instance.ShowInstanceModels);
+            Prefab.SetActive(TrickyLevelManager.Instance.ShowInstanceModels);
         }
         if (Collision != null)
         {
-            Collision.SetActive(TrickyWorldManager.Instance.ShowCollisionModels);
+            Collision.SetActive(TrickyLevelManager.Instance.ShowCollisionModels);
         }
     }
 

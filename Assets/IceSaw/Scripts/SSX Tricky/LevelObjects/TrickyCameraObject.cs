@@ -5,10 +5,17 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.CameraJSONHandler;
+using static TrickyBaseObject;
 
-public class TrickyCameraObject : MonoBehaviour
+public class TrickyCameraObject : TrickyBaseObject
 {
-    public int Type;
+    public override ObjectType Type
+    {
+        get { return ObjectType.Camera; }
+    }
+
+
+    public int CameraType;
     public float FocalLength;
     public float AspectRatio;
     public float[] Aperture;
@@ -31,7 +38,7 @@ public class TrickyCameraObject : MonoBehaviour
         transform.localPosition = JsonUtil.ArrayToVector3(cameraInstance.Translation);
         transform.localEulerAngles = JsonUtil.ArrayToVector3(cameraInstance.Rotation);
 
-        Type = cameraInstance.Type;
+        CameraType = cameraInstance.Type;
         FocalLength = cameraInstance.FocalLength;
         AspectRatio = cameraInstance.AspectRatio;
         Aperture = cameraInstance.Aperture;
@@ -80,7 +87,7 @@ public class TrickyCameraObject : MonoBehaviour
         cameraInstance.Translation = JsonUtil.Vector3ToArray(transform.localPosition);
         cameraInstance.Rotation = JsonUtil.Vector3ToArray(transform.localEulerAngles);
 
-        cameraInstance.Type = Type;
+        cameraInstance.Type = CameraType;
         cameraInstance.FocalLength = FocalLength;
         cameraInstance.AspectRatio = AspectRatio;
         cameraInstance.Aperture = Aperture;

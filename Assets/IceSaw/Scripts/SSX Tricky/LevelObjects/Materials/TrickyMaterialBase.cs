@@ -127,11 +127,11 @@ public class TrickyMaterialBase : TrickyBaseObject
             }
             else
             {
-                for (int i = 0; i < SkyboxManager.Instance.SkyboxTextures2d.Count; i++)
+                for (int i = 0; i < TrickyLevelManager.Instance.SkyboxTextures2d.Count; i++)
                 {
-                    if (SkyboxManager.Instance.SkyboxTextures2d[i].Name.ToLower() == TextureID.ToLower())
+                    if (TrickyLevelManager.Instance.SkyboxTextures2d[i].Name.ToLower() == TextureID.ToLower())
                     {
-                        texture = SkyboxManager.Instance.SkyboxTextures2d[i].Texture;
+                        texture = TrickyLevelManager.Instance.SkyboxTextures2d[i].Texture;
                         return texture;
                     }
                 }

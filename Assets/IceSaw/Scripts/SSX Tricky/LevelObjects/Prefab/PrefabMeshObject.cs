@@ -48,7 +48,7 @@ public class PrefabMeshObject : PrefabMeshBase
     [ContextMenu("Refresh Models")]
     public void GenerateModel()
     {
-        mesh = TrickyPrefabManager.Instance.GetMesh(MeshPath);
+        mesh = TrickyLevelManager.Instance.GetMesh(MeshPath);
 
         material = GenerateMaterial(TrickyMaterialObject);
 

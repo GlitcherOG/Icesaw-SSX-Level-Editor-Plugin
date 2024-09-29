@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class TrickySkyboxPrefabObject : TrickyPrefabBase
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.SkyboxPrefab; }
+    }
+
     public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(transform.name);

@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class EffectSlotObject : MonoBehaviour
+public class EffectSlotObject : TrickyBaseObject
 {
+    public override ObjectType Type
+    {
+        get { return ObjectType.EffectSlot; }
+    }
+
     public TrickyEffectHeader PersistantEffectSlot;
     public TrickyEffectHeader CollisionEffectSlot;
     public TrickyEffectHeader Slot3;

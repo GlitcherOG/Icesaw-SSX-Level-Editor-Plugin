@@ -17,10 +17,20 @@ public class TrickyLevelManager : MonoBehaviour
     public bool EditMode;
     [HideInInspector]
     public bool PathEventMode;
+    [HideInInspector]
+    public bool ShowInstanceModels = true;
+    [HideInInspector]
+    public bool ShowCollisionModels = true;
+    [HideInInspector]
+    public DataManager DataManager;
 
     //[OnChangedCall("ForceTextureUpdate")]
+    public List<MeshData> MeshCache = new List<MeshData>();
+    public List<MeshData> CollisionMeshCahce = new List<MeshData>();
     public List<TextureData> texture2ds = new List<TextureData>();
     public List<Texture2D> lightmaps = new List<Texture2D>();
+    public List<TextureData> SkyboxTextures2d = new List<TextureData>();
+    public List<MeshData> SkyboxMeshCache = new List<MeshData>();
 
     public bool LightmapMode;
 
@@ -45,7 +55,7 @@ public class TrickyLevelManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            FixScriptLinks();
+            //FixScriptLinks();
         }
         else if(Instance != this)
         {
@@ -53,100 +63,58 @@ public class TrickyLevelManager : MonoBehaviour
         }
     }
 
-    public void CreateEmptyObjects()
+    public void LoadData(string Path)
     {
-        transform.hideFlags = HideFlags.HideInInspector;
+        DataManager = new DataManager();
+        LoadPath = SSXProjectWindow.CurrentPath;
 
-        //Generate Prefab Manager
-        PrefabManagerHolder = new GameObject("Tricky Prefab Manager");
-        var TempPrefab = PrefabManagerHolder.AddComponent<TrickyPrefabManager>();
-        TempPrefab.runInEditMode = true;
-        TempPrefab.GenerateEmptyObjects();
-        TempPrefab.transform.parent = this.transform;
-        TempPrefab.transform.transform.localScale = new Vector3(1, 1, 1);
-        TempPrefab.transform.localEulerAngles = new Vector3(0, 0, 0);
-        TempPrefab.transform.localPosition = new Vector3(0, 0, 100000);
-
-        //Generate World Manager
-        WorldManagerHolder = new GameObject("Tricky World Manager");
-        WorldManagerHolder.transform.parent = this.transform;
-        WorldManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
-        WorldManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
-        WorldManagerHolder.transform.localPosition = new Vector3(0, 0, 0);
-        var TempWorld = WorldManagerHolder.AddComponent<TrickyWorldManager>();
-        TempWorld.runInEditMode = true;
-        TempWorld.GenerateEmptyObjects();
-
-        //Generate Skybox Manager
-        SkyboxManagerHolder = new GameObject("Tricky Skybox Manager");
-        SkyboxManagerHolder.transform.parent = this.transform;
-        SkyboxManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
-        SkyboxManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
-        SkyboxManagerHolder.transform.localPosition = new Vector3(0, 0, 100000*2);
-        var TempSkybox = SkyboxManagerHolder.AddComponent<SkyboxManager>();
-        TempSkybox.runInEditMode = true;
-        TempSkybox.GenerateEmptyObjects();
-
-        //Generate Logic Manager
-        LogicManager = new GameObject("Tricky Logic Manager");
-        LogicManager.transform.parent = this.transform;
-        LogicManager.transform.transform.localScale = new Vector3(1, 1, 1);
-        LogicManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        var TempLogic = LogicManager.AddComponent<TrickyLogicManager>();
-        TempLogic.runInEditMode = true;
-        TempLogic.GenerateEmptyObjects();
-
-        //Generate Path File Manager
-        PathFileManager = new GameObject("Tricky Path Manager");
-        PathFileManager.transform.parent = this.transform;
-        PathFileManager.transform.transform.localScale = new Vector3(1, 1, 1);
-        PathFileManager.transform.localEulerAngles = new Vector3(0, 0, 0);
-        var TempPathFile = PathFileManager.AddComponent<TrickyPathFileManager>();
-        TempPathFile.runInEditMode = true;
-        TempPathFile.GenerateEmptyObjects();
+        LoadMeshCache(Path + "\\Models");
+        LoadCollisionMeshCache(Path + "\\Collision");
+        LoadTextures();
+        ReloadLightmaps();
+        LoadSkyboxTextures(Path + "\\Skybox");
+        LoadSkyMeshCache(Path + "\\Skybox\\Models");
 
         Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
         Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
         AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
         RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
-    }
 
-    public void LoadData(string Path)
-    {
-        CreateEmptyObjects();
-        LoadPath = SSXProjectWindow.CurrentPath;
+        DataManager.LoadObjects(this.gameObject ,Path);
+        //CreateEmptyObjects();
 
-        LoadTextures();
-        ReloadLightmaps();
-
-        PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
-        WorldManagerHolder.GetComponent<TrickyWorldManager>().LoadData(Path);
-        LogicManager.GetComponent<TrickyLogicManager>().LoadData(Path);
-        SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
-        PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
+        //PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
+        //WorldManagerHolder.GetComponent<TrickyWorldManager>().LoadData(Path);
+        //LogicManager.GetComponent<TrickyLogicManager>().LoadData(Path);
+        //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
+        //PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
 
         PostLoad();
     }
 
     public void PostLoad()
     {
-        PrefabManagerHolder.GetComponent<TrickyPrefabManager>().PostLoad();
-        WorldManagerHolder.GetComponent<TrickyWorldManager>().PostLoad();
-        LogicManager.GetComponent<TrickyLogicManager>().PostLoad();
-        SkyboxManagerHolder.GetComponent<SkyboxManager>().PostLoad();
-        //PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
+        DataManager.RefreshObjectList();
+
+        for (int i = 0; i < DataManager.trickyPrefabObjects.Count; i++)
+        {
+            DataManager.trickyPrefabObjects[i].PostLoad(DataManager.trickyMaterialObjects.ToArray());
+        }
+
+        for (int i = 0; i < DataManager.trickyInstances.Count; i++)
+        {
+            DataManager.trickyInstances[i].PostLoad(DataManager.trickyInstances.ToArray(), DataManager.effectSlotObjects.ToArray(), DataManager.trickyPhysicsObjects.ToArray(), DataManager.trickyPrefabObjects.ToArray());
+        }
+
+        for (int i = 0; i < DataManager.trickySkyboxPrefabObjects.Count; i++)
+        {
+            DataManager.trickySkyboxPrefabObjects[i].PostLoad(DataManager.trickySkyboxMaterialObjects.ToArray());
+        }
     }
 
     public void SaveData(string Path)
     {
-        PrefabManagerHolder.GetComponent<TrickyPrefabManager>().SaveData(Path);
-        WorldManagerHolder.GetComponent<TrickyWorldManager>().SaveData(Path);
-        LogicManager.GetComponent<TrickyLogicManager>().SaveData(Path);
-        SkyboxManagerHolder.GetComponent<SkyboxManager>().SaveData(Path);
-        PathFileManager.GetComponent<TrickyPathFileManager>().SaveData(Path);
 
-        SaveTextures();
-        SaveLightmap();
     }
 
     public void LoadTextures()
@@ -284,6 +252,34 @@ public class TrickyLevelManager : MonoBehaviour
                 NewTexture.Texture = NewImage;
                 texture2ds.Add(NewTexture);
             }
+        }
+    }
+
+    public void LoadMeshCache(string path)
+    {
+        MeshCache = new List<TrickyLevelManager.MeshData>();
+
+        string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            TrickyLevelManager.MeshData TempMesh = new TrickyLevelManager.MeshData();
+            TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.Name = Files[i].Substring(path.Length + 1);
+            MeshCache.Add(TempMesh);
+        }
+    }
+
+    public void LoadCollisionMeshCache(string path)
+    {
+        CollisionMeshCahce = new List<TrickyLevelManager.MeshData>();
+
+        string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            TrickyLevelManager.MeshData TempMesh = new TrickyLevelManager.MeshData();
+            TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.Name = Files[i].Substring(path.Length + 1);
+            CollisionMeshCahce.Add(TempMesh);
         }
     }
 
@@ -438,6 +434,118 @@ public class TrickyLevelManager : MonoBehaviour
         }
     }
 
+    public void LoadSkyMeshCache(string path)
+    {
+        SkyboxMeshCache = new List<MeshData>();
+
+        string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            MeshData TempMesh = new MeshData();
+            TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
+            TempMesh.Name = Files[i].Substring(path.Length + 1);
+            SkyboxMeshCache.Add(TempMesh);
+        }
+    }
+
+    public void LoadSkyboxTextures(string path)
+    {
+        string TextureLoadPath = path + "\\Textures";
+
+        string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
+        SkyboxTextures2d = new List<TextureData>();
+        for (int i = 0; i < Files.Length; i++)
+        {
+            Texture2D NewImage = new Texture2D(1, 1);
+            if (Files[i].ToLower().Contains(".png"))
+            {
+                using (Stream stream = File.Open(Files[i], FileMode.Open))
+                {
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, (int)stream.Length);
+                    NewImage.LoadImage(bytes);
+                    NewImage.name = Files[i].Substring(TextureLoadPath.Length + 1);
+                    //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
+                }
+                var NewTexture = new TextureData();
+                NewTexture.Name = NewImage.name;
+                NewTexture.Texture = NewImage;
+                SkyboxTextures2d.Add(NewTexture);
+            }
+        }
+    }
+    public Mesh GetMesh(string MeshPath)
+    {
+        Mesh mesh = null;
+
+        for (int i = 0; i < MeshCache.Count; i++)
+        {
+            if (MeshCache[i].Name == MeshPath)
+            {
+                mesh = MeshCache[i].mesh;
+            }
+        }
+
+        if (mesh == null)
+        {
+            mesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\tinker.obj", typeof(Mesh));
+        }
+
+        return mesh;
+
+    }
+
+    public Mesh GetSkyboxMesh(string MeshPath)
+    {
+        Mesh mesh = null;
+
+        for (int i = 0; i < SkyboxMeshCache.Count; i++)
+        {
+            if (SkyboxMeshCache[i].Name == MeshPath)
+            {
+                mesh = SkyboxMeshCache[i].mesh;
+            }
+        }
+
+        if (mesh == null)
+        {
+            mesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\tinker.obj", typeof(Mesh));
+        }
+
+        return mesh;
+
+    }
+
+    public Mesh GetColMesh(string MeshPath)
+    {
+        Mesh mesh = null;
+
+        for (int i = 0; i < CollisionMeshCahce.Count; i++)
+        {
+            if (CollisionMeshCahce[i].Name == MeshPath)
+            {
+                mesh = CollisionMeshCahce[i].mesh;
+            }
+        }
+
+        if (mesh == null)
+        {
+            mesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Mesh\\tinker.obj", typeof(Mesh));
+        }
+
+        return mesh;
+
+    }
+
+    public Material CreateLineMaterial(string Path)
+    {
+        Material material = new Material(Shader.Find("Unlit/Texture"));
+
+        material.mainTexture = (Texture2D)AssetDatabase.LoadAssetAtPath(Path, typeof(Texture2D));
+
+        return material;
+    }
+
     [ContextMenu("Fix Script Links")]
     public void FixScriptLinks()
     {
@@ -474,20 +582,18 @@ public class TrickyLevelManager : MonoBehaviour
         }
     }
 
-    public Material CreateLineMaterial(string Path)
-    {
-        Material material = new Material(Shader.Find("Unlit/Texture"));
-
-        material.mainTexture = (Texture2D)AssetDatabase.LoadAssetAtPath(Path, typeof(Texture2D));
-
-        return material;
-    }
-
     [System.Serializable]
     public struct TextureData
     {
         public string Name;
         public Texture2D Texture;
+    }
+
+    [System.Serializable]
+    public struct MeshData
+    {
+        public string Name;
+        public Mesh mesh;
     }
 
     private void OnEnable()

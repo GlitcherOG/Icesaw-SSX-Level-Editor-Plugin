@@ -16,8 +16,8 @@ public class TrickyPrefabManager : MonoBehaviour
     public GameObject MaterialHolder;
     public GameObject ParticlePrefabHolder;
 
-    public List<MeshData> MeshCache = new List<MeshData>();
-    public List<MeshData> CollisionMeshCahce = new List<MeshData>();
+    public List<TrickyLevelManager.MeshData> MeshCache = new List<TrickyLevelManager.MeshData>();
+    public List<TrickyLevelManager.MeshData> CollisionMeshCahce = new List<TrickyLevelManager.MeshData>();
 
     public void Awake()
     {
@@ -69,12 +69,12 @@ public class TrickyPrefabManager : MonoBehaviour
 
     public void LoadMeshCache(string path)
     {
-        MeshCache = new List<MeshData>();
+        MeshCache = new List<TrickyLevelManager.MeshData>();
 
         string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
         for (int i = 0; i < Files.Length; i++)
         {
-            MeshData TempMesh = new MeshData();
+            TrickyLevelManager.MeshData TempMesh = new TrickyLevelManager.MeshData();
             TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
             TempMesh.Name = Files[i].Substring(path.Length + 1);
             MeshCache.Add(TempMesh);
@@ -83,12 +83,12 @@ public class TrickyPrefabManager : MonoBehaviour
 
     public void LoadCollisionMeshCache(string path)
     {
-        CollisionMeshCahce = new List<MeshData>();
+        CollisionMeshCahce = new List<TrickyLevelManager.MeshData>();
 
         string[] Files = Directory.GetFiles(path, "*.obj", SearchOption.AllDirectories);
         for (int i = 0; i < Files.Length; i++)
         {
-            MeshData TempMesh = new MeshData();
+            TrickyLevelManager.MeshData TempMesh = new TrickyLevelManager.MeshData();
             TempMesh.mesh = ObjImporter.ObjLoad(Files[i]);
             TempMesh.Name = Files[i].Substring(path.Length + 1);
             CollisionMeshCahce.Add(TempMesh);
@@ -444,12 +444,5 @@ public class TrickyPrefabManager : MonoBehaviour
                 ZPosition += 10000;
             }
         }
-    }
-
-    [System.Serializable]
-    public struct MeshData
-    {
-        public string Name;
-        public Mesh mesh;
     }
 }
