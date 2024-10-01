@@ -76,7 +76,7 @@ public class OGMeshObject : MonoBehaviour
         }
         else
         {
-            mesh = SkyboxManager.Instance.GetMesh(MeshPath);
+            //mesh = SkyboxManager.Instance.GetMesh(MeshPath);
         }
         material = GenerateMaterial(MaterialID, transform.parent.GetComponent<OGPrefabObject>().SkyboxModel);
 
@@ -98,7 +98,7 @@ public class OGMeshObject : MonoBehaviour
             }
             else
             {
-                TextureID = SkyboxManager.Instance.GetMaterialObject(MaterialID).TexturePath;
+                //TextureID = SkyboxManager.Instance.GetMaterialObject(MaterialID).TexturePath;
             }
         }
         material.SetTexture("_MainTexture", GetTexture(TextureID, Skybox));
@@ -123,14 +123,14 @@ public class OGMeshObject : MonoBehaviour
             }
             else
             {
-                for (int i = 0; i < SkyboxManager.Instance.SkyboxTextures2d.Count; i++)
-                {
-                    if (SkyboxManager.Instance.SkyboxTextures2d[i].Name.ToLower() == TextureID.ToLower())
-                    {
-                        texture = SkyboxManager.Instance.SkyboxTextures2d[i].Texture;
-                        return texture;
-                    }
-                }
+                //for (int i = 0; i < SkyboxManager.Instance.SkyboxTextures2d.Count; i++)
+                //{
+                //    if (SkyboxManager.Instance.SkyboxTextures2d[i].Name.ToLower() == TextureID.ToLower())
+                //    {
+                //        texture = SkyboxManager.Instance.SkyboxTextures2d[i].Texture;
+                //        return texture;
+                //    }
+                //}
             }
             texture = OGLevelManager.Instance.Error;
         }

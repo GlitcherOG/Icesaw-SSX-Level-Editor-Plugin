@@ -9,8 +9,11 @@ public class IceSawTrackExportTrackExport
     [MenuItem("Ice Saw/Export Track")]
     public static void ExportTrackData()
     {
-        if (TrickyLevelManager.Instance != null && TrickyPrefabManager.Instance != null && TrickyWorldManager.Instance)
+        if (TrickyLevelManager.Instance != null)
         {
+            var DataManager = TrickyLevelManager.Instance.dataManager;
+            DataManager.RefreshObjectList();
+
             //Get Save path
             //Sandard method of having them save an obj file and stripping out the obj file to get a path
             string SavePath = EditorUtility.SaveFilePanel("Open SSX Tricky Model", "", "OBJ Model", "obj");
@@ -18,14 +21,14 @@ public class IceSawTrackExportTrackExport
             //Generate MMD List
             List<ObjExporter.MassModelData> MMD = new List<ObjExporter.MassModelData>();
 
-            var TempPatchList = TrickyWorldManager.Instance.GetPatchList();
-            for (int i = 0; i < TempPatchList.Length; i++)
+            var TempPatchList = DataManager.trickyPatchObjects;
+            for (int i = 0; i < TempPatchList.Count; i++)
             {
                 MMD.Add(TempPatchList[i].GenerateModel());
             }
 
-            var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
-            for (int i = 0; i < TempInstanceList.Length; i++)
+            var TempInstanceList = DataManager.trickyInstances;
+            for (int i = 0; i < TempInstanceList.Count; i++)
             {
                 MMD.AddRange(TempInstanceList[i].GenerateModel());
             }

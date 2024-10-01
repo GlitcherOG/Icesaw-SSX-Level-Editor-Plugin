@@ -344,7 +344,7 @@ public class OGPrefabManager : MonoBehaviour
         LoadCollisionMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Collision");
 
         //Reload Instances
-        var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
+        var TempInstanceList = OGWorldManager.Instance.GetInstanceList();
 
         for (int i = 0; i < TempInstanceList.Length; i++)
         {
@@ -411,7 +411,7 @@ public class OGPrefabManager : MonoBehaviour
         float ZPosition = 0;
         int X = 0;
 
-        var PrefabJson = TrickyPrefabManager.Instance.GetMaterialList();
+        var PrefabJson = OGPrefabManager.Instance.GetMaterialList();
         int WH = (int)Mathf.Sqrt(PrefabJson.Length);
         for (int i = 0; i < PrefabJson.Length; i++)
         {

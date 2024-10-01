@@ -44,11 +44,13 @@ public class IceSawPatchesViewWindow : EditorWindow
             }
         }
         else
-        if (TrickyWorldManager.Instance != null)
+        if (TrickyLevelManager.Instance != null)
         {
+            var TempDataManager = TrickyLevelManager.Instance.dataManager;
+            TempDataManager.RefreshObjectList();
             if (GUILayout.Button("Highlight"))
             {
-                TrickyPatchObject[] patchObjects = TrickyWorldManager.Instance.GetPatchList();
+                TrickyPatchObject[] patchObjects = TempDataManager.trickyPatchObjects.ToArray();
                 for (int i = 0; i < patchObjects.Length; i++)
                 {
                     if (patchObjects[i].SurfaceType == (TrickyPatchObject.PatchSurfaceType)Type)
@@ -59,7 +61,7 @@ public class IceSawPatchesViewWindow : EditorWindow
             }
             if (GUILayout.Button("Reset"))
             {
-                TrickyPatchObject[] patchObjects = TrickyWorldManager.Instance.GetPatchList();
+                TrickyPatchObject[] patchObjects = TempDataManager.trickyPatchObjects.ToArray();
                 for (int i = 0; i < patchObjects.Length; i++)
                 {
                     patchObjects[i].UpdateHighlight(Color.white);

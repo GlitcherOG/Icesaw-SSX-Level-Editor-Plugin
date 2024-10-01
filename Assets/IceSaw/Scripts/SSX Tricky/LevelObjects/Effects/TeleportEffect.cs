@@ -35,7 +35,7 @@ public class TeleportEffect : EffectBase
 
         if (InstanceObject != null)
         {
-            NewEffect.TeleportInstanceIndex = InstanceObject.transform.GetSiblingIndex();
+            NewEffect.TeleportInstanceIndex = TrickyLevelManager.Instance.dataManager.GetInstanceID(InstanceObject);
         }
         else
         {

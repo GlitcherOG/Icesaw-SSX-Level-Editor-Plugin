@@ -22,7 +22,7 @@ public class TrickyLevelManager : MonoBehaviour
     [HideInInspector]
     public bool ShowCollisionModels = true;
     [HideInInspector]
-    public DataManager DataManager;
+    public DataManager dataManager;
 
     //[OnChangedCall("ForceTextureUpdate")]
     public List<MeshData> MeshCache = new List<MeshData>();
@@ -65,7 +65,7 @@ public class TrickyLevelManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
-        DataManager = new DataManager();
+        dataManager = new DataManager();
         LoadPath = SSXProjectWindow.CurrentPath;
 
         LoadMeshCache(Path + "\\Models");
@@ -80,7 +80,7 @@ public class TrickyLevelManager : MonoBehaviour
         AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
         RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
 
-        DataManager.LoadObjects(this.gameObject ,Path);
+        dataManager.LoadObjects(this.gameObject ,Path);
         //CreateEmptyObjects();
 
         //PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
@@ -94,27 +94,43 @@ public class TrickyLevelManager : MonoBehaviour
 
     public void PostLoad()
     {
-        DataManager.RefreshObjectList();
+        dataManager.RefreshObjectList();
 
-        for (int i = 0; i < DataManager.trickyPrefabObjects.Count; i++)
+        for (int i = 0; i < dataManager.trickyPrefabObjects.Count; i++)
         {
-            DataManager.trickyPrefabObjects[i].PostLoad(DataManager.trickyMaterialObjects.ToArray());
+            dataManager.trickyPrefabObjects[i].PostLoad(dataManager.trickyMaterialObjects.ToArray());
         }
 
-        for (int i = 0; i < DataManager.trickyInstances.Count; i++)
+        for (int i = 0; i < dataManager.trickyInstances.Count; i++)
         {
-            DataManager.trickyInstances[i].PostLoad(DataManager.trickyInstances.ToArray(), DataManager.effectSlotObjects.ToArray(), DataManager.trickyPhysicsObjects.ToArray(), DataManager.trickyPrefabObjects.ToArray());
+            dataManager.trickyInstances[i].PostLoad(dataManager.trickyInstances.ToArray(), dataManager.effectSlotObjects.ToArray(), dataManager.trickyPhysicsObjects.ToArray(), dataManager.trickyPrefabObjects.ToArray());
         }
 
-        for (int i = 0; i < DataManager.trickySkyboxPrefabObjects.Count; i++)
+        for (int i = 0; i < dataManager.trickySkyboxPrefabObjects.Count; i++)
         {
-            DataManager.trickySkyboxPrefabObjects[i].PostLoad(DataManager.trickySkyboxMaterialObjects.ToArray());
+            dataManager.trickySkyboxPrefabObjects[i].PostLoad(dataManager.trickySkyboxMaterialObjects.ToArray());
+        }
+
+        for (int i = 0; i < dataManager.effectSlotObjects.Count; i++)
+        {
+            dataManager.effectSlotObjects[i].PostLoad(dataManager.trickyEffectHeaders.ToArray());
+        }
+
+        for (int i = 0; i < dataManager.trickyEffectHeaders.Count; i++)
+        {
+            dataManager.trickyEffectHeaders[i].PostLoad(dataManager.trickyInstances.ToArray(), dataManager.trickyEffectHeaders.ToArray(), dataManager.trickySplineObjects.ToArray(), dataManager.trickyFunctionHeaders.ToArray());
+        }
+
+        for (int i = 0; i < dataManager.trickyFunctionHeaders.Count; i++)
+        {
+            dataManager.trickyFunctionHeaders[i].PostLoad(dataManager.trickyInstances.ToArray(), dataManager.trickyEffectHeaders.ToArray(), dataManager.trickySplineObjects.ToArray(), dataManager.trickyFunctionHeaders.ToArray());
         }
     }
 
     public void SaveData(string Path)
     {
-
+        dataManager.RefreshObjectList();
+        dataManager.SaveData(Path);
     }
 
     public void LoadTextures()
@@ -383,13 +399,16 @@ public class TrickyLevelManager : MonoBehaviour
     {
         ReloadTextures();
         ForceTextureUpdate();
+        ReloadSkyboxTextures();
     }
 
     [ContextMenu("Force Texture Update")]
     public void ForceTextureUpdate()
     {
+        dataManager.RefreshObjectList();
+
         //Reload Patches
-        var TempPatches = TrickyWorldManager.Instance.GetPatchList();
+        var TempPatches = dataManager.trickyPatchObjects.ToArray();
 
         for (int i = 0; i < TempPatches.Length; i++)
         {
@@ -397,7 +416,7 @@ public class TrickyLevelManager : MonoBehaviour
         }
 
         //Reload Materials
-        var TempMaterials = TrickyPrefabManager.Instance.GetMaterialList();
+        var TempMaterials = dataManager.trickyMaterialObjects.ToArray();
 
         for (int i = 0; i < TempMaterials.Length; i++)
         {
@@ -405,7 +424,7 @@ public class TrickyLevelManager : MonoBehaviour
         }
 
         //Reload Prefabs
-        var TempPrefabs = TrickyPrefabManager.Instance.GetPrefabList();
+        var TempPrefabs = dataManager.trickyPrefabObjects.ToArray();
 
         for (int i = 0; i < TempPrefabs.Length; i++)
         {
@@ -413,11 +432,27 @@ public class TrickyLevelManager : MonoBehaviour
         }
 
         //Reload Instances
-        var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
+        var TempInstanceList = dataManager.trickyInstances.ToArray();
 
         for (int i = 0; i < TempInstanceList.Length; i++)
         {
             TempInstanceList[i].LoadPrefabs();
+        }
+
+        //Reload Skybox Materials
+        var TempSkyboxMaterials = dataManager.trickySkyboxMaterialObjects.ToArray();
+
+        for (int i = 0; i < TempSkyboxMaterials.Length; i++)
+        {
+            TempSkyboxMaterials[i].GenerateMaterialSphere();
+        }
+
+        //Reload Prefabs
+        var TempSkyboxPrefabs = dataManager.trickySkyboxPrefabObjects.ToArray();
+
+        for (int i = 0; i < TempSkyboxPrefabs.Length; i++)
+        {
+            TempSkyboxPrefabs[i].ForceReloadMeshMat();
         }
     }
 
@@ -426,7 +461,9 @@ public class TrickyLevelManager : MonoBehaviour
     {
         ReloadLightmaps();
 
-        var TempList = TrickyWorldManager.Instance.GetPatchList();
+        dataManager.RefreshObjectList();
+
+        var TempList = dataManager.trickyPatchObjects.ToArray();
 
         for (int i = 0; i < TempList.Length; i++)
         {
@@ -474,6 +511,161 @@ public class TrickyLevelManager : MonoBehaviour
             }
         }
     }
+
+    public void ReloadSkyboxTextures()
+    {
+        string TextureLoadPath = TrickyLevelManager.Instance.LoadPath + "\\Skybox\\Textures";
+
+        string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
+        for (int i = 0; i < Files.Length; i++)
+        {
+            var FileName = Files[i].TrimStart(TextureLoadPath.ToCharArray());
+
+            Texture2D NewImage = new Texture2D(1, 1);
+            if (Files[i].ToLower().Contains(".png"))
+            {
+                using (Stream stream = File.Open(Files[i], FileMode.Open))
+                {
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, (int)stream.Length);
+                    NewImage.LoadImage(bytes);
+                    NewImage.name = Files[i].Substring(TextureLoadPath.Length + 1);
+                    //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
+                }
+            }
+
+            bool TestIfExists = false;
+            for (int a = 0; a < SkyboxTextures2d.Count; a++)
+            {
+                if (SkyboxTextures2d[i].Name == FileName)
+                {
+                    TestIfExists = true;
+                    var Temp = SkyboxTextures2d[i];
+                    Temp.Texture = NewImage;
+                    SkyboxTextures2d[i] = Temp;
+                }
+            }
+
+            if (!TestIfExists)
+            {
+                var NewTexture = new TextureData();
+                NewTexture.Name = NewImage.name;
+                NewTexture.Texture = NewImage;
+                SkyboxTextures2d.Add(NewTexture);
+            }
+        }
+    }
+
+    [ContextMenu("Reload Collision")]
+    public void ReloadCollision()
+    {
+        LoadCollisionMeshCache(LoadPath + "\\Collision");
+
+        dataManager.RefreshObjectList();
+
+        //Reload Instances
+        var TempInstanceList = dataManager.trickyInstances;
+
+        for (int i = 0; i < TempInstanceList.Count; i++)
+        {
+            TempInstanceList[i].LoadCollisionModels();
+        }
+    }
+
+    [ContextMenu("Reload Models")]
+    public void RefreshModels()
+    {
+        dataManager.RefreshObjectList();
+
+        LoadMeshCache(TrickyLevelManager.Instance.LoadPath + "\\Models");
+
+        //Reload Prefabs
+        var TempPrefabs = dataManager.trickyPrefabObjects;
+
+        for (int i = 0; i < TempPrefabs.Count; i++)
+        {
+            TempPrefabs[i].ForceReloadMeshMat();
+        }
+
+        //Reload Instances
+        var TempInstanceList = dataManager.trickyInstances;
+
+        for (int i = 0; i < TempInstanceList.Count; i++)
+        {
+            TempInstanceList[i].LoadPrefabs();
+        }
+
+        LoadSkyMeshCache(LoadPath + "\\Skybox\\Models");
+        //Reload Prefabs
+        var TempSkyboxPrefabs = dataManager.trickySkyboxPrefabObjects.ToArray();
+
+        for (int i = 0; i < TempSkyboxPrefabs.Length; i++)
+        {
+            TempSkyboxPrefabs[i].ForceReloadMeshMat();
+        }
+
+    }
+
+    //[ContextMenu("Regen Prefab Square")]
+    //public void PrefabSquare()
+    //{
+    //    float XPosition = 0;
+    //    float ZPosition = 0;
+    //    int X = 0;
+
+    //    var PrefabJson = TrickyPrefabManager.Instance.GetPrefabList();
+    //    int WH = (int)Mathf.Sqrt(PrefabJson.Length);
+    //    for (int i = 0; i < PrefabJson.Length; i++)
+    //    {
+    //        var TempModelJson = PrefabJson[i].gameObject;
+    //        TempModelJson.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
+    //        TempModelJson.transform.localEulerAngles = new Vector3(0, 0, 0);
+    //        TempModelJson.transform.localScale = new Vector3(1, 1, 1);
+
+    //        if (X != WH)
+    //        {
+    //            XPosition += 10000;
+    //            X++;
+    //        }
+    //        else
+    //        {
+    //            XPosition = 0;
+    //            X = 0;
+    //            ZPosition += 10000;
+    //        }
+    //    }
+    //}
+
+    //[ContextMenu("Regen Material Square")]
+    //public void MatSquare()
+    //{
+    //    float XPosition = 0;
+    //    float ZPosition = 0;
+    //    int X = 0;
+
+    //    var PrefabJson = TrickyPrefabManager.Instance.GetMaterialList();
+    //    int WH = (int)Mathf.Sqrt(PrefabJson.Length);
+    //    for (int i = 0; i < PrefabJson.Length; i++)
+    //    {
+    //        var TempModelJson = PrefabJson[i].gameObject;
+    //        TempModelJson.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
+    //        TempModelJson.transform.localEulerAngles = new Vector3(0, 0, 0);
+    //        TempModelJson.transform.localScale = new Vector3(1, 1, 1);
+
+    //        if (X != WH)
+    //        {
+    //            XPosition += 10000;
+    //            X++;
+    //        }
+    //        else
+    //        {
+    //            XPosition = 0;
+    //            X = 0;
+    //            ZPosition += 10000;
+    //        }
+    //    }
+    //}
+
     public Mesh GetMesh(string MeshPath)
     {
         Mesh mesh = null;
@@ -550,37 +742,9 @@ public class TrickyLevelManager : MonoBehaviour
     public void FixScriptLinks()
     {
         Awake();
-
-        if (gameObject.GetComponentInChildren<TrickyLogicManager>() != null)
-        {
-            LogicManager = gameObject.GetComponentInChildren<TrickyLogicManager>().gameObject;
-            LogicManager.GetComponent<TrickyLogicManager>().Awake();
-        }
-
-        if (gameObject.GetComponentInChildren<TrickyPrefabManager>() != null)
-        {
-            PrefabManagerHolder = gameObject.GetComponentInChildren<TrickyPrefabManager>().gameObject;
-            PrefabManagerHolder.GetComponent<TrickyPrefabManager>().Awake();
-        }
-
-        if (gameObject.GetComponentInChildren<TrickyWorldManager>())
-        {
-            WorldManagerHolder = gameObject.GetComponentInChildren<TrickyWorldManager>().gameObject;
-            WorldManagerHolder.GetComponent<TrickyWorldManager>().Awake();
-        }
-
-        if (gameObject.GetComponentInChildren<SkyboxManager>() != null)
-        {
-            SkyboxManagerHolder = gameObject.GetComponentInChildren<SkyboxManager>().gameObject;
-            SkyboxManagerHolder.GetComponent<SkyboxManager>().Awake();
-        }
-
-        if (gameObject.GetComponentInChildren<TrickyPathFileManager>() != null)
-        {
-            PathFileManager = gameObject.GetComponentInChildren<TrickyPathFileManager>().gameObject;
-            PathFileManager.GetComponent<TrickyPathFileManager>().Awake();
-        }
     }
+
+
 
     [System.Serializable]
     public struct TextureData

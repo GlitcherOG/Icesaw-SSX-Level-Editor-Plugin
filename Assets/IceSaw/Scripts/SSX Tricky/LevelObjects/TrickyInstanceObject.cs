@@ -368,8 +368,8 @@ public class TrickyInstanceObject : TrickyBaseObject
 
         if (PrefabObject != null)
         {
-            TempInstance.ModelID = PrefabObject.transform.GetSiblingIndex();
-            TempInstance.ModelID2 = PrefabObject.transform.GetSiblingIndex();
+            TempInstance.ModelID = TrickyLevelManager.Instance.dataManager.GetPrefabID(PrefabObject);
+            TempInstance.ModelID2 = TempInstance.ModelID;
         }
         else
         {
@@ -379,7 +379,7 @@ public class TrickyInstanceObject : TrickyBaseObject
 
         if(PrevInstanceObject != null)
         {
-            TempInstance.PrevInstance = PrevInstanceObject.transform.GetSiblingIndex();
+            TempInstance.PrevInstance = TrickyLevelManager.Instance.dataManager.GetInstanceID(PrevInstanceObject);
         }
         else
         {
@@ -388,7 +388,7 @@ public class TrickyInstanceObject : TrickyBaseObject
 
         if (NextInstanceObject != null)
         {
-            TempInstance.NextInstance = NextInstanceObject.transform.GetSiblingIndex();
+            TempInstance.NextInstance = TrickyLevelManager.Instance.dataManager.GetInstanceID(NextInstanceObject);
         }
         else
         {
@@ -449,7 +449,7 @@ public class TrickyInstanceObject : TrickyBaseObject
 
         if (EffectSlotObject != null)
         {
-            TempInstance.EffectSlotIndex = EffectSlotObject.transform.GetSiblingIndex();
+            TempInstance.EffectSlotIndex = TrickyLevelManager.Instance.dataManager.GetEffectSlotID(EffectSlotObject);
         }
         else
         {
@@ -458,7 +458,7 @@ public class TrickyInstanceObject : TrickyBaseObject
 
         if(PhysicsObject!=null)
         {
-            TempInstance.PhysicsIndex = PhysicsObject.transform.GetSiblingIndex();
+            TempInstance.PhysicsIndex = TrickyLevelManager.Instance.dataManager.GetPhysicstID(PhysicsObject);
         }
         else
         {
@@ -570,7 +570,7 @@ public class TrickyInstanceObject : TrickyBaseObject
 
     public List<ObjExporter.MassModelData> GenerateModel()
     {
-        string[] TempTextures = TrickyPrefabManager.Instance.GetPrefabObject(ModelID).GetTextureNames();
+        string[] TempTextures = PrefabObject.GetTextureNames();
         MeshFilter[] ObjectList = Prefab.GetComponentsInChildren<MeshFilter>();
         List<ObjExporter.MassModelData> MainList = new List<ObjExporter.MassModelData>();
         for (int a = 0; a < ObjectList.Length; a++)

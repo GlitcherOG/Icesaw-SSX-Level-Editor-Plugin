@@ -46,7 +46,7 @@ public class SplineRunEffect : EffectBase
 
         if (SplineObject != null)
         {
-            NewInstanceEffect.SplineIndex = SplineObject.transform.GetSiblingIndex();
+            NewInstanceEffect.SplineIndex = TrickyLevelManager.Instance.dataManager.GetSplineID(SplineObject);
         }
         else
         {
@@ -55,7 +55,7 @@ public class SplineRunEffect : EffectBase
 
         if (EffectHeader != null)
         {
-            NewInstanceEffect.Effect = EffectHeader.transform.GetSiblingIndex();
+            NewInstanceEffect.Effect = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(EffectHeader);
         }
         else
         {

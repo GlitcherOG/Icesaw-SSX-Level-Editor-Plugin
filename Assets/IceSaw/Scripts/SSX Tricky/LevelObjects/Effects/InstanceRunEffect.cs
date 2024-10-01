@@ -47,7 +47,7 @@ public class InstanceRunEffect : EffectBase
 
         if(InstanceObject != null)
         {
-            NewInstanceEffect.InstanceIndex = InstanceObject.transform.GetSiblingIndex();
+            NewInstanceEffect.InstanceIndex = TrickyLevelManager.Instance.dataManager.GetInstanceID(InstanceObject);
         }    
         else
         {
@@ -56,7 +56,7 @@ public class InstanceRunEffect : EffectBase
 
         if (EffectHeaderObject != null)
         {
-            NewInstanceEffect.EffectIndex = EffectHeaderObject.transform.GetSiblingIndex();
+            NewInstanceEffect.EffectIndex = TrickyLevelManager.Instance.dataManager.GetEffectID(EffectHeaderObject);
         }
         else
         {
@@ -66,27 +66,5 @@ public class InstanceRunEffect : EffectBase
         NewEffect.Instance = NewInstanceEffect;
 
         return NewEffect;
-    }
-
-    [ContextMenu("Goto Instance")]
-    public void GotoInstance()
-    {
-        var TempList = TrickyWorldManager.Instance.GetInstanceList();
-
-        if (TempList.Length - 1 >= InstanceIndex)
-        {
-            Selection.activeObject = TempList[InstanceIndex].gameObject;
-        }
-    }
-
-    [ContextMenu("Goto Effect")]
-    public void GotoEffect()
-    {
-        var TempList = TrickyLogicManager.Instance.GetEffectObjects();
-
-        if (TempList.Length - 1 >= EffectIndex)
-        {
-            Selection.activeObject = TempList[EffectIndex];
-        }
     }
 }

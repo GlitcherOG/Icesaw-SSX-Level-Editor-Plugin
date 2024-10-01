@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -951,4 +952,112 @@ public class DataManager
         trickyShowoffPaths.SaveJson(Path);
     }
     #endregion
+
+    public int GetInstanceID(TrickyInstanceObject trickyInstanceObject)
+    {
+        int ID = -1;
+
+        if(trickyInstances.Contains(trickyInstanceObject))
+        {
+            ID = trickyInstances.IndexOf(trickyInstanceObject);
+        }
+
+        return ID;
+    }
+
+    public int GetSplineID(TrickySplineObject trickySplineObject)
+    {
+        int ID = -1;
+
+        if (trickySplineObjects.Contains(trickySplineObject))
+        {
+            ID = trickySplineObjects.IndexOf(trickySplineObject);
+        }
+
+        return ID;
+    }
+
+    public int GetPrefabID(TrickyPrefabObject trickyPrefabObject)
+    {
+        int ID = -1;
+
+        if (trickyPrefabObjects.Contains(trickyPrefabObject))
+        {
+            ID = trickyPrefabObjects.IndexOf(trickyPrefabObject);
+        }
+
+        return ID;
+    }
+
+    public int GetEffectSlotID(EffectSlotObject effectSlotObject)
+    {
+        int ID = -1;
+
+        if (effectSlotObjects.Contains(effectSlotObject))
+        {
+            ID = effectSlotObjects.IndexOf(effectSlotObject);
+        }
+
+        return ID;
+    }
+
+    public int GetPhysicstID(PhysicsObject physicsObject)
+    {
+        int ID = -1;
+
+        if (trickyPhysicsObjects.Contains(physicsObject))
+        {
+            ID = trickyPhysicsObjects.IndexOf(physicsObject);
+        }
+
+        return ID;
+    }
+
+    public int GetFunctionID(TrickyFunctionHeader trickyFunctionHeader)
+    {
+        int ID = -1;
+
+        if (trickyFunctionHeaders.Contains(trickyFunctionHeader))
+        {
+            ID = trickyFunctionHeaders.IndexOf(trickyFunctionHeader);
+        }
+
+        return ID;
+    }
+
+    public int GetEffectID(TrickyEffectHeader trickyEffectHeader)
+    {
+        int ID = -1;
+
+        if (trickyEffectHeaders.Contains(trickyEffectHeader))
+        {
+            ID = trickyEffectHeaders.IndexOf(trickyEffectHeader);
+        }
+
+        return ID;
+    }
+
+    public int GetSkyboxMaterialID(TrickySkyboxMaterialObject trickySkyboxMaterialObject)
+    {
+        int ID = -1;
+
+        if (trickySkyboxMaterialObjects.Contains(trickySkyboxMaterialObject))
+        {
+            ID = trickySkyboxMaterialObjects.IndexOf(trickySkyboxMaterialObject);
+        }
+
+        return ID;
+    }
+
+    public int GetEffectHeaderID(TrickyEffectHeader trickyEffectHeader)
+    {
+        int ID = -1;
+
+        if (trickyEffectHeaders.Contains(trickyEffectHeader))
+        {
+            ID = trickyEffectHeaders.IndexOf(trickyEffectHeader);
+        }
+
+        return ID;
+    }
 }

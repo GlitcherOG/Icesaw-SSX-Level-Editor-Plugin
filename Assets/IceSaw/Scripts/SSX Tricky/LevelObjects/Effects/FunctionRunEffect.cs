@@ -35,7 +35,7 @@ public class FunctionRunEffect : EffectBase
 
         if(FunctionObject!=null)
         {
-            NewEffect.FunctionRunIndex = FunctionObject.transform.GetSiblingIndex();
+            NewEffect.FunctionRunIndex = TrickyLevelManager.Instance.dataManager.GetFunctionID(FunctionObject);
         }
         else
         {

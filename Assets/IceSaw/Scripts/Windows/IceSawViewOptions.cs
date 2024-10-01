@@ -8,35 +8,41 @@ public class IceSawViewOptions
     [MenuItem("Ice Saw/View/Show All",false,10)]
     public static void ShowAll()
     {
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
         //Grab Patches
-        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TempDataManager.trickyPatchObjects.ToArray();
         for (int i = 0; i < patchObject.Length; i++)
         {
             patchObject[i].gameObject.SetActive(true);
         }
 
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
             instanceObjects[i].gameObject.SetActive(true);
         }
 
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
         }
 
-        TrickyPathFileManager.Instance.AIPHolder.SetActive(true);
-        TrickyPathFileManager.Instance.SOPHolder.SetActive(true);
+        TempDataManager.trickyGeneralPaths.gameObject.SetActive(true);
+        TempDataManager.trickyShowoffPaths.gameObject.SetActive(true);
     }
 
     [MenuItem("Ice Saw/View/Race Only", false, 10)]
     public static void RaceOnly()
     {
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
         //Grab Patches
-        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TempDataManager.trickyPatchObjects.ToArray();
         for (int i = 0; i < patchObject.Length; i++)
         {
             if (patchObject[i].TrickOnlyPatch)
@@ -49,7 +55,7 @@ public class IceSawViewOptions
             }
         }
 
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
@@ -63,42 +69,45 @@ public class IceSawViewOptions
             }
         }
 
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
         }
 
-        //Run Effect
-        if(TrickyLogicManager.Instance==null)
-        {
-            Debug.Log("IceSaw - NotNull");
-        }
+        ////Run Effect
+        //if(TrickyLogicManager.Instance==null)
+        //{
+        //    Debug.Log("IceSaw - NotNull");
+        //}
 
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "RaceMode")
+            if (FunctionList[i].transform.name == "RaceMode")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
 
-        TrickyPathFileManager.Instance.SOPHolder.SetActive(false);
-        TrickyPathFileManager.Instance.AIPHolder.SetActive(true);
+        TempDataManager.trickyGeneralPaths.gameObject.SetActive(false);
+        TempDataManager.trickyShowoffPaths.gameObject.SetActive(true);
     }
 
     [MenuItem("Ice Saw/View/Showoff Only", false, 10)]
     public static void ShowOffOnly()
     {
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
         //Grab Patches
-        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TempDataManager.trickyPatchObjects.ToArray();
         for (int i = 0; i < patchObject.Length; i++)
         {
             patchObject[i].gameObject.SetActive(true);
         }
 
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
@@ -112,31 +121,34 @@ public class IceSawViewOptions
             }
         }
 
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
         }
 
         //Run Effect
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "ShowoffMode")
+            if (FunctionList[i].transform.name == "ShowoffMode")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
 
-        TrickyPathFileManager.Instance.SOPHolder.SetActive(true);
-        TrickyPathFileManager.Instance.AIPHolder.SetActive(false);
+        TempDataManager.trickyGeneralPaths.gameObject.SetActive(true);
+        TempDataManager.trickyShowoffPaths.gameObject.SetActive(false);
     }
 
     [MenuItem("Ice Saw/View/Freeride Only", false, 10)]
     public static void FreerideOnly()
     {
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
         //Grab Patches
-        TrickyPatchObject[] patchObject = TrickyWorldManager.Instance.GetPatchList();
+        TrickyPatchObject[] patchObject = TempDataManager.trickyPatchObjects.ToArray();
         for (int i = 0; i < patchObject.Length; i++)
         {
             if (patchObject[i].TrickOnlyPatch)
@@ -149,7 +161,7 @@ public class IceSawViewOptions
             }
         }
 
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
         //Grab Instances
         for (int i = 0; i < instanceObjects.Length; i++)
         {
@@ -163,7 +175,7 @@ public class IceSawViewOptions
             }
         }
 
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
         for (int i = 0; i < splineObjects.Length; i++)
         {
             splineObjects[i].gameObject.SetActive(true);
@@ -171,58 +183,67 @@ public class IceSawViewOptions
 
         //Run Effect
 
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "FreerideMode")
+            if (FunctionList[i].transform.name == "FreerideMode")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
 
-        TrickyPathFileManager.Instance.AIPHolder.SetActive(true);
-        TrickyPathFileManager.Instance.SOPHolder.SetActive(false);
+        TempDataManager.trickyGeneralPaths.gameObject.SetActive(true);
+        TempDataManager.trickyShowoffPaths.gameObject.SetActive(false);
     }
 
     [MenuItem("Ice Saw/View/Functions/RaceMode")]
     public static void FunctionRunRace()
     {
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "RaceMode")
+            if (FunctionList[i].transform.name == "RaceMode")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
     }
     [MenuItem("Ice Saw/View/Functions/ShowOff")]
     public static void FunctionRunShowOff()
     {
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "ShowoffMode")
+            if (FunctionList[i].transform.name == "ShowoffMode")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
     }
     [MenuItem("Ice Saw/View/Functions/FreeRideMode")]
     public static void FunctionRunFreeRide()
     {
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "FreerideMode")
+            if (FunctionList[i].transform.name == "FreerideMode")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
     }
@@ -230,14 +251,17 @@ public class IceSawViewOptions
     [MenuItem("Ice Saw/View/Functions/StartCountDown")]
     public static void FunctionRunCountDown()
     {
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "StartCountDown")
+            if (FunctionList[i].transform.name == "StartCountDown")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
     }
@@ -245,14 +269,17 @@ public class IceSawViewOptions
     [MenuItem("Ice Saw/View/Functions/EndCountDown")]
     public static void FunctionRunEndCountDown()
     {
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "EndCountDown")
+            if (FunctionList[i].transform.name == "EndCountDown")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
     }
@@ -260,44 +287,48 @@ public class IceSawViewOptions
     [MenuItem("Ice Saw/View/Functions/NoCountDown")]
     public static void FunctionRunNoCountDown()
     {
-        TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
-        TrickySplineObject[] splineObjects = TrickyWorldManager.Instance.GetSplineList();
-        var FunctionList = TrickyLogicManager.Instance.GetFunctionList();
-        for (int i = 0; i < FunctionList.Count; i++)
+        var TempDataManager = TrickyLevelManager.Instance.dataManager;
+        TempDataManager.RefreshObjectList();
+
+        TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
+        TrickySplineObject[] splineObjects = TempDataManager.trickySplineObjects.ToArray();
+        var FunctionList = TempDataManager.trickyFunctionHeaders.ToArray();
+        for (int i = 0; i < FunctionList.Length; i++)
         {
-            if (FunctionList[i].FunctionName == "NoCountDown")
+            if (FunctionList[i].transform.name == "NoCountDown")
             {
-                RunFunction(i, instanceObjects, splineObjects);
+                RunFunction(FunctionList[i], TempDataManager);
             }
         }
     }
 
 
-    public static void RunFunction(int Position, TrickyInstanceObject[] InstanceList, TrickySplineObject[] splineObjects)
+    public static void RunFunction(TrickyFunctionHeader trickyFunctionHeader, DataManager dataManager)
     {
-        var Function = TrickyLogicManager.Instance.GetFunctionList()[Position];
+        var Function = trickyFunctionHeader.GenerateFunction();
 
         for (int i = 0; i < Function.Effects.Count; i++)
         {
             if (Function.Effects[i].MainType==21)
             {
-                RunFunction(Function.Effects[i].FunctionRunIndex.Value, InstanceList, splineObjects);
+                RunFunction(trickyFunctionHeader.GetComponent<FunctionRunEffect>().FunctionObject, dataManager);
             }
             if(Function.Effects[i].MainType == 7)
             {
-                RunEffectInstance(Function.Effects[i].Instance.Value.EffectIndex, Function.Effects[i].Instance.Value.InstanceIndex, InstanceList);
+                RunEffectInstance(Function.Effects[i].Instance.Value.EffectIndex, Function.Effects[i].Instance.Value.InstanceIndex, dataManager);
             }
             if (Function.Effects[i].MainType == 25)
             {
-                RunEffectSpline(Function.Effects[i].Spline.Value.Effect, Function.Effects[i].Spline.Value.SplineIndex, splineObjects);
+                RunEffectSpline(Function.Effects[i].Spline.Value.Effect, Function.Effects[i].Spline.Value.SplineIndex, dataManager);
             }
         }
     }
 
-    public static void RunEffectInstance(int Effect, int Instance, TrickyInstanceObject[] InstanceList)
+    public static void RunEffectInstance(int Effect, int Instance, DataManager dataManager)
     {
-        var TempInstance = InstanceList[Instance];
-        var EffectHeader = TrickyLogicManager.Instance.GetEffectHeadersList()[Effect];
+        var TempInstance = dataManager.trickyInstances[Instance];
+        var EffectHeader = dataManager.trickyEffectHeaders[Effect].GenerateEffectHeader();
+
         for (int i = 0; i < EffectHeader.Effects.Count; i++)
         {
             if (EffectHeader.Effects[i].MainType==0)
@@ -310,15 +341,18 @@ public class IceSawViewOptions
         }
     }
 
-    public static void RunEffectSpline(int Effect, int Spline, TrickySplineObject[] splineObjects)
+    public static void RunEffectSpline(int Effect, int Spline, DataManager dataManager)
     {
-        if(Effect==0)
+        var TempSpline = dataManager.trickySplineObjects[Spline];
+        var TempEffect = dataManager.trickyEffectHeaders[Effect].GenerateEffectHeader();
+
+        if (Effect==0)
         {
-            splineObjects[Spline].gameObject.SetActive(false);
+            TempSpline.gameObject.SetActive(false);
         }
         else if(Effect == 1)
         {
-            splineObjects[Spline].gameObject.SetActive(true);
+            TempSpline.gameObject.SetActive(true);
         }
     }
 
@@ -346,16 +380,19 @@ public class IceSawViewOptions
         else
         if (TrickyLevelManager.Instance != null)
         {
+            var TempDataManager = TrickyLevelManager.Instance.dataManager;
+            TempDataManager.RefreshObjectList();
+
             TrickyLevelManager.Instance.LightmapMode = !TrickyLevelManager.Instance.LightmapMode;
 
-            var TempPatchList = TrickyWorldManager.Instance.GetPatchList();
+            var TempPatchList = TempDataManager.trickyPatchObjects.ToArray();
 
             for (int i = 0; i < TempPatchList.Length; i++)
             {
                 TempPatchList[i].ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
             }
 
-            var TempInstanceList = TrickyWorldManager.Instance.GetInstanceList();
+            var TempInstanceList = TempDataManager.trickyInstances.ToArray();
 
             for (int i = 0; i < TempInstanceList.Length; i++)
             {
@@ -378,13 +415,16 @@ public class IceSawViewOptions
                 TempList[i].RefreshHiddenModels();
             }
         }
-        else if (TrickyWorldManager.Instance != null)
+        else if (TrickyLevelManager.Instance != null)
         {
-            TrickyWorldManager.Instance.ShowInstanceModels = !TrickyWorldManager.Instance.ShowInstanceModels;
+            var TempDataManager = TrickyLevelManager.Instance.dataManager;
+            TempDataManager.RefreshObjectList();
 
-            var TempList = TrickyWorldManager.Instance.GetInstanceList();
+            TrickyLevelManager.Instance.ShowInstanceModels = !TrickyLevelManager.Instance.ShowInstanceModels;
 
-            for (int i = 0; i < TempList.Length; i++)
+            var TempList = TempDataManager.trickyInstances;
+
+            for (int i = 0; i < TempList.Count; i++)
             {
                 TempList[i].RefreshHiddenModels();
             }
@@ -405,13 +445,16 @@ public class IceSawViewOptions
                 TempList[i].RefreshHiddenModels();
             }
         }
-        else if (TrickyWorldManager.Instance != null)
+        else if (TrickyLevelManager.Instance != null)
         {
-            TrickyWorldManager.Instance.ShowCollisionModels = !TrickyWorldManager.Instance.ShowCollisionModels;
+            var TempDataManager = TrickyLevelManager.Instance.dataManager;
+            TempDataManager.RefreshObjectList();
 
-            var TempList = TrickyWorldManager.Instance.GetInstanceList();
+            TrickyLevelManager.Instance.ShowCollisionModels = !TrickyLevelManager.Instance.ShowCollisionModels;
 
-            for (int i = 0; i < TempList.Length; i++)
+            var TempList = TempDataManager.trickyInstances;
+
+            for (int i = 0; i < TempList.Count; i++)
             {
                 TempList[i].RefreshHiddenModels();
             }
@@ -442,9 +485,12 @@ public class IceSawViewOptions
             }
         }
         else
-        if (TrickyWorldManager.Instance != null)
+        if (TrickyLevelManager.Instance != null)
         {
-            TrickyInstanceObject[] instanceObjects = TrickyWorldManager.Instance.GetInstanceList();
+            var TempDataManager = TrickyLevelManager.Instance.dataManager;
+            TempDataManager.RefreshObjectList();
+
+            TrickyInstanceObject[] instanceObjects = TempDataManager.trickyInstances.ToArray();
             bool Active = false;
             bool Test = false;
 

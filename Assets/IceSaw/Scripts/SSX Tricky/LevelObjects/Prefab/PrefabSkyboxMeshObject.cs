@@ -36,7 +36,7 @@ public class PrefabSkyboxMeshObject : PrefabMeshBase
 
         if (TrickyMaterialObject != null)
         {
-            meshHeader.MaterialID = TrickyMaterialObject.transform.GetSiblingIndex();
+            meshHeader.MaterialID = TrickyLevelManager.Instance.dataManager.GetSkyboxMaterialID(TrickyMaterialObject);
         }
         else
         {

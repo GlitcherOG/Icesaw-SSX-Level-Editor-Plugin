@@ -86,7 +86,7 @@ public class EffectSlotObject : TrickyBaseObject
 
         if (PersistantEffectSlot != null)
         {
-            TempEffectslot.PersistantEffectSlot = PersistantEffectSlot.transform.GetSiblingIndex();
+            TempEffectslot.PersistantEffectSlot = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(PersistantEffectSlot);
         }
         else
         {
@@ -95,7 +95,7 @@ public class EffectSlotObject : TrickyBaseObject
 
         if (CollisionEffectSlot != null)
         {
-            TempEffectslot.CollisionEffectSlot = CollisionEffectSlot.transform.GetSiblingIndex();
+            TempEffectslot.CollisionEffectSlot = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(CollisionEffectSlot);
         }
         else
         {
@@ -104,7 +104,7 @@ public class EffectSlotObject : TrickyBaseObject
 
         if (Slot3 != null)
         {
-            TempEffectslot.Slot3 = Slot3.transform.GetSiblingIndex();
+            TempEffectslot.Slot3 = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(Slot3);
         }
         else
         {
@@ -113,7 +113,7 @@ public class EffectSlotObject : TrickyBaseObject
 
         if (Slot4 != null)
         {
-            TempEffectslot.Slot4 = Slot4.transform.GetSiblingIndex();
+            TempEffectslot.Slot4 = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(Slot4);
         }
         else
         {
@@ -122,7 +122,7 @@ public class EffectSlotObject : TrickyBaseObject
 
         if (EffectTriggerSlot != null)
         {
-            TempEffectslot.EffectTriggerSlot = EffectTriggerSlot.transform.GetSiblingIndex();
+            TempEffectslot.EffectTriggerSlot = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(EffectTriggerSlot);
         }
         else
         {
@@ -131,7 +131,7 @@ public class EffectSlotObject : TrickyBaseObject
 
         if (Slot6 != null)
         {
-            TempEffectslot.Slot6 = Slot6.transform.GetSiblingIndex();
+            TempEffectslot.Slot6 = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(Slot6);
         }
         else
         {
@@ -140,7 +140,7 @@ public class EffectSlotObject : TrickyBaseObject
 
         if (Slot7 != null)
         {
-            TempEffectslot.Slot7 = Slot7.transform.GetSiblingIndex();
+            TempEffectslot.Slot7 = TrickyLevelManager.Instance.dataManager.GetEffectHeaderID(Slot7);
         }
         else
         {
