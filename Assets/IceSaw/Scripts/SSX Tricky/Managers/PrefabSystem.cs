@@ -80,6 +80,13 @@ public class PrefabSystem : EditorWindow
         IncludeEffectSlots = EditorGUILayout.Toggle("Attached Effects Slots", IncludeEffectSlots);
         IncludeEffects = EditorGUILayout.Toggle("Attached Effects", IncludeEffects);
         Recursion = EditorGUILayout.Toggle("Recursion", Recursion);
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Export"))
+        {
+
+        }
+        EditorGUILayout.EndHorizontal();
     }
 
     void PaintObject(TrickyBaseObject.ObjectType objectType)
@@ -172,4 +179,28 @@ public class PrefabSystem : EditorWindow
 
         Repaint();
     }
+
+    void Export()
+    {
+        if(TrickyLevelManager.Instance != null)
+        {
+            var DataManager = TrickyLevelManager.Instance.dataManager;
+            DataManager.RefreshObjectList();
+
+            for (int i = 0; i < trickyBaseObjects.Count; i++)
+            {
+                var TempObject = trickyBaseObjects[i];
+
+
+
+
+
+            }
+
+        }
+
+
+    }
+
+
 }
