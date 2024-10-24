@@ -84,7 +84,7 @@ public class PrefabSystem : EditorWindow
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Export"))
         {
-
+            Export();
         }
         EditorGUILayout.EndHorizontal();
     }
@@ -184,18 +184,22 @@ public class PrefabSystem : EditorWindow
     {
         if(TrickyLevelManager.Instance != null)
         {
+            PrefabData prefabData = new PrefabData();
+
             var DataManager = TrickyLevelManager.Instance.dataManager;
             DataManager.RefreshObjectList();
-
+            
+            //if get attached for any true
             for (int i = 0; i < trickyBaseObjects.Count; i++)
             {
                 var TempObject = trickyBaseObjects[i];
-
-
+                //Get attched objects
 
 
 
             }
+
+            prefabData.CreateJson("F:\\Prefab.Json");
 
         }
 
