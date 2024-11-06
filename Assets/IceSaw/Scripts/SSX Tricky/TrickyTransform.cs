@@ -29,7 +29,9 @@ public class TrickyTransform : MonoBehaviour
         //this.transform.hideFlags = HideFlags.HideInInspector;
 
         Position = SSXMatrix.inverse.MultiplyPoint(transform.localPosition);
-        Rotation = SSXRotationMatrix.inverse.MultiplyPoint(transform.localEulerAngles);
+        var TempRot = Quaternion.Euler(new Vector3(-90, 0, 0));
+        Rotation =  (Quaternion.Inverse(transform.localRotation) * TempRot).eulerAngles;
+
         Scale = SSXScaleMatrix.inverse.MultiplyPoint(transform.localScale);
     }
 

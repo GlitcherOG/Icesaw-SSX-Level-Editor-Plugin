@@ -195,6 +195,12 @@ public class PrefabSystem : EditorWindow
                 var TempObject = trickyBaseObjects[i];
                 //Get attched objects
 
+                if(TempObject.Type==TrickyBaseObject.ObjectType.Patch)
+                {
+                    var TempPatch = TempObject.GetComponent<TrickyPatchObject>();
+
+                    prefabData.patchesJSONHandler.Patches.Add(TempPatch.GeneratePatch());
+                }
 
 
             }
