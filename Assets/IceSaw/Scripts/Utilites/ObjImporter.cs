@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
@@ -21,9 +22,9 @@ public class ObjImporter : MonoBehaviour
             {
                 string[] splitLine = Lines[a].Split(' ');
                 Vector3 vector3 = new Vector3();
-                vector3.x = float.Parse(splitLine[1]);
-                vector3.y = float.Parse(splitLine[2]);
-                vector3.z = float.Parse(splitLine[3]);
+                vector3.x = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
+                vector3.y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
+                vector3.z = float.Parse(splitLine[3], CultureInfo.InvariantCulture.NumberFormat);
                 vertices.Add(vector3);
             }
 
@@ -31,8 +32,8 @@ public class ObjImporter : MonoBehaviour
             {
                 string[] splitLine = Lines[a].Split(' ');
                 Vector2 vector2 = new Vector2();
-                vector2.x = float.Parse(splitLine[1]);
-                vector2.y = float.Parse(splitLine[2]);
+                vector2.x = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
+                vector2.y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
                 TextureCords.Add(vector2);
             }
 
@@ -40,9 +41,9 @@ public class ObjImporter : MonoBehaviour
             {
                 string[] splitLine = Lines[a].Split(' ');
                 Vector3 vector3 = new Vector3();
-                vector3.x = float.Parse(splitLine[1]);
-                vector3.y = float.Parse(splitLine[2]);
-                vector3.z = float.Parse(splitLine[3]);
+                vector3.x = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
+                vector3.y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
+                vector3.z = float.Parse(splitLine[3], CultureInfo.InvariantCulture.NumberFormat);
                 normals.Add(vector3);
             }
 
