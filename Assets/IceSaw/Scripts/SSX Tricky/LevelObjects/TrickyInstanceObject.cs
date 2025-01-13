@@ -68,14 +68,21 @@ public class TrickyInstanceObject : TrickyBaseObject
     public int U8;
 
     [Header("Lighting Properties")]
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 LightVector1;
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 LightVector2;
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 LightVector3;
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 AmbentLightVector;
-
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 LightColour1;
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 LightColour2;
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 LightColour3;
+    //[OnChangedCall("SetLightingColour")]
     public Vector4 AmbentLightColour;
 
     GameObject Prefab;
@@ -208,6 +215,15 @@ public class TrickyInstanceObject : TrickyBaseObject
             Prefab.transform.localScale = new Vector3(1, 1, 1);
             Prefab.AddComponent<SelectParent>();
 
+            SetLightingColour();
+        }
+        Prefab.SetActive(TrickyLevelManager.Instance.ShowInstanceModels);
+    }
+
+    public void SetLightingColour()
+    {
+        if (PrefabObject != null)
+        {
             var TempPrefablist = Prefab.transform.childCount;
             for (int i = 0; i < TempPrefablist; i++)
             {
@@ -219,11 +235,11 @@ public class TrickyInstanceObject : TrickyBaseObject
                 {
                     TempChildPrefab.GetChild(a).AddComponent<SelectParent>();
                     var MeshRender = TempChildPrefab.GetChild(a).GetComponent<MeshRenderer>();
-                    var TempLight = (AmbentLightColour)/255f;
+                    var TempLight = (AmbentLightColour) / 255f;
                     MeshRender.sharedMaterial.SetColor("_AmbientColour", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
                     TempLight = (LightColour1) / 255f;
                     MeshRender.sharedMaterial.SetColor("_VectorColour1", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
-                    MeshRender.sharedMaterial.SetVector("_VectorDir1", transform.TransformVector(LightVector1)*100);
+                    MeshRender.sharedMaterial.SetVector("_VectorDir1", transform.TransformVector(LightVector1) * 100);
                     TempLight = (LightColour2) / 255f;
                     MeshRender.sharedMaterial.SetColor("_VectorColour2", new Color(TempLight.x, TempLight.y, TempLight.z, TempLight.w));
                     MeshRender.sharedMaterial.SetVector("_VectorDir2", transform.TransformVector(LightVector2) * 100);
@@ -232,8 +248,8 @@ public class TrickyInstanceObject : TrickyBaseObject
                     MeshRender.sharedMaterial.SetVector("_VectorDir3", transform.TransformVector(LightVector3) * 100);
                 }
             }
+            ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
         }
-        Prefab.SetActive(TrickyLevelManager.Instance.ShowInstanceModels);
     }
 
     [ContextMenu("Refresh Collision Model")]
