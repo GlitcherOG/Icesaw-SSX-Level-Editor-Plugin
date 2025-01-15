@@ -385,12 +385,12 @@ public class TrickyInstanceObject : TrickyBaseObject
         if (PrefabObject != null)
         {
             TempInstance.ModelID = TrickyLevelManager.Instance.dataManager.GetPrefabID(PrefabObject);
-            TempInstance.ModelID2 = TempInstance.ModelID;
+            //TempInstance.ModelID2 = TempInstance.ModelID;
         }
         else
         {
             TempInstance.ModelID = -1;
-            TempInstance.ModelID2 = -1;
+            //TempInstance.ModelID2 = -1;
         }
 
         if(PrevInstanceObject != null)
