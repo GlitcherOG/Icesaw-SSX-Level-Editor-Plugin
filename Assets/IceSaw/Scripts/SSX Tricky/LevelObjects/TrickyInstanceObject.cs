@@ -69,19 +69,19 @@ public class TrickyInstanceObject : TrickyBaseObject
 
     [Header("Lighting Properties")]
     //[OnChangedCall("SetLightingColour")]
-    public Vector4 LightVector1;
+    public Vector3 LightVector1;
     //[OnChangedCall("SetLightingColour")]
-    public Vector4 LightVector2;
+    public Vector3 LightVector2;
     //[OnChangedCall("SetLightingColour")]
-    public Vector4 LightVector3;
+    public Vector3 LightVector3;
     //[OnChangedCall("SetLightingColour")]
-    public Vector4 AmbentLightVector;
+    public Vector3 AmbentLightVector;
     //[OnChangedCall("SetLightingColour")]
-    public Vector4 LightColour1;
+    public Vector3 LightColour1;
     //[OnChangedCall("SetLightingColour")]
-    public Vector4 LightColour2;
+    public Vector3 LightColour2;
     //[OnChangedCall("SetLightingColour")]
-    public Vector4 LightColour3;
+    public Vector3 LightColour3;
     //[OnChangedCall("SetLightingColour")]
     public Vector4 AmbentLightColour;
 
@@ -96,14 +96,14 @@ public class TrickyInstanceObject : TrickyBaseObject
         transform.localScale = JsonUtil.ArrayToVector3(instance.Scale);
         transform.localPosition = JsonUtil.ArrayToVector3(instance.Location);
 
-        LightVector1 = JsonUtil.ArrayToVector4(instance.LightVector1);
-        LightVector2 = JsonUtil.ArrayToVector4(instance.LightVector2);
-        LightVector3 = JsonUtil.ArrayToVector4(instance.LightVector3);
-        AmbentLightVector = JsonUtil.ArrayToVector4(instance.AmbentLightVector);
+        LightVector1 = JsonUtil.ArrayToVector3(instance.LightVector1);
+        LightVector2 = JsonUtil.ArrayToVector3(instance.LightVector2);
+        LightVector3 = JsonUtil.ArrayToVector3(instance.LightVector3);
+        AmbentLightVector = JsonUtil.ArrayToVector3(instance.AmbentLightVector);
 
-        LightColour1 = JsonUtil.ArrayToVector4(instance.LightColour1);
-        LightColour2 = JsonUtil.ArrayToVector4(instance.LightColour2);
-        LightColour3 = JsonUtil.ArrayToVector4(instance.LightColour3);
+        LightColour1 = JsonUtil.ArrayToVector3(instance.LightColour1);
+        LightColour2 = JsonUtil.ArrayToVector3(instance.LightColour2);
+        LightColour3 = JsonUtil.ArrayToVector3(instance.LightColour3);
         AmbentLightColour = JsonUtil.ArrayToVector4(instance.AmbentLightColour);
 
         ModelID = instance.ModelID;
@@ -372,14 +372,14 @@ public class TrickyInstanceObject : TrickyBaseObject
         TempInstance.Scale = JsonUtil.Vector3ToArray(transform.localScale);
         TempInstance.Rotation = JsonUtil.QuaternionToArray(Quaternion.Euler(transform.localEulerAngles));
 
-        TempInstance.LightVector1 = JsonUtil.Vector4ToArray(LightVector1);
-        TempInstance.LightVector2 = JsonUtil.Vector4ToArray(LightVector2);
-        TempInstance.LightVector3 = JsonUtil.Vector4ToArray(LightVector3);
-        TempInstance.AmbentLightVector = JsonUtil.Vector4ToArray(AmbentLightVector);
+        TempInstance.LightVector1 = JsonUtil.Vector4ToArray(JsonUtil.Vector3ToVector4(LightVector1, 0));
+        TempInstance.LightVector2 = JsonUtil.Vector4ToArray(JsonUtil.Vector3ToVector4(LightVector2, 0));
+        TempInstance.LightVector3 = JsonUtil.Vector4ToArray(JsonUtil.Vector3ToVector4(LightVector3, 0));
+        TempInstance.AmbentLightVector = JsonUtil.Vector4ToArray(JsonUtil.Vector3ToVector4(AmbentLightVector, 0));
 
-        TempInstance.LightColour1 = JsonUtil.Vector4ToArray(LightColour1);
-        TempInstance.LightColour2 = JsonUtil.Vector4ToArray(LightColour2);
-        TempInstance.LightColour3 = JsonUtil.Vector4ToArray(LightColour3);
+        TempInstance.LightColour1 = JsonUtil.Vector4ToArray(JsonUtil.Vector3ToVector4(LightColour1, 0));
+        TempInstance.LightColour2 = JsonUtil.Vector4ToArray(JsonUtil.Vector3ToVector4(LightColour2, 0));
+        TempInstance.LightColour3 = JsonUtil.Vector4ToArray(JsonUtil.Vector3ToVector4(LightColour3, 0));
         TempInstance.AmbentLightColour = JsonUtil.Vector4ToArray(AmbentLightColour);
 
         if (PrefabObject != null)
