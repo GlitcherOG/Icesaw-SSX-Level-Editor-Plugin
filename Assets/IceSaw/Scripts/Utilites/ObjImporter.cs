@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class ObjImporter : MonoBehaviour
@@ -18,9 +19,13 @@ public class ObjImporter : MonoBehaviour
         //Load File
         for (int a = 0; a < Lines.Length; a++)
         {
+            string[] splitLine = Lines[a].Split(' ');
+            var Check = splitLine.ToList();
+            Check.Remove("");
+            splitLine = Check.ToArray();
+
             if (Lines[a].StartsWith("v "))
             {
-                string[] splitLine = Lines[a].Split(' ');
                 Vector3 vector3 = new Vector3();
                 vector3.x = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
                 vector3.y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -30,7 +35,6 @@ public class ObjImporter : MonoBehaviour
 
             if (Lines[a].StartsWith("vt "))
             {
-                string[] splitLine = Lines[a].Split(' ');
                 Vector2 vector2 = new Vector2();
                 vector2.x = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
                 vector2.y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -39,7 +43,6 @@ public class ObjImporter : MonoBehaviour
 
             if (Lines[a].StartsWith("vn "))
             {
-                string[] splitLine = Lines[a].Split(' ');
                 Vector3 vector3 = new Vector3();
                 vector3.x = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
                 vector3.y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -49,7 +52,6 @@ public class ObjImporter : MonoBehaviour
 
             if (Lines[a].StartsWith("f "))
             {
-                string[] splitLine = Lines[a].Split(' ');
                 Faces faces = new Faces();
 
                 string[] SplitPoint = splitLine[1].Split('/');
