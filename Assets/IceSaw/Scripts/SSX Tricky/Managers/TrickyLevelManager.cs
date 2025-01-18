@@ -43,19 +43,12 @@ public class TrickyLevelManager : MonoBehaviour
     [HideInInspector]
     public Material RaceLine;
 
-    GameObject WorldManagerHolder;
-    GameObject SkyboxManagerHolder;
-    GameObject PrefabManagerHolder;
-    GameObject LogicManager;
-    GameObject PathFileManager;
-
     // Start is called before the first frame update
     public void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            //FixScriptLinks();
         }
         else if(Instance != this)
         {
@@ -81,13 +74,6 @@ public class TrickyLevelManager : MonoBehaviour
         RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
 
         dataManager.LoadObjects(this.gameObject ,Path);
-        //CreateEmptyObjects();
-
-        //PrefabManagerHolder.GetComponent<TrickyPrefabManager>().LoadData(Path);
-        //WorldManagerHolder.GetComponent<TrickyWorldManager>().LoadData(Path);
-        //LogicManager.GetComponent<TrickyLogicManager>().LoadData(Path);
-        //SkyboxManagerHolder.GetComponent<SkyboxManager>().LoadData(Path);
-        //PathFileManager.GetComponent<TrickyPathFileManager>().LoadData(Path);
 
         PostLoad();
     }
@@ -742,6 +728,13 @@ public class TrickyLevelManager : MonoBehaviour
     public void FixScriptLinks()
     {
         Awake();
+        Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
+        Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
+        AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
+        RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
+
+        dataManager = new DataManager();
+        dataManager.RefreshObjectList();
     }
 
 

@@ -10,7 +10,7 @@ public class PostProcessFixes : AssetPostprocessor
         GameObject gameObject = GameObject.Find("/Tricky Level Manager");
         if (gameObject != null)
         {
-            //gameObject.GetComponent<TrickyLevelManager>().FixScriptLinks();
+            gameObject.GetComponent<TrickyLevelManager>().FixScriptLinks();
         }
 
         gameObject = GameObject.Find("/OG Level Manager");

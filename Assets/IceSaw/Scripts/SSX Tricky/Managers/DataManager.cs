@@ -11,6 +11,37 @@ using static SSXMultiTool.JsonFiles.Tricky.SSFJsonHandler;
 
 public class DataManager
 {
+    #region HeaderObjects
+    public GameObject PrefabManagerHolder;
+    public GameObject WorldManagerHolder;
+    public GameObject SkyboxManagerHolder;
+    public GameObject LogicManager;
+    public GameObject PathFileManager;
+
+    public GameObject PrefabsHolder;
+    public GameObject MaterialHolder;
+    public GameObject ParticlePrefabHolder;
+
+    public GameObject PatchesHolder;
+    public GameObject InstancesHolder;
+    public GameObject SplinesHolder;
+    public GameObject ParticlesHolder;
+    public GameObject LightingHolder;
+    public GameObject CameraHolder;
+
+    public GameObject SkyboxMaterialHolder;
+    public GameObject SkyboxPrefabsHolder;
+
+    public GameObject EffectSlotHolder;
+    public GameObject EffectHolder;
+    public GameObject PhysicsHolder;
+    public GameObject FunctionHolder;
+
+    public GameObject AIPHolder;
+    public GameObject SOPHolder;
+    #endregion
+
+
     #region Prefab Manager
     public List<TrickyPrefabObject> trickyPrefabObjects;
     public List<TrickyPrefabSubObject> trickyPrefabSubObjects;
@@ -92,6 +123,7 @@ public class DataManager
             {
                 GetChildTrickyBaseChild(ObjectList[i]);
             }
+            FixRefreshedHolders(ObjectList[i]);
         }
 
         for (int i = 0; i < trickyBaseObjects.Count; i++)
@@ -193,6 +225,37 @@ public class DataManager
         }
     }
 
+    public void FixRefreshedHolders(GameObject gameObject)
+    {
+        //public GameObject PrefabManagerHolder;
+        //public GameObject WorldManagerHolder;
+        //public GameObject SkyboxManagerHolder;
+        //public GameObject LogicManager;
+        //public GameObject PathFileManager;
+
+        //public GameObject PrefabsHolder;
+        //public GameObject MaterialHolder;
+        //public GameObject ParticlePrefabHolder;
+
+        //public GameObject PatchesHolder;
+        //public GameObject InstancesHolder;
+        //public GameObject SplinesHolder;
+        //public GameObject ParticlesHolder;
+        //public GameObject LightingHolder;
+        //public GameObject CameraHolder;
+
+        //public GameObject SkyboxMaterialHolder;
+        //public GameObject SkyboxPrefabsHolder;
+
+        //public GameObject EffectSlotHolder;
+        //public GameObject EffectHolder;
+        //public GameObject PhysicsHolder;
+        //public GameObject FunctionHolder;
+
+        //public GameObject AIPHolder;
+        //public GameObject SOPHolder;
+    }
+
     public void GetChildTrickyBaseChild(GameObject gameObject)
     {
         //CAN PROBABLY SWAP OUT WITH GET COMPONENT IN CHILDREN
@@ -210,6 +273,8 @@ public class DataManager
             {
                 GetChildTrickyBaseChild(ChildObject.gameObject);
             }
+
+            FixRefreshedHolders(ChildObject.gameObject);
         }
     }
 
@@ -219,7 +284,7 @@ public class DataManager
         gameObject.transform.hideFlags = HideFlags.HideInInspector;
 
         //Generate Prefab Manager
-        var PrefabManagerHolder = new GameObject("Tricky Prefab Manager");
+        PrefabManagerHolder = new GameObject("Tricky Prefab Manager");
         PrefabManagerHolder.transform.parent = gameObject.transform;
         PrefabManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         PrefabManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -229,7 +294,7 @@ public class DataManager
         //TempPrefab.GenerateEmptyObjects();
 
         //Generate World Manager
-        var WorldManagerHolder = new GameObject("Tricky World Manager");
+        WorldManagerHolder = new GameObject("Tricky World Manager");
         WorldManagerHolder.transform.parent = gameObject.transform;
         WorldManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         WorldManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -239,7 +304,7 @@ public class DataManager
         //TempWorld.GenerateEmptyObjects();
 
         //Generate Skybox Manager
-        var SkyboxManagerHolder = new GameObject("Tricky Skybox Manager");
+        SkyboxManagerHolder = new GameObject("Tricky Skybox Manager");
         SkyboxManagerHolder.transform.parent = gameObject.transform;
         SkyboxManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         SkyboxManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -249,7 +314,7 @@ public class DataManager
         //TempSkybox.GenerateEmptyObjects();
 
         //Generate Logic Manager
-        var LogicManager = new GameObject("Tricky Logic Manager");
+        LogicManager = new GameObject("Tricky Logic Manager");
         LogicManager.transform.parent = gameObject.transform;
         LogicManager.transform.transform.localScale = new Vector3(1, 1, 1);
         LogicManager.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -258,7 +323,7 @@ public class DataManager
         //TempLogic.GenerateEmptyObjects();
 
         //Generate Path File Manager
-        var PathFileManager = new GameObject("Tricky Path Manager");
+        PathFileManager = new GameObject("Tricky Path Manager");
         PathFileManager.transform.parent = gameObject.transform;
         PathFileManager.transform.transform.localScale = new Vector3(1, 1, 1);
         PathFileManager.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -266,94 +331,94 @@ public class DataManager
         //TempPathFile.runInEditMode = true;
         //TempPathFile.GenerateEmptyObjects();
 
-        var PrefabsHolder = new GameObject("Prefabs");
+        PrefabsHolder = new GameObject("Prefabs");
         PrefabsHolder.transform.parent = PrefabManagerHolder.transform;
         PrefabsHolder.transform.localPosition = new Vector3(0, 0, 20000);
         PrefabsHolder.transform.localEulerAngles = Vector3.zero;
         PrefabsHolder.transform.localScale = Vector3.one;
 
-        var MaterialHolder = new GameObject("Materials");
+        MaterialHolder = new GameObject("Materials");
         MaterialHolder.transform.parent = PrefabManagerHolder.transform;
         MaterialHolder.transform.localPosition = Vector3.zero;
         MaterialHolder.transform.localEulerAngles = Vector3.zero;
         MaterialHolder.transform.localScale = Vector3.one;
 
-        var ParticlePrefabHolder = new GameObject("Particle Prefabs");
+        ParticlePrefabHolder = new GameObject("Particle Prefabs");
         ParticlePrefabHolder.transform.parent = PrefabManagerHolder.transform;
         ParticlePrefabHolder.transform.localPosition = new Vector3(0, 0, 30000);
         ParticlePrefabHolder.transform.localEulerAngles = Vector3.zero;
         ParticlePrefabHolder.transform.localScale = Vector3.one;
 
-        var PatchesHolder = new GameObject("Patches");
+        PatchesHolder = new GameObject("Patches");
         PatchesHolder.transform.parent = WorldManagerHolder.transform;
         PatchesHolder.transform.localScale = Vector3.one;
         PatchesHolder.transform.localEulerAngles = Vector3.zero;
 
-        var InstancesHolder = new GameObject("Instances");
+        InstancesHolder = new GameObject("Instances");
         InstancesHolder.transform.parent = WorldManagerHolder.transform;
         InstancesHolder.transform.localScale = Vector3.one;
         InstancesHolder.transform.localEulerAngles = Vector3.zero;
 
-        var SplinesHolder = new GameObject("Splines");
+        SplinesHolder = new GameObject("Splines");
         SplinesHolder.transform.parent = WorldManagerHolder.transform;
         SplinesHolder.transform.localScale = Vector3.one;
         SplinesHolder.transform.localEulerAngles = Vector3.zero;
 
-        var ParticlesHolder = new GameObject("Particles");
+        ParticlesHolder = new GameObject("Particles");
         ParticlesHolder.transform.parent = WorldManagerHolder.transform;
         ParticlesHolder.transform.localScale = Vector3.one;
         ParticlesHolder.transform.localEulerAngles = Vector3.zero;
 
-        var LightingHolder = new GameObject("Lighting");
+        LightingHolder = new GameObject("Lighting");
         LightingHolder.transform.parent = WorldManagerHolder.transform;
         LightingHolder.transform.localScale = Vector3.one;
         LightingHolder.transform.localEulerAngles = Vector3.zero;
 
-        var CameraHolder = new GameObject("Cameras");
+        CameraHolder = new GameObject("Cameras");
         CameraHolder.transform.parent = WorldManagerHolder.transform;
         CameraHolder.transform.localPosition = Vector3.zero;
         CameraHolder.transform.localScale = Vector3.one;
         CameraHolder.transform.localEulerAngles = Vector3.zero;
 
-        var SkyboxMaterialHolder = new GameObject("Materials");
+        SkyboxMaterialHolder = new GameObject("Materials");
         SkyboxMaterialHolder.transform.parent = SkyboxManagerHolder.transform;
         SkyboxMaterialHolder.transform.localScale = Vector3.one;
         SkyboxMaterialHolder.transform.localEulerAngles = Vector3.zero;
         SkyboxMaterialHolder.transform.localPosition = Vector3.zero;
 
-        var SkyboxPrefabsHolder = new GameObject("Prefabs");
+        SkyboxPrefabsHolder = new GameObject("Prefabs");
         SkyboxPrefabsHolder.transform.parent = SkyboxManagerHolder.transform;
         SkyboxPrefabsHolder.transform.localScale = Vector3.one;
         SkyboxPrefabsHolder.transform.localEulerAngles = Vector3.zero;
         SkyboxPrefabsHolder.transform.localPosition = new Vector3(0, 0, 10000);
 
-        var EffectSlotHolder = new GameObject("Effect Slots");
+        EffectSlotHolder = new GameObject("Effect Slots");
         EffectSlotHolder.transform.parent = LogicManager.transform;
         EffectSlotHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         EffectSlotHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
 
-        var PhysicsHolder = new GameObject("Physics");
+        PhysicsHolder = new GameObject("Physics");
         PhysicsHolder.transform.parent = LogicManager.transform;
         PhysicsHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         PhysicsHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
 
-        var EffectHolder = new GameObject("Effects");
+        EffectHolder = new GameObject("Effects");
         EffectHolder.transform.parent = LogicManager.transform;
         EffectHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         EffectHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
 
-        var FunctionHolder = new GameObject("Functions");
+        FunctionHolder = new GameObject("Functions");
         FunctionHolder.transform.parent = LogicManager.transform;
         FunctionHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         FunctionHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
 
-        var AIPHolder = new GameObject("General");
+        AIPHolder = new GameObject("General");
         AIPHolder.transform.parent = PathFileManager.transform;
         AIPHolder.transform.localScale = Vector3.one;
         AIPHolder.transform.localEulerAngles = Vector3.zero;
         AIPHolder.AddComponent<PathManager>().GenerateEmptyObjects(PathManager.PathManagerType.General);
 
-        var SOPHolder = new GameObject("Showoff");
+        SOPHolder = new GameObject("Showoff");
         SOPHolder.transform.parent = PathFileManager.transform;
         SOPHolder.transform.localScale = Vector3.one;
         SOPHolder.transform.localEulerAngles = Vector3.zero;
