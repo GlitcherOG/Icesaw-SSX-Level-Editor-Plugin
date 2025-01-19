@@ -227,11 +227,27 @@ public class DataManager
 
     public void FixRefreshedHolders(GameObject gameObject)
     {
-        //public GameObject PrefabManagerHolder;
-        //public GameObject WorldManagerHolder;
-        //public GameObject SkyboxManagerHolder;
-        //public GameObject LogicManager;
-        //public GameObject PathFileManager;
+        if(gameObject.transform.name == "Tricky Prefab Manager" && PrefabManagerHolder == null)
+        {
+            PrefabManagerHolder = gameObject;
+        }
+        if (gameObject.transform.name == "Tricky World Manager" && WorldManagerHolder == null)
+        {
+            WorldManagerHolder = gameObject;
+        }
+        if (gameObject.transform.name == "Tricky Skybox Manager" && SkyboxManagerHolder == null)
+        {
+            SkyboxManagerHolder = gameObject;
+        }
+        if (gameObject.transform.name == "Tricky Logic Manager" && LogicManager == null)
+        {
+            LogicManager = gameObject;
+        }
+        if (gameObject.transform.name == "Tricky Path Manager" && PathFileManager == null)
+        {
+            PathFileManager = gameObject;
+        }
+
 
         //public GameObject PrefabsHolder;
         //public GameObject MaterialHolder;
