@@ -20,7 +20,7 @@ public class Type0Sub256Effect : EffectBase
     public float Unknown2;
     public float Unknown3;
     public float Unknown4;
-    public int Unknown5;
+    public float Unknown5;
     public float Unknown6;
     public int Unknown7;
     public int Unknown8;

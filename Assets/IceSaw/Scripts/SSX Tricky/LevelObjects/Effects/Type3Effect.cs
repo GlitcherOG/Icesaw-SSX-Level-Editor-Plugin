@@ -11,7 +11,7 @@ public class Type3Effect : EffectBase
     }
 
     public int Unknown1;
-    public int Unknown2;
+    public float Unknown2;
 
     public override void LoadEffect(SSFJsonHandler.Effect effect)
     {
