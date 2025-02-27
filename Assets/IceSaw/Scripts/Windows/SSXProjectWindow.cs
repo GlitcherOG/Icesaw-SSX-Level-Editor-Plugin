@@ -59,7 +59,7 @@ public class SSXProjectWindow : EditorWindow
             CurrentPath = Path.GetDirectoryName(path);
             LoadOGProjectData();
         }
-        else if (trickyConfig.Game == 2 && trickyConfig.Version == 2)
+        else if (trickyConfig.Game == 2 && trickyConfig.Version == 3)
         {
             CurrentPath = Path.GetDirectoryName(path);
             LoadTrickyProjectData();

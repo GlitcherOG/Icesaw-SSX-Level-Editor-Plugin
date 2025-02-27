@@ -245,7 +245,10 @@ public class ObjExporter
             }
 
             sb1.Append("o " + MMD[a].Name + "\n");
-            sb1.Append("usemtl " + MMD[a].TextureName.ToLower().Replace(".png", "") + "\n");
+            if (MMD[a].TextureName != null)
+            {
+                sb1.Append("usemtl " + MMD[a].TextureName.ToLower().Replace(".png", "") + "\n");
+            }
 
             for (int i = 0; i < NewVertIndex.Count / 3; i++)
             {
