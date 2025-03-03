@@ -399,6 +399,21 @@ public class IceSawViewOptions
                 TempInstanceList[i].ToggleLightingMode(TrickyLevelManager.Instance.LightmapMode);
             }
         }
+        else
+        if (SSX3LevelManager.Instance != null)
+        {
+            //var TempDataManager = SSX3LevelManager.Instance.dataManager;
+            //TempDataManager.RefreshObjectList();
+
+            SSX3LevelManager.Instance.LightmapMode = !SSX3LevelManager.Instance.LightmapMode;
+
+            var TempPatchList = SSX3LevelManager.Instance.GetPatchList();
+
+            for (int i = 0; i < TempPatchList.Length; i++)
+            {
+                TempPatchList[i].ToggleLightingMode(SSX3LevelManager.Instance.LightmapMode);
+            }
+        }
     }
 
     [MenuItem("Ice Saw/View/Toggle Instance Models", false, 200)]

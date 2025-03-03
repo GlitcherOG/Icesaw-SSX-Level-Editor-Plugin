@@ -64,6 +64,11 @@ public class SSXProjectWindow : EditorWindow
             CurrentPath = Path.GetDirectoryName(path);
             LoadTrickyProjectData();
         }
+        else if (trickyConfig.Game == 3)
+        {
+            CurrentPath = Path.GetDirectoryName(path);
+            LoadSSX3ProjectData();
+        }
         else
         {
             Debug.LogError("Unknown Game and Version");
@@ -121,6 +126,21 @@ public class SSXProjectWindow : EditorWindow
         LevelManagerObject.transform.eulerAngles = new Vector3(-90, 0, 0);
         LevelManagerObject.AddComponent<OGLevelManager>();
     }
+    public static void LoadSSX3ProjectData()
+    {
+        GenerateSSX3EmptyProject();
+
+        SSX3LevelManager.Instance.LoadData(CurrentPath);
+    }
+    public static void GenerateSSX3EmptyProject()
+    {
+        ClearCurrentProject();
+        var LevelManagerObject = new GameObject("SSX3 Level Manager");
+        LevelManagerObject.transform.transform.localScale = new Vector3(1, -1, 1) * SSXProjectWindow.Scale;
+        LevelManagerObject.transform.eulerAngles = new Vector3(-90, 0, 0);
+        LevelManagerObject.AddComponent<SSX3LevelManager>();
+    }
+
     public static void SaveTrickyProjectData()
     {
         TrickyLevelManager.Instance.SaveData(CurrentPath);
