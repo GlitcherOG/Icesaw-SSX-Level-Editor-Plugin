@@ -336,17 +336,17 @@ public class SSX3LevelManager : MonoBehaviour
         }
 
         //Probably better to replace with averages of what the corners should look like
-        //var Colour1 = LightmapGrab.GetPixel(0, 0);
-        //TenByTen.SetPixel(0, 0, Colour1);
+        var Colour1 = LightmapGrab.GetPixel(0, 0);
+        TenByTen.SetPixel(0, 0, Colour1);
 
-        //Colour1 = LightmapGrab.GetPixel(Width - 1, 0);
-        //TenByTen.SetPixel(Width + 1, 0, Colour1);
+        Colour1 = LightmapGrab.GetPixel(Width - 1, 0);
+        TenByTen.SetPixel(Width + 1, 0, Colour1);
 
-        //Colour1 = LightmapGrab.GetPixel(0, Height - 1);
-        //TenByTen.SetPixel(0, Height + 1, Colour1);
+        Colour1 = LightmapGrab.GetPixel(0, Height - 1);
+        TenByTen.SetPixel(0, Height + 1, Colour1);
 
-        //Colour1 = LightmapGrab.GetPixel(Width - 1, Height - 1);
-        //TenByTen.SetPixel(Width + 1, Height + 1, Colour1);
+        Colour1 = LightmapGrab.GetPixel(Width - 1, Height - 1);
+        TenByTen.SetPixel(Width + 1, Height + 1, Colour1);
 
         TenByTen.Apply();
         //TenByTen.filterMode = FilterMode.Bilinear;
