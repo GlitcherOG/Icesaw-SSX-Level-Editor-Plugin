@@ -61,6 +61,24 @@ public class IceSawTrackExportTrackExport
             //Save Objects 
             ObjExporter.SaveModelList(SavePath, MMD, OGLevelManager.Instance.texture2Ds);
         }
+        else if (SSX3LevelManager.Instance)
+        {
+            //Get Save path
+            //Sandard method of having them save an obj file and stripping out the obj file to get a path
+            string SavePath = EditorUtility.SaveFilePanel("Open SSX Tricky Model", "", "OBJ Model", "obj");
+
+            //Generate MMD List
+            List<ObjExporter.MassModelData> MMD = new List<ObjExporter.MassModelData>();
+
+            var TempPatchList = SSX3LevelManager.Instance.GetPatchList();
+            for (int i = 0; i < TempPatchList.Length; i++)
+            {
+                MMD.Add(TempPatchList[i].GenerateModel());
+            }
+
+            //Save Objects 
+            ObjExporter.SaveModelList(SavePath, MMD, SSX3LevelManager.Instance.texture2ds);
+        }
         else
         {
             Debug.Log("Ice Saw - Unable to Export Track. Level Manager or Prefab Manager Not detected");

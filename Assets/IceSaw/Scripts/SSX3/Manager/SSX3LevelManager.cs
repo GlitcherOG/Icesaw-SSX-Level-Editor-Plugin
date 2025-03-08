@@ -26,9 +26,9 @@ public class SSX3LevelManager : MonoBehaviour
     [HideInInspector]
     public DataManager dataManager;
 
-    public List<TextureData> texture2ds = new List<TextureData>();
+    public List<TrickyLevelManager.TextureData> texture2ds = new List<TrickyLevelManager.TextureData>();
     public List<Texture2D> lightmaps = new List<Texture2D>();
-    public List<TextureData> SkyboxTextures2d = new List<TextureData>();
+    public List<TrickyLevelManager.TextureData> SkyboxTextures2d = new List<TrickyLevelManager.TextureData>();
 
     public bool LightmapMode;
 
@@ -125,7 +125,7 @@ public class SSX3LevelManager : MonoBehaviour
         string TextureLoadPath = LoadPath + "\\Textures";
 
         string[] Files = Directory.GetFiles(TextureLoadPath, "*.png", SearchOption.AllDirectories);
-        texture2ds = new List<TextureData>();
+        texture2ds = new List<TrickyLevelManager.TextureData>();
         for (int i = 0; i < Files.Length; i++)
         {
             Texture2D NewImage = new Texture2D(1, 1);
@@ -139,7 +139,7 @@ public class SSX3LevelManager : MonoBehaviour
                     NewImage.name = Files[i].Substring(TextureLoadPath.Length + 1);
                     //NewImage.wrapMode = TextureWrapMode.MirrorOnce;
                 }
-                var NewTexture = new TextureData();
+                var NewTexture = new TrickyLevelManager.TextureData();
                 NewTexture.Name = NewImage.name;
                 NewTexture.Texture = NewImage;
                 texture2ds.Add(NewTexture);
@@ -250,7 +250,7 @@ public class SSX3LevelManager : MonoBehaviour
 
             if(!TestIfExists)
             {
-                var NewTexture = new TextureData();
+                var NewTexture = new TrickyLevelManager.TextureData();
                 NewTexture.Name = NewImage.name;
                 NewTexture.Texture = NewImage;
                 texture2ds.Add(NewTexture);
@@ -455,12 +455,12 @@ public class SSX3LevelManager : MonoBehaviour
         dataManager.RefreshObjectList();
     }
 
-    [System.Serializable]
-    public struct TextureData
-    {
-        public string Name;
-        public Texture2D Texture;
-    }
+    //[System.Serializable]
+    //public struct TextureData
+    //{
+    //    public string Name;
+    //    public Texture2D Texture;
+    //}
 
     private void OnEnable()
     {
