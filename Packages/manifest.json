@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.unity.cloud.gltfast": "6.10.3",
     "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.27",
@@ -41,6 +42,16 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
-  }
+    "com.unity.modules.xr": "1.0.0",
+    "org.khronos.unitygltf": "2.15.0"
+  },
+  "scopedRegistries": [
+    {
+      "name": "Needle",
+      "url": "https://packages.needle.tools",
+      "scopes": [
+        "org.khronos.unitygltf"
+      ]
+    }
+  ]
 }

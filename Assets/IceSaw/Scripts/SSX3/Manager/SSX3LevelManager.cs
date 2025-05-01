@@ -1,13 +1,15 @@
+using GLTFast;
+using UnityGLTF;
 using SSXMultiTool.JsonFiles.SSX3;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityGLTF.Loader;
 
 [ExecuteInEditMode]
 public class SSX3LevelManager : MonoBehaviour
@@ -42,6 +44,7 @@ public class SSX3LevelManager : MonoBehaviour
     public Material RaceLine;
 
     public GameObject PatchesHolder;
+    public GameObject Bin3Holder;
 
     // Start is called before the first frame update
     public void Awake()
@@ -58,7 +61,7 @@ public class SSX3LevelManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
-        LoadPath = "G:\\SSX Modding\\disk\\SSX 3\\DATA\\WORLDS\\File\\data\\worlds\\Working Unpack1";
+        LoadPath = "G:\\SSX Modding\\disk\\SSX 3\\DATA\\WORLDS\\File\\data\\worlds\\Unpack";
 
         LoadTextures();
         ReloadLightmaps();
@@ -84,10 +87,14 @@ public class SSX3LevelManager : MonoBehaviour
         PatchesHolder.transform.localScale = Vector3.one;
         PatchesHolder.transform.localEulerAngles = Vector3.zero;
 
+        Bin3Holder = new GameObject("Bin3");
+        Bin3Holder.transform.parent = WorldManagerHolder.transform;
+        Bin3Holder.transform.localScale = Vector3.one;
+        Bin3Holder.transform.localEulerAngles = Vector3.zero;
 
         List<string> Paths = new List<string>();
 
-        Paths = Directory.GetFiles(LoadPath, "*.json", SearchOption.AllDirectories).ToList();
+        Paths = Directory.GetFiles(LoadPath, "*Patches.json", SearchOption.AllDirectories).ToList();
 
         for (int a = 0; a < Paths.Count; a++)
         {
@@ -116,6 +123,40 @@ public class SSX3LevelManager : MonoBehaviour
 
             }
         }
+
+        Paths = new List<string>();
+
+        Paths = Directory.GetFiles(LoadPath, "*Bin3.json", SearchOption.AllDirectories).ToList();
+
+        for (int a = 0; a < Paths.Count; a++)
+        {
+            Debug.Log(Paths[a]);
+            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
+            GameObject NewHolder = new GameObject();
+            NewHolder.name = TrackName;
+            NewHolder.transform.parent = Bin3Holder.transform;
+            NewHolder.transform.localPosition = Vector3.zero;
+            NewHolder.transform.localScale = Vector3.one;
+            NewHolder.transform.localEulerAngles = Vector3.zero;
+
+            Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
+            bin3JsonHandler = Bin3JsonHandler.Load(Paths[a]);
+
+            for (int i = 0; i < bin3JsonHandler.bin3Files.Count; i++)
+            {
+                GameObject NewPatch = new GameObject();
+                NewPatch.transform.parent = NewHolder.transform;
+                NewPatch.transform.localPosition = Vector3.zero;
+                NewPatch.transform.localScale = Vector3.one;
+                NewPatch.transform.localEulerAngles = Vector3.zero;
+                var TempObject = NewPatch.AddComponent<SSX3InstanceObject>();
+                //TempObject.AddMissingComponents();
+                TempObject.LoadBin3(bin3JsonHandler.bin3Files[i]);
+
+            }
+        }
+
+        LoadGltfBinaryFromMemory();
     }
 
 
@@ -453,6 +494,25 @@ public class SSX3LevelManager : MonoBehaviour
 
         dataManager = new DataManager();
         dataManager.RefreshObjectList();
+    }
+
+    async void LoadGltfBinaryFromMemory()
+    {
+        List<string> Paths = Directory.GetFiles(LoadPath, "*.glb", SearchOption.AllDirectories).ToList();
+
+        for (int i = 0; i < 1; i++)
+        {
+            var filePath = "G:\\SSX Modding\\disk\\SSX 3\\DATA\\WORLDS\\File\\data\\worlds\\Unpack1\\TRANSP\\Models\\0-0-24.glb";//Paths[i];
+            var importOpt = new ImportOptions();
+            importOpt.DataLoader = new UnityWebRequestLoader(Path.GetDirectoryName(filePath));
+            var import = new GLTFSceneImporter(Path.GetFileName(filePath), importOpt);
+            //await import.LoadNodeAsync(0, System.Threading.CancellationToken.None);
+            await import.LoadSceneAsync();
+
+            GameObject Temp = import.CreatedObject;
+
+            Temp.name = "Test";
+        }
     }
 
     //[System.Serializable]

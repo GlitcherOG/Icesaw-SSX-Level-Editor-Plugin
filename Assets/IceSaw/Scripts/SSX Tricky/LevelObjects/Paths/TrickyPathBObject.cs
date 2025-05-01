@@ -111,6 +111,8 @@ public class TrickyPathBObject : MonoBehaviour
 
     public AIPSOPJsonHandler.PathB GeneratePathB()
     {
+        ResetTransformation();
+
         AIPSOPJsonHandler.PathB pathB = new AIPSOPJsonHandler.PathB();
 
         pathB.Type = Type;

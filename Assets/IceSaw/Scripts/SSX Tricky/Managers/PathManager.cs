@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.Tricky;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PathManager : TrickyBaseObject
@@ -95,6 +96,15 @@ public class PathManager : TrickyBaseObject
         aipsopJsonHandler.CreateJson(Path);
     }
 
+    public List<TrickyPathAObject> GetPathAPoints()
+    {
+        return transform.GetComponentsInChildren<TrickyPathAObject>().ToList();
+    }
+
+    public List<TrickyPathBObject> GetPathBPoints()
+    {
+        return transform.GetComponentsInChildren<TrickyPathBObject>().ToList();
+    }
 
 
     public enum PathManagerType
