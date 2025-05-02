@@ -45,6 +45,7 @@ public class SSX3LevelManager : MonoBehaviour
 
     public GameObject PatchesHolder;
     public GameObject Bin3Holder;
+    public GameObject Bin11Holder;
 
     // Start is called before the first frame update
     public void Awake()
@@ -61,7 +62,7 @@ public class SSX3LevelManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
-        LoadPath = "G:\\SSX Modding\\disk\\SSX 3\\DATA\\WORLDS\\File\\data\\worlds\\Unpack";
+        LoadPath = "G:\\SSX Modding\\disk\\SSX 3\\DATA\\WORLDS\\File\\data\\worlds\\Unpack3";
 
         LoadTextures();
         ReloadLightmaps();
@@ -91,6 +92,11 @@ public class SSX3LevelManager : MonoBehaviour
         Bin3Holder.transform.parent = WorldManagerHolder.transform;
         Bin3Holder.transform.localScale = Vector3.one;
         Bin3Holder.transform.localEulerAngles = Vector3.zero;
+
+        Bin11Holder = new GameObject("Bin11");
+        Bin11Holder.transform.parent = WorldManagerHolder.transform;
+        Bin11Holder.transform.localScale = Vector3.one;
+        Bin11Holder.transform.localEulerAngles = Vector3.zero;
 
         List<string> Paths = new List<string>();
 
@@ -156,7 +162,37 @@ public class SSX3LevelManager : MonoBehaviour
             }
         }
 
-        LoadGltfBinaryFromMemory();
+        Paths = Directory.GetFiles(LoadPath, "*Bin11.json", SearchOption.AllDirectories).ToList();
+
+        for (int a = 0; a < Paths.Count; a++)
+        {
+            //Debug.Log(Paths[a]);
+            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
+            GameObject NewHolder = new GameObject();
+            NewHolder.name = TrackName;
+            NewHolder.transform.parent = Bin11Holder.transform;
+            NewHolder.transform.localPosition = Vector3.zero;
+            NewHolder.transform.localScale = Vector3.one;
+            NewHolder.transform.localEulerAngles = Vector3.zero;
+
+            Bin11JsonHandler bin11JsonHandler = new Bin11JsonHandler();
+            bin11JsonHandler = Bin11JsonHandler.Load(Paths[a]);
+
+            for (int i = 0; i < bin11JsonHandler.bin11Files.Count; i++)
+            {
+                GameObject NewPatch = new GameObject();
+                NewPatch.transform.parent = NewHolder.transform;
+                NewPatch.transform.localPosition = Vector3.zero;
+                NewPatch.transform.localScale = Vector3.one;
+                NewPatch.transform.localEulerAngles = Vector3.zero;
+                var TempObject = NewPatch.AddComponent<SSX3Bin11>();
+                //TempObject.AddMissingComponents();
+                TempObject.LoadBin3(bin11JsonHandler.bin11Files[i]);
+
+            }
+        }
+
+        //LoadGltfBinaryFromMemory();
     }
 
 
