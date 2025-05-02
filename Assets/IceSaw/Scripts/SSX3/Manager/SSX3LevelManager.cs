@@ -46,6 +46,7 @@ public class SSX3LevelManager : MonoBehaviour
     public GameObject PatchesHolder;
     public GameObject Bin3Holder;
     public GameObject Bin11Holder;
+    public GameObject SplineHolder;
 
     // Start is called before the first frame update
     public void Awake()
@@ -97,6 +98,11 @@ public class SSX3LevelManager : MonoBehaviour
         Bin11Holder.transform.parent = WorldManagerHolder.transform;
         Bin11Holder.transform.localScale = Vector3.one;
         Bin11Holder.transform.localEulerAngles = Vector3.zero;
+
+        SplineHolder = new GameObject("Splines");
+        SplineHolder.transform.parent = WorldManagerHolder.transform;
+        SplineHolder.transform.localScale = Vector3.one;
+        SplineHolder.transform.localEulerAngles = Vector3.zero;
 
         List<string> Paths = new List<string>();
 
@@ -188,6 +194,36 @@ public class SSX3LevelManager : MonoBehaviour
                 var TempObject = NewPatch.AddComponent<SSX3Bin11>();
                 //TempObject.AddMissingComponents();
                 TempObject.LoadBin3(bin11JsonHandler.bin11Files[i]);
+
+            }
+        }
+
+        Paths = Directory.GetFiles(LoadPath, "*Splines.json", SearchOption.AllDirectories).ToList();
+
+        for (int a = 0; a < Paths.Count; a++)
+        {
+            //Debug.Log(Paths[a]);
+            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
+            GameObject NewHolder = new GameObject();
+            NewHolder.name = TrackName;
+            NewHolder.transform.parent = SplineHolder.transform;
+            NewHolder.transform.localPosition = Vector3.zero;
+            NewHolder.transform.localScale = Vector3.one;
+            NewHolder.transform.localEulerAngles = Vector3.zero;
+
+            SplineJsonHandler splineJsonnHandler = new SplineJsonHandler();
+            splineJsonnHandler = SplineJsonHandler.Load(Paths[a]);
+
+            for (int i = 0; i < splineJsonnHandler.Splines.Count; i++)
+            {
+                GameObject NewPatch = new GameObject();
+                NewPatch.transform.parent = NewHolder.transform;
+                NewPatch.transform.localPosition = Vector3.zero;
+                NewPatch.transform.localScale = Vector3.one;
+                NewPatch.transform.localEulerAngles = Vector3.zero;
+                var TempObject = NewPatch.AddComponent<SSX3Spline>();
+                //TempObject.AddMissingComponents();
+                TempObject.LoadBin3(splineJsonnHandler.Splines[i]);
 
             }
         }
