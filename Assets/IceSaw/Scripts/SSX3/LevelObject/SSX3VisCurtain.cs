@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 [ExecuteInEditMode]
 [SelectionBase]
-public class SSX3Bin11 : MonoBehaviour
+public class SSX3VisCurtain : MonoBehaviour
 {
     public float U0;
     public float U1;
@@ -27,7 +27,7 @@ public class SSX3Bin11 : MonoBehaviour
 
     public LineRenderer lineRenderer;
 
-    public void LoadBin3(Bin11JsonHandler.Bin11File bin11)
+    public void LoadVisCurtain(VisCurtainJsonHandler.VisCurtain bin11)
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = SSX3LevelManager.Instance.Spline;

@@ -94,7 +94,7 @@ public class SSX3LevelManager : MonoBehaviour
         Bin3Holder.transform.localScale = Vector3.one;
         Bin3Holder.transform.localEulerAngles = Vector3.zero;
 
-        Bin11Holder = new GameObject("Bin11");
+        Bin11Holder = new GameObject("Vis Curtain");
         Bin11Holder.transform.parent = WorldManagerHolder.transform;
         Bin11Holder.transform.localScale = Vector3.one;
         Bin11Holder.transform.localEulerAngles = Vector3.zero;
@@ -181,19 +181,19 @@ public class SSX3LevelManager : MonoBehaviour
             NewHolder.transform.localScale = Vector3.one;
             NewHolder.transform.localEulerAngles = Vector3.zero;
 
-            Bin11JsonHandler bin11JsonHandler = new Bin11JsonHandler();
-            bin11JsonHandler = Bin11JsonHandler.Load(Paths[a]);
+            VisCurtainJsonHandler visCurtainJsonHandler = new VisCurtainJsonHandler();
+            visCurtainJsonHandler = VisCurtainJsonHandler.Load(Paths[a]);
 
-            for (int i = 0; i < bin11JsonHandler.bin11Files.Count; i++)
+            for (int i = 0; i < visCurtainJsonHandler.VisCurtains.Count; i++)
             {
                 GameObject NewPatch = new GameObject();
                 NewPatch.transform.parent = NewHolder.transform;
                 NewPatch.transform.localPosition = Vector3.zero;
                 NewPatch.transform.localScale = Vector3.one;
                 NewPatch.transform.localEulerAngles = Vector3.zero;
-                var TempObject = NewPatch.AddComponent<SSX3Bin11>();
+                var TempObject = NewPatch.AddComponent<SSX3VisCurtain>();
                 //TempObject.AddMissingComponents();
-                TempObject.LoadBin3(bin11JsonHandler.bin11Files[i]);
+                TempObject.LoadVisCurtain(visCurtainJsonHandler.VisCurtains[i]);
 
             }
         }
