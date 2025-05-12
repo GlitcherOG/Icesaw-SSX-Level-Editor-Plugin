@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
 using UnityEngine.Splines;
+using Unity.Mathematics;
 
 [ExecuteInEditMode]
 public class TrickySplineObject : TrickyBaseObject
@@ -106,6 +107,15 @@ public class TrickySplineObject : TrickyBaseObject
             }
 
             splineContainer.Spline.Add(bezierKnot);
+
+
+            splineContainer.Spline.GetOrCreateFloat4Data(i.ToString());
+
+            SplineData<float4> test = new SplineData<float4>();
+
+            test.Add(0, new float4(spline.Segments[i].U0, spline.Segments[i].U1, spline.Segments[i].U2, spline.Segments[i].U3));
+
+            splineContainer.Spline.SetFloat4Data(i.ToString(), test);
         }
 
 
