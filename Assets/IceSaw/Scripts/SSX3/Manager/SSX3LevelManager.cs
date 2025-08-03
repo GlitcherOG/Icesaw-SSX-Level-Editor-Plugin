@@ -63,7 +63,7 @@ public class SSX3LevelManager : MonoBehaviour
 
     public void LoadData(string Path)
     {
-        LoadPath = "G:\\SSX Modding\\disk\\SSX 3\\DATA\\WORLDS\\File\\data\\worlds\\Unpack3";
+        LoadPath = Path;
 
         LoadTextures();
         ReloadLightmaps();
