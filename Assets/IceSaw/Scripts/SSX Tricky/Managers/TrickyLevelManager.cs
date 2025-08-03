@@ -780,16 +780,16 @@ public class TrickyLevelManager : MonoBehaviour
         {
             if (GUILayout.Button("Edit Mode"))
                 EditMode = false;
-            //if (!PathEventMode)
-            //{
-            //    if (GUILayout.Button("Path Mode"))
-            //        PathEventMode = true;
-            //}
-            //else
-            //{
-            //    if (GUILayout.Button("Event Mode"))
-            //        PathEventMode = false;
-            //}
+            if (!PathEventMode)
+            {
+                if (GUILayout.Button("Path Mode"))
+                    PathEventMode = true;
+            }
+            else
+            {
+                if (GUILayout.Button("Event Mode"))
+                    PathEventMode = false;
+            }
         }
         else
         {

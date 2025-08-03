@@ -99,7 +99,7 @@ public class TrickyPathAObject : MonoBehaviour
         float TestDistance = 0f;
         for (int i = 0; i < VectorPoints.Count; i++)
         {
-            TestDistance += Vector2.Distance(VectorPoints[i], new Vector2(0, 0));
+            TestDistance += Vector3.Distance(VectorPoints[i], new Vector2(0, 0));
             if (TestDistance >= FindDistance)
             {
                 //Get Size
@@ -110,7 +110,11 @@ public class TrickyPathAObject : MonoBehaviour
                 float Percentage = (position / Size);
 
                 //Return Local Point
-                return (Percentage * VectorPoints[i]) + PathPoints[i - 1];
+                if (i - 1 < 0)
+                {
+                    return ((1f - Percentage) * VectorPoints[i]);
+                }
+                return ((1f - Percentage) * VectorPoints[i]) + PathPoints[i - 1];
             }
             OldDistance = TestDistance;
         }
@@ -330,26 +334,14 @@ public class TrickyPathAObjectEditor : Editor
         TrickyPathAObject connectedObjects = target as TrickyPathAObject;
         if (!connectedObjects.Hold)
         {
-            if (TrickyLevelManager.Instance.EditMode && TrickyLevelManager.Instance.PathEventMode)
+            if (TrickyLevelManager.Instance.EditMode)
             {
-                Tools.current = Tool.None;
-                positions = new Vector3[connectedObjects.PathEvents.Count * 2];
-                for (int i = 0; i < connectedObjects.PathEvents.Count * 2; i++)
-                {
-                    positions[i*2] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart)), Quaternion.identity);
-                    positions[i*2 + 1] = Handles.PositionHandle(connectedObjects.transform.TransformPoint(connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd)), Quaternion.identity);
-                }
-            }
-            else if (TrickyLevelManager.Instance.EditMode && !TrickyLevelManager.Instance.PathEventMode)
-            {
-                Tools.current = Tool.None;
-                connectedObjects.lineRenderer.enabled = false;
-
                 // Draw your handles here No Curve Handle
-                positions = new Vector3[connectedObjects.PathPoints.Count];
+                positions = new Vector3[connectedObjects.PathPoints.Count+1];
+                positions[0] = connectedObjects.transform.position;
                 for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
                 {
-                    positions[i] = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
+                    positions[i+1] = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
                 }
 
                 Handles.color = UnityEngine.Color.red;
@@ -359,6 +351,37 @@ public class TrickyPathAObjectEditor : Editor
                     Handles.DrawLine(positions[i], positions[i + 1], 6f);
                 }
                 Handles.color = UnityEngine.Color.white;
+            }
+
+            if (TrickyLevelManager.Instance.EditMode && TrickyLevelManager.Instance.PathEventMode)
+            {
+                Tools.current = Tool.None;
+                positions = new Vector3[connectedObjects.PathEvents.Count * 2];
+                for (int i = 0; i < connectedObjects.PathEvents.Count; i++)
+                {
+                    var StartPoint = connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart);
+                    var EndPoint = connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd);
+
+                    var StartPoint1 = connectedObjects.transform.TransformPoint(StartPoint);
+                    var EndPoint1 = connectedObjects.transform.TransformPoint(EndPoint);
+                    Handles.zTest = UnityEngine.Rendering.CompareFunction.Always;
+
+                    Handles.color = UnityEngine.Color.blue;
+                    positions[i * 2] = Handles.Slider(StartPoint1, EndPoint1 - StartPoint1);
+                    Handles.color = UnityEngine.Color.yellow;
+                    positions[i * 2 + 1] = Handles.Slider(EndPoint1, StartPoint1 - EndPoint1);
+                    Handles.color = UnityEngine.Color.white;
+
+                    Handles.Label(StartPoint1, i.ToString());
+                    Handles.Label(EndPoint1, i.ToString());
+
+                    Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+                }
+            }
+            else if (TrickyLevelManager.Instance.EditMode && !TrickyLevelManager.Instance.PathEventMode)
+            {
+                Tools.current = Tool.None;
+                connectedObjects.lineRenderer.enabled = false;
 
                 //Draw Gizmo
                 for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
