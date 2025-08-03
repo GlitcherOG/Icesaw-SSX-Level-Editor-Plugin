@@ -46,6 +46,7 @@ public class TrickyPathAObject : MonoBehaviour
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.useWorldSpace = true;
         lineRenderer.hideFlags = HideFlags.HideInInspector;
+        lineRenderer.widthMultiplier = 0.45f;
         lineRenderer.material = TrickyLevelManager.Instance.AIPath;
         lineRenderer.textureMode = LineTextureMode.Tile;
     }
