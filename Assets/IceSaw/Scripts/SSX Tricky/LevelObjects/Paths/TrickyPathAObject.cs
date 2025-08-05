@@ -6,6 +6,7 @@ using SSXMultiTool.Utilities;
 using UnityEditor;
 using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 
+[ExecuteInEditMode]
 public class TrickyPathAObject : MonoBehaviour
 {
     public int Type;

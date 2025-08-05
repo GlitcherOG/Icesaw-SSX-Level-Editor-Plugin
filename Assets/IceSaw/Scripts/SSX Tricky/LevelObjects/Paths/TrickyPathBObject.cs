@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 
+[ExecuteInEditMode]
 public class TrickyPathBObject : MonoBehaviour
 {
     public int Type;
@@ -314,9 +315,9 @@ public class TrickyPathBObject : MonoBehaviour
             //    DrawLines();
             //}
         }
-        else if (Selection.activeObject == this.gameObject && TrickyLevelManager.Instance.EditMode)
+        else if (Selection.activeObject == this.gameObject && !TrickyLevelManager.Instance.EditMode)
         {
-            DrawLines();
+            //DrawLines();
         }
     }
 }
@@ -337,7 +338,7 @@ public class TrickyPathBObjectEditor : Editor
                 positions[0] = connectedObjects.transform.position;
                 for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
                 {
-                    positions[i] = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
+                    positions[i+1] = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
                 }
 
                 Handles.color = UnityEngine.Color.red;
@@ -379,12 +380,17 @@ public class TrickyPathBObjectEditor : Editor
                 Tools.current = Tool.None;
                 connectedObjects.lineRenderer.enabled = false;
 
+                Vector3 TestVector = Handles.PositionHandle(positions[0], Quaternion.identity);
+                if (TestVector != connectedObjects.transform.position)
+                {
+                    connectedObjects.transform.position = TestVector;
+                }
+
                 //Draw Gizmo
                 for (var i = 0; i < connectedObjects.PathPoints.Count; i++)
                 {
-                    var TempSegment = connectedObjects.transform.TransformPoint(connectedObjects.PathPoints[i]);
-                    Vector3 TestVector = Handles.PositionHandle(positions[i], Quaternion.identity);
-                    if (TestVector != positions[i])
+                    TestVector = Handles.PositionHandle(positions[i+1], Quaternion.identity);
+                    if (TestVector != positions[i+1])
                     {
                         connectedObjects.PathPoints[i] = connectedObjects.transform.InverseTransformPoint(TestVector);
                     }
