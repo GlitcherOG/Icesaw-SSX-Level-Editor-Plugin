@@ -50,12 +50,12 @@ public class OGLooseSegment : MonoBehaviour
     {
         AddMissingComponents();
 
-        transform.localPosition = JsonUtil.ArrayToVector3(spline.Point1);
+        transform.localPosition = JsonUtil.Array2DToVector3(spline.Points, 0);
 
-        Point1 = JsonUtil.ArrayToVector3(spline.Point1);
-        Point2 = JsonUtil.ArrayToVector3(spline.Point2);
-        Point3 = JsonUtil.ArrayToVector3(spline.Point3);
-        Point4 = JsonUtil.ArrayToVector3(spline.Point4);
+        Point1 = JsonUtil.Array2DToVector3(spline.Points, 0);
+        Point2 = JsonUtil.Array2DToVector3(spline.Points, 1);
+        Point3 = JsonUtil.Array2DToVector3(spline.Points, 2);
+        Point4 = JsonUtil.Array2DToVector3(spline.Points, 3);
 
         U0 = spline.U0;
         U1 = spline.U1;

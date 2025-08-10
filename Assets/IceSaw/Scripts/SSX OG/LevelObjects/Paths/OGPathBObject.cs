@@ -3,6 +3,7 @@ using SSXMultiTool.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 
 public class OGPathBObject : MonoBehaviour
 {
@@ -49,10 +50,10 @@ public class OGPathBObject : MonoBehaviour
         {
             var NewStruct = new PathEvent();
 
-            NewStruct.U0 = pathb.PathEvents[i].U0;
-            NewStruct.U1 = pathb.PathEvents[i].U1;
-            NewStruct.U2 = pathb.PathEvents[i].U2;
-            NewStruct.U3 = pathb.PathEvents[i].U3;
+            NewStruct.EventType = pathb.PathEvents[i].EventType;
+            NewStruct.EventValue = pathb.PathEvents[i].EventValue;
+            NewStruct.EventStart = pathb.PathEvents[i].EventStart;
+            NewStruct.EventEnd = pathb.PathEvents[i].EventEnd;
 
             PathEvents.Add(NewStruct);
         }
@@ -127,9 +128,9 @@ public class OGPathBObject : MonoBehaviour
     [System.Serializable]
     public struct PathEvent
     {
-        public int U0;
-        public int U1;
-        public float U2;
-        public float U3;
+        public int EventType;
+        public int EventValue;
+        public float EventStart;
+        public float EventEnd;
     }
 }

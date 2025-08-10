@@ -49,10 +49,10 @@ public class OGPathAObject : MonoBehaviour
         {
             var NewStruct = new PathEvent();
 
-            NewStruct.U0 = pathA.PathEvents[i].U0;
-            NewStruct.U1 = pathA.PathEvents[i].U1;
-            NewStruct.U2 = pathA.PathEvents[i].U2;
-            NewStruct.U3 = pathA.PathEvents[i].U3;
+            NewStruct.EventType = pathA.PathEvents[i].EventType;
+            NewStruct.EventValue = pathA.PathEvents[i].EventValue;
+            NewStruct.EventStart = pathA.PathEvents[i].EventStart;
+            NewStruct.EventEnd = pathA.PathEvents[i].EventEnd;
 
             PathEvents.Add(NewStruct);
         }
@@ -127,9 +127,9 @@ public class OGPathAObject : MonoBehaviour
     [System.Serializable]
     public struct PathEvent
     {
-        public int U0;
-        public int U1;
-        public float U2;
-        public float U3;
+        public int EventType;
+        public int EventValue;
+        public float EventStart;
+        public float EventEnd;
     }
 }

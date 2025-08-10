@@ -48,8 +48,8 @@ public class OGPathFileManager : MonoBehaviour
     {
         AIPJsonHandler aipJson = new AIPJsonHandler();
         aipJson = AIPJsonHandler.Load(Path);
-        GeneratePathAs(aipJson.PathAs);
-        GeneratePathBs(aipJson.PathBs);
+        GeneratePathAs(aipJson.RaceLine);
+        GeneratePathBs(aipJson.AIPath);
     }
 
     public void GeneratePathAs(List<AIPJsonHandler.PathData> pathAs)

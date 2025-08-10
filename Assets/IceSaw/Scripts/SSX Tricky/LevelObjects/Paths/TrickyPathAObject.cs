@@ -369,8 +369,10 @@ public class TrickyPathAObjectEditor : Editor
 
                     Handles.color = UnityEngine.Color.blue;
                     positions[i * 2] = Handles.Slider(StartPoint1, EndPoint1 - StartPoint1);
+
                     Handles.color = UnityEngine.Color.yellow;
                     positions[i * 2 + 1] = Handles.Slider(EndPoint1, StartPoint1 - EndPoint1);
+
                     Handles.color = UnityEngine.Color.white;
 
                     Handles.Label(StartPoint1, i.ToString());
