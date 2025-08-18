@@ -11,10 +11,7 @@ using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 [ExecuteInEditMode]
 public class TrickyPathBObject : MonoBehaviour
 {
-    public int Type;
-    public int U0;
-    public int U1;
-    public float U2;
+    public float DistanceToFinish;
 
     [OnChangedCall("PathPointsUpdate")]
     public List<Vector3> PathPoints;
@@ -53,9 +50,9 @@ public class TrickyPathBObject : MonoBehaviour
     public void LoadPathB(AIPSOPJsonHandler.PathB pathB)
     {
         AddMissingComponents();
-        Type = pathB.Type;
-        U1 = pathB.U1;
-        U2 = pathB.U2;
+
+        transform.name = pathB.Name;
+        DistanceToFinish = pathB.DistanceToFinish;
 
         transform.localPosition = JsonUtil.ArrayToVector3(pathB.PathPos);
 
@@ -130,9 +127,8 @@ public class TrickyPathBObject : MonoBehaviour
 
         AIPSOPJsonHandler.PathB pathB = new AIPSOPJsonHandler.PathB();
 
-        pathB.Type = Type;
-        pathB.U1 = U1;
-        pathB.U2 = U2;
+        pathB.Name = transform.name;
+        pathB.DistanceToFinish = DistanceToFinish;
 
         pathB.PathPos = JsonUtil.Vector3ToArray(transform.localPosition);
 

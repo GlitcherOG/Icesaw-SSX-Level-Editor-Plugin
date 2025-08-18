@@ -45,13 +45,10 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [System.Serializable]
         public struct PathA
         {
-            public int Type;
-            public int U1;
-            public int U2;
+            public string Name;
+
             public int U3;
-            public int U4;
-            public int U5;
-            public int Respawnable;
+            public bool Respawnable;
 
             public float[] PathPos;
 
@@ -70,10 +67,9 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [System.Serializable]
         public struct PathB
         {
-            public int Type;
-            public int U0;
-            public int U1;
-            public float U2;
+            public string Name;
+
+            public float DistanceToFinish;
 
             public float[] PathPos;
 

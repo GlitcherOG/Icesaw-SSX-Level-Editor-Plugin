@@ -9,13 +9,7 @@ using static SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler;
 [ExecuteInEditMode]
 public class TrickyPathAObject : MonoBehaviour
 {
-    public int Type;
-    public int U1;
-    public int U2;
-    public int U3;
-    public int U4;
-    public int U5;
-    public int Respawnable;
+    public bool Respawnable;
 
     [OnChangedCall("PathPointsUpdate")]
     public List<Vector3> PathPoints;
@@ -57,12 +51,8 @@ public class TrickyPathAObject : MonoBehaviour
     {
         AddMissingComponents();
 
-        Type = pathA.Type;
-        U1 = pathA.U1;
-        U2 = pathA.U2;
-        U3 = pathA.U3;
-        U4 = pathA.U4;
-        U5 = pathA.U5;
+        transform.name = pathA.Name;
+
         Respawnable = pathA.Respawnable;
 
         transform.localPosition = JsonUtil.ArrayToVector3(pathA.PathPos);
@@ -129,12 +119,8 @@ public class TrickyPathAObject : MonoBehaviour
 
         AIPSOPJsonHandler.PathA NewPathA = new AIPSOPJsonHandler.PathA();
 
-        NewPathA.Type = Type;
-        NewPathA.U1 = U1;
-        NewPathA.U2 = U2;
-        NewPathA.U3 = U3;
-        NewPathA.U4 = U4;
-        NewPathA.U5 = U5;
+        NewPathA.Name = transform.name;
+
         NewPathA.Respawnable = Respawnable;
 
         NewPathA.PathPos = JsonUtil.Vector3ToArray(transform.localPosition);

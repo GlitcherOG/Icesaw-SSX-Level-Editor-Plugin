@@ -130,8 +130,8 @@ public class TrickyPatchObject : TrickyBaseObject
         meshFilter = this.AddComponent<MeshFilter>();
         meshRenderer = this.AddComponent<MeshRenderer>();
 
-        meshFilter.hideFlags = HideFlags.HideInInspector;
-        meshRenderer.hideFlags = HideFlags.HideInInspector;
+        //meshFilter.hideFlags = HideFlags.HideInInspector;
+        //meshRenderer.hideFlags = HideFlags.HideInInspector;
         //Set Material
         var TempMaterial = (Material)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Material\\MainPatchMaterial.mat", typeof(Material));
         Material mat = new Material(TempMaterial);
