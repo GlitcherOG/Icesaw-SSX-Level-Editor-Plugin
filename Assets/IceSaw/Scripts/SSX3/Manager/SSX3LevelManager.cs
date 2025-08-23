@@ -44,6 +44,7 @@ public class SSX3LevelManager : MonoBehaviour
     public Material RaceLine;
 
     public GameObject PatchesHolder;
+    public GameObject ModelsHolder;
     public GameObject Bin3Holder;
     public GameObject Bin11Holder;
     public GameObject SplineHolder;
@@ -89,6 +90,11 @@ public class SSX3LevelManager : MonoBehaviour
         PatchesHolder.transform.localScale = Vector3.one;
         PatchesHolder.transform.localEulerAngles = Vector3.zero;
 
+        ModelsHolder = new GameObject("Models");
+        ModelsHolder.transform.parent = WorldManagerHolder.transform;
+        ModelsHolder.transform.localScale = Vector3.one;
+        ModelsHolder.transform.localEulerAngles = Vector3.zero;
+
         Bin3Holder = new GameObject("Bin3");
         Bin3Holder.transform.parent = WorldManagerHolder.transform;
         Bin3Holder.transform.localScale = Vector3.one;
@@ -110,7 +116,6 @@ public class SSX3LevelManager : MonoBehaviour
 
         for (int a = 0; a < Paths.Count; a++)
         {
-            Debug.Log(Paths[a]);
             var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
             GameObject NewHolder = new GameObject();
             NewHolder.name = TrackName;
@@ -142,7 +147,6 @@ public class SSX3LevelManager : MonoBehaviour
 
         for (int a = 0; a < Paths.Count; a++)
         {
-            Debug.Log(Paths[a]);
             var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
             GameObject NewHolder = new GameObject();
             NewHolder.name = TrackName;
@@ -172,7 +176,6 @@ public class SSX3LevelManager : MonoBehaviour
 
         for (int a = 0; a < Paths.Count; a++)
         {
-            //Debug.Log(Paths[a]);
             var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
             GameObject NewHolder = new GameObject();
             NewHolder.name = TrackName;
@@ -202,7 +205,6 @@ public class SSX3LevelManager : MonoBehaviour
 
         for (int a = 0; a < Paths.Count; a++)
         {
-            //Debug.Log(Paths[a]);
             var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
             GameObject NewHolder = new GameObject();
             NewHolder.name = TrackName;
@@ -228,7 +230,7 @@ public class SSX3LevelManager : MonoBehaviour
             }
         }
 
-        //LoadGltfBinaryFromMemory();
+        LoadGltfBinaryFromMemory();
     }
 
 
@@ -570,20 +572,37 @@ public class SSX3LevelManager : MonoBehaviour
 
     async void LoadGltfBinaryFromMemory()
     {
-        List<string> Paths = Directory.GetFiles(LoadPath, "*.glb", SearchOption.AllDirectories).ToList();
+        List<string> Paths = Directory.GetDirectories(LoadPath).ToList();
 
-        for (int i = 0; i < 1; i++)
+        for (int a = 0; a < 1; a++)
         {
-            var filePath = "G:\\SSX Modding\\disk\\SSX 3\\DATA\\WORLDS\\File\\data\\worlds\\Unpack1\\TRANSP\\Models\\0-0-24.glb";//Paths[i];
-            var importOpt = new ImportOptions();
-            importOpt.DataLoader = new UnityWebRequestLoader(Path.GetDirectoryName(filePath));
-            var import = new GLTFSceneImporter(Path.GetFileName(filePath), importOpt);
-            //await import.LoadNodeAsync(0, System.Threading.CancellationToken.None);
-            await import.LoadSceneAsync();
+            var TrackName = Paths[a].Replace(LoadPath, "");
+            GameObject NewHolder = new GameObject();
+            NewHolder.name = TrackName;
+            NewHolder.transform.parent = ModelsHolder.transform;
+            NewHolder.transform.localPosition = Vector3.zero;
+            NewHolder.transform.localScale = Vector3.one;
+            NewHolder.transform.localEulerAngles = Vector3.zero;
 
-            GameObject Temp = import.CreatedObject;
+            if (Directory.Exists(Paths[a] + "\\Models"))
+            {
+                List<string> FilePaths = Directory.GetFiles(Paths[a] + "\\Models", "*.glb", SearchOption.AllDirectories).ToList();
+                for (int i = 0; i < FilePaths.Count; i++)
+                {
+                    var filePath = FilePaths[i];
+                    var importOpt = new ImportOptions();
+                    importOpt.DataLoader = new UnityWebRequestLoader(Path.GetDirectoryName(filePath));
+                    var import = new GLTFSceneImporter(Path.GetFileName(filePath), importOpt);
+                    await import.LoadSceneAsync();
 
-            Temp.name = "Test";
+                    GameObject Temp = import.CreatedObject;
+                    Temp.name = Path.GetFileName(filePath).TrimEnd(".glb");
+                    Temp.transform.parent = NewHolder.transform;
+                    Temp.transform.localPosition = Vector3.zero;
+                    Temp.transform.localScale = Vector3.one;
+                    Temp.transform.localEulerAngles = Vector3.zero;
+                }
+            }
         }
     }
 
