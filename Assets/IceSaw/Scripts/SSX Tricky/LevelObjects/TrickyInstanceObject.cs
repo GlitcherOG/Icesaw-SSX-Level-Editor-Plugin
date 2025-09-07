@@ -46,7 +46,6 @@ public class TrickyInstanceObject : TrickyBaseObject
     public float U0;
     public float PlayerBounceAmmount;
     public int U2;
-    public int U22;
     public bool Visable;
     public bool PlayerCollision;
     public bool PlayerBounce;
@@ -148,7 +147,6 @@ public class TrickyInstanceObject : TrickyBaseObject
         U0 = instance.U0;
         PlayerBounceAmmount = instance.PlayerBounceAmmount;
         U2 = instance.U2;
-        U22 = instance.U22;
         Visable = instance.Visable;
         PlayerCollision = instance.PlayerCollision;
         PlayerBounce = instance.PlayerBounce;
@@ -451,7 +449,6 @@ public class TrickyInstanceObject : TrickyBaseObject
         TempInstance.U0 = U0;
         TempInstance.PlayerBounceAmmount = PlayerBounceAmmount;
         TempInstance.U2 = U2;
-        TempInstance.U22 = U22;
         TempInstance.Visable = Visable;
         TempInstance.PlayerCollision = PlayerCollision;
         TempInstance.PlayerBounce = PlayerBounce;
