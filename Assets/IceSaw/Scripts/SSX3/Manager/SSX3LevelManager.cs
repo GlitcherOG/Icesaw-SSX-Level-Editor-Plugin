@@ -48,6 +48,7 @@ public class SSX3LevelManager : MonoBehaviour
     public GameObject Bin3Holder;
     public GameObject Bin11Holder;
     public GameObject SplineHolder;
+    public GameObject PrefabsHolder;
 
     // Start is called before the first frame update
     public void Awake()
@@ -109,6 +110,11 @@ public class SSX3LevelManager : MonoBehaviour
         SplineHolder.transform.parent = WorldManagerHolder.transform;
         SplineHolder.transform.localScale = Vector3.one;
         SplineHolder.transform.localEulerAngles = Vector3.zero;
+
+        PrefabsHolder = new GameObject("Prefabs");
+        PrefabsHolder.transform.parent = WorldManagerHolder.transform;
+        PrefabsHolder.transform.localScale = Vector3.one;
+        PrefabsHolder.transform.localEulerAngles = Vector3.zero;
 
         List<string> Paths = new List<string>();
 
@@ -230,7 +236,36 @@ public class SSX3LevelManager : MonoBehaviour
             }
         }
 
-        LoadGltfBinaryFromMemory();
+        Paths = Directory.GetFiles(LoadPath, "*Prefabs.json", SearchOption.AllDirectories).ToList();
+
+        for (int a = 0; a < 1; a++)
+        {
+            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
+            GameObject NewHolder = new GameObject();
+            NewHolder.name = TrackName;
+            NewHolder.transform.parent = PrefabsHolder.transform;
+            NewHolder.transform.localPosition = Vector3.zero;
+            NewHolder.transform.localScale = Vector3.one;
+            NewHolder.transform.localEulerAngles = Vector3.zero;
+
+            MDRJsonHandler splineJsonnHandler = new MDRJsonHandler();
+            splineJsonnHandler = MDRJsonHandler.Load(Paths[a]);
+
+            for (int i = 0; i < splineJsonnHandler.mainModelHeaders.Count; i++)
+            {
+                GameObject NewPatch = new GameObject();
+                NewPatch.transform.parent = NewHolder.transform;
+                NewPatch.transform.localPosition = Vector3.zero;
+                NewPatch.transform.localScale = Vector3.one;
+                NewPatch.transform.localEulerAngles = Vector3.zero;
+                var TempObject = NewPatch.AddComponent<SSX3PrefabObject>();
+                //TempObject.AddMissingComponents();
+                TempObject.LoadPrefab(splineJsonnHandler.mainModelHeaders[i]);
+
+            }
+        }
+
+        //LoadGltfBinaryFromMemory();
     }
 
 
