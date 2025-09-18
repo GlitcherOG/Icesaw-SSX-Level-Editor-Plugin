@@ -15,8 +15,6 @@ public class TrickyPathAObject : MonoBehaviour
     public List<Vector3> PathPoints;
     [HideInInspector]
     public List<Vector3> VectorPoints;
-    //[HideInInspector]
-    //public List<Vector3> WorldPathPoints;
 
     public List<PathEvent> PathEvents;
 
@@ -347,17 +345,24 @@ public class TrickyPathAObjectEditor : Editor
                 for (int i = 0; i < connectedObjects.PathEvents.Count; i++)
                 {
                     var StartPoint = connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart);
+                    var StartPointPlus = connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventStart+1);
+
                     var EndPoint = connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd);
+                    var EndPointMinus = connectedObjects.FindPathLocalPoint(connectedObjects.PathEvents[i].EventEnd-1);
 
                     var StartPoint1 = connectedObjects.transform.TransformPoint(StartPoint);
                     var EndPoint1 = connectedObjects.transform.TransformPoint(EndPoint);
+
+                    var StartPointPlus1 = connectedObjects.transform.TransformPoint(StartPointPlus);
+                    var EndPointMinus1 = connectedObjects.transform.TransformPoint(EndPointMinus);
+
                     Handles.zTest = UnityEngine.Rendering.CompareFunction.Always;
 
                     Handles.color = UnityEngine.Color.blue;
-                    positions[i * 2] = Handles.Slider(StartPoint1, EndPoint1 - StartPoint1);
+                    positions[i * 2] = Handles.Slider(StartPoint1, StartPointPlus1 - StartPoint1);
 
                     Handles.color = UnityEngine.Color.yellow;
-                    positions[i * 2 + 1] = Handles.Slider(EndPoint1, StartPoint1 - EndPoint1);
+                    positions[i * 2 + 1] = Handles.Slider(EndPoint1, EndPointMinus1 - EndPoint1);
 
                     Handles.color = UnityEngine.Color.white;
 
