@@ -61,12 +61,12 @@ public class TrickyLevelManager : MonoBehaviour
         dataManager = new DataManager();
         LoadPath = SSXProjectWindow.CurrentPath;
 
-        LoadMeshCache(Path + "\\Models");
+        LoadMeshCache(Path + "\\Meshes");
         LoadCollisionMeshCache(Path + "\\Collision");
         LoadTextures();
         ReloadLightmaps();
         LoadSkyboxTextures(Path + "\\Skybox");
-        LoadSkyMeshCache(Path + "\\Skybox\\Models");
+        LoadSkyMeshCache(Path + "\\Skybox\\Meshes");
 
         Error = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets\\IceSaw\\Textures\\Error.png", typeof(Texture2D));
         Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
