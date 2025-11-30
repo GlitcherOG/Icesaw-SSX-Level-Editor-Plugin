@@ -29,13 +29,13 @@ public class TrickySkyboxPrefabObject : TrickyPrefabBase
         return MainObject;
     }
 
-    public void LoadPrefab(PrefabJsonHandler.PrefabJson prefabJson, bool Skybox = false)
+    public void LoadPrefab(ModelJsonHandler.ModelJson prefabJson, bool Skybox = false)
     {
-        transform.name = prefabJson.PrefabName;
+        transform.name = prefabJson.ModelName;
         Unknown3 = prefabJson.Unknown3;
         AnimTime = prefabJson.AnimTime;
 
-        for (int i = 0; i < prefabJson.PrefabObjects.Count; i++)
+        for (int i = 0; i < prefabJson.ModelObjects.Count; i++)
         {
             GameObject ChildMesh = new GameObject(i.ToString());
 
@@ -44,26 +44,26 @@ public class TrickySkyboxPrefabObject : TrickyPrefabBase
             ChildMesh.transform.localScale = Vector3.one;
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
-            ChildMesh.AddComponent<TrickyPrefabSkyboxSubObject>().LoadPrefabSubModel(prefabJson.PrefabObjects[i]);
+            ChildMesh.AddComponent<TrickyPrefabSkyboxSubObject>().LoadPrefabSubModel(prefabJson.ModelObjects[i]);
         }
 
     }
 
-    public PrefabJsonHandler.PrefabJson GeneratePrefabs(bool Skybox = false)
+    public ModelJsonHandler.ModelJson GeneratePrefabs(bool Skybox = false)
     {
-        PrefabJsonHandler.PrefabJson prefabJson = new PrefabJsonHandler.PrefabJson();
+        ModelJsonHandler.ModelJson prefabJson = new ModelJsonHandler.ModelJson();
 
-        prefabJson.PrefabName = transform.name;
+        prefabJson.ModelName = transform.name;
 
         prefabJson.Unknown3 = Unknown3;
         prefabJson.AnimTime = AnimTime;
-        prefabJson.PrefabObjects = new List<PrefabJsonHandler.ObjectHeader>();
+        prefabJson.ModelObjects = new List<ModelJsonHandler.ObjectHeader>();
 
         var TempList = GetComponentsInChildren<TrickyPrefabSkyboxSubObject>();
 
         for (int i = 0; i < TempList.Length; i++)
         {
-            prefabJson.PrefabObjects.Add(TempList[i].GeneratePrefabSubModel());
+            prefabJson.ModelObjects.Add(TempList[i].GeneratePrefabSubModel());
         }
 
         return prefabJson;

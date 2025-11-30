@@ -47,7 +47,7 @@ public class LightObject : TrickyBaseObject
         UnknownInt3 = lightJson.UnknownInt3;
         Hash = lightJson.Hash;
 
-        transform.localPosition = JsonUtil.ArrayToVector3(lightJson.Postion);
+        transform.localPosition = JsonUtil.ArrayToVector3(lightJson.Position);
         transform.localRotation = Quaternion.LookRotation(JsonUtil.ArrayToVector3(lightJson.Direction), Vector3.down);
     }
 
@@ -56,7 +56,7 @@ public class LightObject : TrickyBaseObject
         var NewLight = new LightJsonHandler.LightJson();
 
         NewLight.LightName = transform.name;
-        NewLight.Postion = JsonUtil.Vector3ToArray(transform.localPosition);
+        NewLight.Position = JsonUtil.Vector3ToArray(transform.localPosition);
         NewLight.Type = (int)lightType;
         NewLight.SpriteRes = SpriteRes;
         NewLight.UnknownFloat1 = UnknownFloat1;

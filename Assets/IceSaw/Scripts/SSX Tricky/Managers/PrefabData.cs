@@ -16,7 +16,7 @@ public class PrefabData : MonoBehaviour
     public ParticleInstanceJsonHandler particleJSONHandler;
     public ParticleModelJsonHandler particleModelJSONHandler;
     public PatchesJsonHandler patchesJSONHandler;
-    public PrefabJsonHandler prefabJSONHandler;
+    public ModelJsonHandler prefabJSONHandler;
     public SplineJsonHandler splineJSONHandler;
     public SSFJsonHandler sSFJSONHandler;
 

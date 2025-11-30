@@ -300,7 +300,7 @@ public class DataManager
         gameObject.transform.hideFlags = HideFlags.HideInInspector;
 
         //Generate Prefab Manager
-        PrefabManagerHolder = new GameObject("Tricky Prefab Manager");
+        PrefabManagerHolder = new GameObject("Tricky Model Manager");
         PrefabManagerHolder.transform.parent = gameObject.transform;
         PrefabManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         PrefabManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -347,7 +347,7 @@ public class DataManager
         //TempPathFile.runInEditMode = true;
         //TempPathFile.GenerateEmptyObjects();
 
-        PrefabsHolder = new GameObject("Prefabs");
+        PrefabsHolder = new GameObject("Models");
         PrefabsHolder.transform.parent = PrefabManagerHolder.transform;
         PrefabsHolder.transform.localPosition = new Vector3(0, 0, 20000);
         PrefabsHolder.transform.localEulerAngles = Vector3.zero;
@@ -359,7 +359,7 @@ public class DataManager
         MaterialHolder.transform.localEulerAngles = Vector3.zero;
         MaterialHolder.transform.localScale = Vector3.one;
 
-        ParticlePrefabHolder = new GameObject("Particle Prefabs");
+        ParticlePrefabHolder = new GameObject("Particle Models");
         ParticlePrefabHolder.transform.parent = PrefabManagerHolder.transform;
         ParticlePrefabHolder.transform.localPosition = new Vector3(0, 0, 30000);
         ParticlePrefabHolder.transform.localEulerAngles = Vector3.zero;
@@ -402,7 +402,7 @@ public class DataManager
         SkyboxMaterialHolder.transform.localEulerAngles = Vector3.zero;
         SkyboxMaterialHolder.transform.localPosition = Vector3.zero;
 
-        SkyboxPrefabsHolder = new GameObject("Prefabs");
+        SkyboxPrefabsHolder = new GameObject("Models");
         SkyboxPrefabsHolder.transform.parent = SkyboxManagerHolder.transform;
         SkyboxPrefabsHolder.transform.localScale = Vector3.one;
         SkyboxPrefabsHolder.transform.localEulerAngles = Vector3.zero;
@@ -441,8 +441,8 @@ public class DataManager
         SOPHolder.AddComponent<PathManager>().GenerateEmptyObjects(PathManager.PathManagerType.Showoff);
 
         LoadMaterials(Path + "\\Materials.json", MaterialHolder);
-        LoadPrefabs(Path + "\\Prefabs.json", PrefabsHolder);
-        LoadParticlePrefabs(Path + "\\ParticlePrefabs.json", ParticlePrefabHolder);
+        LoadPrefabs(Path + "\\Models.json", PrefabsHolder);
+        LoadParticlePrefabs(Path + "\\ParticleModels.json", ParticlePrefabHolder);
         LoadPatches(Path + "\\Patches.json", PatchesHolder);
         LoadInstance(Path + "\\Instances.json", InstancesHolder);
         LoadSplines(Path + "\\Splines.json", SplinesHolder);
@@ -458,7 +458,7 @@ public class DataManager
         if (File.Exists(Path + "\\Skybox\\Materials.json"))
         {
             LoadSkyboxMaterials(Path + "\\Skybox\\Materials.json", SkyboxMaterialHolder);
-            LoadSkyboxPrefabs(Path + "\\Skybox\\Prefabs.json", SkyboxPrefabsHolder);
+            LoadSkyboxPrefabs(Path + "\\Skybox\\Models.json", SkyboxPrefabsHolder);
         }
         LoadAIP(Path + "\\AIP.json", AIPHolder);
         LoadSOP(Path + "\\SOP.json", SOPHolder);
@@ -506,11 +506,11 @@ public class DataManager
         float ZPosition = 0;
         int X = 0;
 
-        PrefabJsonHandler PrefabJson = PrefabJsonHandler.Load(Path);
-        int WH = (int)Mathf.Sqrt(PrefabJson.Prefabs.Count);
-        for (int i = 0; i < PrefabJson.Prefabs.Count; i++)
+        ModelJsonHandler PrefabJson = ModelJsonHandler.Load(Path);
+        int WH = (int)Mathf.Sqrt(PrefabJson.Models.Count);
+        for (int i = 0; i < PrefabJson.Models.Count; i++)
         {
-            var TempModelJson = PrefabJson.Prefabs[i];
+            var TempModelJson = PrefabJson.Models[i];
             GameObject gameObject = new GameObject("Prefab " + i);
             //gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = PrefabsHolder.transform;
@@ -764,12 +764,12 @@ public class DataManager
         float ZPosition = 0;
         int X = 0;
 
-        PrefabJsonHandler PrefabJson = PrefabJsonHandler.Load(Path);
-        int WH = (int)Mathf.Sqrt(PrefabJson.Prefabs.Count);
-        for (int i = 0; i < PrefabJson.Prefabs.Count; i++)
+        ModelJsonHandler PrefabJson = ModelJsonHandler.Load(Path);
+        int WH = (int)Mathf.Sqrt(PrefabJson.Models.Count);
+        for (int i = 0; i < PrefabJson.Models.Count; i++)
         {
-            var TempModelJson = PrefabJson.Prefabs[i];
-            GameObject gameObject = new GameObject("Skybox Prefab " + i);
+            var TempModelJson = PrefabJson.Models[i];
+            GameObject gameObject = new GameObject("Skybox Models " + i);
             //gameObject.transform.hideFlags = HideFlags.HideInInspector;
             gameObject.transform.parent = PrefabsHolder.transform;
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
@@ -863,12 +863,12 @@ public class DataManager
 
     public void SavePrefabs(string path)
     {
-        PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
-        prefabJsonHandler.Prefabs = new List<PrefabJsonHandler.PrefabJson>();
+        ModelJsonHandler prefabJsonHandler = new ModelJsonHandler();
+        prefabJsonHandler.Models = new List<ModelJsonHandler.ModelJson>();
 
         for (int i = 0; i < trickyPrefabObjects.Count; i++)
         {
-            prefabJsonHandler.Prefabs.Add(trickyPrefabObjects[i].GeneratePrefabs());
+            prefabJsonHandler.Models.Add(trickyPrefabObjects[i].GeneratePrefabs());
         }
 
         prefabJsonHandler.CreateJson(path);
@@ -1012,12 +1012,12 @@ public class DataManager
 
     public void SaveSkyboxPrefabs(string path)
     {
-        PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
-        prefabJsonHandler.Prefabs = new List<PrefabJsonHandler.PrefabJson>();
+        ModelJsonHandler prefabJsonHandler = new ModelJsonHandler();
+        prefabJsonHandler.Models = new List<ModelJsonHandler.ModelJson>();
 
         for (int i = 0; i < trickySkyboxPrefabObjects.Count; i++)
         {
-            prefabJsonHandler.Prefabs.Add(trickySkyboxPrefabObjects[i].GeneratePrefabs(true));
+            prefabJsonHandler.Models.Add(trickySkyboxPrefabObjects[i].GeneratePrefabs(true));
         }
 
         prefabJsonHandler.CreateJson(path);

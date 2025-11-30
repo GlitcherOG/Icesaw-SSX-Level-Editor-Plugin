@@ -11,7 +11,7 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
     {
         get { return ObjectType.PrefabSub; }
     }
-    public void LoadPrefabSubModel(PrefabJsonHandler.ObjectHeader objectHeader)
+    public void LoadPrefabSubModel(ModelJsonHandler.ObjectHeader objectHeader)
     {
         ParentID = objectHeader.ParentID;
         Flags = objectHeader.Flags;
@@ -73,9 +73,9 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
 
     }
 
-    public PrefabJsonHandler.ObjectHeader GeneratePrefabSubModel()
+    public ModelJsonHandler.ObjectHeader GeneratePrefabSubModel()
     {
-        PrefabJsonHandler.ObjectHeader objectHeader = new PrefabJsonHandler.ObjectHeader();
+        ModelJsonHandler.ObjectHeader objectHeader = new ModelJsonHandler.ObjectHeader();
 
         objectHeader.ParentID = ParentID;
         objectHeader.Flags = Flags;
@@ -85,7 +85,7 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
 
         if (IncludeAnimation)
         {
-            var NewAnimation = new PrefabJsonHandler.ObjectAnimation();
+            var NewAnimation = new ModelJsonHandler.ObjectAnimation();
             NewAnimation.U1 = Animation.U1;
             NewAnimation.U2 = Animation.U2;
             NewAnimation.U3 = Animation.U3;
@@ -93,14 +93,14 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
             NewAnimation.U5 = Animation.U5;
             NewAnimation.U6 = Animation.U6;
             NewAnimation.AnimationAction = Animation.AnimationAction;
-            NewAnimation.AnimationEntries = new List<PrefabJsonHandler.AnimationEntry>();
+            NewAnimation.AnimationEntries = new List<ModelJsonHandler.AnimationEntry>();
             for (int a = 0; a < Animation.AnimationEntries.Count; a++)
             {
-                var NewAnimEntry = new PrefabJsonHandler.AnimationEntry();
-                NewAnimEntry.AnimationMaths = new List<PrefabJsonHandler.AnimationMath>();
+                var NewAnimEntry = new ModelJsonHandler.AnimationEntry();
+                NewAnimEntry.AnimationMaths = new List<ModelJsonHandler.AnimationMath>();
                 for (int b = 0; b < Animation.AnimationEntries[a].AnimationMaths.Count; b++)
                 {
-                    var TempMaths = new PrefabJsonHandler.AnimationMath();
+                    var TempMaths = new ModelJsonHandler.AnimationMath();
                     TempMaths.Value1 = Animation.AnimationEntries[a].AnimationMaths[b].Value1;
                     TempMaths.Value2 = Animation.AnimationEntries[a].AnimationMaths[b].Value2;
                     TempMaths.Value3 = Animation.AnimationEntries[a].AnimationMaths[b].Value3;
@@ -122,7 +122,7 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
         }
 
         var TempMeshList = GetComponentsInChildren<PrefabSkyboxMeshObject>();
-        objectHeader.MeshData = new List<PrefabJsonHandler.MeshHeader>();
+        objectHeader.MeshData = new List<ModelJsonHandler.MeshHeader>();
         for (int i = 0; i < TempMeshList.Length; i++)
         {
             objectHeader.MeshData.Add(TempMeshList[i].GeneratePrefabMesh());

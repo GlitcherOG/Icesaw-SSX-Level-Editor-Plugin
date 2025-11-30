@@ -12,7 +12,7 @@ public class PrefabSkyboxMeshObject : PrefabMeshBase
     [OnChangedCall("GenerateModel")]
     public TrickySkyboxMaterialObject TrickyMaterialObject;
 
-    public void LoadPrefabMeshObject(PrefabJsonHandler.MeshHeader objectHeader)
+    public void LoadPrefabMeshObject(ModelJsonHandler.MeshHeader objectHeader)
     {
         AddMissingComponents();
         MeshPath = objectHeader.MeshPath;
@@ -29,9 +29,9 @@ public class PrefabSkyboxMeshObject : PrefabMeshBase
         GenerateModel();
     }
 
-    public PrefabJsonHandler.MeshHeader GeneratePrefabMesh()
+    public ModelJsonHandler.MeshHeader GeneratePrefabMesh()
     {
-        PrefabJsonHandler.MeshHeader meshHeader = new PrefabJsonHandler.MeshHeader();
+        ModelJsonHandler.MeshHeader meshHeader = new ModelJsonHandler.MeshHeader();
         meshHeader.MeshPath = MeshPath;
 
         if (TrickyMaterialObject != null)

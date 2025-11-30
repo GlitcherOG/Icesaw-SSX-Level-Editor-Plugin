@@ -214,8 +214,8 @@ public class TrickyInstanceObject : TrickyBaseObject
             Prefab.AddComponent<SelectParent>();
 
             SetLightingColour();
+            Prefab.SetActive(TrickyLevelManager.Instance.ShowInstanceModels);
         }
-        Prefab.SetActive(TrickyLevelManager.Instance.ShowInstanceModels);
     }
 
     public void SetLightingColour()

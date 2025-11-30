@@ -9,9 +9,9 @@ using System.IO;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {
-    public class PrefabJsonHandler
+    public class ModelJsonHandler
     {
-        public List<PrefabJson> Prefabs = new List<PrefabJson>();
+        public List<ModelJson> Models = new List<ModelJson>();
 
         public void CreateJson(string path, bool Inline = false)
         {
@@ -25,32 +25,34 @@ namespace SSXMultiTool.JsonFiles.Tricky
             File.WriteAllText(path, serializer);
         }
 
-        public static PrefabJsonHandler Load(string path)
+        public static ModelJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<PrefabJsonHandler>(stream);
+                var container = JsonConvert.DeserializeObject<ModelJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new PrefabJsonHandler();
+                return new ModelJsonHandler();
             }
         }
 
         [Serializable]
-        public struct PrefabJson
+        public struct ModelJson
         {
-            public string PrefabName;
+            public string ModelName;
             public int Unknown3;
             public float AnimTime;
-            public List<ObjectHeader> PrefabObjects;
+            public List<ObjectHeader> ModelObjects;
         }
         [Serializable]
         public struct ObjectHeader
         {
+            public string ObjectName;
+
             public int ParentID;
             public int Flags;
 
