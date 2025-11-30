@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
-using static TrickyBaseObject;
 
-public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
+public class TrickyModelSkyboxSubObject : TrickyModelSubBase
 {
     public override ObjectType Type
     {
@@ -68,7 +67,7 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
             ChildMesh.transform.localScale = Vector3.one;
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
-            ChildMesh.AddComponent<PrefabSkyboxMeshObject>().LoadPrefabMeshObject(objectHeader.MeshData[i]);
+            ChildMesh.AddComponent<ModelSkyboxMeshObject>().LoadPrefabMeshObject(objectHeader.MeshData[i]);
         }
 
     }
@@ -121,7 +120,7 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
             objectHeader.Scale = JsonUtil.Vector3ToArray(transform.localScale);
         }
 
-        var TempMeshList = GetComponentsInChildren<PrefabSkyboxMeshObject>();
+        var TempMeshList = GetComponentsInChildren<ModelSkyboxMeshObject>();
         objectHeader.MeshData = new List<ModelJsonHandler.MeshHeader>();
         for (int i = 0; i < TempMeshList.Length; i++)
         {
@@ -135,7 +134,7 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
     {
         GameObject MainObject = new GameObject(transform.name);
         //MainObject.AddComponent<SelectParent>();
-        var MeshObjectList = GetComponentsInChildren<PrefabSkyboxMeshObject>();
+        var MeshObjectList = GetComponentsInChildren<ModelSkyboxMeshObject>();
 
         for (int a = 0; a < MeshObjectList.Length; a++)
         {
@@ -148,20 +147,20 @@ public class TrickyPrefabSkyboxSubObject : TrickyPrefabSubBase
             var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
             //ChildMesh.AddComponent<SelectParent>();
             TempMeshFilter.mesh = MeshObjectList[a].mesh;
-            TempRenderer.material = PrefabSkyboxMeshObject.GenerateMaterial(MeshObjectList[a].TrickyMaterialObject);//MeshObjectList[a].material;
+            TempRenderer.material = ModelSkyboxMeshObject.GenerateMaterial(MeshObjectList[a].TrickyMaterialObject);//MeshObjectList[a].material;
         }
 
         return MainObject;
     }
 
-    public PrefabSkyboxMeshObject[] GetPrefabMesh()
+    public ModelSkyboxMeshObject[] GetPrefabMesh()
     {
-        return GetComponentsInChildren<PrefabSkyboxMeshObject>();
+        return GetComponentsInChildren<ModelSkyboxMeshObject>();
     }
 
     public void PostLoad(TrickySkyboxMaterialObject[] MaterialObjects)
     {
-        var TempMeshList = GetComponentsInChildren<PrefabSkyboxMeshObject>();
+        var TempMeshList = GetComponentsInChildren<ModelSkyboxMeshObject>();
 
         for (int i = 0; i < TempMeshList.Length; i++)
         {

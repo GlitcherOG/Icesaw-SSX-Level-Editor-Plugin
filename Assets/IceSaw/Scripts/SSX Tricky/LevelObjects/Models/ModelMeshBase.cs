@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class PrefabMeshBase : TrickyBaseObject
+public class ModelMeshBase : TrickyBaseObject
 {
     [OnChangedCall("GenerateModel")]
     public string MeshPath;
@@ -40,10 +40,10 @@ public class PrefabMeshBase : TrickyBaseObject
         meshRenderer.hideFlags = HideFlags.HideInInspector;
     }
 
-    [MenuItem("GameObject/Ice Saw/Prefab Mesh Object", false, 103)]
+    [MenuItem("GameObject/Ice Saw/Model Mesh Object", false, 103)]
     public static void CreatePrefabMeshObject(MenuCommand menuCommand)
     {
-        GameObject TempObject = new GameObject("Prefab Mesh Object");
+        GameObject TempObject = new GameObject("Model Mesh Object");
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
@@ -52,7 +52,7 @@ public class PrefabMeshBase : TrickyBaseObject
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<PrefabMeshObject>().AddMissingComponents();
+        TempObject.AddComponent<ModelMeshBase>().AddMissingComponents();
 
     }
 }

@@ -19,7 +19,7 @@ public class TrickyInstanceObject : TrickyBaseObject
     [Header("Basic Properties")]
     int ModelID;
     [OnChangedCall("LoadPrefabs")]
-    public TrickyPrefabObject PrefabObject;
+    public TrickyModelObject PrefabObject;
 
     int PrevInstance; //Next Connected Model 
     int NextInstance; //Prev Connected Model
@@ -161,7 +161,7 @@ public class TrickyInstanceObject : TrickyBaseObject
         U8 = instance.U8;
     }
 
-    public void PostLoad(TrickyInstanceObject[] TempListInstance, EffectSlotObject[] TempListEffectSlot, PhysicsObject[] TempListPhysics, TrickyPrefabObject[] TempListPrefabObject)
+    public void PostLoad(TrickyInstanceObject[] TempListInstance, EffectSlotObject[] TempListEffectSlot, PhysicsObject[] TempListPhysics, TrickyModelObject[] TempListPrefabObject)
     {
         if (TempListInstance.Length - 1 >= PrevInstance && PrevInstance != -1)
         {

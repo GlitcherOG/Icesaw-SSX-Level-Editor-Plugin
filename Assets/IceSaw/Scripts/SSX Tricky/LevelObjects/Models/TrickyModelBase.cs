@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 
 [System.Serializable]
 [SelectionBase]
-public class TrickyPrefabBase : TrickyBaseObject
+public class TrickyModelBase : TrickyBaseObject
 {
     public int Unknown3;
     public float AnimTime;

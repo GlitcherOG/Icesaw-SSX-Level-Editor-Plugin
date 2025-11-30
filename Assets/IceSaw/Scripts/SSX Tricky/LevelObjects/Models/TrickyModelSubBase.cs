@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class TrickyPrefabSubBase : TrickyBaseObject
+public class TrickyModelSubBase : TrickyBaseObject
 {
     public int ParentID;
     public int Flags;
@@ -27,10 +27,10 @@ public class TrickyPrefabSubBase : TrickyBaseObject
         }
     }
 
-    [MenuItem("GameObject/Ice Saw/Prefab Sub Object", false, 102)]
+    [MenuItem("GameObject/Ice Saw/Model Sub Object", false, 102)]
     public static void CreatePrefabSubObject(MenuCommand menuCommand)
     {
-        GameObject TempObject = new GameObject("Prefab Sub Object");
+        GameObject TempObject = new GameObject("Model Sub Object");
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
@@ -39,7 +39,7 @@ public class TrickyPrefabSubBase : TrickyBaseObject
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<TrickyPrefabSubObject>();
+        TempObject.AddComponent<TrickyModelSubBase>();
 
     }
 

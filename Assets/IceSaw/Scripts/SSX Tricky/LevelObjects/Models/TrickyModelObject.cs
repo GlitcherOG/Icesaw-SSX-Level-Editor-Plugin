@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static SSXMultiTool.JsonFiles.Tricky.ModelJsonHandler;
 
-public class TrickySkyboxPrefabObject : TrickyPrefabBase
+public class TrickyModelObject : TrickyModelBase
 {
     public override ObjectType Type
     {
-        get { return ObjectType.SkyboxPrefab; }
+        get { return ObjectType.Prefab; }
     }
-
     public GameObject GeneratePrefab()
     {
         GameObject MainObject = new GameObject(transform.name);
         MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
-        var TempList = GetComponentsInChildren<TrickyPrefabSkyboxSubObject>();
+        var TempList = GetComponentsInChildren<TrickyPrefabSubObject>();
 
         for (int i = 0; i < TempList.Length; i++)
         {
@@ -44,10 +44,21 @@ public class TrickySkyboxPrefabObject : TrickyPrefabBase
             ChildMesh.transform.localScale = Vector3.one;
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
-            ChildMesh.AddComponent<TrickyPrefabSkyboxSubObject>().LoadPrefabSubModel(prefabJson.ModelObjects[i]);
+            ChildMesh.AddComponent<TrickyPrefabSubObject>().LoadPrefabSubModel(prefabJson.ModelObjects[i]);
         }
 
     }
+
+    public void PostLoad(TrickyMaterialObject[] MaterialObjects)
+    {
+        var TempList = GetComponentsInChildren<TrickyPrefabSubObject>();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            TempList[i].PostLoad(MaterialObjects);
+        }
+    }
+
 
     public ModelJsonHandler.ModelJson GeneratePrefabs(bool Skybox = false)
     {
@@ -59,7 +70,7 @@ public class TrickySkyboxPrefabObject : TrickyPrefabBase
         prefabJson.AnimTime = AnimTime;
         prefabJson.ModelObjects = new List<ModelJsonHandler.ObjectHeader>();
 
-        var TempList = GetComponentsInChildren<TrickyPrefabSkyboxSubObject>();
+        var TempList = GetComponentsInChildren<TrickyPrefabSubObject>();
 
         for (int i = 0; i < TempList.Length; i++)
         {
@@ -69,25 +80,15 @@ public class TrickySkyboxPrefabObject : TrickyPrefabBase
         return prefabJson;
     }
 
-    public TrickyPrefabSkyboxSubObject[] GetPrefabSubObject()
+    public TrickyPrefabSubObject[] GetPrefabSubObject()
     {
-        return GetComponentsInChildren<TrickyPrefabSkyboxSubObject>();
+        return GetComponentsInChildren<TrickyPrefabSubObject>();
     }
 
-    public void PostLoad(TrickySkyboxMaterialObject[] MaterialObjects)
-    {
-        var TempList = GetComponentsInChildren<TrickyPrefabSkyboxSubObject>();
-
-        for (int i = 0; i < TempList.Length; i++)
-        {
-            TempList[i].PostLoad(MaterialObjects);
-        }
-    }
-
-    [MenuItem("GameObject/Ice Saw/Skybox Prefab Object", false, 101)]
+    [MenuItem("GameObject/Ice Saw/Prefab Object", false, 101)]
     public static void CreatePatch(MenuCommand menuCommand)
     {
-        GameObject TempObject = new GameObject("SkyboxPrefabObject");
+        GameObject TempObject = new GameObject("PrefabObject");
         if (menuCommand.context != null)
         {
             var AddToObject = (GameObject)menuCommand.context;
@@ -96,6 +97,6 @@ public class TrickySkyboxPrefabObject : TrickyPrefabBase
         TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
         TempObject.transform.localScale = new Vector3(1, 1, 1);
         Selection.activeGameObject = TempObject;
-        TempObject.AddComponent<TrickySkyboxPrefabObject>();
+        TempObject.AddComponent<TrickyModelObject>();
     }
 }

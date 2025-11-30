@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SSXMultiTool.JsonFiles.Tricky;
 
-public class TrickyPrefabSubObject : TrickyPrefabSubBase
+public class TrickyPrefabSubObject : TrickyModelSubBase
 {
     public void LoadPrefabSubModel(ModelJsonHandler.ObjectHeader objectHeader)
     {

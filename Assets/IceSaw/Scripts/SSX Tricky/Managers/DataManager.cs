@@ -43,7 +43,7 @@ public class DataManager
 
 
     #region Prefab Manager
-    public List<TrickyPrefabObject> trickyPrefabObjects;
+    public List<TrickyModelObject> trickyPrefabObjects;
     public List<TrickyPrefabSubObject> trickyPrefabSubObjects;
     public List<PrefabMeshObject> prefabMeshObjects;
  
@@ -62,9 +62,9 @@ public class DataManager
 
     #region Skybox
     public List<TrickySkyboxMaterialObject> trickySkyboxMaterialObjects;
-    public List<TrickySkyboxPrefabObject> trickySkyboxPrefabObjects;
-    public List<TrickyPrefabSkyboxSubObject> trickyPrefabSkyboxSubObjects;
-    public List<PrefabSkyboxMeshObject> prefabSkyboxMeshObjects;
+    public List<TrickySkyboxModelObject> trickySkyboxPrefabObjects;
+    public List<TrickyModelSkyboxSubObject> trickyPrefabSkyboxSubObjects;
+    public List<ModelSkyboxMeshObject> prefabSkyboxMeshObjects;
     #endregion
 
     #region Logic
@@ -83,7 +83,7 @@ public class DataManager
 
     public void RefreshObjectList()
     {
-        trickyPrefabObjects = new List<TrickyPrefabObject>();
+        trickyPrefabObjects = new List<TrickyModelObject>();
         trickyPrefabSubObjects= new List<TrickyPrefabSubObject>();
         prefabMeshObjects = new List<PrefabMeshObject>();
 
@@ -98,7 +98,7 @@ public class DataManager
         trickyCameraObjects = new List<TrickyCameraObject>();
 
         trickySkyboxMaterialObjects = new List<TrickySkyboxMaterialObject>();
-        trickySkyboxPrefabObjects = new List<TrickySkyboxPrefabObject>();
+        trickySkyboxPrefabObjects = new List<TrickySkyboxModelObject>();
 
         effectSlotObjects = new List<EffectSlotObject>();
         trickyEffectHeaders = new List<TrickyEffectHeader>();
@@ -130,7 +130,7 @@ public class DataManager
         {
             if (trickyBaseObjects[i].Type == TrickyBaseObject.ObjectType.Prefab)
             {
-                trickyPrefabObjects.Add((TrickyPrefabObject)trickyBaseObjects[i]);
+                trickyPrefabObjects.Add((TrickyModelObject)trickyBaseObjects[i]);
             }
             //if (trickyBaseObjects[i].Type == TrickyBaseObject.ObjectType.PrefabSub)
             //{
@@ -182,7 +182,7 @@ public class DataManager
             }
             if (trickyBaseObjects[i].Type == TrickyBaseObject.ObjectType.SkyboxPrefab)
             {
-                trickySkyboxPrefabObjects.Add((TrickySkyboxPrefabObject)trickyBaseObjects[i]);
+                trickySkyboxPrefabObjects.Add((TrickySkyboxModelObject)trickyBaseObjects[i]);
             }
             //if (trickyBaseObjects[i].Type == TrickyBaseObject.ObjectType.SkyboxPrefabSub)
             //{
@@ -517,7 +517,7 @@ public class DataManager
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(1, 1, 1);
-            TrickyPrefabObject mObject = gameObject.AddComponent<TrickyPrefabObject>();
+            TrickyModelObject mObject = gameObject.AddComponent<TrickyModelObject>();
             mObject.LoadPrefab(TempModelJson);
 
             if (X != WH)
@@ -775,7 +775,7 @@ public class DataManager
             gameObject.transform.localPosition = new Vector3(XPosition, -ZPosition, 0);
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             gameObject.transform.localScale = new Vector3(1, 1, 1);
-            TrickySkyboxPrefabObject mObject = gameObject.AddComponent<TrickySkyboxPrefabObject>();
+            TrickySkyboxModelObject mObject = gameObject.AddComponent<TrickySkyboxModelObject>();
             mObject.LoadPrefab(TempModelJson, true);
 
             if (X != WH)
@@ -1058,7 +1058,7 @@ public class DataManager
         return ID;
     }
 
-    public int GetPrefabID(TrickyPrefabObject trickyPrefabObject)
+    public int GetPrefabID(TrickyModelObject trickyPrefabObject)
     {
         int ID = -1;
 
