@@ -126,7 +126,7 @@ public class SSX3PatchObject : MonoBehaviour
     }
     public void LoadPatch(PatchesJsonHandler.PatchJson import)
     {
-        transform.name = import.TrackID + "-" + import.RID;
+        transform.name = import.Name;
         LightMapPoint = JsonUtil.ArrayToVector4(import.LightMapPoint);
 
         UVPoint1 = new Vector2(import.UVPoints[0, 0], import.UVPoints[0, 1]);
