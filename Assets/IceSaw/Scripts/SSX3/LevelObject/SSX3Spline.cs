@@ -24,7 +24,7 @@ public class SSX3Spline : MonoBehaviour
     public void LoadBin3(SplineJsonHandler.SplineJson spline)
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.material = SSX3LevelManager.Instance.Spline;
+        lineRenderer.material = SSX3WorldManager.Instance.Spline;
         lineRenderer.useWorldSpace = false;
 
         transform.name = "Spline";

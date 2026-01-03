@@ -130,7 +130,7 @@ public class SSXProjectWindow : EditorWindow
     {
         GenerateSSX3EmptyProject();
 
-        SSX3LevelManager.Instance.LoadData(CurrentPath);
+        SSX3WorldManager.Instance.LoadData(CurrentPath);
     }
     public static void GenerateSSX3EmptyProject()
     {
@@ -138,7 +138,7 @@ public class SSXProjectWindow : EditorWindow
         var LevelManagerObject = new GameObject("SSX3 Level Manager");
         LevelManagerObject.transform.transform.localScale = new Vector3(1, -1, 1) * SSXProjectWindow.Scale;
         LevelManagerObject.transform.eulerAngles = new Vector3(-90, 0, 0);
-        LevelManagerObject.AddComponent<SSX3LevelManager>();
+        LevelManagerObject.AddComponent<SSX3WorldManager>();
     }
 
     public static void SaveTrickyProjectData()

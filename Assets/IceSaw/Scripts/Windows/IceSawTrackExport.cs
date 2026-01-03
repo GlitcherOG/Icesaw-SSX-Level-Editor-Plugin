@@ -61,7 +61,7 @@ public class IceSawTrackExportTrackExport
             //Save Objects 
             ObjExporter.SaveModelList(SavePath, MMD, OGLevelManager.Instance.texture2Ds);
         }
-        else if (SSX3LevelManager.Instance)
+        else if (SSX3WorldManager.Instance)
         {
             //Get Save path
             //Sandard method of having them save an obj file and stripping out the obj file to get a path
@@ -77,7 +77,7 @@ public class IceSawTrackExportTrackExport
             //}
 
             //Save Objects 
-            ObjExporter.SaveModelList(SavePath, MMD, SSX3LevelManager.Instance.texture2ds);
+            ObjExporter.SaveModelList(SavePath, MMD, SSX3WorldManager.Instance.texture2ds);
         }
         else
         {

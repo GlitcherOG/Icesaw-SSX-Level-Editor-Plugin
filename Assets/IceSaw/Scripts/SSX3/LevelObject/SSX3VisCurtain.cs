@@ -30,7 +30,7 @@ public class SSX3VisCurtain : MonoBehaviour
     public void LoadVisCurtain(VisCurtainJsonHandler.VisCurtain bin11)
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.material = SSX3LevelManager.Instance.Spline;
+        lineRenderer.material = SSX3WorldManager.Instance.Spline;
         lineRenderer.useWorldSpace = false;
 
         //transform.localEulerAngles = JsonUtil.ArrayToQuaternion(bin3.Rotation).eulerAngles;

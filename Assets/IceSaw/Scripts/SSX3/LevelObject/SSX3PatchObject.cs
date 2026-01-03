@@ -249,9 +249,9 @@ public class SSX3PatchObject : MonoBehaviour
 
     Vector3 ConvertLocalPoint(Vector3 point)
     {
-        if (SSX3LevelManager.Instance != null)
+        if (SSX3WorldManager.Instance != null)
         {
-            return transform.InverseTransformPoint(SSX3LevelManager.Instance.transform.TransformPoint(point));
+            return transform.InverseTransformPoint(SSX3WorldManager.Instance.transform.TransformPoint(point));
         }
 
         return transform.InverseTransformPoint(point);
@@ -259,9 +259,9 @@ public class SSX3PatchObject : MonoBehaviour
 
     Vector3 ConvertWorldPoint(Vector3 point)
     {
-        if(SSX3LevelManager.Instance!=null)
+        if(SSX3WorldManager.Instance!=null)
         {
-            return SSX3LevelManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
+            return SSX3WorldManager.Instance.transform.InverseTransformPoint(transform.TransformPoint(point));
         }
 
         return transform.TransformPoint(point);
@@ -434,21 +434,21 @@ public class SSX3PatchObject : MonoBehaviour
         try
         {
             bool Found = false;
-            for (int i = 0; i < SSX3LevelManager.Instance.texture2ds.Count; i++)
+            for (int i = 0; i < SSX3WorldManager.Instance.texture2ds.Count; i++)
             {
-                if (SSX3LevelManager.Instance.texture2ds[i].Name.ToLower() == TextureAssigment.ToLower())
+                if (SSX3WorldManager.Instance.texture2ds[i].Name.ToLower() == TextureAssigment.ToLower())
                 {
                     Found = true;
-                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3LevelManager.Instance.texture2ds[i].Texture);
+                    meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3WorldManager.Instance.texture2ds[i].Texture);
 
-                    meshRenderer.sharedMaterial.SetTexture("_Lightmap", SSX3LevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
+                    meshRenderer.sharedMaterial.SetTexture("_Lightmap", SSX3WorldManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
                     return;
                 }
             }
 
             if (!Found)
             {
-                meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3LevelManager.Instance.Error);
+                meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3WorldManager.Instance.Error);
             }
             else
             {
@@ -457,7 +457,7 @@ public class SSX3PatchObject : MonoBehaviour
         }
         catch
         {
-            meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3LevelManager.Instance.Error);
+            meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3WorldManager.Instance.Error);
         }
     }
 
@@ -645,12 +645,12 @@ public class SSX3PatchObject : MonoBehaviour
         if (Selection.activeObject == this.gameObject)
         {
             PrevSelected = true;
-            if (!SSX3LevelManager.Instance.EditMode && SetOnce)
+            if (!SSX3WorldManager.Instance.EditMode && SetOnce)
             {
                 SetOnce = false;
                 Tools.current = Tool.Move;
             }
-            else if (SSX3LevelManager.Instance.EditMode)
+            else if (SSX3WorldManager.Instance.EditMode)
             {
                 SetOnce = true;
             }

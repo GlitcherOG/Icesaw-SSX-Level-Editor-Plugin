@@ -400,18 +400,18 @@ public class IceSawViewOptions
             }
         }
         else
-        if (SSX3LevelManager.Instance != null)
+        if (SSX3WorldManager.Instance != null)
         {
             //var TempDataManager = SSX3LevelManager.Instance.dataManager;
             //TempDataManager.RefreshObjectList();
 
-            SSX3LevelManager.Instance.LightmapMode = !SSX3LevelManager.Instance.LightmapMode;
+            SSX3WorldManager.Instance.LightmapMode = !SSX3WorldManager.Instance.LightmapMode;
 
-            var TempPatchList = SSX3LevelManager.Instance.GetPatchList();
+            var TempPatchList = SSX3WorldManager.Instance.GetPatchList();
 
             for (int i = 0; i < TempPatchList.Length; i++)
             {
-                TempPatchList[i].ToggleLightingMode(SSX3LevelManager.Instance.LightmapMode);
+                TempPatchList[i].ToggleLightingMode(SSX3WorldManager.Instance.LightmapMode);
             }
         }
     }
