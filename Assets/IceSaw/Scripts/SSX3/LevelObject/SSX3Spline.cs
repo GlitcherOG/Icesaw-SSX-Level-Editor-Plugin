@@ -27,7 +27,7 @@ public class SSX3Spline : MonoBehaviour
         lineRenderer.material = SSX3WorldManager.Instance.Spline;
         lineRenderer.useWorldSpace = false;
 
-        transform.name = "Spline";
+        transform.name = spline.Name;
 
         //transform.localEulerAngles = JsonUtil.ArrayToQuaternion(bin3.Rotation).eulerAngles;
         //transform.localScale = JsonUtil.ArrayToVector3(bin3.Scale);
