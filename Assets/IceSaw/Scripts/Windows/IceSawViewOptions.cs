@@ -407,12 +407,12 @@ public class IceSawViewOptions
 
             SSX3LevelManager.Instance.LightmapMode = !SSX3LevelManager.Instance.LightmapMode;
 
-            //var TempPatchList = SSX3LevelManager.Instance.GetPatchList();
+            var TempPatchList = SSX3LevelManager.Instance.GetPatchList();
 
-            //for (int i = 0; i < TempPatchList.Length; i++)
-            //{
-            //    TempPatchList[i].ToggleLightingMode(SSX3LevelManager.Instance.LightmapMode);
-            //}
+            for (int i = 0; i < TempPatchList.Length; i++)
+            {
+                TempPatchList[i].ToggleLightingMode(SSX3LevelManager.Instance.LightmapMode);
+            }
         }
     }
 

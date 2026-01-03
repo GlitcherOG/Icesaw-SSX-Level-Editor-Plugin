@@ -528,10 +528,10 @@ public class SSX3LevelManager : MonoBehaviour
         }
     }
 
-    //public SSX3PatchObject[] GetPatchList()
-    //{
-    //    return PatchesHolder.GetComponentsInChildren<SSX3PatchObject>(true);
-    //}
+    public SSX3PatchObject[] GetPatchList()
+    {
+        return PatchesHolder.GetComponentsInChildren<SSX3PatchObject>(true);
+    }
     public Material CreateLineMaterial(string Path)
     {
         Material material = new Material(Shader.Find("Unlit/Texture"));

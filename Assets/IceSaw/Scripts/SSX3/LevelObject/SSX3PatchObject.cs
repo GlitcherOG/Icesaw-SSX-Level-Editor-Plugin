@@ -8,7 +8,6 @@ using Unity.VisualScripting;
 [ExecuteInEditMode]
 public class SSX3PatchObject : MonoBehaviour
 {
-
     NURBS.Surface surface;
     public Vector4 LightMapPoint;
     //[Space(10)]
@@ -103,11 +102,6 @@ public class SSX3PatchObject : MonoBehaviour
     [HideInInspector] public Vector3 LocalR4C2 = new Vector3(250, -750, 0);
     [HideInInspector] public Vector3 LocalR4C3 = new Vector3(500, -750, 0);
     [HideInInspector] public Vector3 LocalR4C4  = new Vector3(750, -750, 0);
-
-    public void Awake()
-    {
-        Undo.undoRedoPerformed += UndoAndRedoFix;
-    }
 
     [ContextMenu("Add Missing Components")]
     public void AddMissingComponents()
@@ -447,10 +441,7 @@ public class SSX3PatchObject : MonoBehaviour
                     Found = true;
                     meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3LevelManager.Instance.texture2ds[i].Texture);
 
-                    if (SSX3LevelManager.Instance.lightmaps.Count - 1 >= LightmapID)
-                    {
-                        meshRenderer.sharedMaterial.SetTexture("_Lightmap", SSX3LevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
-                    }
+                    meshRenderer.sharedMaterial.SetTexture("_Lightmap", SSX3LevelManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
                     return;
                 }
             }
@@ -604,22 +595,6 @@ public class SSX3PatchObject : MonoBehaviour
         LoadNURBSpatch();
     }
 
-    //[MenuItem("GameObject/Ice Saw/Patch", false, 10)]
-    public static void CreatePatch(MenuCommand menuCommand)
-    {
-        GameObject TempObject = new GameObject("Patch");
-        if (menuCommand.context != null)
-        {
-            var AddToObject = (GameObject)menuCommand.context;
-            TempObject.transform.parent = AddToObject.transform;
-        }
-        TempObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
-        TempObject.transform.localScale = new Vector3(1,1,1);
-        Selection.activeGameObject = TempObject;
-        //TempObject.AddComponent<SSX3LevelManager>().AddMissingComponents();
-
-    }
-
     public ObjExporter.MassModelData GenerateModel()
     {
         ObjExporter.MassModelData TempModel = new ObjExporter.MassModelData();
@@ -715,229 +690,3 @@ public class SSX3PatchObject : MonoBehaviour
         ShowOffRampMetal
     }
 }
-
-//[CustomEditor(typeof(TrickyPatchObject))]
-//public class TrickyPatchObjectEditor : Editor
-//{
-//    //public override void OnInspectorGUI()
-//    //{
-//    //    DrawDefaultInspector();
-
-//    //    //Component.hideFlags = HideFlags.HideInInspector;
-
-//    //    if(EditorGUILayout.LinkButton("Refresh Textures"))
-//    //    {
-//    //        var Temp = (typeof(LevelManager))serializedObject.targetObject;
-//    //    }
-//    //}
-
-//    public VisualTreeAsset m_InspectorXML;
-
-//    public override VisualElement CreateInspectorGUI()
-//    {
-//        m_InspectorXML = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets\\IceSaw\\Scripts\\SSX Tricky\\LevelObjects\\Inspectors\\PatchObjects.uxml");
-
-//        // Create a new VisualElement to be the root of our inspector UI
-//        VisualElement myInspector = new VisualElement();
-//        m_InspectorXML.CloneTree(myInspector);
-
-//        VisualElement inspectorGroup = myInspector.Q("Default_Inspector");
-
-//        MonoBehaviour monoBev = (MonoBehaviour)target;
-//        TrickyPatchObject PatchObject = monoBev.GetComponent<TrickyPatchObject>();
-
-//        TextElement Details = new TextElement();
-//        Details.style.fontSize = 16;
-//        Details.text = "Patch ID " + PatchObject.transform.GetSiblingIndex();
-
-//        inspectorGroup.Add(Details);
-
-//        InspectorElement.FillDefaultInspector(inspectorGroup, serializedObject, this);
-
-//        VisualElement ButtonGroup = myInspector.Q("UVGroup");
-
-//        VisualElement UVLeftButton = ButtonGroup.Q("UVRotateLeft");
-//        var TempButton = UVLeftButton.Query<Button>();
-//        TempButton.First().RegisterCallback<ClickEvent>(UVRotateLeft);
-
-//        VisualElement UVRightButton = ButtonGroup.Q("UVRotateRight");
-//        TempButton = UVRightButton.Query<Button>();
-//        TempButton.First().RegisterCallback<ClickEvent>(UVRotateRight);
-
-//        VisualElement FlipPatchButton = myInspector.Q("FlipPatch");
-//        TempButton = FlipPatchButton.Query<Button>();
-//        TempButton.First().RegisterCallback<ClickEvent>(FlipPatch);
-
-//        VisualElement ResetTransformButton = myInspector.Q("ResetTransform");
-//        TempButton = ResetTransformButton.Query<Button>();
-//        TempButton.First().RegisterCallback<ClickEvent>(ResetTransform);
-
-//        VisualElement ForceRegenerateButton = myInspector.Q("ForceRegenerate");
-//        TempButton = ForceRegenerateButton.Query<Button>();
-//        TempButton.First().RegisterCallback<ClickEvent>(ForceRegenerate);
-
-//        VisualElement AddMissingButton = myInspector.Q("AddMissing");
-//        TempButton = AddMissingButton.Query<Button>();
-//        TempButton.First().RegisterCallback<ClickEvent>(AddMissing);
-
-//        // Return the finished inspector UI
-//        return myInspector;
-//    }
-
-//    private void UVRotateLeft(ClickEvent evt)
-//    {
-//        serializedObject.targetObject.GetComponent<TrickyPatchObject>().RotateUVLeft();
-//    }
-
-//    private void UVRotateRight(ClickEvent evt)
-//    {
-//        serializedObject.targetObject.GetComponent<TrickyPatchObject>().RotateUVRight();
-//    }
-
-//    private void FlipPatch(ClickEvent evt)
-//    {
-//        serializedObject.targetObject.GetComponent<TrickyPatchObject>().FlipPatch();
-//    }
-
-//    private void ResetTransform(ClickEvent evt)
-//    {
-//        serializedObject.targetObject.GetComponent<TrickyPatchObject>().TransformReset();
-//    }
-
-//    private void ForceRegenerate(ClickEvent evt)
-//    {
-//        serializedObject.targetObject.GetComponent<TrickyPatchObject>().ForceRegeneration();
-//    }
-
-//    private void AddMissing(ClickEvent evt)
-//    {
-//        serializedObject.targetObject.GetComponent<TrickyPatchObject>().AddMissingComponents();
-//    }
-
-//    private Vector3[,] positions;
-//    void OnSceneGUI()
-//    {
-//        TrickyPatchObject connectedObjects = target as TrickyPatchObject;
-//        if (!connectedObjects.Hold)
-//        {
-//            if (TrickyLevelManager.Instance.EditMode)
-//            {
-//                Tools.current = Tool.None;
-//                positions = new Vector3[4,4];
-//                //Collect All Points
-//                positions[0,0] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawControlPoint);
-//                positions[0, 1] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR1C2);
-//                positions[0, 2] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR1C3);
-//                positions[0, 3] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR1C4);
-
-//                positions[1, 0] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR2C1);
-//                positions[1, 1] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR2C2);
-//                positions[1, 2] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR2C3);
-//                positions[1, 3] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR2C4);
-
-//                positions[2, 0] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR3C1);
-//                positions[2, 1] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR3C2);
-//                positions[2, 2] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR3C3);
-//                positions[2, 3] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR3C4);
-
-//                positions[3, 0] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR4C1);
-//                positions[3, 1] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR4C2);
-//                positions[3, 2] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR4C3);
-//                positions[3, 3] = TrickyLevelManager.Instance.transform.TransformPoint(connectedObjects.RawR4C4);
-
-//                Handles.color = UnityEngine.Color.blue;
-//                //Draw Lines
-//                for (int i = 0; i < 4; i++)
-//                {
-//                    Handles.DrawLine(positions[i, 0], positions[i, 1], 6f);
-//                    Handles.DrawLine(positions[i, 1], positions[i, 2], 6f);
-//                    Handles.DrawLine(positions[i, 2], positions[i, 3], 6f);
-//                }
-
-//                for (int i = 0; i < 4; i++)
-//                {
-//                    Handles.DrawLine(positions[0, i], positions[1, i], 6f);
-//                    Handles.DrawLine(positions[1, i], positions[2, i], 6f);
-//                    Handles.DrawLine(positions[2, i], positions[3, i], 6f);
-//                }
-//                Handles.color = UnityEngine.Color.white;
-//                //Draw Movement Points
-
-//                for (int i = 0; i < 4; i++)
-//                {
-//                    for (int a = 0; a < 4; a++)
-//                    {
-//                        Vector3 TestVector = Handles.PositionHandle(positions[i,a], Quaternion.identity);
-//                        if(TestVector != positions[i,a])
-//                        {
-//                            if(i==0&&a==0)
-//                            {
-//                                connectedObjects.RawControlPoint = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 0 && a == 1)
-//                            {
-//                                connectedObjects.RawR1C2 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 0 && a == 2)
-//                            {
-//                                connectedObjects.RawR1C3 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 0 && a == 3)
-//                            {
-//                                connectedObjects.RawR1C4 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 1 && a == 0)
-//                            {
-//                                connectedObjects.RawR2C1 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 1 && a == 1)
-//                            {
-//                                connectedObjects.RawR2C2 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 1 && a == 2)
-//                            {
-//                                connectedObjects.RawR2C3 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 1 && a == 3)
-//                            {
-//                                connectedObjects.RawR2C4 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 2 && a == 0)
-//                            {
-//                                connectedObjects.RawR3C1 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 2 && a == 1)
-//                            {
-//                                connectedObjects.RawR3C2 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 2 && a == 2)
-//                            {
-//                                connectedObjects.RawR3C3 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 2 && a == 3)
-//                            {
-//                                connectedObjects.RawR3C4 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 3 && a == 0)
-//                            {
-//                                connectedObjects.RawR4C1 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 3 && a == 1)
-//                            {
-//                                connectedObjects.RawR4C2 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 3 && a == 2)
-//                            {
-//                                connectedObjects.RawR4C3 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                            if (i == 3 && a == 3)
-//                            {
-//                                connectedObjects.RawR4C4 = TrickyLevelManager.Instance.transform.InverseTransformPoint(TestVector);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
