@@ -1,5 +1,3 @@
-using GLTFast;
-using UnityGLTF;
 using SSXMultiTool.JsonFiles.SSX3;
 using System;
 using System.Collections;
@@ -30,7 +28,6 @@ public class SSX3LevelManager : MonoBehaviour
 
     public List<TrickyLevelManager.TextureData> texture2ds = new List<TrickyLevelManager.TextureData>();
     public List<Texture2D> lightmaps = new List<Texture2D>();
-    public List<TrickyLevelManager.TextureData> SkyboxTextures2d = new List<TrickyLevelManager.TextureData>();
 
     public bool LightmapMode;
 
@@ -43,12 +40,8 @@ public class SSX3LevelManager : MonoBehaviour
     [HideInInspector]
     public Material RaceLine;
 
-    public GameObject PatchesHolder;
-    public GameObject ModelsHolder;
-    public GameObject Bin3Holder;
-    public GameObject Bin11Holder;
-    public GameObject SplineHolder;
-    public GameObject PrefabsHolder;
+    public GameObject WorldManagerHolder;
+    public List<GameObject> Levels = new List<GameObject>();
 
     // Start is called before the first frame update
     public void Awake()
@@ -75,200 +68,156 @@ public class SSX3LevelManager : MonoBehaviour
         AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
         RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
 
-        LoadAll();
-    }
-
-    public void LoadAll()
-    {
-        var WorldManagerHolder = new GameObject("SSX3 World Manager");
+        WorldManagerHolder = new GameObject("SSX3 World Manager");
         WorldManagerHolder.transform.parent = gameObject.transform;
         WorldManagerHolder.transform.transform.localScale = new Vector3(1, 1, 1);
         WorldManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
         WorldManagerHolder.transform.localPosition = new Vector3(0, 0, 0);
 
-        PatchesHolder = new GameObject("Patches");
-        PatchesHolder.transform.parent = WorldManagerHolder.transform;
+        string[] Paths = Directory.GetDirectories(LoadPath + "\\Levels\\", "*", SearchOption.TopDirectoryOnly);
+
+        LoadLevel(Paths[0], "A");
+    }
+
+    public void LoadLevel(string Path, string LevelName)
+    {
+        var TempLevel = new GameObject(LevelName);
+        TempLevel.transform.parent = WorldManagerHolder.transform;
+        TempLevel.transform.localScale = Vector3.one;
+        TempLevel.transform.localEulerAngles = Vector3.zero;
+
+        var PatchesHolder = new GameObject("Patches");
+        PatchesHolder.transform.parent = TempLevel.transform;
         PatchesHolder.transform.localScale = Vector3.one;
         PatchesHolder.transform.localEulerAngles = Vector3.zero;
 
-        ModelsHolder = new GameObject("Models");
-        ModelsHolder.transform.parent = WorldManagerHolder.transform;
+        LoadPatches(Directory.GetFiles(LoadPath, "Patches.json", SearchOption.AllDirectories)[0], PatchesHolder);
+
+        var ModelsHolder = new GameObject("Models");
+        ModelsHolder.transform.parent = TempLevel.transform;
         ModelsHolder.transform.localScale = Vector3.one;
         ModelsHolder.transform.localEulerAngles = Vector3.zero;
 
-        Bin3Holder = new GameObject("Bin3");
-        Bin3Holder.transform.parent = WorldManagerHolder.transform;
+        var Bin3Holder = new GameObject("Bin3");
+        Bin3Holder.transform.parent = TempLevel.transform;
         Bin3Holder.transform.localScale = Vector3.one;
         Bin3Holder.transform.localEulerAngles = Vector3.zero;
 
-        Bin11Holder = new GameObject("Vis Curtain");
-        Bin11Holder.transform.parent = WorldManagerHolder.transform;
+        LoadBin3(Directory.GetFiles(LoadPath, "Bin3.json", SearchOption.AllDirectories)[0], Bin3Holder);
+
+        var Bin11Holder = new GameObject("Vis Curtain");
+        Bin11Holder.transform.parent = TempLevel.transform;
         Bin11Holder.transform.localScale = Vector3.one;
         Bin11Holder.transform.localEulerAngles = Vector3.zero;
 
-        SplineHolder = new GameObject("Splines");
-        SplineHolder.transform.parent = WorldManagerHolder.transform;
+        LoadBin11(Directory.GetFiles(LoadPath, "VisCurtain.json", SearchOption.AllDirectories)[0], Bin11Holder);
+
+        var SplineHolder = new GameObject("Splines");
+        SplineHolder.transform.parent = TempLevel.transform;
         SplineHolder.transform.localScale = Vector3.one;
         SplineHolder.transform.localEulerAngles = Vector3.zero;
 
-        PrefabsHolder = new GameObject("Prefabs");
-        PrefabsHolder.transform.parent = WorldManagerHolder.transform;
-        PrefabsHolder.transform.localScale = Vector3.one;
-        PrefabsHolder.transform.localEulerAngles = Vector3.zero;
+        LoadSpline(Directory.GetFiles(LoadPath, "Splines.json", SearchOption.AllDirectories)[0], SplineHolder);
 
-        List<string> Paths = new List<string>();
+        //Paths = Directory.GetFiles(LoadPath, "*Prefabs.json", SearchOption.AllDirectories).ToList();
 
-        Paths = Directory.GetFiles(LoadPath, "*Patches.json", SearchOption.AllDirectories).ToList();
+        //for (int a = 0; a < 1; a++)
+        //{
+        //    var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
+        //    GameObject NewHolder = new GameObject();
+        //    NewHolder.name = TrackName;
+        //    NewHolder.transform.parent = PrefabsHolder.transform;
+        //    NewHolder.transform.localPosition = Vector3.zero;
+        //    NewHolder.transform.localScale = Vector3.one;
+        //    NewHolder.transform.localEulerAngles = Vector3.zero;
 
-        for (int a = 0; a < Paths.Count; a++)
-        {
-            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
-            GameObject NewHolder = new GameObject();
-            NewHolder.name = TrackName;
-            NewHolder.transform.parent = PatchesHolder.transform;
-            NewHolder.transform.localPosition = Vector3.zero;
-            NewHolder.transform.localScale = Vector3.one;
-            NewHolder.transform.localEulerAngles = Vector3.zero;
+        //    MDRJsonHandler splineJsonnHandler = new MDRJsonHandler();
+        //    splineJsonnHandler = MDRJsonHandler.Load(Paths[a]);
 
-            PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
-            patchesJsonHandler = PatchesJsonHandler.Load(Paths[a]);
+        //    for (int i = 0; i < splineJsonnHandler.mainModelHeaders.Count; i++)
+        //    {
+        //        GameObject NewPatch = new GameObject();
+        //        NewPatch.transform.parent = NewHolder.transform;
+        //        NewPatch.transform.localPosition = Vector3.zero;
+        //        NewPatch.transform.localScale = Vector3.one;
+        //        NewPatch.transform.localEulerAngles = Vector3.zero;
+        //        var TempObject = NewPatch.AddComponent<SSX3PrefabObject>();
+        //        //TempObject.AddMissingComponents();
+        //        TempObject.LoadPrefab(splineJsonnHandler.mainModelHeaders[i]);
 
-            for (int i = 0; i < patchesJsonHandler.Patches.Count; i++)
-            {
-                GameObject NewPatch = new GameObject();
-                NewPatch.transform.parent = NewHolder.transform;
-                NewPatch.transform.localPosition = Vector3.zero;
-                NewPatch.transform.localScale = Vector3.one;
-                NewPatch.transform.localEulerAngles = Vector3.zero;
-                var TempObject = NewPatch.AddComponent<SSX3PatchObject>();
-                TempObject.AddMissingComponents();
-                TempObject.LoadPatch(patchesJsonHandler.Patches[i]);
-
-            }
-        }
-
-        Paths = new List<string>();
-
-        Paths = Directory.GetFiles(LoadPath, "*Bin3.json", SearchOption.AllDirectories).ToList();
-
-        for (int a = 0; a < Paths.Count; a++)
-        {
-            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
-            GameObject NewHolder = new GameObject();
-            NewHolder.name = TrackName;
-            NewHolder.transform.parent = Bin3Holder.transform;
-            NewHolder.transform.localPosition = Vector3.zero;
-            NewHolder.transform.localScale = Vector3.one;
-            NewHolder.transform.localEulerAngles = Vector3.zero;
-
-            Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
-            bin3JsonHandler = Bin3JsonHandler.Load(Paths[a]);
-
-            for (int i = 0; i < bin3JsonHandler.bin3Files.Count; i++)
-            {
-                GameObject NewPatch = new GameObject();
-                NewPatch.transform.parent = NewHolder.transform;
-                NewPatch.transform.localPosition = Vector3.zero;
-                NewPatch.transform.localScale = Vector3.one;
-                NewPatch.transform.localEulerAngles = Vector3.zero;
-                var TempObject = NewPatch.AddComponent<SSX3InstanceObject>();
-                //TempObject.AddMissingComponents();
-                TempObject.LoadBin3(bin3JsonHandler.bin3Files[i]);
-
-            }
-        }
-
-        Paths = Directory.GetFiles(LoadPath, "*Bin11.json", SearchOption.AllDirectories).ToList();
-
-        for (int a = 0; a < Paths.Count; a++)
-        {
-            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
-            GameObject NewHolder = new GameObject();
-            NewHolder.name = TrackName;
-            NewHolder.transform.parent = Bin11Holder.transform;
-            NewHolder.transform.localPosition = Vector3.zero;
-            NewHolder.transform.localScale = Vector3.one;
-            NewHolder.transform.localEulerAngles = Vector3.zero;
-
-            VisCurtainJsonHandler visCurtainJsonHandler = new VisCurtainJsonHandler();
-            visCurtainJsonHandler = VisCurtainJsonHandler.Load(Paths[a]);
-
-            for (int i = 0; i < visCurtainJsonHandler.VisCurtains.Count; i++)
-            {
-                GameObject NewPatch = new GameObject();
-                NewPatch.transform.parent = NewHolder.transform;
-                NewPatch.transform.localPosition = Vector3.zero;
-                NewPatch.transform.localScale = Vector3.one;
-                NewPatch.transform.localEulerAngles = Vector3.zero;
-                var TempObject = NewPatch.AddComponent<SSX3VisCurtain>();
-                //TempObject.AddMissingComponents();
-                TempObject.LoadVisCurtain(visCurtainJsonHandler.VisCurtains[i]);
-
-            }
-        }
-
-        Paths = Directory.GetFiles(LoadPath, "*Splines.json", SearchOption.AllDirectories).ToList();
-
-        for (int a = 0; a < Paths.Count; a++)
-        {
-            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
-            GameObject NewHolder = new GameObject();
-            NewHolder.name = TrackName;
-            NewHolder.transform.parent = SplineHolder.transform;
-            NewHolder.transform.localPosition = Vector3.zero;
-            NewHolder.transform.localScale = Vector3.one;
-            NewHolder.transform.localEulerAngles = Vector3.zero;
-
-            SplineJsonHandler splineJsonnHandler = new SplineJsonHandler();
-            splineJsonnHandler = SplineJsonHandler.Load(Paths[a]);
-
-            for (int i = 0; i < splineJsonnHandler.Splines.Count; i++)
-            {
-                GameObject NewPatch = new GameObject();
-                NewPatch.transform.parent = NewHolder.transform;
-                NewPatch.transform.localPosition = Vector3.zero;
-                NewPatch.transform.localScale = Vector3.one;
-                NewPatch.transform.localEulerAngles = Vector3.zero;
-                var TempObject = NewPatch.AddComponent<SSX3Spline>();
-                //TempObject.AddMissingComponents();
-                TempObject.LoadBin3(splineJsonnHandler.Splines[i]);
-
-            }
-        }
-
-        Paths = Directory.GetFiles(LoadPath, "*Prefabs.json", SearchOption.AllDirectories).ToList();
-
-        for (int a = 0; a < 1; a++)
-        {
-            var TrackName = Path.GetDirectoryName(Paths[a]).Replace(LoadPath, "");
-            GameObject NewHolder = new GameObject();
-            NewHolder.name = TrackName;
-            NewHolder.transform.parent = PrefabsHolder.transform;
-            NewHolder.transform.localPosition = Vector3.zero;
-            NewHolder.transform.localScale = Vector3.one;
-            NewHolder.transform.localEulerAngles = Vector3.zero;
-
-            MDRJsonHandler splineJsonnHandler = new MDRJsonHandler();
-            splineJsonnHandler = MDRJsonHandler.Load(Paths[a]);
-
-            for (int i = 0; i < splineJsonnHandler.mainModelHeaders.Count; i++)
-            {
-                GameObject NewPatch = new GameObject();
-                NewPatch.transform.parent = NewHolder.transform;
-                NewPatch.transform.localPosition = Vector3.zero;
-                NewPatch.transform.localScale = Vector3.one;
-                NewPatch.transform.localEulerAngles = Vector3.zero;
-                var TempObject = NewPatch.AddComponent<SSX3PrefabObject>();
-                //TempObject.AddMissingComponents();
-                TempObject.LoadPrefab(splineJsonnHandler.mainModelHeaders[i]);
-
-            }
-        }
-
-        //LoadGltfBinaryFromMemory();
+        //    }
+        //}
     }
 
+    public void LoadPatches(string JsonPath, GameObject gameObject)
+    {
+        PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
+        patchesJsonHandler = PatchesJsonHandler.Load(JsonPath);
 
+        for (int i = 0; i < patchesJsonHandler.Patches.Count; i++)
+        {
+            GameObject NewPatch = new GameObject();
+            NewPatch.transform.parent = gameObject.transform;
+            NewPatch.transform.localPosition = Vector3.zero;
+            NewPatch.transform.localScale = Vector3.one;
+            NewPatch.transform.localEulerAngles = Vector3.zero;
+            var TempObject = NewPatch.AddComponent<SSX3PatchObject>();
+            TempObject.AddMissingComponents();
+            TempObject.LoadPatch(patchesJsonHandler.Patches[i]);
+        }
+    }
+
+    public void LoadBin3(string JsonPath, GameObject gameObject)
+    {
+        Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
+        bin3JsonHandler = Bin3JsonHandler.Load(JsonPath);
+
+        for (int i = 0; i < bin3JsonHandler.bin3Files.Count; i++)
+        {
+            GameObject NewPatch = new GameObject();
+            NewPatch.transform.parent = gameObject.transform;
+            NewPatch.transform.localPosition = Vector3.zero;
+            NewPatch.transform.localScale = Vector3.one;
+            NewPatch.transform.localEulerAngles = Vector3.zero;
+            var TempObject = NewPatch.AddComponent<SSX3InstanceObject>();
+            TempObject.LoadBin3(bin3JsonHandler.bin3Files[i]);
+        }
+    }
+
+    public void LoadBin11(string JsonPath, GameObject gameObject)
+    {
+        VisCurtainJsonHandler visCurtainJsonHandler = new VisCurtainJsonHandler();
+        visCurtainJsonHandler = VisCurtainJsonHandler.Load(JsonPath);
+
+        for (int i = 0; i < visCurtainJsonHandler.VisCurtains.Count; i++)
+        {
+            GameObject NewPatch = new GameObject();
+            NewPatch.name = i.ToString();
+            NewPatch.transform.parent = gameObject.transform;
+            NewPatch.transform.localPosition = Vector3.zero;
+            NewPatch.transform.localScale = Vector3.one;
+            NewPatch.transform.localEulerAngles = Vector3.zero;
+            var TempObject = NewPatch.AddComponent<SSX3VisCurtain>();
+            TempObject.LoadVisCurtain(visCurtainJsonHandler.VisCurtains[i]);
+        }
+    }
+
+    public void LoadSpline(string JsonPath, GameObject gameObject)
+    {
+        SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
+        splineJsonHandler = SplineJsonHandler.Load(JsonPath);
+
+        for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
+        {
+            GameObject NewPatch = new GameObject();
+            NewPatch.transform.parent = gameObject.transform;
+            NewPatch.transform.localPosition = Vector3.zero;
+            NewPatch.transform.localScale = Vector3.one;
+            NewPatch.transform.localEulerAngles = Vector3.zero;
+            var TempObject = NewPatch.AddComponent<SSX3Spline>();
+            TempObject.LoadBin3(splineJsonHandler.Splines[i]);
+        }
+    }
 
     public void LoadTextures()
     {
@@ -579,10 +528,10 @@ public class SSX3LevelManager : MonoBehaviour
         }
     }
 
-    public SSX3PatchObject[] GetPatchList()
-    {
-        return PatchesHolder.GetComponentsInChildren<SSX3PatchObject>(true);
-    }
+    //public SSX3PatchObject[] GetPatchList()
+    //{
+    //    return PatchesHolder.GetComponentsInChildren<SSX3PatchObject>(true);
+    //}
     public Material CreateLineMaterial(string Path)
     {
         Material material = new Material(Shader.Find("Unlit/Texture"));
@@ -603,42 +552,6 @@ public class SSX3LevelManager : MonoBehaviour
 
         dataManager = new DataManager();
         dataManager.RefreshObjectList();
-    }
-
-    async void LoadGltfBinaryFromMemory()
-    {
-        List<string> Paths = Directory.GetDirectories(LoadPath).ToList();
-
-        for (int a = 0; a < 1; a++)
-        {
-            var TrackName = Paths[a].Replace(LoadPath, "");
-            GameObject NewHolder = new GameObject();
-            NewHolder.name = TrackName;
-            NewHolder.transform.parent = ModelsHolder.transform;
-            NewHolder.transform.localPosition = Vector3.zero;
-            NewHolder.transform.localScale = Vector3.one;
-            NewHolder.transform.localEulerAngles = Vector3.zero;
-
-            if (Directory.Exists(Paths[a] + "\\Models"))
-            {
-                List<string> FilePaths = Directory.GetFiles(Paths[a] + "\\Models", "*.glb", SearchOption.AllDirectories).ToList();
-                for (int i = 0; i < FilePaths.Count; i++)
-                {
-                    var filePath = FilePaths[i];
-                    var importOpt = new ImportOptions();
-                    importOpt.DataLoader = new UnityWebRequestLoader(Path.GetDirectoryName(filePath));
-                    var import = new GLTFSceneImporter(Path.GetFileName(filePath), importOpt);
-                    await import.LoadSceneAsync();
-
-                    GameObject Temp = import.CreatedObject;
-                    Temp.name = Path.GetFileName(filePath).TrimEnd(".glb");
-                    Temp.transform.parent = NewHolder.transform;
-                    Temp.transform.localPosition = Vector3.zero;
-                    Temp.transform.localScale = Vector3.one;
-                    Temp.transform.localEulerAngles = Vector3.zero;
-                }
-            }
-        }
     }
 
     //[System.Serializable]

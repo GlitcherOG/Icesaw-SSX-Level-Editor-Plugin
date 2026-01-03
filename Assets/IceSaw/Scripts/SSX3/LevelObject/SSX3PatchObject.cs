@@ -633,6 +633,7 @@ public class SSX3PatchObject : MonoBehaviour
         for (int i = 0; i < Verts.Length; i++)
         {
             Verts[i] = transform.TransformPoint(Verts[i]);
+            Verts[i].x = -Verts[i].x;
         }
         TempMesh.vertices = Verts;
         TempMesh.uv = OldMesh.uv;

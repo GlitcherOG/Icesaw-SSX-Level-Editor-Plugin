@@ -33,8 +33,6 @@ public class SSX3VisCurtain : MonoBehaviour
         lineRenderer.material = SSX3LevelManager.Instance.Spline;
         lineRenderer.useWorldSpace = false;
 
-        transform.name = "Bin11";
-
         //transform.localEulerAngles = JsonUtil.ArrayToQuaternion(bin3.Rotation).eulerAngles;
         //transform.localScale = JsonUtil.ArrayToVector3(bin3.Scale);
         //transform.localPosition = JsonUtil.ArrayToVector3(bin3.Position);

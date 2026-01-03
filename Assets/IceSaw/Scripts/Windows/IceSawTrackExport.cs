@@ -70,11 +70,11 @@ public class IceSawTrackExportTrackExport
             //Generate MMD List
             List<ObjExporter.MassModelData> MMD = new List<ObjExporter.MassModelData>();
 
-            var TempPatchList = SSX3LevelManager.Instance.GetPatchList();
-            for (int i = 0; i < TempPatchList.Length; i++)
-            {
-                MMD.Add(TempPatchList[i].GenerateModel());
-            }
+            //var TempPatchList = SSX3LevelManager.Instance.GetPatchList();
+            //for (int i = 0; i < TempPatchList.Length; i++)
+            //{
+            //    MMD.Add(TempPatchList[i].GenerateModel());
+            //}
 
             //Save Objects 
             ObjExporter.SaveModelList(SavePath, MMD, SSX3LevelManager.Instance.texture2ds);
