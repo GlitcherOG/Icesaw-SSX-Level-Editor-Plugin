@@ -24,8 +24,13 @@ public class SSX3PrefabMeshObject : MonoBehaviour
         ParentID = model.ParentID;
 
         transform.localPosition = JsonUtil.ArrayToVector3(model.Position);
-        transform.rotation = JsonUtil.ArrayToQuaternion(model.Rotation);
+        transform.localRotation = JsonUtil.ArrayToQuaternion(model.Rotation);
         transform.localScale = JsonUtil.ArrayToVector3(model.Scale);
+
+        if(transform.localScale == Vector3.zero)
+        {
+            transform.localScale = Vector3.one;
+        }
 
         unknownS2 = model.unknownS2;
         unknownS3 = model.unknownS3;
