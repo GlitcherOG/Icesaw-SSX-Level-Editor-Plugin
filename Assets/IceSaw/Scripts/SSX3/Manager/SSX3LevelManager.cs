@@ -26,12 +26,12 @@ public class SSX3LevelManager : MonoBehaviour
 
         LoadModels(Directory.GetFiles(LoadPath, "Prefabs.json", SearchOption.AllDirectories)[0], ModelsHolder);
 
-        var Bin3Holder = new GameObject("Bin3");
+        var Bin3Holder = new GameObject("Instances");
         Bin3Holder.transform.parent = transform;
         Bin3Holder.transform.localScale = Vector3.one;
         Bin3Holder.transform.localEulerAngles = Vector3.zero;
 
-        LoadBin3(Directory.GetFiles(LoadPath, "Bin3.json", SearchOption.AllDirectories)[0], Bin3Holder);
+        LoadInstance(Directory.GetFiles(LoadPath, "Instances.json", SearchOption.AllDirectories)[0], Bin3Holder);
 
         var Bin11Holder = new GameObject("Vis Curtain");
         Bin11Holder.transform.parent = transform;
@@ -66,12 +66,12 @@ public class SSX3LevelManager : MonoBehaviour
         }
     }
 
-    public void LoadBin3(string JsonPath, GameObject gameObject)
+    public void LoadInstance(string JsonPath, GameObject gameObject)
     {
-        Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
-        bin3JsonHandler = Bin3JsonHandler.Load(JsonPath);
+        InstanceJsonHandler bin3JsonHandler = new InstanceJsonHandler();
+        bin3JsonHandler = InstanceJsonHandler.Load(JsonPath);
 
-        for (int i = 0; i < bin3JsonHandler.bin3Files.Count; i++)
+        for (int i = 0; i < bin3JsonHandler.Instances.Count; i++)
         {
             GameObject NewPatch = new GameObject();
             NewPatch.transform.parent = gameObject.transform;
@@ -79,7 +79,7 @@ public class SSX3LevelManager : MonoBehaviour
             NewPatch.transform.localScale = Vector3.one;
             NewPatch.transform.localEulerAngles = Vector3.zero;
             var TempObject = NewPatch.AddComponent<SSX3InstanceObject>();
-            TempObject.LoadBin3(bin3JsonHandler.bin3Files[i]);
+            TempObject.LoadBin3(bin3JsonHandler.Instances[i]);
         }
     }
 
