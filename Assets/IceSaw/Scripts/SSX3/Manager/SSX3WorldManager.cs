@@ -76,7 +76,7 @@ public class SSX3WorldManager : MonoBehaviour
 
         string[] Paths = Directory.GetDirectories(LoadPath + "\\Levels\\", "*", SearchOption.TopDirectoryOnly);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < Paths.Length; i++)
         {
             var TempLevel = new GameObject(Path.GetFileName(Paths[i]));
             TempLevel.transform.parent = WorldManagerHolder.transform;

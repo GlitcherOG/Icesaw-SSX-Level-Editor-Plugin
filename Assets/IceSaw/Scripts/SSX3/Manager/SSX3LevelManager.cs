@@ -17,7 +17,7 @@ public class SSX3LevelManager : MonoBehaviour
 
         LoadPatches(Directory.GetFiles(LoadPath, "Patches.json", SearchOption.AllDirectories)[0], PatchesHolder);
 
-        LoadMeshCache(LoadPath + "\\Models");
+        //LoadMeshCache(LoadPath + "\\Models");
 
         var ModelsHolder = new GameObject("Models");
         ModelsHolder.transform.parent = transform;

@@ -37,9 +37,9 @@ public class SSX3InstanceObject : MonoBehaviour
     public int U11;
     public int U12;
 
-    public void LoadBin3(Bin3JsonHandler.Bin3File bin3)
+    public void LoadBin3(InstanceJsonHandler.Instance bin3)
     {
-        transform.name = bin3.RID.ToString();
+        transform.name = bin3.Name;
 
         transform.localEulerAngles = JsonUtil.ArrayToQuaternion(bin3.Rotation).eulerAngles;
         transform.localScale = JsonUtil.ArrayToVector3(bin3.Scale);
