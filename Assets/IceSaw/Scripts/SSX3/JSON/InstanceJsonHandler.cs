@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
+
 namespace SSXMultiTool.JsonFiles.SSX3
 {
     public class InstanceJsonHandler
@@ -60,8 +61,8 @@ namespace SSXMultiTool.JsonFiles.SSX3
 
             public int U4;
 
-            public int UTrackID;
-            public int URID;
+            public int ModelTrackID;
+            public int ModelRID;
 
             public float U5;
             public int U6;

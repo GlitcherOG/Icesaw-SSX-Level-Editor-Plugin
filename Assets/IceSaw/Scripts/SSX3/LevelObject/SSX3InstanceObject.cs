@@ -24,8 +24,8 @@ public class SSX3InstanceObject : MonoBehaviour
 
     public int U4;
 
-    public int UTrackID;
-    public int URID;
+    public int ModelTrackID;
+    public int ModelRID;
 
     public float U5;
     public int U6;
@@ -58,8 +58,8 @@ public class SSX3InstanceObject : MonoBehaviour
         RID = bin3.RID;
         U4 = bin3.U4;
 
-        UTrackID = bin3.UTrackID;
-        URID = bin3.URID;
+        ModelTrackID = bin3.ModelTrackID;
+        ModelRID = bin3.ModelRID;
 
         U5 = bin3.U5;
         U6 = bin3.U6;
