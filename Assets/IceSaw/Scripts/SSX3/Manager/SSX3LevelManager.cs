@@ -46,6 +46,24 @@ public class SSX3LevelManager : MonoBehaviour
         SplineHolder.transform.localEulerAngles = Vector3.zero;
 
         LoadSpline(Directory.GetFiles(LoadPath, "Splines.json", SearchOption.AllDirectories)[0], SplineHolder);
+
+        var AIP0 = new GameObject("AIP");
+        AIP0.transform.parent = transform;
+        AIP0.transform.localScale = Vector3.one;
+        AIP0.transform.localEulerAngles = Vector3.zero;
+        AIP0.AddComponent<SSX3PathManager>().LoadJson(Directory.GetFiles(LoadPath, "AIP.json", SearchOption.AllDirectories)[0]);
+
+        var AIP1 = new GameObject("Peak Race AIP");
+        AIP1.transform.parent = transform;
+        AIP1.transform.localScale = Vector3.one;
+        AIP1.transform.localEulerAngles = Vector3.zero;
+        AIP1.AddComponent<SSX3PathManager>().LoadJson(Directory.GetFiles(LoadPath, "PeakRaceAIP.json", SearchOption.AllDirectories)[0]);
+
+        var AIP2 = new GameObject("Peak ShowOff AIP");
+        AIP2.transform.parent = transform;
+        AIP2.transform.localScale = Vector3.one;
+        AIP2.transform.localEulerAngles = Vector3.zero;
+        AIP2.AddComponent<SSX3PathManager>().LoadJson(Directory.GetFiles(LoadPath, "PeakShowOffAIP.json", SearchOption.AllDirectories)[0]);
     }
 
     public void LoadPatches(string JsonPath, GameObject gameObject)

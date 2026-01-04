@@ -27,23 +27,25 @@ namespace SSXMultiTool.JsonFiles.SSX3
             File.WriteAllText(path, serializer);
         }
 
-        public static Bin0JsonHandler Load(string path)
+        public static AIPJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<Bin0JsonHandler>(stream);
+                var container = JsonConvert.DeserializeObject<AIPJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new Bin0JsonHandler();
+                return new AIPJsonHandler();
             }
         }
 
         public struct AIPath
         {
+            public string Name;
+
             public int U0;
             public int U1;
             public int U2;
@@ -51,9 +53,6 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public int U4;
             public int U5;
             public int U6;
-
-            public int NumPoints;
-            public int NumEvents;
 
             public float[] PathPos;
 
@@ -63,13 +62,12 @@ namespace SSXMultiTool.JsonFiles.SSX3
 
         public struct TrackPath
         {
+            public string Name;
+
             public int Type;
             public int U0;
             public int U1;
             public float U2;
-
-            public int NumPoints;
-            public int NumEvents;
 
             public float[] PathPos;
 
