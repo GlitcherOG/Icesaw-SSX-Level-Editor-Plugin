@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static GLTFast.Schema.AnimationChannelBase;
 
 [ExecuteInEditMode]
 public class SSX3LevelManager : MonoBehaviour
@@ -26,7 +28,7 @@ public class SSX3LevelManager : MonoBehaviour
 
         LoadPatches(Directory.GetFiles(LoadPath, "Patches.json", SearchOption.AllDirectories)[0], PatchesHolder);
 
-        //LoadMeshCache(LoadPath + "\\Models");
+        LoadMeshCache(LoadPath + "\\Models");
 
         var ModelsHolder = new GameObject("Models");
         ModelsHolder.transform.parent = transform;
@@ -73,6 +75,19 @@ public class SSX3LevelManager : MonoBehaviour
         AIP2.transform.localScale = Vector3.one;
         AIP2.transform.localEulerAngles = Vector3.zero;
         AIP2.AddComponent<SSX3PathManager>().LoadJson(Directory.GetFiles(LoadPath, "PeakShowOffAIP.json", SearchOption.AllDirectories)[0]);
+    }
+
+    public void UnloadLevel()
+    {
+        MeshCache.Clear();
+        MeshCache = new List<MeshData>();
+
+        var ChildrenCount = transform.childCount;
+        for (int i = 0; i < ChildrenCount; i++)
+        {
+            var ChildTransform = transform.GetChild(0);
+            DestroyImmediate(ChildTransform.gameObject);
+        }
     }
 
     public void LoadPatches(string JsonPath, GameObject gameObject)
@@ -172,6 +187,7 @@ public class SSX3LevelManager : MonoBehaviour
             if (MeshCache[i].Name == MeshPath)
             {
                 mesh = MeshCache[i].mesh;
+                break;
             }
         }
 
@@ -204,9 +220,36 @@ public class SSX3LevelManager : MonoBehaviour
         public string Name;
         public Mesh mesh;
     }
+
+    public static SSX3LevelManager GetLevelManager(GameObject child)
+    {
+        if(child.transform.parent!=null)
+        {
+            return ParentLevelManagerCheck(child.transform.parent);
+        }
+
+        return null;
+    }
+
+    private static SSX3LevelManager ParentLevelManagerCheck(Transform parent)
+    {
+        var levelManager = parent.GetComponent<SSX3LevelManager>();
+
+        if(levelManager!=null)
+        {
+            return levelManager; 
+        }
+
+        if(parent.parent!=null)
+        {
+            return ParentLevelManagerCheck(parent.parent);
+        }
+
+        return null;
+    }
 }
 
-[CustomEditor(typeof(SSX3LevelManager))] // Links this editor to MyScript
+[CustomEditor(typeof(SSX3LevelManager)), CanEditMultipleObjects] // Links this editor to MyScript
 public class MyScriptEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -215,13 +258,28 @@ public class MyScriptEditor : Editor
         DrawDefaultInspector();
 
         // Get a reference to the target script
-        SSX3LevelManager myScript = (SSX3LevelManager)target;
+        var myScript = targets;
 
         // Add a button
         if (GUILayout.Button("Load Level"))
         {
-            // Call the function in the target script when clicked
-            myScript.LoadLevel();
+            for (global::System.Int32 i = 0; i < myScript.Length; i++)
+            {
+                ((SSX3LevelManager)myScript[i]).LoadLevel();
+            }
+        }
+
+        if (GUILayout.Button("Save Level"))
+        {
+
+        }
+
+        if (GUILayout.Button("Unload Level"))
+        {
+            for (global::System.Int32 i = 0; i < myScript.Length; i++)
+            {
+                ((SSX3LevelManager)myScript[i]).UnloadLevel();
+            }
         }
     }
 }

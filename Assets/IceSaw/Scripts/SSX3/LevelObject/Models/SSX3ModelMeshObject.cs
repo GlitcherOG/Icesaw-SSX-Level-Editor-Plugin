@@ -1,6 +1,7 @@
 using SSXMultiTool.JsonFiles.SSX3;
 using SSXMultiTool.Utilities;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -18,9 +19,40 @@ public class SSX3ModelMeshObject : MonoBehaviour
 
     public string ModelPath;
 
+    [HideInInspector]
+    public Mesh mesh;
+
+    [HideInInspector]
+    public Material material;
+
+    [HideInInspector]
+    public MeshFilter meshFilter;
+    [HideInInspector]
+    public MeshRenderer meshRenderer;
+
+    [ContextMenu("Add Missing Components")]
+    public void AddMissingComponents()
+    {
+        if (meshFilter != null)
+        {
+            DestroyImmediate(meshFilter);
+        }
+        if (meshRenderer != null)
+        {
+            DestroyImmediate(meshRenderer);
+        }
+
+        meshFilter = transform.AddComponent<MeshFilter>();
+        meshRenderer = transform.AddComponent<MeshRenderer>();
+
+        meshFilter.hideFlags = HideFlags.HideInInspector;
+        meshRenderer.hideFlags = HideFlags.HideInInspector;
+    }
 
     public void LoadPrefab(MDRJsonHandler.ModelObject model)
     {
+        AddMissingComponents();
+
         ParentID = model.ParentID;
 
         transform.localPosition = JsonUtil.ArrayToVector3(model.Position);
@@ -36,5 +68,25 @@ public class SSX3ModelMeshObject : MonoBehaviour
         unknownS3 = model.unknownS3;
 
         ModelPath = model.ModelPath;
+
+        LoadMesh();
+    }
+
+    public void LoadMesh()
+    {
+        if (ModelPath != "")
+        {
+            var ssx3LevelManager = SSX3LevelManager.GetLevelManager(this.gameObject);
+
+            mesh = ssx3LevelManager.GetMesh(ModelPath);
+        }
+
+        material = new Material(Shader.Find("Standard"));
+
+        material.color = Color.gray; // Set the material color to gray
+        material.SetFloat("_Smoothness", 0.5f); // Adjust smoothness
+
+        meshFilter.sharedMesh = mesh;
+        meshRenderer.sharedMaterial = material;
     }
 }
