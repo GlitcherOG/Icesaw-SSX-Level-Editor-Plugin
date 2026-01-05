@@ -9,7 +9,7 @@ using static SSXMultiTool.JsonFiles.SSX3.MDRJsonHandler;
 
 [ExecuteInEditMode]
 [SelectionBase]
-public class SSX3PrefabMeshObject : MonoBehaviour
+public class SSX3ModelMeshObject : MonoBehaviour
 {
     public int ParentID;
 

@@ -9,7 +9,7 @@ using static SSXMultiTool.JsonFiles.SSX3.MDRJsonHandler;
 
 [ExecuteInEditMode]
 [SelectionBase]
-public class SSX3PrefabObject : MonoBehaviour
+public class SSX3ModelObject : MonoBehaviour
 {
     public int TrackID;
     public int RID;
@@ -25,8 +25,10 @@ public class SSX3PrefabObject : MonoBehaviour
     public List<int> U12;
 
 
-    public void LoadPrefab(MDRJsonHandler.MainModelHeader model)
+    public void LoadModel(MDRJsonHandler.MainModelHeader model)
     {
+        transform.name = model.Name;
+
         TrackID = model.TrackID;
         RID = model.RID;
 
@@ -49,7 +51,7 @@ public class SSX3PrefabObject : MonoBehaviour
             ChildMesh.transform.localScale = Vector3.one;
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
-            ChildMesh.AddComponent<SSX3PrefabMeshObject>().LoadPrefab(model.ModelObjects[i]);
+            ChildMesh.AddComponent<SSX3ModelMeshObject>().LoadPrefab(model.ModelObjects[i]);
         }
     }
 }

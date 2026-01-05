@@ -148,8 +148,8 @@ public class SSX3LevelManager : MonoBehaviour
             NewPatch.transform.localPosition = Vector3.zero;
             NewPatch.transform.localScale = Vector3.one;
             NewPatch.transform.localEulerAngles = Vector3.zero;
-            var TempObject = NewPatch.AddComponent<SSX3PrefabObject>();
-            TempObject.LoadPrefab(MDRJson.mainModelHeaders[i]);
+            var TempObject = NewPatch.AddComponent<SSX3ModelObject>();
+            TempObject.LoadModel(MDRJson.mainModelHeaders[i]);
 
         }
     }
