@@ -74,17 +74,18 @@ public class SSX3WorldManager : MonoBehaviour
         WorldManagerHolder.transform.localEulerAngles = new Vector3(0, 0, 0);
         WorldManagerHolder.transform.localPosition = new Vector3(0, 0, 0);
 
-        string[] Paths = Directory.GetDirectories(LoadPath + "\\Levels\\", "*", SearchOption.TopDirectoryOnly);
+        LevelJsonHandler levelJsonHandler = new LevelJsonHandler();
+        levelJsonHandler = LevelJsonHandler.Load(LoadPath + "\\Levels.json");
 
-        for (int i = 0; i < Paths.Length; i++)
+        for (int i = 0; i < levelJsonHandler.LevelInfoList.Count; i++)
         {
-            var TempLevel = new GameObject(Path.GetFileName(Paths[i]));
+            var TempLevel = new GameObject(levelJsonHandler.LevelInfoList[i].LevelName);
             TempLevel.transform.parent = WorldManagerHolder.transform;
             TempLevel.transform.localScale = Vector3.one;
             TempLevel.transform.localEulerAngles = Vector3.zero;
 
             var Level = TempLevel.AddComponent<SSX3LevelManager>();
-            Level.LoadLevel(Paths[i]);
+            Level.AddLevelString(LoadPath + "\\Levels\\"+levelJsonHandler.LevelInfoList[i].LevelName);
         }
     }
 

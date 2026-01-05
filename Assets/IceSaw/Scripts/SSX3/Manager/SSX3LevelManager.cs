@@ -7,8 +7,17 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class SSX3LevelManager : MonoBehaviour
 {
+    public string LoadPath;
+    public bool Loaded;
+
     public List<MeshData> MeshCache = new List<MeshData>();
-    public void LoadLevel(string LoadPath)
+    
+    public void AddLevelString(string loadPath)
+    {
+        LoadPath = loadPath;
+    }
+
+    public void LoadLevel()
     {
         var PatchesHolder = new GameObject("Patches");
         PatchesHolder.transform.parent = transform;
@@ -194,5 +203,25 @@ public class SSX3LevelManager : MonoBehaviour
     {
         public string Name;
         public Mesh mesh;
+    }
+}
+
+[CustomEditor(typeof(SSX3LevelManager))] // Links this editor to MyScript
+public class MyScriptEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        // Draw the default inspector properties
+        DrawDefaultInspector();
+
+        // Get a reference to the target script
+        SSX3LevelManager myScript = (SSX3LevelManager)target;
+
+        // Add a button
+        if (GUILayout.Button("Load Level"))
+        {
+            // Call the function in the target script when clicked
+            myScript.LoadLevel();
+        }
     }
 }
