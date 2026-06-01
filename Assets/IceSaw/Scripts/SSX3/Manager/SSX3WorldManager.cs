@@ -23,8 +23,6 @@ public class SSX3WorldManager : MonoBehaviour
     public bool ShowInstanceModels = true;
     [HideInInspector]
     public bool ShowCollisionModels = true;
-    [HideInInspector]
-    public DataManager dataManager;
 
     public List<TrickyLevelManager.TextureData> texture2ds = new List<TrickyLevelManager.TextureData>();
     public List<Texture2D> lightmaps = new List<Texture2D>();
@@ -326,76 +324,6 @@ public class SSX3WorldManager : MonoBehaviour
     public void RefreshTextures()
     {
         ReloadTextures();
-        ForceTextureUpdate();
-    }
-
-    [ContextMenu("Force Texture Update")]
-    public void ForceTextureUpdate()
-    {
-        dataManager.RefreshObjectList();
-
-        //Reload Patches
-        var TempPatches = dataManager.trickyPatchObjects.ToArray();
-
-        for (int i = 0; i < TempPatches.Length; i++)
-        {
-            TempPatches[i].UpdateTexture();
-        }
-
-        //Reload Materials
-        var TempMaterials = dataManager.trickyMaterialObjects.ToArray();
-
-        for (int i = 0; i < TempMaterials.Length; i++)
-        {
-            TempMaterials[i].GenerateMaterialSphere();
-        }
-
-        //Reload Prefabs
-        var TempPrefabs = dataManager.trickyPrefabObjects.ToArray();
-
-        for (int i = 0; i < TempPrefabs.Length; i++)
-        {
-            TempPrefabs[i].ForceReloadMeshMat();
-        }
-
-        //Reload Instances
-        var TempInstanceList = dataManager.trickyInstances.ToArray();
-
-        for (int i = 0; i < TempInstanceList.Length; i++)
-        {
-            TempInstanceList[i].LoadPrefabs();
-        }
-
-        //Reload Skybox Materials
-        var TempSkyboxMaterials = dataManager.trickySkyboxMaterialObjects.ToArray();
-
-        for (int i = 0; i < TempSkyboxMaterials.Length; i++)
-        {
-            TempSkyboxMaterials[i].GenerateMaterialSphere();
-        }
-
-        //Reload Prefabs
-        var TempSkyboxPrefabs = dataManager.trickySkyboxPrefabObjects.ToArray();
-
-        for (int i = 0; i < TempSkyboxPrefabs.Length; i++)
-        {
-            TempSkyboxPrefabs[i].ForceReloadMeshMat();
-        }
-    }
-
-    [ContextMenu("Reload Lightmap")]
-    public void RefreshLightmap()
-    {
-        ReloadLightmaps();
-
-        dataManager.RefreshObjectList();
-
-        var TempList = dataManager.trickyPatchObjects.ToArray();
-
-        for (int i = 0; i < TempList.Length; i++)
-        {
-            TempList[i].UpdateTexture();
-        }
     }
 
     public SSX3PatchObject[] GetPatchList()
@@ -419,9 +347,6 @@ public class SSX3WorldManager : MonoBehaviour
         Spline = CreateLineMaterial("Assets\\IceSaw\\Textures\\Spline.png");
         AIPath = CreateLineMaterial("Assets\\IceSaw\\Textures\\AIPath.png");
         RaceLine = CreateLineMaterial("Assets\\IceSaw\\Textures\\RacePath.png");
-
-        dataManager = new DataManager();
-        dataManager.RefreshObjectList();
     }
 
     //[System.Serializable]

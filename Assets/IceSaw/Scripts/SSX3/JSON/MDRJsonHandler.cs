@@ -51,9 +51,6 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public int U4;
 
             public float U6;
-            public float U7;
-            public float U8;
-            public float U9;
 
             public List<int> U12;
 

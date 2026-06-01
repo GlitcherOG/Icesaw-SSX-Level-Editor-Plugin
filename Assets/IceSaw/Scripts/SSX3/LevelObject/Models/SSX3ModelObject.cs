@@ -36,9 +36,6 @@ public class SSX3ModelObject : MonoBehaviour
         U4 = model.U4;
 
         U6 = model.U6;
-        U7 = model.U7;
-        U8 = model.U8;
-        U9 = model.U9;
 
         U12 = model.U12;
 
@@ -52,6 +49,30 @@ public class SSX3ModelObject : MonoBehaviour
             ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
             ChildMesh.AddComponent<SSX3ModelMeshObject>().LoadPrefab(model.ModelObjects[i]);
+
         }
+    }
+
+    public GameObject GemerateModel()
+    {
+        GameObject MainObject = new GameObject(transform.name);
+        MainObject.transform.hideFlags = HideFlags.HideInHierarchy;
+        var TempList = GetComponentsInChildren<SSX3ModelMeshObject>();
+
+        for (int i = 0; i < TempList.Length; i++)
+        {
+            GameObject ChildMesh = new GameObject(i.ToString());
+            ChildMesh.transform.parent = MainObject.transform;
+            ChildMesh.transform.localPosition = Vector3.zero;
+            ChildMesh.transform.localScale = Vector3.one;
+            ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            var TempMeshFilter = ChildMesh.AddComponent<MeshFilter>();
+            var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
+            //ChildMesh.AddComponent<SelectParent>();
+            TempMeshFilter.mesh = TempList[i].mesh;
+            TempRenderer.material = TempList[i].material;//PrefabMeshObject.GenerateMaterial(TempList[i].TrickyMaterialObject);
+        }
+
+        return MainObject;
     }
 }

@@ -37,6 +37,9 @@ public class SSX3InstanceObject : MonoBehaviour
     public int U11;
     public int U12;
 
+    public GameObject Prefab;
+    public SSX3ModelObject PrefabObject;
+
     public void LoadBin3(InstanceJsonHandler.Instance bin3)
     {
         transform.name = bin3.Name;
@@ -70,5 +73,35 @@ public class SSX3InstanceObject : MonoBehaviour
         U10 = bin3.U10;
         U11 = bin3.U11;
         U12 = bin3.U12;
+
+        var Level = SSX3LevelManager.GetLevelManager(this.gameObject);
+        PrefabObject = Level.GetModel(ModelRID);
+
+        LoadPrefabs();
+    }
+
+    [ContextMenu("Refresh Models")]
+    public void LoadPrefabs()
+    {
+        if (Prefab != null)
+        {
+            DestroyImmediate(Prefab);
+        }
+
+        if (PrefabObject != null)
+        {
+            Prefab = PrefabObject.GemerateModel();
+            //SceneVisibilityManager.instance.DisablePicking(Prefab, true);
+            //SceneVisibilityManager.instance.EnablePicking(gameObject,false);
+            Prefab.gameObject.name = "Prefab";
+            Prefab.transform.parent = transform;
+            Prefab.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            Prefab.transform.localPosition = new Vector3(0, 0, 0);
+            Prefab.transform.localScale = new Vector3(1, 1, 1);
+            Prefab.AddComponent<SelectParent>();
+
+            //SetLightingColour();
+            //Prefab.SetActive(TrickyLevelManager.Instance.ShowInstanceModels);
+        }
     }
 }

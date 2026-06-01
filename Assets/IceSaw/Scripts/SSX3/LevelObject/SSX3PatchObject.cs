@@ -396,10 +396,10 @@ public class SSX3PatchObject : MonoBehaviour
         //Build Lightmap Points
         NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[2, 2];
 
-        cps[0, 0] = new NURBS.ControlPoint(0.1f, 0.1f, 0, 1);
-        cps[1, 0] = new NURBS.ControlPoint(0.1f, 0.9f, 0, 1);
-        cps[0, 1] = new NURBS.ControlPoint(0.9f, 0.1f, 0, 1);
-        cps[1, 1] = new NURBS.ControlPoint(0.9f, 0.9f, 0, 1);
+        cps[0, 0] = new NURBS.ControlPoint(0f, 0f, 0, 1);
+        cps[1, 0] = new NURBS.ControlPoint(0f, 1f, 0, 1);
+        cps[0, 1] = new NURBS.ControlPoint(1f, 0f, 0, 1);
+        cps[1, 1] = new NURBS.ControlPoint(1f, 1f, 0, 1);
 
         surface = new NURBS.Surface(cps, 1, 1);
 

@@ -12,6 +12,8 @@ public class SSX3LevelManager : MonoBehaviour
     public string LoadPath;
     public bool Loaded;
 
+    public GameObject ModelsHolder;
+
     public List<MeshData> MeshCache = new List<MeshData>();
     
     public void AddLevelString(string loadPath)
@@ -30,7 +32,7 @@ public class SSX3LevelManager : MonoBehaviour
 
         LoadMeshCache(LoadPath + "\\Models");
 
-        var ModelsHolder = new GameObject("Models");
+        ModelsHolder = new GameObject("Models");
         ModelsHolder.transform.parent = transform;
         ModelsHolder.transform.localScale = Vector3.one;
         ModelsHolder.transform.localEulerAngles = Vector3.zero;
@@ -212,6 +214,20 @@ public class SSX3LevelManager : MonoBehaviour
             TempMesh.Name = Files[i].Substring(path.Length + 1);
             MeshCache.Add(TempMesh);
         }
+    }
+
+    public SSX3ModelObject GetModel(int ID)
+    {
+        for (int i = 0; i < ModelsHolder.transform.childCount; i++)
+        {
+            if(ModelsHolder.transform.GetChild(i).GetComponent<SSX3ModelObject>().RID==ID)
+            {
+                return ModelsHolder.transform.GetChild(i).GetComponent<SSX3ModelObject>();
+            }
+        }
+
+
+        return null;
     }
 
     [System.Serializable]

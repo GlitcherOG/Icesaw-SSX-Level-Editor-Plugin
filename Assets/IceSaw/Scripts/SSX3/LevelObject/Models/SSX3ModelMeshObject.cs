@@ -81,12 +81,34 @@ public class SSX3ModelMeshObject : MonoBehaviour
             mesh = ssx3LevelManager.GetMesh(ModelPath);
         }
 
-        material = new Material(Shader.Find("Standard"));
+        material = new Material(Shader.Find("Custom/DoubleSided"));
 
         material.color = Color.gray; // Set the material color to gray
         material.SetFloat("_Smoothness", 0.5f); // Adjust smoothness
 
         meshFilter.sharedMesh = mesh;
         meshRenderer.sharedMaterial = material;
+    }
+    public GameObject GenerateSubObject()
+    {
+        GameObject MainObject = new GameObject(transform.name);
+        //MainObject.AddComponent<SelectParent>();
+        var MeshObjectList = GetComponentsInChildren<PrefabMeshObject>();
+
+        for (int a = 0; a < MeshObjectList.Length; a++)
+        {
+            GameObject ChildMesh = new GameObject(a.ToString());
+            ChildMesh.transform.parent = MainObject.transform;
+            ChildMesh.transform.localPosition = Vector3.zero;
+            ChildMesh.transform.localScale = Vector3.one;
+            ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            var TempMeshFilter = ChildMesh.AddComponent<MeshFilter>();
+            var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
+            //ChildMesh.AddComponent<SelectParent>();
+            TempMeshFilter.mesh = MeshObjectList[a].mesh;
+            TempRenderer.material = PrefabMeshObject.GenerateMaterial(MeshObjectList[a].TrickyMaterialObject);
+        }
+
+        return MainObject;
     }
 }
