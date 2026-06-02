@@ -18,9 +18,6 @@ public class SSX3ModelObject : MonoBehaviour
     public int U4;
 
     public float U6;
-    public float U7;
-    public float U8;
-    public float U9;
 
     public List<int> U12;
 
@@ -63,9 +60,9 @@ public class SSX3ModelObject : MonoBehaviour
         {
             GameObject ChildMesh = new GameObject(i.ToString());
             ChildMesh.transform.parent = MainObject.transform;
-            ChildMesh.transform.localPosition = Vector3.zero;
-            ChildMesh.transform.localScale = Vector3.one;
-            ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            ChildMesh.transform.localPosition = TempList[i].transform.localPosition;
+            ChildMesh.transform.localScale = TempList[i].transform.localScale;
+            ChildMesh.transform.localRotation = Quaternion.identity; //TempList[i].transform.localRotation;
             var TempMeshFilter = ChildMesh.AddComponent<MeshFilter>();
             var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
             //ChildMesh.AddComponent<SelectParent>();
