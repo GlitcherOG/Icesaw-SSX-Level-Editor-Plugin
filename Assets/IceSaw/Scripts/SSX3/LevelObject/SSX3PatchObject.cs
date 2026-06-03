@@ -1,9 +1,10 @@
-using System.Collections.Generic;
-using UnityEngine;
 using SSXMultiTool.JsonFiles.SSX3;
 using SSXMultiTool.Utilities;
-using UnityEditor;
+using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
+using UnityEditor;
+using UnityEngine;
 
 [ExecuteInEditMode]
 public class SSX3PatchObject : MonoBehaviour
@@ -83,6 +84,7 @@ public class SSX3PatchObject : MonoBehaviour
     [SerializeField]
     [OnChangedCall("UpdateTexture")]
     public int LightmapID;
+    private float ImageSize;
 
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
@@ -396,10 +398,10 @@ public class SSX3PatchObject : MonoBehaviour
         //Build Lightmap Points
         NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[2, 2];
 
-        cps[0, 0] = new NURBS.ControlPoint(0f, 0f, 0, 1);
-        cps[1, 0] = new NURBS.ControlPoint(0f, 1f, 0, 1);
-        cps[0, 1] = new NURBS.ControlPoint(1f, 0f, 0, 1);
-        cps[1, 1] = new NURBS.ControlPoint(1f, 1f, 0, 1);
+        cps[0, 0] = new NURBS.ControlPoint(ImageSize, ImageSize, 0, 1);
+        cps[1, 0] = new NURBS.ControlPoint(ImageSize, 1f - ImageSize, 0, 1);
+        cps[0, 1] = new NURBS.ControlPoint(1f - ImageSize, ImageSize, 0, 1);
+        cps[1, 1] = new NURBS.ControlPoint(1f - ImageSize, 1f - ImageSize, 0, 1);
 
         surface = new NURBS.Surface(cps, 1, 1);
 
@@ -441,7 +443,11 @@ public class SSX3PatchObject : MonoBehaviour
                     Found = true;
                     meshRenderer.sharedMaterial.SetTexture("_MainTexture", SSX3WorldManager.Instance.texture2ds[i].Texture);
 
-                    meshRenderer.sharedMaterial.SetTexture("_Lightmap", SSX3WorldManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID));
+                    var Lightmap = SSX3WorldManager.Instance.GrabLightmapTexture(LightMapPoint, LightmapID);
+
+                    ImageSize = 1f / Lightmap.Size().x;
+
+                    meshRenderer.sharedMaterial.SetTexture("_Lightmap", Lightmap);
                     return;
                 }
             }
