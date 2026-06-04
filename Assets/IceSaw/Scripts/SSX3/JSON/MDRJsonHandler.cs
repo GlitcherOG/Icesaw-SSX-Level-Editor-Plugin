@@ -52,7 +52,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
 
             public float U6;
 
-            public List<int> U12;
+            public List<ObjectID> U12;
 
             public List<ModelObject> ModelObjects;
         }
@@ -107,5 +107,11 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public float[] U04;
         }
 
+        [Serializable]
+        public struct ObjectID
+        {
+            public int TrackID;
+            public int RID;
+        }
     }
 }

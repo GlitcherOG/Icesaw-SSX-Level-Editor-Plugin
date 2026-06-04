@@ -81,34 +81,34 @@ public class SSX3ModelMeshObject : MonoBehaviour
             mesh = ssx3LevelManager.GetMesh(ModelPath);
         }
 
-        material = new Material(Shader.Find("Custom/DoubleSided"));
+        try
+        {
+            material = GenerateMaterial(this.transform.parent.GetComponent<SSX3ModelObject>().U12[0].RID, this.gameObject);
+        }
+        catch
+        {
 
-        material.color = Color.gray; // Set the material color to gray
-        material.SetFloat("_Smoothness", 0.5f); // Adjust smoothness
+        }
+
+        //material = new Material(Shader.Find("Custom/DoubleSided"));
+
+        //material.color = Color.gray; // Set the material color to gray
+        //material.SetFloat("_Smoothness", 0.5f); // Adjust smoothness
 
         meshFilter.sharedMesh = mesh;
         meshRenderer.sharedMaterial = material;
     }
-    public GameObject GenerateSubObject()
+
+    public static Material GenerateMaterial(int MaterialID, GameObject gameObject)
     {
-        GameObject MainObject = new GameObject(transform.name);
-        //MainObject.AddComponent<SelectParent>();
-        var MeshObjectList = GetComponentsInChildren<PrefabMeshObject>();
+        var NewMaterial = new Material(Shader.Find("ModelShader"));
 
-        for (int a = 0; a < MeshObjectList.Length; a++)
-        {
-            GameObject ChildMesh = new GameObject(a.ToString());
-            ChildMesh.transform.parent = MainObject.transform;
-            ChildMesh.transform.localPosition = Vector3.zero;
-            ChildMesh.transform.localScale = Vector3.one;
-            ChildMesh.transform.localRotation = new Quaternion(0, 0, 0, 0);
-            var TempMeshFilter = ChildMesh.AddComponent<MeshFilter>();
-            var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
-            //ChildMesh.AddComponent<SelectParent>();
-            TempMeshFilter.mesh = MeshObjectList[a].mesh;
-            TempRenderer.material = PrefabMeshObject.GenerateMaterial(MeshObjectList[a].TrickyMaterialObject);
-        }
+        var SSX3Material = SSX3LevelManager.GetLevelManager(gameObject).GetMaterial(MaterialID);
+        var Texture = Bin0Object.GetTexture(SSX3Material.TextureName);
 
-        return MainObject;
+        NewMaterial.SetTexture("_MainTexture", Texture);
+        NewMaterial.SetFloat("_NoLightMode", 1);
+
+        return NewMaterial;
     }
 }

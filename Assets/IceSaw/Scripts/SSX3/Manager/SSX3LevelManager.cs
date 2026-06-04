@@ -13,6 +13,7 @@ public class SSX3LevelManager : MonoBehaviour
     public bool Loaded;
 
     public GameObject ModelsHolder;
+    public GameObject MaterialHolder;
 
     public List<MeshData> MeshCache = new List<MeshData>();
     
@@ -29,6 +30,12 @@ public class SSX3LevelManager : MonoBehaviour
         PatchesHolder.transform.localEulerAngles = Vector3.zero;
 
         LoadPatches(Directory.GetFiles(LoadPath, "Patches.json", SearchOption.AllDirectories)[0], PatchesHolder);
+
+        MaterialHolder = new GameObject("Materials");
+        MaterialHolder.transform.parent = transform;
+        MaterialHolder.transform.localScale = Vector3.one;
+        MaterialHolder.transform.localEulerAngles = Vector3.zero;
+        LoadBin0(Directory.GetFiles(LoadPath, "Bin0.json", SearchOption.AllDirectories)[0], MaterialHolder);
 
         LoadMeshCache(LoadPath + "\\Models");
 
@@ -162,6 +169,24 @@ public class SSX3LevelManager : MonoBehaviour
         }
     }
 
+    public void LoadBin0(string JsonPath, GameObject gameObject)
+    {
+        Bin0JsonHandler splineJsonHandler = new Bin0JsonHandler();
+        splineJsonHandler = Bin0JsonHandler.Load(JsonPath);
+
+        for (int i = 0; i < splineJsonHandler.bin0Files.Count; i++)
+        {
+            GameObject NewPatch = new GameObject();
+            NewPatch.transform.name = i.ToString();
+            NewPatch.transform.parent = gameObject.transform;
+            NewPatch.transform.localPosition = Vector3.zero;
+            NewPatch.transform.localScale = Vector3.one;
+            NewPatch.transform.localEulerAngles = Vector3.zero;
+            var TempObject = NewPatch.AddComponent<Bin0Object>();
+            TempObject.LoadBin0(splineJsonHandler.bin0Files[i]);
+        }
+    }
+
     public void LoadModels(string JsonPath, GameObject gameObject)
     {
         MDRJsonHandler MDRJson = new MDRJsonHandler();
@@ -223,6 +248,20 @@ public class SSX3LevelManager : MonoBehaviour
             if(ModelsHolder.transform.GetChild(i).GetComponent<SSX3ModelObject>().RID==ID)
             {
                 return ModelsHolder.transform.GetChild(i).GetComponent<SSX3ModelObject>();
+            }
+        }
+
+
+        return null;
+    }
+
+    public Bin0Object GetMaterial(int ID)
+    {
+        for (int i = 0; i < MaterialHolder.transform.childCount; i++)
+        {
+            if (MaterialHolder.transform.GetChild(i).GetComponent<Bin0Object>().RID == ID)
+            {
+                return MaterialHolder.transform.GetChild(i).GetComponent<Bin0Object>();
             }
         }
 

@@ -1,5 +1,6 @@
 using SSXMultiTool.JsonFiles.SSX3;
 using SSXMultiTool.Utilities;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -19,7 +20,7 @@ public class SSX3ModelObject : MonoBehaviour
 
     public float U6;
 
-    public List<int> U12;
+    public List<ObjectID> U12;
 
 
     public void LoadModel(MDRJsonHandler.MainModelHeader model)
@@ -67,7 +68,7 @@ public class SSX3ModelObject : MonoBehaviour
             var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
             //ChildMesh.AddComponent<SelectParent>();
             TempMeshFilter.mesh = TempList[i].mesh;
-            TempRenderer.material = TempList[i].material;//PrefabMeshObject.GenerateMaterial(TempList[i].TrickyMaterialObject);
+            TempRenderer.material = SSX3ModelMeshObject.GenerateMaterial(U12[0].RID, this.gameObject);
         }
 
         return MainObject;
