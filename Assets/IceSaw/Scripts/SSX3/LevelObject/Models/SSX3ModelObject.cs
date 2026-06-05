@@ -68,7 +68,14 @@ public class SSX3ModelObject : MonoBehaviour
             var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
             //ChildMesh.AddComponent<SelectParent>();
             TempMeshFilter.mesh = TempList[i].mesh;
-            TempRenderer.material = SSX3ModelMeshObject.GenerateMaterial(MaterialList[TempList[i].MaterialID].RID, this.gameObject);
+            try
+            {
+                TempRenderer.material = SSX3ModelMeshObject.GenerateMaterial(MaterialList[TempList[i].MaterialID].RID, this.gameObject);
+            }
+            catch
+            {
+
+            }
         }
 
         return MainObject;

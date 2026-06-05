@@ -587,7 +587,7 @@ public class SSX3PatchObject : MonoBehaviour
     {
         if (Lightmap)
         {
-            meshRenderer.sharedMaterial.SetFloat("_LightMapStrength", 1f);
+            meshRenderer.sharedMaterial.SetFloat("_LightMapStrength", 2f);
         }
         else
         {

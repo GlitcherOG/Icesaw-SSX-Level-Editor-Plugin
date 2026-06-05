@@ -92,11 +92,11 @@ public class Bin0Object : MonoBehaviour
                     return texture;
                 }
             }
-            texture = TrickyLevelManager.Instance.Error;
+            texture = SSX3WorldManager.Instance.Error;
         }
         catch
         {
-            texture = TrickyLevelManager.Instance.Error;
+            texture = SSX3WorldManager.Instance.Error;
         }
         return texture;
     }
