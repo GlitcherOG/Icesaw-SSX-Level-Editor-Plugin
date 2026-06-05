@@ -52,7 +52,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
 
             public float U6;
 
-            public List<ObjectID> U12;
+            public List<ObjectID> MaterialList;
 
             public List<ModelObject> ModelObjects;
         }

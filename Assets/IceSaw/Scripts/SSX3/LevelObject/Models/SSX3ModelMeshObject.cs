@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
-using UnityEngine.UIElements;
-using static SSXMultiTool.JsonFiles.SSX3.MDRJsonHandler;
-
 [ExecuteInEditMode]
 [SelectionBase]
 public class SSX3ModelMeshObject : MonoBehaviour
 {
     public int ParentID;
+
+    public int MaterialID;
 
     public UnknownS2 unknownS2;
     public UnknownS3 unknownS3;
@@ -67,6 +65,11 @@ public class SSX3ModelMeshObject : MonoBehaviour
         unknownS2 = model.unknownS2;
         unknownS3 = model.unknownS3;
 
+        if (unknownS2.ModelHeaderOffset.Count > 0)
+        {
+            MaterialID = unknownS2.ModelHeaderOffset[0].U0;
+        }
+
         ModelPath = model.ModelPath;
 
         LoadMesh();
@@ -83,7 +86,7 @@ public class SSX3ModelMeshObject : MonoBehaviour
 
         try
         {
-            material = GenerateMaterial(this.transform.parent.GetComponent<SSX3ModelObject>().U12[0].RID, this.gameObject);
+            material = GenerateMaterial(this.transform.parent.GetComponent<SSX3ModelObject>().U12[MaterialID].RID, this.gameObject);
         }
         catch
         {

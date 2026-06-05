@@ -20,7 +20,7 @@ public class SSX3ModelObject : MonoBehaviour
 
     public float U6;
 
-    public List<ObjectID> U12;
+    public List<ObjectID> MaterialList;
 
 
     public void LoadModel(MDRJsonHandler.MainModelHeader model)
@@ -35,7 +35,7 @@ public class SSX3ModelObject : MonoBehaviour
 
         U6 = model.U6;
 
-        U12 = model.U12;
+        MaterialList = model.MaterialList;
 
         for (int i = 0; i < model.ModelObjects.Count; i++)
         {
@@ -68,7 +68,7 @@ public class SSX3ModelObject : MonoBehaviour
             var TempRenderer = ChildMesh.AddComponent<MeshRenderer>();
             //ChildMesh.AddComponent<SelectParent>();
             TempMeshFilter.mesh = TempList[i].mesh;
-            TempRenderer.material = SSX3ModelMeshObject.GenerateMaterial(U12[0].RID, this.gameObject);
+            TempRenderer.material = SSX3ModelMeshObject.GenerateMaterial(MaterialList[TempList[i].MaterialID].RID, this.gameObject);
         }
 
         return MainObject;
