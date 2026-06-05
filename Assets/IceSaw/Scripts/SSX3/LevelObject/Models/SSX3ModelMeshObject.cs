@@ -2,8 +2,9 @@ using SSXMultiTool.JsonFiles.SSX3;
 using SSXMultiTool.Utilities;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.UIElements;
+using UnityEngine;
+using static SSXMultiTool.JsonFiles.SSX3.MDRJsonHandler;
+
 [ExecuteInEditMode]
 [SelectionBase]
 public class SSX3ModelMeshObject : MonoBehaviour
@@ -86,7 +87,7 @@ public class SSX3ModelMeshObject : MonoBehaviour
 
         try
         {
-            material = GenerateMaterial(this.transform.parent.GetComponent<SSX3ModelObject>().U12[MaterialID].RID, this.gameObject);
+            material = GenerateMaterial(this.transform.parent.GetComponent<SSX3ModelObject>().MaterialList[MaterialID].RID, this.gameObject);
         }
         catch
         {
